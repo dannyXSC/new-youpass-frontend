@@ -17,7 +17,13 @@ export default {
   name: "index",
   components: {About, Home, Navbar},
   mounted() {
-    new Typed('.studentType', {
+    new Typed('.type1', {
+      strings: ["考神", "学霸", "学神", "学王", "天才", "魁首"],
+      typeSpeed: 100,
+      backSpeed: 60,
+      loop: true,
+    });
+    new Typed('.type2', {
       strings: ["考神", "学霸", "学神", "学王", "天才", "魁首"],
       typeSpeed: 100,
       backSpeed: 60,
@@ -45,6 +51,7 @@ footer {
 
 /* section styling */
 section {
+  /*height: 100vh;*/
   padding: 70px 0;
 }
 section .title {
@@ -52,9 +59,13 @@ section .title {
   text-align: center;
   font-size: 40px;
   font-weight: 500;
-  margin-bottom: 60px;
   padding-bottom: 20px;
+  margin-bottom: 50px;
   font-family: "Ubuntu", "Ma Shan Zheng", sans-serif;
+  flex: 0 1 auto;
+}
+section .display-area{
+  flex: 1 1 auto;
 }
 section .title::before {
   content: "";

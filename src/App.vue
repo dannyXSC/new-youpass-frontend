@@ -27,12 +27,6 @@ html {
   transition: all 0.3s ease;
 }
 
-.max-width {
-  max-width: 1300px;
-  padding: 0px 80px;
-  margin: auto;
-}
-
 a {
   text-decoration: none
 }

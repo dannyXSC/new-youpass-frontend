@@ -5,7 +5,7 @@
         <div class="text1">Fighting,</div>
         <div class="text2">
           成为
-          <span class="studentType"></span>
+          <span class="type2"></span>
         </div>
         <div class="d-flex align-items-center justify-content-center">
           <button>Join us</button>

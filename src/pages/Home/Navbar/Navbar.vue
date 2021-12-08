@@ -58,7 +58,7 @@ export default {
   font-family: "Ubuntu", sans-serif;
   position: fixed;
   z-index: 3;
-  transition: all 0.3s ease;
+  transition: all 1s ease;
 }
 
 .container-fluid.sticky {
