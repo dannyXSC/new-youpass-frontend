@@ -9,7 +9,12 @@ export default {
 }
 </script>
 
+<style lang="scss">
+@import "~@/assets/base.scss";
+</style>
+
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,500;1,700;1,800&family=Ubuntu:ital,wght@1,500;1,700&display=swap');
 /*
 font-family: 'Poppins', sans-serif;

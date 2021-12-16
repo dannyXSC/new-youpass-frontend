@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 import HomeIndex from "@/pages/Home/index"
 
 import Test from "@/pages/Test/index"
+import test1 from "@/pages/Test/test1";
 
 // 创建一个路由器 并暴露
 const router = new VueRouter({
@@ -17,6 +18,12 @@ const router = new VueRouter({
             path: "/test",
             name: "Test",
             component: Test,
+            children:[
+                {
+                    path:"",
+                    component:test1
+                }
+            ]
         },
     ]
 })
