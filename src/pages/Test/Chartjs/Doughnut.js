@@ -3,6 +3,7 @@ import {Doughnut} from 'vue-chartjs'
 export default {
   extends: Doughnut,
   mounted() {
+    console.log("doughnut 启动")
     this.renderChart({
       labels: [
         'Cars',
@@ -23,6 +24,12 @@ export default {
         ]
       }]
     }, {responsive: true, maintainAspectRatio: false})
+  },
+  beforeDestroy(){
+    console.log("doughnut 销毁")
+  },
+  activated(){
+    console.log("doughnut 激活")
 
   }
 }

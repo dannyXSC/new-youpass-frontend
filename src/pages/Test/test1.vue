@@ -1,81 +1,92 @@
 <template>
   <div>
     <page-title :heading=heading :subheading=subheading :icon=icon></page-title>
-    <b-row>
-      <b-col md="6">
-        <b-card title="Doughnut" class="main-card mb-3">
-          <doughnut></doughnut>
-        </b-card>
-        <b-card title="Radar" class="main-card mb-3">
-          <radar></radar>
-        </b-card>
-      </b-col>
-      <b-col md="6">
-        <b-card title="Polar Area" class="main-card mb-3">
-          <polar></polar>
-        </b-card>
-        <b-card title="Pie Chart" class="main-card mb-3">
-          <pie></pie>
-        </b-card>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col md="6">
-        <b-card title="Line Chart" class="main-card mb-3">
-          <lineeg></lineeg>
-        </b-card>
-        <b-card title="Area Chart" class="main-card mb-3">
-          <areaeg></areaeg>
-        </b-card>
-      </b-col>
-      <b-col md="6">
-        <b-card title="Vertical Bar Chart" class="main-card mb-3">
-          <bar></bar>
-        </b-card>
-        <b-card title="Horizontal Bar Chart" class="main-card mb-3">
-          <barhoriz></barhoriz>
-        </b-card>
-      </b-col>
-    </b-row>
+
+    <b-card title="课程信息" class="main-card mb-4">
+      <b-table :items="items" :fields="fields"
+               @row-clicked="expandAdditionalInfo"
+               thead-class="green-bg bg-dark text-white"
+               show-empty
+               hover>
+        <template #row-details="row">
+          <b-card class="mb-3 nav-justified" no-body>
+            <b-tabs pills card>
+              <b-tab title="课程信息" active>
+                <p>It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+                  and more recently with desktop
+                  publishing software like Aldus PageMaker
+                  including versions of Lorem Ipsum.</p>
+              </b-tab>
+              <b-tab title="其他功能">
+                <template
+                    v-for="variant in ['primary','secondary','success','info','warning','danger','focus','alternate','light','dark','link']">
+                  <b-button class="mr-2 mb-2" :variant="variant" :key="variant">
+                    {{ variant }}
+                  </b-button>
+                </template>
+              </b-tab>
+            </b-tabs>
+          </b-card>
+        </template>
+      </b-table>
+    </b-card>
+
   </div>
 </template>
 
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
 
-import doughnut from './Chartjs/Doughnut'
-import radar from './Chartjs/Radar'
-import polar from './Chartjs/Polar'
-import pie from './Chartjs/Pie'
-import lineeg from './Chartjs/Line'
-import areaeg from './Chartjs/Area'
-import bar from './Chartjs/Bar'
-import barhoriz from './Chartjs/BarHoriz'
-
 export default {
-  components: {
-    PageTitle,
+  components: {PageTitle},
+  data() {
 
-    doughnut,
-    radar,
-    polar,
-    pie,
-    lineeg,
-    areaeg,
-    bar,
-    barhoriz,
+    return {
+      heading: 'Standard Buttons',
+      subheading: 'Wide selection of buttons that feature different styles for backgrounds, borders and hover options!',
+      icon: 'pe-7s-plane icon-gradient bg-tempting-azure',
+
+      fields: ['first_name', 'last_name'],
+      items: [
+        {
+          isActive: true,
+          age: 40,
+          first_name: 'Dickerson',
+          last_name: 'Macdonald',
+          _showDetails: false,
+          style: "cursor: pointer;"
+        },
+        {isActive: false, age: 21, first_name: 'Larsen', last_name: 'Shaw', _showDetails: false},
+        {
+          isActive: false,
+          age: 89,
+          first_name: 'Geneva',
+          last_name: 'Wilson',
+          _showDetails: false,
+        },
+        {isActive: true, age: 38, first_name: 'Jami', last_name: 'Carney', _showDetails: false}
+      ],
+      showChart: false
+    }
 
   },
-  data: () => ({
-    heading: 'ChartJS',
-    subheading: 'Huge selection of charts created with the Vue ChartJS Plugin',
-    icon: 'pe-7s-bandaid icon-gradient bg-amy-crisp',
-  }),
 
-
+  methods: {
+    expandAdditionalInfo(row, index) {
+      row._showDetails = !row._showDetails
+      if (row._rowVariant)
+        row._rowVariant = null
+      else {
+        if (index % 2) {
+          row._rowVariant = 'warning'
+        } else {
+          row._rowVariant = 'info'
+        }
+      }
+    },
+  }
 }
 </script>
 
 <style scoped>
-
 </style>

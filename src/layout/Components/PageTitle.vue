@@ -15,11 +15,10 @@
             </div>
             <div class="page-title-actions">
                 <button type="button" class="btn-shadow mr-3 btn btn-dark">
-                    <font-awesome-icon icon="star"/>
+                    <font-awesome-icon icon="arrow-left"/>
                 </button>
-                <button type="button" class="btn-shadow d-inline-flex align-items-center btn btn-success">
-                    <font-awesome-icon class="mr-2" icon="plus"/>
-                    Create New
+                <button type="button" class="btn-shadow mr-3 btn btn-dark">
+                    <font-awesome-icon icon="arrow-right"/>
                 </button>
             </div>
         </div>
@@ -29,14 +28,14 @@
 <script>
     import {library} from '@fortawesome/fontawesome-svg-core'
     import {
-        faStar,
-        faPlus
+        faArrowLeft,
+        faArrowRight
     } from '@fortawesome/free-solid-svg-icons'
     import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
     library.add(
-        faStar,
-        faPlus,
+        faArrowLeft,
+        faArrowRight
     );
 
     export default {
