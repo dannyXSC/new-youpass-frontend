@@ -5,6 +5,7 @@ import HomeIndex from "@/pages/Home/index"
 
 import Test from "@/pages/Test/index"
 import test1 from "@/pages/Test/test1";
+import examTest from "@/pages/Test/examTest";
 
 // 创建一个路由器 并暴露
 const router = new VueRouter({
@@ -22,9 +23,16 @@ const router = new VueRouter({
                 {
                     path:"",
                     component:test1
-                }
+                },
+                
             ]
         },
+        {
+            path: "/examTest",
+            name: "examTest",
+            component: examTest,
+        },
+        
     ]
 })
 
