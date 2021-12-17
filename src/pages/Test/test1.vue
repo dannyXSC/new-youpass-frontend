@@ -17,6 +17,17 @@
                   publishing software like Aldus PageMaker
                   including versions of Lorem Ipsum.</p>
               </b-tab>
+              <b-tab title="图表">
+                <div v-for="bar in bars" class="row mb-1">
+                  <div class="col-sm-2">{{ bar.variant }}:</div>
+                  <div class="col-sm-10 pt-1">
+                    <b-progress :value="bar.value"
+                                :variant="bar.variant"
+                                :key="bar.variant"
+                    ></b-progress>
+                  </div>
+                </div>
+              </b-tab>
               <b-tab title="其他功能">
                 <template
                     v-for="variant in ['primary','secondary','success','info','warning','danger','focus','alternate','light','dark','link']">
@@ -66,7 +77,18 @@ export default {
         },
         {isActive: true, age: 38, first_name: 'Jami', last_name: 'Carney', _showDetails: false}
       ],
-      showChart: false
+      showChart: false,
+      bars: [
+        {variant: 'success', value: 75},
+        {variant: 'info', value: 75},
+        {variant: 'warning', value: 75},
+        {variant: 'danger', value: 75},
+        {variant: 'primary', value: 75},
+        {variant: 'secondary', value: 75},
+        {variant: 'dark', value: 75},
+        {variant: 'alternate', value: 75},
+        {variant: 'focus', value: 75}
+      ],
     }
 
   },
@@ -84,6 +106,15 @@ export default {
         }
       }
     },
+  },
+  mounted () {
+    this.timer = setInterval(() => {
+      this.bars.forEach(bar => bar.value = 25 + (Math.random() * 75))
+    }, 2000)
+  },
+  beforeDestroy () {
+    clearInterval(this.timer)
+    this.timer = null
   }
 }
 </script>
