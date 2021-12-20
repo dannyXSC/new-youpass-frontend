@@ -2,7 +2,7 @@
   <div>
     <b-card body-class="text-center">
       <template #header>
-        相关信息
+        {{ title }}
       </template>
 
       <b-card-body>
@@ -61,8 +61,8 @@
       <div style="display: flex;justify-content: center">
         <b-pagination
             v-model="currentPage"
-            :total-rows="20"
-            :per-page="1"
+            :total-rows="total_rows_props"
+            :per-page="per_page_props"
             pills
             size="sm"
         ></b-pagination>
@@ -70,17 +70,7 @@
 
 
       <b-card-footer>
-        <b-row class="justify-content-between">
-          <b-col cols="8" md="auto">
-            <div>
-              <b-button pill variant="outline-primary">添加</b-button>
-              <b-button pill variant="outline-danger" style="margin-left: 5px">删除</b-button>
-            </div>
-          </b-col>
-          <b-col cols="4" md="auto">
-            <b-button pill variant="warning">提交</b-button>
-          </b-col>
-        </b-row>
+        <slot></slot>
       </b-card-footer>
     </b-card>
   </div>
@@ -88,7 +78,23 @@
 
 <script>
 export default {
-  name: "myCountBar"
+  name: "myCountBar",
+  props: {
+    title: String,
+    currentPage_props: Number,
+    total_rows_props: Number,
+    per_page_props: Number,
+  },
+  data() {
+    return {
+      currentPage: this.currentPage_props
+    }
+  },
+  watch: {
+    currentPage: function (newVal) {
+      this.$emit("updatePage", newVal)
+    }
+  }
 }
 </script>
 

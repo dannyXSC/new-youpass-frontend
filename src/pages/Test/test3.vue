@@ -50,7 +50,7 @@
                   >
                     <b-button block class="mr-2 mb-3" pill variant="outline-primary" size="sm">编辑</b-button>
                     <div class="card-shadow-success border card card-body border-success">
-<!--                      <h5 class="card-title">Success Card Shadow</h5>-->
+                      <!--                      <h5 class="card-title">Success Card Shadow</h5>-->
                       With supporting text below as a natural lead-in to additional content.
                     </div>
                   </b-form-group>
@@ -94,9 +94,28 @@
         </b-col>
 
         <b-col cols="4">
-          <my-count-bar>
 
+          {{ currentPage }}
+          <my-count-bar
+              title="相关信息"
+              :currentPage_props="currentPage"
+              :total_rows_props="20"
+              :per_page_props="9"
+              @updatePage="updatePage"
+          >
+            <b-row class="justify-content-between">
+              <b-col cols="8" md="auto">
+                <div>
+                  <b-button pill variant="outline-primary">添加</b-button>
+                  <b-button pill variant="outline-danger" style="margin-left: 5px">删除</b-button>
+                </div>
+              </b-col>
+              <b-col cols="4" md="auto">
+                <b-button pill variant="warning">提交</b-button>
+              </b-col>
+            </b-row>
           </my-count-bar>
+
         </b-col>
       </b-row>
     </b-container>
@@ -165,6 +184,7 @@ export default {
         {value: 'd', text: 'This one is disabled', disabled: true}
       ],
       selected: null,
+      text:""
     }
   },
   methods: {
@@ -178,6 +198,9 @@ export default {
     },
     handleClick() {
       this.$bvModal.show('myModal')
+    },
+    updatePage(page) {
+      this.currentPage = page
     }
   }
 }
