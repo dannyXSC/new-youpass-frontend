@@ -7,7 +7,7 @@
       :breadcrumb-item="breadcrumbItem"
     ></page-title>
 
-    <div class="col-md-8">
+    <div class="col-md-12">
       <div class="main-card mb-3 card">
         <div class="card-body">
           <h3 class="card-title">Message</h3>
@@ -28,7 +28,7 @@
                   <h4 class="timeline-title">
                     2021/12/20, at <span class="text-success">15:00 PM</span>
                   </h4>
-                  <div class="col-md-10">
+                  <div class="col-md-9">
                     <div
                       class="
                         card-shadow-primary
@@ -57,7 +57,7 @@
                   <h4 class="timeline-title">
                     2021/12/19, at <span class="text-success">18:00 PM</span>
                   </h4>
-                  <div class="col-md-10">
+                  <div class="col-md-9">
                     <div
                       class="
                         card-shadow-primary
@@ -87,7 +87,7 @@
                   <h4 class="timeline-title">
                     2021/12/20, at <span class="text-success">15:00 PM</span>
                   </h4>
-                  <div class="col-md-10">
+                  <div class="col-md-9">
                     <div
                       class="
                         card-shadow-primary
@@ -115,7 +115,7 @@
                   <h4 class="timeline-title">
                     2021/12/20, at <span class="text-success">15:00 PM</span>
                   </h4>
-                  <div class="col-md-10">
+                  <div class="col-md-9">
                     <div
                       class="
                         card-shadow-primary
