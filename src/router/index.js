@@ -7,13 +7,13 @@ import Test from "@/pages/Test/index"
 import test1 from "@/pages/Test/test1";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
+import pick from "@/pages/Test/pick";
 import examTest from "@/pages/Test/examTest";
 import test4 from "@/pages/Test/test4";
 
 // 创建一个路由器 并暴露
 const router = new VueRouter({
-    routes: [
-        {
+    routes: [{
             path: "/",
             name: "HomeIndex",
             component: HomeIndex
@@ -22,8 +22,7 @@ const router = new VueRouter({
             path: "/test",
             name: "Test",
             component: Test,
-            children: [
-                {
+            children: [{
                     path: "/test1",
                     component: test1
                 },
@@ -38,6 +37,10 @@ const router = new VueRouter({
                 {
                     path: "/test4",
                     component: test4
+                },
+                {
+                    path: "/pick",
+                    component: pick
                 }
             ]
         },
@@ -46,7 +49,7 @@ const router = new VueRouter({
             name: "examTest",
             component: examTest,
         },
-        
+
     ]
 })
 
