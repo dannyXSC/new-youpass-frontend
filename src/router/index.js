@@ -4,6 +4,7 @@ import examTest from "@/pages/Test/examTest";
 import Test from "@/pages/Test/index";
 import message from "@/pages/Test/message";
 import pick from "@/pages/Test/pick";
+import todo from "@/pages/Test/todo";
 import test1 from "@/pages/Test/test1";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
@@ -46,6 +47,10 @@ const router = new VueRouter({
                 {
                     path: "/message",
                     component: message
+                },
+                {
+                    path: "/todo",
+                    component: todo
                 },
             ]
         },
