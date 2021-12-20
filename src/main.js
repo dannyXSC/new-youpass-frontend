@@ -13,6 +13,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 //bootstrap
 import BootstrapVue from "bootstrap-vue"
+//vue hamburger button
+import * as VueHamburgerButton from 'vue-hamburger-button'
 
 import Default from './layout/Wrappers/baseLayout.vue';
 import Pages from './layout/Wrappers/pagesLayout.vue';
@@ -22,6 +24,7 @@ Vue.use(VueRouter)
 Vue.use(VueToast)
 Vue.use(ElementUI)
 Vue.use(BootstrapVue);
+Vue.use(VueHamburgerButton);
 
 Vue.component('default-layout', Default);
 Vue.component('userpages-layout', Pages);

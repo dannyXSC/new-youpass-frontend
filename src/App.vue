@@ -1,3 +1,4 @@
+
 <template>
   <router-view/>
 </template>
@@ -12,6 +13,11 @@ export default {
 
 <style lang="scss">
 @import "~@/assets/base.scss";
+@import "~vue-hamburger-button/dist/vue-hamburger-button.css";
+// Bootstrap and its default variables
+@import '../node_modules/bootstrap/scss/bootstrap';
+// BootstrapVue and its default variables
+@import '../node_modules/bootstrap-vue/src/index.scss';
 </style>
 
 <style>

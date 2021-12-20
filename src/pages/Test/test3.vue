@@ -5,9 +5,9 @@
                 :icon=icon
                 :breadcrumb-item="breadcrumbItem"
     ></page-title>
-    <div class="container">
-      <div class="row">
-        <div class="col-9">
+    <b-container>
+      <b-row>
+        <b-col cols="8">
           <div class="main-card mb-3 card">
             <div class="card-body"><h5 class="card-title">编辑题目信息</h5>
               <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consequuntur culpa, facilis molestiae nisi
@@ -86,77 +86,71 @@
                 fugit id laboriosam magni minus, molestiae necessitatibus, nobis non nostrum odio omnis quae quo quos
                 sapiente sint vitae. Accusamus, eius tenetur.</p></div>
           </div>
-        </div>
-        <div class="col-3">
-          <div class="main-card mb-3 card">
-            <b-row class="card-body">
-              <h5 class="card-title">管理面板</h5>
+        </b-col>
+
+        <b-col cols="4">
+          <b-card body-class="text-center">
+            <template #header>
+              相关信息
+            </template>
+
+            <b-card-body>
               <b-container>
-                <b-row>
-                  <b-col>
-                    <b-button variant="primary">1</b-button>
-                  </b-col>
-                  <b-col>
-                    <b-button variant="primary">2</b-button>
-                  </b-col>
-                  <b-col>
-                    <b-button variant="primary">3</b-button>
-                  </b-col>
+                <b-row >
+                  <b-col cols="4"><b-button pill variant="success">1</b-button></b-col>
+                  <b-col cols="4"><b-button pill variant="success">2</b-button></b-col>
+                  <b-col cols="4"><b-button pill variant="success">3</b-button></b-col>
                 </b-row>
                 <br>
                 <b-row>
-                  <b-col>
-                    <b-button variant="primary">4</b-button>
-                  </b-col>
-                  <b-col>
-                    <b-button variant="primary">5</b-button>
-                  </b-col>
-                  <b-col>
-                    <b-button variant="primary">6</b-button>
-                  </b-col>
+                  <b-col cols="4"><b-button pill variant="success">4</b-button></b-col>
+                  <b-col cols="4"><b-button pill variant="success">5</b-button></b-col>
+                  <b-col cols="4"><b-button pill variant="success">6</b-button></b-col>
+                </b-row>
+                <br>
+                <b-row >
+                  <b-col cols="4"><b-button pill variant="success">7</b-button></b-col>
+                  <b-col cols="4"><b-button pill variant="success">8</b-button></b-col>
+                  <b-col cols="4"><b-button pill variant="success">9</b-button></b-col>
                 </b-row>
                 <br>
                 <b-row>
-                  <b-col>
-                    <b-button variant="primary">7</b-button>
-                  </b-col>
-                  <b-col>
-                    <b-button variant="primary">8</b-button>
-                  </b-col>
-                  <b-col>
-                    <b-button variant="primary">9</b-button>
-                  </b-col>
+                  <b-col cols="4"><b-button pill variant="success">10</b-button></b-col>
+                  <b-col cols="4"><b-button pill variant="success">11</b-button></b-col>
+                  <b-col cols="4"><b-button pill variant="success">12</b-button></b-col>
                 </b-row>
                 <br>
-
-
-                <div>
-                  <b-pagination
-                      v-model="currentPage"
-                      size="sm"
-                      :total-rows="100"
-                      per-page="9"
-                      aria-controls="my-table"
-                      align="center"
-                  ></b-pagination>
-                </div>
-
-                <br>
-
-                <b-row class="justify-content-center">
-                  <b-button-group>
-                    <b-button variant="success">增加</b-button>
-                    <b-button variant="info">提交</b-button>
-                    <b-button variant="warning">去除</b-button>
-                  </b-button-group>
-                </b-row>
               </b-container>
-            </b-row>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+            </b-card-body>
+
+              <b-pagination
+                  v-model="currentPage"
+                  :total-rows="20"
+                  :per-page="1"
+                  pills
+                  size="sm"
+              ></b-pagination>
+
+            <b-card-footer>
+              <b-row class="justify-content-between">
+                <b-col cols="8"  md="auto">
+                  <div>
+                    <b-button pill variant="outline-primary">添加</b-button>
+                    <b-button pill variant="outline-danger" style="margin-left: 5px">删除</b-button>
+                  </div>
+                </b-col>
+                <b-col cols="4"  md="auto">
+                  <b-button pill variant="warning">提交</b-button>
+                </b-col>
+              </b-row>
+            </b-card-footer>
+
+          </b-card>
+
+        </b-col>
+      </b-row>
+    </b-container>
+
   </div>
 </template>
 
@@ -206,7 +200,10 @@ export default {
       ],
 
       currentPage: 1,
-
+      expanded: false,
+      barStyle: {
+        backgroundColor: '#69aa8a'
+      },
     }
   },
   methods: {
