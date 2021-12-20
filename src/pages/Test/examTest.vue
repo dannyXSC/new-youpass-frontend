@@ -245,20 +245,20 @@
                 </div>
 
                 <div class="right-question">
-                    <div class="question-title">
-                      <h5 class="card-title">{{ testTitle3 }}</h5>
-                    </div>
-                    <hr />
-                    <div class="fillin">
-                      <div class="input-group">
-                        <textarea
-                          class="form-control"
-                          placeholder="请在此输入答案..."
-                          style="resize: none; width: 700px; height: 200px"
-                        ></textarea>
-                      </div>
+                  <div class="question-title">
+                    <h5 class="card-title">{{ testTitle3 }}</h5>
+                  </div>
+                  <hr />
+                  <div class="fillin">
+                    <div class="input-group">
+                      <textarea
+                        class="form-control"
+                        placeholder="请在此输入答案..."
+                        style="resize: none; width: 700px; height: 200px"
+                      ></textarea>
                     </div>
                   </div>
+                </div>
               </div>
             </div>
           </div>
@@ -331,8 +331,7 @@
 
             <b-card-footer>
               <b-row class="justify-content-between">
-                <b-col cols="8" md="auto">
-                </b-col>
+                <b-col cols="8" md="auto"> </b-col>
                 <b-col cols="4" md="auto">
                   <b-button pill variant="warning">提交测验</b-button>
                 </b-col>
@@ -387,7 +386,7 @@ export default {
       {
         text: "Java 期中测验",
         href: "#",
-      }
+      },
     ],
 
     items: [
@@ -468,6 +467,7 @@ export default {
 }
 .choice .per-choice .option-button {
   float: left;
+  width: 500px;
 }
 .per-question .left-question i {
   width: 40px;
@@ -495,4 +495,3 @@ h5 {
 .paper-area {
 }
 </style>
-
