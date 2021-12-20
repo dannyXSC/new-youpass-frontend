@@ -8,6 +8,7 @@ import test1 from "@/pages/Test/test1";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import examTest from "@/pages/Test/examTest";
+import test4 from "@/pages/Test/test4";
 
 // 创建一个路由器 并暴露
 const router = new VueRouter({
@@ -33,6 +34,10 @@ const router = new VueRouter({
                 {
                     path: "/test3",
                     component: test3
+                },
+                {
+                    path: "/test4",
+                    component: test4
                 }
             ]
         },
