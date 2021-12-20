@@ -147,6 +147,7 @@ import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
 
 export default {
+  name: "pick",
   components: { MyList, PageTitle },
   data() {
     return {
