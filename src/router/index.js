@@ -1,14 +1,13 @@
 // 用于创建整个应用的路由器
-import HomeIndex from "@/pages/Home/index";
-import calender from "@/pages/Test/calender";
-import examTest from "@/pages/Test/examTest";
-import Test from "@/pages/Test/index";
+import VueRouter from "vue-router";
+
+import HomeIndex from "@/pages/Home/index"
+
+import Test from "@/pages/Test/index"
 import test1 from "@/pages/Test/test1";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
-import VueRouter from "vue-router";
-
-
+import examTest from "@/pages/Test/examTest";
 
 // 创建一个路由器 并暴露
 const router = new VueRouter({
@@ -42,11 +41,6 @@ const router = new VueRouter({
             name: "examTest",
             component: examTest,
         },
-        {
-            path: "/calender",
-            name: "calender",
-            component:calender
-        }
         
     ]
 })
