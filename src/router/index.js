@@ -8,6 +8,7 @@ import test1 from "@/pages/Test/test1";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import pick from "@/pages/Test/pick";
+import message from "@/pages/Test/message";
 import examTest from "@/pages/Test/examTest";
 import test4 from "@/pages/Test/test4";
 
@@ -41,6 +42,10 @@ const router = new VueRouter({
                 {
                     path: "/pick",
                     component: pick
+                },
+                {
+                    path: "/message",
+                    component: message
                 }
             ]
         },
