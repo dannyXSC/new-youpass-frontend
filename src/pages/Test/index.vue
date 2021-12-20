@@ -1,10 +1,14 @@
 <template>
-  <div>
-    <button @click="handleClick">click me</button>
-  </div>
+  <component :is="layout">
+    <transition name="fade" mode="out-in">
+      <router-view></router-view>
+    </transition>
+  </component>
 </template>
 
 <script>
+const default_layout = "default";
+
 export default {
   name: "index",
   methods: {
@@ -17,10 +21,15 @@ export default {
         queue: false
       })
     }
+  },
+  computed: {
+    layout() {
+      return (this.$route.meta.layout || default_layout) + '-layout';
+    }
   }
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>

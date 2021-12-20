@@ -8,15 +8,35 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
+    "@fortawesome/vue-fontawesome": "^0.1.6",
+    "animate-sass": "^0.8.2",
+    "animate.css": "^4.1.1",
     "axios": "^0.24.0",
+    "bootstrap": "^4.6.1",
+    "bootstrap-vue": "^2.21.2",
+    "chart.js": "^2.8.0",
     "core-js": "^3.6.5",
     "element-ui": "^2.15.6",
+    "es6-promise": "^4.2.6",
+    "increase-memory-limit": "^1.0.6",
     "lodash": "^4.17.21",
+    "node-sass": "^4.11.0",
     "nprogress": "^0.2.0",
+    "pe7-icon": "^1.0.4",
+    "perfect-scrollbar": "^1.4.0",
+    "popper.js": "^1.15.0",
+    "sass-loader": "^7.1.0",
     "typed.js": "^2.0.12",
-    "vue": "^2.6.11",
+    "vue": "^2.6.14",
+    "vue-bootstrap-sidebar": "^1.0.9",
+    "vue-chartjs": "^3.4.2",
+    "vue-perfect-scrollbar": "^0.1.0",
     "vue-router": "^3.5.3",
+    "vue-sidebar-menu": "^3.7.0",
     "vue-toast-notification": "^0.6.2",
+    "vue2-google-maps": "^0.10.6",
     "vuex": "^3.6.2"
   },
   "devDependencies": {
@@ -26,6 +46,8 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
@@ -41,6 +63,11 @@
       "parser": "babel-eslint"
     },
     "rules": {}
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
   },
   "browserslist": [
     "> 1%",
