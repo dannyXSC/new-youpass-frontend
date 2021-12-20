@@ -13,13 +13,7 @@
           <h3 class="card-title">Message</h3>
           <hr />
           <div
-            class="
-              vertical-time-simple
-              vertical-without-time
-              vertical-timeline
-              vertical-timeline--animate
-              vertical-timeline--one-column
-            "
+            class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--animate vertical-timeline--one-column"
           >
             <div class="dot-danger vertical-timeline-element">
               <div>
@@ -30,13 +24,7 @@
                   </h4>
                   <div class="col-md-9">
                     <div
-                      class="
-                        card-shadow-primary
-                        border
-                        mb-3
-                        card card-body
-                        border-primary
-                      "
+                      class="card-shadow-primary border mb-3 card card-body border-primary"
                     >
                       <h5 class="card-title">
                         <span class="text-success">Message From </span>数据结构
@@ -59,13 +47,7 @@
                   </h4>
                   <div class="col-md-9">
                     <div
-                      class="
-                        card-shadow-primary
-                        border
-                        mb-3
-                        card card-body
-                        border-primary
-                      "
+                      class="card-shadow-primary border mb-3 card card-body border-primary"
                     >
                       <h5 class="card-title">
                         <span class="text-success">Message From </span
@@ -89,13 +71,7 @@
                   </h4>
                   <div class="col-md-9">
                     <div
-                      class="
-                        card-shadow-primary
-                        border
-                        mb-3
-                        card card-body
-                        border-primary
-                      "
+                      class="card-shadow-primary border mb-3 card card-body border-primary"
                     >
                       <h5 class="card-title">
                         <span class="text-success">Message From </span>软件工程
@@ -117,13 +93,7 @@
                   </h4>
                   <div class="col-md-9">
                     <div
-                      class="
-                        card-shadow-primary
-                        border
-                        mb-3
-                        card card-body
-                        border-primary
-                      "
+                      class="card-shadow-primary border mb-3 card card-body border-primary"
                     >
                       <h5 class="card-title">
                         <span class="text-success">Message From </span>软件工程
@@ -143,15 +113,9 @@
                   <h4 class="timeline-title">
                     2021/12/20, at <span class="text-success">15:00 PM</span>
                   </h4>
-                  <div class="col-md-10">
+                  <div class="col-md-9">
                     <div
-                      class="
-                        card-shadow-primary
-                        border
-                        mb-3
-                        card card-body
-                        border-primary
-                      "
+                      class="card-shadow-primary border mb-3 card card-body border-primary"
                     >
                       <h5 class="card-title">
                         <span class="text-success">Message From </span>软件工程
@@ -171,15 +135,9 @@
                   <h4 class="timeline-title">
                     2021/12/20, at <span class="text-success">15:00 PM</span>
                   </h4>
-                  <div class="col-md-10">
+                  <div class="col-md-9">
                     <div
-                      class="
-                        card-shadow-primary
-                        border
-                        mb-3
-                        card card-body
-                        border-primary
-                      "
+                      class="card-shadow-primary border mb-3 card card-body border-primary"
                     >
                       <h5 class="card-title">
                         <span class="text-success">Message From </span>软件工程
@@ -213,50 +171,6 @@ export default {
         "Wide selection of buttons that feature different styles for backgrounds, borders and hover options!",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
 
-      fields: ["first_name", "last_name"],
-      items: [
-        {
-          isActive: true,
-          age: 40,
-          first_name: "Dickerson",
-          last_name: "Macdonald",
-          _showDetails: false,
-          style: "cursor: pointer;",
-        },
-        {
-          isActive: false,
-          age: 21,
-          first_name: "Larsen",
-          last_name: "Shaw",
-          _showDetails: false,
-        },
-        {
-          isActive: false,
-          age: 89,
-          first_name: "Geneva",
-          last_name: "Wilson",
-          _showDetails: false,
-        },
-        {
-          isActive: true,
-          age: 38,
-          first_name: "Jami",
-          last_name: "Carney",
-          _showDetails: false,
-        },
-      ],
-      showChart: false,
-      bars: [
-        { variant: "success", value: 75 },
-        { variant: "info", value: 75 },
-        { variant: "warning", value: 75 },
-        { variant: "danger", value: 75 },
-        { variant: "primary", value: 75 },
-        { variant: "secondary", value: 75 },
-        { variant: "dark", value: 75 },
-        { variant: "alternate", value: 75 },
-        { variant: "focus", value: 75 },
-      ],
       breadcrumbItem: [
         {
           text: "Admin",
@@ -285,5 +199,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
