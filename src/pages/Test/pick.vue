@@ -67,11 +67,12 @@
               </b-col>
             </Form>
           </div>
+
           <h5>{{ $store.state.global.searchedCourse }}</h5>
 
           <div class="modal-body">
             <div>
-              <my-list title="课程搜索结果" :items="items" :fields="fields">
+              <my-list title="课程搜索结果" y :items="items" :fields="fields">
                 <template slot-scope="row">
                   <b-card class="mb-3 nav-justified" no-body>
                     <b-tabs pills card>
@@ -80,11 +81,19 @@
                           <div class="widget-content p-0">
                             <div class="widget-content-wrapper">
                               <div class="widget-content-left">
-                                <div class="widget-heading">张颖</div>
-                                <div class="widget-subheading">10500</div>
+                                <div class="widget-heading">
+                                  {{ row.row.item.teacher_name }}
+                                </div>
+                                <div class="widget-subheading">
+                                  {{ row.row.item.teacher_id }}
+                                </div>
                               </div>
                               <div class="widget-content-right">
-                                <button type="button" class="btn btn-light">
+                                <button
+                                  type="button"
+                                  class="btn btn-light"
+                                  @click="test(row)"
+                                >
                                   加入课程
                                 </button>
                               </div>
@@ -151,32 +160,7 @@ export default {
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
 
       fields: ["课程名称", "ID"],
-      items: [
-        {
-          isActive: true,
-          课程名称: "数据结构",
-          ID: "15000",
-          _showDetails: false,
-        },
-        {
-          isActive: false,
-          课程名称: "数据库课程设计",
-          ID: "15001",
-          _showDetails: false,
-        },
-        {
-          isActive: false,
-          课程名称: "机器学习",
-          ID: "15002",
-          _showDetails: false,
-        },
-        {
-          isActive: true,
-          课程名称: "计算机视觉",
-          ID: "15003",
-          _showDetails: false,
-        },
-      ],
+
       searchMethod: 1,
       inputContent: "",
       breadcrumbItem: [
@@ -194,6 +178,24 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    items() {
+      console.log("jisuanle", this.$store.state.global.searchedCourse);
+      let return_item = [];
+      for (let i = 0; i < this.$store.state.global.searchedCourse.length; ++i) {
+        return_item.unshift({
+          _showDetails: false,
+          isActive: true,
+          课程名称: this.$store.state.global.searchedCourse[i].title,
+          ID: this.$store.state.global.searchedCourse[i].id.courseId,
+          teacher_id:
+            this.$store.state.global.searchedCourse[i].teacher.id.teacherId,
+          teacher_name: this.$store.state.global.searchedCourse[i].teacher.name,
+        });
+      }
+      return return_item;
+    },
   },
   methods: {
     search(method) {
@@ -224,6 +226,9 @@ export default {
       } else {
         alert("搜索内容不可为空!");
       }
+    },
+    test(row) {
+      console.log(row);
     },
   },
   mounted() {},
