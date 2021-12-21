@@ -199,6 +199,130 @@
         <button class="btn btn-success btn-lg">Save</button>
       </div>
     </div>
+
+    <div class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="main-card mb-3 card">
+            <div class="card-header">
+              <h3 class="card-title">Coming Exams</h3>
+              <hr />
+              <div
+                class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--animate vertical-timeline--one-column"
+              >
+                <div class="dot-primary vertical-timeline-element">
+                  <div>
+                    <span
+                      class="vertical-timeline-element-icon bounce-in"
+                    ></span>
+                    <div class="vertical-timeline-element-content bounce-in">
+                      <h4 class="timeline-title">
+                        2021/12/29, at<span class="text-success">18:00 PM</span>
+                      </h4>
+                      <div class="col-md-9">
+                        <div>
+                          <h5>
+                            <span class="text-secondary"
+                              >软件工程期末考试
+                            </span>
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="dot-danger vertical-timeline-element">
+                  <div>
+                    <span
+                      class="vertical-timeline-element-icon bounce-in"
+                    ></span>
+                    <div class="vertical-timeline-element-content bounce-in">
+                      <h4 class="timeline-title">
+                        2021/12/29, at<span class="text-success">18:00 PM</span>
+                      </h4>
+                      <div class="col-md-9">
+                        <div>
+                          <h5>
+                            <span class="text-secondary"
+                              >软件测试期末考试
+                            </span>
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="dot-alternate vertical-timeline-element">
+                  <div>
+                    <span
+                      class="vertical-timeline-element-icon bounce-in"
+                    ></span>
+                    <div class="vertical-timeline-element-content bounce-in">
+                      <h4 class="timeline-title">
+                        2021/12/29, at<span class="text-success">18:00 PM</span>
+                      </h4>
+                      <div class="col-md-9">
+                        <div>
+                          <h5>
+                            <span class="text-secondary">JavaEE期末考试 </span>
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="dot-warning vertical-timeline-element">
+                  <div>
+                    <span
+                      class="vertical-timeline-element-icon bounce-in"
+                    ></span>
+                    <div class="vertical-timeline-element-content bounce-in">
+                      <h4 class="timeline-title">
+                        2021/12/29, at<span class="text-success">18:00 PM</span>
+                      </h4>
+                      <div class="col-md-9">
+                        <div>
+                          <h5>
+                            <span class="text-secondary"
+                              >云计算技术期末考试
+                            </span>
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="dot-info vertical-timeline-element">
+                  <div>
+                    <span
+                      class="vertical-timeline-element-icon bounce-in"
+                    ></span>
+                    <div class="vertical-timeline-element-content bounce-in">
+                      <h4 class="timeline-title">
+                        2021/12/29, at<span class="text-success">18:00 PM</span>
+                      </h4>
+                      <div class="col-md-9">
+                        <div>
+                          <h5>
+                            <span class="text-secondary"
+                              >计算机网络期末考试
+                            </span>
+                          </h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

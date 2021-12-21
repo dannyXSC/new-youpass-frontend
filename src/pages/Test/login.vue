@@ -1,5 +1,9 @@
 <template>
+<<<<<<< HEAD
   <div style="height: 100vh">
+=======
+  <div>
+>>>>>>> e61ed1e89fbb09df8ec36b0ddefa488baa36a99c
     <div class="h-100 bg-plum-plate bg-animation">
       <div class="d-flex h-100 justify-content-center align-items-center">
         <b-col md="8" class="mx-auto app-login-box">
@@ -48,22 +52,38 @@
                 </h6>
               </div>
               <div class="modal-footer clearfix">
+<<<<<<< HEAD
                 <div class="float-right">
                   <b-button variant="primary" size="lg"
                     >Login to YouPass</b-button
+=======
+                <div class="float-left">
+                  <a href="javascript:void(0);" class="btn-lg btn btn-link"
+                    >Recover Password</a
+                  >
+                </div>
+                <div class="float-right">
+                  <b-button variant="primary" size="lg"
+                    >Login to Dashboard</b-button
+>>>>>>> e61ed1e89fbb09df8ec36b0ddefa488baa36a99c
                   >
                 </div>
               </div>
             </div>
           </div>
           <div class="text-center text-white opacity-8 mt-3">
+<<<<<<< HEAD
             Copyright &copy; YouPass
+=======
+            Copyright &copy; ArchitectUI 2019
+>>>>>>> e61ed1e89fbb09df8ec36b0ddefa488baa36a99c
           </div>
         </b-col>
       </div>
     </div>
   </div>
 </template>
+<<<<<<< HEAD
 
 <script>
 export default {
@@ -72,3 +92,5 @@ export default {
 </script>
 
 <style scoped></style>
+=======
+>>>>>>> e61ed1e89fbb09df8ec36b0ddefa488baa36a99c

@@ -62,6 +62,7 @@
                 </div>
               </div>
             </div>
+
             <div class="dot-success vertical-timeline-element">
               <div>
                 <span class="vertical-timeline-element-icon bounce-in"></span>
