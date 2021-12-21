@@ -1,14 +1,18 @@
 <template>
   <div>
+    <my-edit-modal
+        @onSubmit="handleSubmit"
+        @onCancel="handleCancel"
+    />
     <page-title :heading=heading
                 :subheading=subheading
                 :icon=icon
                 :breadcrumb-item="breadcrumbItem"
     ></page-title>
-    <my-edit-modal/>
-    <b-container fluid>
+    <b-container fluid v-if="items[onShowId]">
       <b-row>
         <b-col cols="8">
+          {{ items[onShowId] }}
           <div class="main-card mb-3 card">
             <div class="card-body">
               <b-form>
@@ -24,7 +28,7 @@
                       label-cols-sm="3"
                       label-align-sm="right"
                   >
-                    <b-form-select v-model="selected" :options="options"></b-form-select>
+                    <b-form-select v-model="items[onShowId].type" :options="typeOptions"></b-form-select>
                   </b-form-group>
 
                   <b-form-group
@@ -32,7 +36,7 @@
                       label-cols-sm="3"
                       label-align-sm="right"
                   >
-                    <b-form-input v-model="text" placeholder="输入学科"></b-form-input>
+                    <b-form-input v-model="items[onShowId].subject" placeholder="输入学科"></b-form-input>
                   </b-form-group>
 
                   <b-form-group
@@ -40,7 +44,7 @@
                       label-cols-sm="3"
                       label-align-sm="right"
                   >
-                    <b-form-select v-model="selected" :options="options"></b-form-select>
+                    <b-form-select v-model="items[onShowId].isPrivate" :options="isPrivateOptions"></b-form-select>
                   </b-form-group>
 
                   <b-form-group
@@ -81,7 +85,7 @@
                       label-align-sm="right"
                   >
                     <b-button block class="mr-2 mb-3" pill variant="outline-primary" size="sm">选择</b-button>
-                    <b-button block class="mr-2 mb-1" variant="outline-danger" size="sm" @click="handleClick">
+                    <b-button block class="mr-2 mb-1" variant="outline-danger" size="sm" @click="openEdit">
                       With supporting text below as a natural lead-in to additional content.
                     </b-button>
                   </b-form-group>
@@ -95,25 +99,31 @@
 
         <b-col cols="4">
 
-          {{ currentPage }}
           <my-count-bar
-              title="相关信息"
               :currentPage_props="currentPage"
-              :total_rows_props="20"
+              :total_rows_props="items.length"
               :per_page_props="9"
+              :items="items"
               @updatePage="updatePage"
+              @onSelect="handleSelect"
           >
-            <b-row class="justify-content-between">
-              <b-col cols="8" md="auto">
-                <div>
-                  <b-button pill variant="outline-primary">添加</b-button>
-                  <b-button pill variant="outline-danger" style="margin-left: 5px">删除</b-button>
-                </div>
-              </b-col>
-              <b-col cols="4" md="auto">
-                <b-button pill variant="warning">提交</b-button>
-              </b-col>
-            </b-row>
+            <template v-slot:header>
+              相关信息
+            </template>
+            <template v-slot:footer>
+              <b-row class="justify-content-between">
+                <b-col cols="8" md="auto">
+                  <div>
+                    <b-button pill variant="outline-primary">添加</b-button>
+                    <b-button pill variant="outline-danger" style="margin-left: 5px">删除</b-button>
+                  </div>
+                </b-col>
+                <b-col cols="4" md="auto">
+                  <b-button pill variant="warning">提交</b-button>
+                </b-col>
+              </b-row>
+            </template>
+
           </my-count-bar>
 
         </b-col>
@@ -157,18 +167,7 @@ export default {
         }
       ],
 
-      items: [
-        {id: 1},
-        {id: 2},
-        {id: 3},
-        {id: 4},
-        {id: 5},
-        {id: 6},
-        {id: 7},
-        {id: 8},
-        {id: 9},
-        {id: 10},
-      ],
+      items: [],
 
       currentPage: 1,
       expanded: false,
@@ -176,15 +175,42 @@ export default {
         backgroundColor: '#69aa8a'
       },
 
-      options: [
+      typeOptions: [
         {value: null, text: 'Please select an option'},
-        {value: 'a', text: 'This is First option'},
-        {value: 'b', text: 'Selected Option'},
-        {value: {C: '3PO'}, text: 'This is an option with object value'},
-        {value: 'd', text: 'This one is disabled', disabled: true}
+        {value: 0, text: '单择题'},
+        {value: 1, text: '多选题'},
+        {value: 2, text: '填空题'},
+        {value: 3, text: '大题'}
+      ],
+      isPrivateOptions: [
+        {value: null, text: 'Please select an option'},
+        {value: 1, text: '私有'},
+        {value: 0, text: '共有'},
       ],
       selected: null,
-      text:""
+      text: "",
+
+
+      onShowId: 0,
+      editOwner: null,
+      editContent: ""
+    }
+  },
+  mounted() {
+    for (var i = 0; i < 30; i++) {
+
+      this.items.push({
+        id: i,
+        type: Math.floor(Math.random() * 4),
+        description: "填空题",
+        standAnswer: "填空题答案",
+        subject: "数学",
+        createTime: "123",
+        isPrivate: 1,
+        option: [],
+        pool: 0,
+        courseId: 123
+      })
     }
   },
   methods: {
@@ -196,11 +222,25 @@ export default {
     },
     onSidebarChanged() {
     },
-    handleClick() {
+    openEdit() {
       this.$bvModal.show('myModal')
     },
     updatePage(page) {
       this.currentPage = page
+    },
+    handleSelect(item) {
+      this.onShowId = item.id
+    },
+    handleSubmit(content) {
+      // switch (editOwner){
+      //   case ""
+      // }
+      this.editOwner = null
+      this.editContent = content
+    },
+    handleCancel() {
+      this.editOwner = null
+      this.editContent = ""
     }
   }
 }
@@ -209,3 +249,259 @@ export default {
 <style scoped>
 
 </style>
+
+
+<!--
+{
+          description: "123",
+          type: 0,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 1,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 2,
+          standAnswer: "填空题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 3,
+          standAnswer: "大题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 0,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 1,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 2,
+          standAnswer: "填空题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 3,
+          standAnswer: "大题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 0,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 1,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 2,
+          standAnswer: "填空题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 3,
+          standAnswer: "大题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 0,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 1,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 2,
+          standAnswer: "填空题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 3,
+          standAnswer: "大题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 0,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 1,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 2,
+          standAnswer: "填空题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 3,
+          standAnswer: "大题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        }
+
+
+-->
