@@ -1,6 +1,5 @@
 <template>
   <div style="height: 100vh">
-
     <div class="h-100 bg-plum-plate bg-animation">
       <div class="d-flex h-100 justify-content-center align-items-center">
         <b-col md="8" class="mx-auto app-login-box">
@@ -15,16 +14,12 @@
                     <span>Please sign in to your account below.</span>
                   </h4>
                 </div>
-                <b-form-group
-                  id="exampleInputGroup1"
-                  label-for="exampleInput1"
-                  description="We'll never share your email with anyone else."
-                >
+                <b-form-group id="exampleInputGroup1" label-for="exampleInput1">
                   <b-form-input
                     id="exampleInput1"
-                    type="email"
+                    type="text"
                     required
-                    placeholder="Enter email..."
+                    placeholder="Enter account number..."
                   >
                   </b-form-input>
                 </b-form-group>
@@ -50,7 +45,7 @@
               </div>
               <div class="modal-footer clearfix">
                 <div class="float-right">
-                  <b-button variant="primary" size="lg"
+                  <b-button variant="primary" size="lg" @click="login"
                     >Login to YouPass</b-button
                   >
                 </div>
@@ -69,6 +64,12 @@
 <script>
 export default {
   name: "login",
+  methods: {
+    login() {
+      // console.log(this.$store.state.global.isLogin)
+      this.$store.dispatch("global/login", { id: 1950000, password: "123" });
+    },
+  },
 };
 </script>
 
