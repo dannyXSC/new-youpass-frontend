@@ -7,7 +7,9 @@ Vue.use(Vuex)
 const global = {
     namespace:true,
     // 准备action---用于响应组件中的动作
-    actions:{},
+    actions:{
+        
+    },
     // 准备mutations---用于操作数据
     mutations:{},
     // 准备state---用于存储数据
