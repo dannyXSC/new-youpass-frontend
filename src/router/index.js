@@ -78,28 +78,28 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     // console.log(to, from)
     //首先验证是否已经登录
-    let token = sessionStorage.getItem("key")
-    console.log(token)
-    if (token == 'token') {
-        next(todo)
-    }
-    else {
-            //除去注册和登录外都需要进行验证
-        if (to.name != 'login' && to.name != 'register' &&to.name!='HomeIndex') {
+    // let token = sessionStorage.getItem("key")
+    // console.log(token)
+    // if (token == 'token') {
+    //     next(todo)
+    // }
+    // else {
+    //         //除去注册和登录外都需要进行验证
+    //     if (to.name != 'login' && to.name != 'register' &&to.name!='HomeIndex') {
         
-            if (token=='token') {
-                next()
-            }
-            else {
-                // alert("请先登录！")
-                next('/');
-            }
-        }
-        else {
-            next()
-        }
-    }
-    
+    //         if (token=='token') {
+    //             next()
+    //         }
+    //         else {
+    //             // alert("请先登录！")
+    //             next('/');
+    //         }
+    //     }
+    //     else {
+    //         next()
+    //     }
+    // }
+    next()
     
   })
 
