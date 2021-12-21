@@ -15,3 +15,8 @@ export const checkState = ()=>{
     return requests({url:'/account/checkState',method:'get'})
 }
 
+export const getAllInfo = (postData)=>{
+    return requests({url:'/account/getAllInfo',method:'get'})
+}
+
+
