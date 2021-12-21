@@ -1,6 +1,6 @@
 // 该文件用于创建Vuex中最核心的store
 
-import { checkState, getAllInfo, login, signUp } from "@/api/index"
+import { checkState, getAllInfo, login, signUp,searchCourse1,searchCourse2,searchCourse3 } from "@/api/index"
 import Vue from 'vue'
 //引入Vuex
 import Vuex from "vuex"
@@ -39,6 +39,42 @@ const global = {
             }).catch((err => 
                 alert(err)
                 ))
+        },
+        searchCourse1(context, data){
+            searchCourse1(data).then(res => {       
+                if (res.data.length != 0) {
+                    context.commit("UPDATECOURSE", res);
+                }
+                else {
+                    alert("未检索到相关课程信息！");
+                }
+            }).catch(err => {
+                alert("未检索到相关课程信息！");
+            })
+        },
+        searchCourse2(context, data){
+            searchCourse2(data).then(res => {  
+                if (res.data.length != 0) {
+                    context.commit("UPDATECOURSE", res);
+                }
+                else {
+                    alert("未检索到相关课程信息！");
+                }
+            }).catch(err => {
+                alert("未检索到相关课程信息！");
+            })
+        },
+        searchCourse3(context, data){
+            searchCourse3(data).then(res => {       
+                if (res.data.length != 0) {
+                    context.commit("UPDATECOURSE", res);
+                }
+                else {
+                    alert("未检索到相关课程信息！");
+                }
+            }).catch(err => {
+                alert("未检索到相关课程信息！");
+            })
         }
     },
     // 准备mutations---用于操作数据
@@ -58,6 +94,10 @@ const global = {
             state.accountType = res.data.userInfo.type;
             state.courseList = res.data.courseList;
             state.examList = res.data.examList;
+        },
+        UPDATECOURSE(state, res){
+            state.searchedCourse = res.data;
+            console.log(state.searchedCourse);
         }
 
     },
@@ -76,7 +116,8 @@ const global = {
             name: "",
             courseList:null,
             examList:null,
-            register:false
+            register:false,
+            searchedCourse:[],
     },
     // 准备getters---用于将state中的数据进行加工
     // 类似计算属性

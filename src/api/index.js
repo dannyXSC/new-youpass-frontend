@@ -14,9 +14,18 @@ export const login = (postData)=>{
 export const checkState = ()=>{
     return requests({url:'/account/checkState',method:'get'})
 }
-
 export const getAllInfo = (postData)=>{
     return requests({url:'/account/getAllInfo',method:'get'})
 }
+export const searchCourse1 = (data)=>{
+    return requests({url:'/course/getCourseById',method:'get', params:data})
+}
+export const searchCourse2 = (data)=>{
+    return requests({url:'/course/getCourseByTitle',method:'get', params:data});
+}
+export const searchCourse3 = (data)=>{
+    return requests({url:'/course/getCourseByTName',method:'get', params:data})
+}
+
 
 
