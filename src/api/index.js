@@ -7,4 +7,8 @@ export const test = (postData)=>{
     return requests({url:'/account/login',method:'post',data:postData})
 }
 
+export const getAllInfo = (postData)=>{
+    return requests({url:'/account/getAllInfo',method:'get'})
+}
+
 
