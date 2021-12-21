@@ -61,15 +61,14 @@ const router = new VueRouter({
             component: examTest,
         },
         {
-<<<<<<< HEAD
             path: "/login",
             name: "login",
             component: login,
-=======
+        },
+        {
             path: "/register",
             name: "register",
             component: register,
->>>>>>> e61ed1e89fbb09df8ec36b0ddefa488baa36a99c
         },
 
     ]
