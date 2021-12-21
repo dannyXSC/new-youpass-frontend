@@ -4,13 +4,13 @@ import examTest from "@/pages/Test/examTest";
 import Test from "@/pages/Test/index";
 import message from "@/pages/Test/message";
 import pick from "@/pages/Test/pick";
-import todo from "@/pages/Test/todo";
+import register from "@/pages/Test/register";
 import test1 from "@/pages/Test/test1";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
+import todo from "@/pages/Test/todo";
 import VueRouter from "vue-router";
-import register from "@/pages/Test/register";
 
 
 // 创建一个路由器 并暴露
