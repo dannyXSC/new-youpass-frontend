@@ -1,171 +1,146 @@
 <template>
   <div>
+    <my-edit-modal
+        @onSubmit="handleSubmit"
+        @onCancel="handleCancel"
+    />
     <page-title :heading=heading
                 :subheading=subheading
                 :icon=icon
                 :breadcrumb-item="breadcrumbItem"
     ></page-title>
-    <div class="container">
-      <div class="row">
-        <div class="col-9">
+    <b-container fluid v-if="items[onShowId]">
+      <b-row>
+        <b-col cols="8">
+          {{ items[onShowId] }}
           <div class="main-card mb-3 card">
-            <div class="card-body"><h5 class="card-title">编辑题目信息</h5>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A consequuntur culpa, facilis molestiae nisi
-                optio quis quo recusandae ut vitae! A aliquam assumenda at, consequuntur culpa cupiditate doloribus ea
-                error eum facere facilis fugit id libero nihil officiis porro provident quod recusandae reprehenderit
-                sit tempore temporibus ut. Aliquam, autem beatae consequuntur corporis maxime nihil non quibusdam!
-                Expedita facere fuga harum hic illo, iure nisi qui quod repellendus, sed tempore totam? Ad adipisci aut
-                cupiditate dicta dolore, doloremque eius eveniet in, mollitia, neque non odio quibusdam quo quod quos
-                rem sequi voluptate voluptates! Adipisci aliquid commodi distinctio enim excepturi facere facilis id
-                impedit ipsa, ipsum, iste laboriosam laborum libero magnam magni molestiae natus numquam obcaecati
-                officia sequi sunt tenetur unde velit. Aperiam, atque earum in iusto laboriosam molestiae sit?
-                Blanditiis cupiditate debitis deserunt esse eum explicabo id libero natus necessitatibus obcaecati quae
-                reiciendis, similique veritatis? Accusamus, alias asperiores consequuntur eligendi laudantium magnam
-                molestiae nemo reprehenderit sint vitae? A commodi deserunt dolor error fuga mollitia quibusdam
-                reiciendis sed sit suscipit totam, ullam? Cumque incidunt inventore iure nesciunt praesentium quas quo,
-                ullam! Accusamus alias amet commodi consequuntur ea eius exercitationem ipsum, modi nisi perspiciatis
-                sunt voluptas. Accusantium alias at aut autem, blanditiis consequatur culpa cumque delectus deleniti,
-                dolor dolorem enim expedita facere illo illum ipsa laborum libero maxime nostrum obcaecati odio pariatur
-                quaerat quam quo ratione reiciendis sequi. Architecto asperiores autem consectetur inventore, ipsa
-                numquam quibusdam rem repellat velit voluptas. At consectetur consequuntur culpa dicta doloremque,
-                dolores doloribus dolorum eligendi expedita harum hic illo nemo nulla officia placeat sapiente sunt?
-                Accusamus amet atque consectetur deleniti dignissimos dolorum earum error eum ex fugit hic illo illum
-                iste iusto molestiae natus nesciunt nihil nisi nulla odio odit, officiis pariatur perferendis provident
-                quia quibusdam quos similique tempora totam veniam? Aliquam aut dolore dolores eveniet ex obcaecati
-                possimus quia reiciendis sint voluptates. Adipisci aspernatur consequuntur culpa delectus dolores, eaque
-                eius eveniet fugit laboriosam, magnam minus obcaecati perspiciatis rem saepe, sint temporibus voluptas.
-                Ad commodi, deserunt, ducimus esse eum, illum impedit magnam nemo non quas rem repudiandae similique sit
-                temporibus veritatis! Accusantium consequatur in iure molestiae nulla odit optio ratione sequi
-                temporibus voluptatum! Amet blanditiis deserunt earum et ipsa itaque laborum, laudantium minima, minus
-                qui reprehenderit sequi veritatis voluptatem? Accusamus consectetur id illo, incidunt natus officiis
-                omnis optio qui reiciendis, saepe veniam, voluptatibus! A aperiam assumenda commodi corporis dicta
-                doloribus explicabo hic ipsa laudantium nihil nisi obcaecati perferendis, quam quas qui quo soluta,
-                tempora tempore, totam vero. Consequuntur doloremque doloribus ea in nam quos rerum soluta sunt
-                voluptate voluptatum. A architecto, blanditiis commodi consequatur cum deserunt dicta, est
-                exercitationem facere minima molestias quasi, quibusdam velit. Impedit, repellat, repellendus. Accusamus
-                accusantium asperiores autem consequuntur cupiditate deserunt dolore dolorum eligendi excepturi fuga hic
-                itaque iusto, molestias mollitia nulla, odio officia perferendis porro repellendus sint unde vitae
-                voluptatem. Culpa esse in itaque neque nulla odio odit quos repudiandae ullam voluptatibus. Adipisci
-                autem, doloribus earum eos mollitia non quos rerum tenetur. Aut dignissimos eos id, ipsam perferendis
-                similique soluta voluptate. Rerum, sed, vitae? Atque dolores et fugiat! Ab accusamus alias amet
-                architecto asperiores aspernatur atque blanditiis cumque delectus dolor doloribus ducimus eligendi
-                explicabo facere impedit in ipsam iste maiores minima modi, natus necessitatibus nemo neque nisi nulla
-                obcaecati provident quas qui quibusdam quos veniam veritatis vitae voluptas! Accusantium, commodi culpa
-                cum exercitationem illo iusto magnam neque numquam odit quibusdam tenetur totam, vitae voluptas.
-                Architecto cupiditate deleniti doloremque eum minima minus neque nisi recusandae, similique
-                voluptatibus. Atque facilis fugiat, in ipsam quas veniam. At consequatur est facilis fuga fugit
-                laudantium maiores perferendis quas quia reprehenderit. A ab at atque doloremque, et, in incidunt magni
-                mollitia omnis perspiciatis possimus qui quia ratione totam unde voluptate, voluptatem. A accusamus
-                consequatur dignissimos dolorem error, eum eveniet molestias mollitia natus, non quaerat sed sit unde
-                vel, voluptas voluptate voluptatem. Consequatur deleniti dolorem nesciunt temporibus vero! Architecto
-                delectus deserunt dignissimos eum explicabo mollitia officia reprehenderit, sequi unde veritatis.
-                Architecto aut consectetur dolore, fugiat iste laudantium magnam, nemo optio rem sunt, tenetur vel vero
-                voluptatem. Animi aspernatur, corporis deleniti distinctio ea earum eos explicabo facilis, iste
-                laudantium neque nisi obcaecati perspiciatis porro quasi quis ratione unde vel velit vitae! Ad
-                consequatur dicta ducimus incidunt inventore odit praesentium tenetur unde voluptatem, voluptates. Atque
-                aut ea expedita fugiat porro praesentium repellat sequi! A adipisci amet aut beatae consectetur
-                consequatur consequuntur culpa deserunt dolorem dolores eos esse eum harum illo in inventore ipsam,
-                magni, maiores minima modi molestiae nam neque obcaecati odio officia quaerat quam, quas saepe sed sunt
-                suscipit totam ullam voluptatem. Aliquam aspernatur, assumenda consequuntur dolore eos esse numquam
-                quae. Ab amet aut, beatae dicta distinctio dolorum eius eligendi enim esse ex fuga hic illo impedit
-                inventore magni molestias neque perferendis perspiciatis quaerat quidem repellendus repudiandae
-                similique sunt tempora tenetur unde velit voluptas! Alias aliquid architecto debitis deserunt ducimus
-                labore laborum nemo perferendis praesentium quibusdam repellendus totam, ullam veniam. Architecto cumque
-                dicta dolor, dolorem doloremque earum eveniet illum incidunt laboriosam modi non nostrum nulla pariatur
-                quos, recusandae sint voluptatem. Accusantium assumenda ducimus facere natus non nulla omnis provident
-                sapiente suscipit veniam. Aperiam culpa eaque, eius enim et eveniet optio quas quidem repellat veniam.
-                Amet, aspernatur, autem corporis delectus dignissimos et, ex hic laboriosam magni nihil nobis possimus
-                provident quam qui rem repudiandae voluptate. Autem commodi fuga inventore magni maiores neque officia.
-                Ad architecto aspernatur commodi consectetur cum cupiditate deleniti est expedita harum impedit incidunt
-                iusto laboriosam minus molestiae mollitia nemo non numquam obcaecati odit pariatur quae quas quasi qui
-                quia quis repudiandae rerum, tempore voluptatem voluptates voluptatum! Alias beatae consectetur
-                consequatur est molestiae neque numquam, obcaecati quisquam quod rem repudiandae sint, soluta totam vero
-                voluptatem. Animi aut cumque debitis earum, hic inventore labore magni repudiandae suscipit? Aperiam
-                assumenda, beatae, corporis debitis eos est eum eveniet fuga in iusto libero nulla omnis optio quasi
-                quos sint ut vero! A accusantium amet aperiam aspernatur, beatae cum debitis dolores eius et facilis
-                fugit id laboriosam magni minus, molestiae necessitatibus, nobis non nostrum odio omnis quae quo quos
-                sapiente sint vitae. Accusamus, eius tenetur.</p></div>
+            <div class="card-body">
+              <b-form>
+                <b-form-group
+                    label-cols-lg="3"
+                    label="编辑题目信息"
+                    label-size="lg"
+                    label-class="font-weight-bold pt-0"
+                    class="mb-0"
+                >
+                  <b-form-group
+                      label="题目种类:"
+                      label-cols-sm="3"
+                      label-align-sm="right"
+                  >
+                    <b-form-select v-model="items[onShowId].type" :options="typeOptions"></b-form-select>
+                  </b-form-group>
+
+                  <b-form-group
+                      label="学科:"
+                      label-cols-sm="3"
+                      label-align-sm="right"
+                  >
+                    <b-form-input v-model="items[onShowId].subject" placeholder="输入学科"></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group
+                      label="是否私有:"
+                      label-cols-sm="3"
+                      label-align-sm="right"
+                  >
+                    <b-form-select v-model="items[onShowId].isPrivate" :options="isPrivateOptions"></b-form-select>
+                  </b-form-group>
+
+                  <b-form-group
+                      label="内容:"
+                      label-cols-sm="3"
+                      label-align-sm="right"
+                  >
+                    <b-button block class="mr-2 mb-3" pill variant="outline-primary" size="sm">编辑</b-button>
+                    <div class="card-shadow-success border card card-body border-success">
+                      <!--                      <h5 class="card-title">Success Card Shadow</h5>-->
+                      With supporting text below as a natural lead-in to additional content.
+                    </div>
+                  </b-form-group>
+
+                  <b-form-group
+                      label="选项:"
+                      label-cols-sm="3"
+                      label-align-sm="right"
+                  >
+                    <b-button block class="mr-2 mb-3" pill variant="outline-primary" size="sm">添加</b-button>
+                    <b-button block class="mr-2 mb-1" variant="outline-info" size="sm">
+                      With supporting text below as a natural lead-in to additional content.
+                    </b-button>
+                    <b-button block class="mr-2 mb-1" variant="outline-info" size="sm">
+                      With supporting text below as a natural lead-in to additional content.
+                    </b-button>
+                    <b-button block class="mr-2 mb-1" variant="outline-info" size="sm">
+                      With supporting text below as a natural lead-in to additional content.
+                    </b-button>
+                    <b-button block class="mr-2 mb-1" variant="outline-info" size="sm">
+                      With supporting text below as a natural lead-in to additional content.
+                    </b-button>
+                  </b-form-group>
+
+                  <b-form-group
+                      label="答案:"
+                      label-cols-sm="3"
+                      label-align-sm="right"
+                  >
+                    <b-button block class="mr-2 mb-3" pill variant="outline-primary" size="sm">选择</b-button>
+                    <b-button block class="mr-2 mb-1" variant="outline-danger" size="sm" @click="openEdit">
+                      With supporting text below as a natural lead-in to additional content.
+                    </b-button>
+                  </b-form-group>
+                </b-form-group>
+
+              </b-form>
+
+            </div>
           </div>
-        </div>
-        <div class="col-3">
-          <div class="main-card mb-3 card">
-            <b-row class="card-body">
-              <h5 class="card-title">管理面板</h5>
-              <b-container>
-                <b-row>
-                  <b-col>
-                    <b-button variant="primary">1</b-button>
-                  </b-col>
-                  <b-col>
-                    <b-button variant="primary">2</b-button>
-                  </b-col>
-                  <b-col>
-                    <b-button variant="primary">3</b-button>
-                  </b-col>
-                </b-row>
-                <br>
-                <b-row>
-                  <b-col>
-                    <b-button variant="primary">4</b-button>
-                  </b-col>
-                  <b-col>
-                    <b-button variant="primary">5</b-button>
-                  </b-col>
-                  <b-col>
-                    <b-button variant="primary">6</b-button>
-                  </b-col>
-                </b-row>
-                <br>
-                <b-row>
-                  <b-col>
-                    <b-button variant="primary">7</b-button>
-                  </b-col>
-                  <b-col>
-                    <b-button variant="primary">8</b-button>
-                  </b-col>
-                  <b-col>
-                    <b-button variant="primary">9</b-button>
-                  </b-col>
-                </b-row>
-                <br>
+        </b-col>
 
+        <b-col cols="4">
 
-                <div>
-                  <b-pagination
-                      v-model="currentPage"
-                      size="sm"
-                      :total-rows="100"
-                      per-page="9"
-                      aria-controls="my-table"
-                      align="center"
-                  ></b-pagination>
-                </div>
+          <my-count-bar
+              :currentPage_props="currentPage"
+              :total_rows_props="items.length"
+              :per_page_props="9"
+              :items="items"
+              @updatePage="updatePage"
+              @onSelect="handleSelect"
+          >
+            <template v-slot:header>
+              相关信息
+            </template>
+            <template v-slot:footer>
+              <b-row class="justify-content-between">
+                <b-col cols="8" md="auto">
+                  <div>
+                    <b-button pill variant="outline-primary">添加</b-button>
+                    <b-button pill variant="outline-danger" style="margin-left: 5px">删除</b-button>
+                  </div>
+                </b-col>
+                <b-col cols="4" md="auto">
+                  <b-button pill variant="warning">提交</b-button>
+                </b-col>
+              </b-row>
+            </template>
 
-                <br>
+          </my-count-bar>
 
-                <b-row class="justify-content-center">
-                  <b-button-group>
-                    <b-button variant="success">增加</b-button>
-                    <b-button variant="info">提交</b-button>
-                    <b-button variant="warning">去除</b-button>
-                  </b-button-group>
-                </b-row>
-              </b-container>
-            </b-row>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        </b-col>
+      </b-row>
+    </b-container>
+
   </div>
 </template>
 
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
+import MyEditModal from "@/components/myEditModal";
+import MyCountBar from "@/components/myCountBar";
 
 export default {
   name: "test3",
-  components: {PageTitle,},
+  components: {MyCountBar, MyEditModal, PageTitle,},
   data() {
     return {
       heading: '上传题目',
@@ -192,21 +167,50 @@ export default {
         }
       ],
 
-      items: [
-        {id: 1},
-        {id: 2},
-        {id: 3},
-        {id: 4},
-        {id: 5},
-        {id: 6},
-        {id: 7},
-        {id: 8},
-        {id: 9},
-        {id: 10},
-      ],
+      items: [],
 
       currentPage: 1,
+      expanded: false,
+      barStyle: {
+        backgroundColor: '#69aa8a'
+      },
 
+      typeOptions: [
+        {value: null, text: 'Please select an option'},
+        {value: 0, text: '单择题'},
+        {value: 1, text: '多选题'},
+        {value: 2, text: '填空题'},
+        {value: 3, text: '大题'}
+      ],
+      isPrivateOptions: [
+        {value: null, text: 'Please select an option'},
+        {value: 1, text: '私有'},
+        {value: 0, text: '共有'},
+      ],
+      selected: null,
+      text: "",
+
+
+      onShowId: 0,
+      editOwner: null,
+      editContent: ""
+    }
+  },
+  mounted() {
+    for (var i = 0; i < 30; i++) {
+
+      this.items.push({
+        id: i,
+        type: Math.floor(Math.random() * 4),
+        description: "填空题",
+        standAnswer: "填空题答案",
+        subject: "数学",
+        createTime: "123",
+        isPrivate: 1,
+        option: [],
+        pool: 0,
+        courseId: 123
+      })
     }
   },
   methods: {
@@ -218,6 +222,26 @@ export default {
     },
     onSidebarChanged() {
     },
+    openEdit() {
+      this.$bvModal.show('myModal')
+    },
+    updatePage(page) {
+      this.currentPage = page
+    },
+    handleSelect(item) {
+      this.onShowId = item.id
+    },
+    handleSubmit(content) {
+      // switch (editOwner){
+      //   case ""
+      // }
+      this.editOwner = null
+      this.editContent = content
+    },
+    handleCancel() {
+      this.editOwner = null
+      this.editContent = ""
+    }
   }
 }
 </script>
@@ -225,3 +249,259 @@ export default {
 <style scoped>
 
 </style>
+
+
+<!--
+{
+          description: "123",
+          type: 0,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 1,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 2,
+          standAnswer: "填空题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 3,
+          standAnswer: "大题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 0,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 1,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 2,
+          standAnswer: "填空题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 3,
+          standAnswer: "大题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 0,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 1,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 2,
+          standAnswer: "填空题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 3,
+          standAnswer: "大题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 0,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 1,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 2,
+          standAnswer: "填空题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 3,
+          standAnswer: "大题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 0,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "123",
+          type: 1,
+          standAnswer: "1",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [
+            {optionId: 0, description: "选择题内容1"},
+            {optionId: 1, description: "选择题内容2"}
+          ],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 2,
+          standAnswer: "填空题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        },
+        {
+          description: "填空题",
+          type: 3,
+          standAnswer: "大题答案",
+          subject: "数学",
+          createTime: "123",
+          isPrivate: 1,
+          option: [],
+          pool: 0,
+          courseId: 123
+        }
+
+
+-->

@@ -11,8 +11,8 @@
           <div class="row">
             <li class="col"><a href="#home">Home</a></li>
             <li class="col"><a href="#about">About</a></li>
-            <li class="col"><a href="#signup">SignUp</a></li>
             <li class="col"><a href="#login">LogIn</a></li>
+            <li class="col"><a href="#register">SignUp</a></li>
             <li class="col"><a href="#team">Team</a></li>
           </div>
         </div>
