@@ -2,6 +2,7 @@
 import HomeIndex from "@/pages/Home/index";
 import examTest from "@/pages/Test/examTest";
 import Test from "@/pages/Test/index";
+import login from "@/pages/Test/login";
 import message from "@/pages/Test/message";
 import pick from "@/pages/Test/pick";
 import register from "@/pages/Test/register";
@@ -58,6 +59,11 @@ const router = new VueRouter({
             path: "/examTest",
             name: "examTest",
             component: examTest,
+        },
+        {
+            path: "/login",
+            name: "login",
+            component: login,
         },
         {
             path: "/register",

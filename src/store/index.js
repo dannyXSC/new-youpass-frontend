@@ -1,9 +1,10 @@
 // 该文件用于创建Vuex中最核心的store
 
-import { signUp } from "@/api/index"
+import { signUp, test } from "@/api/index"
 import Vue from 'vue'
 //引入Vuex
 import Vuex from "vuex"
+
 Vue.use(Vuex)
 
 const global = {
@@ -14,16 +15,29 @@ const global = {
             console.log("connect!")
             signUp(data).then(res=> {console.log(res.msg)}).catch(err=>{console.log(err)})   
         }
+    actions:{
+        login(context, data){
+            console.log("connect!", data)
+            console.log(test(data));
+        }
+            
     },
     // 准备mutations---用于操作数据
-    mutations:{},
+    mutations:{
+
+    },
     // 准备state---用于存储数据
-    state: {
-        register:false
+
+      
+    state:{
+            isLogin: false,
+            register:false
     },
     // 准备getters---用于将state中的数据进行加工
     // 类似计算属性
-    getters:{}
+    getters:{
+        
+    }
 }
 
 /*

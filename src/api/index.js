@@ -6,3 +6,10 @@ export const signUp=(data) => {
         url:'/account/signup',method:'post',data:data
     })
 }
+
+export const test = (postData)=>{
+    console.log(postData)
+    return requests({url:'/account/login',method:'post',data:postData})
+}
+
+

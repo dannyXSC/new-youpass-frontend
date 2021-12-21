@@ -30,6 +30,8 @@ Vue.component('default-layout', Default);
 Vue.component('userpages-layout', Pages);
 
 
+
+
 new Vue({
   render: h => h(App),
   router,
