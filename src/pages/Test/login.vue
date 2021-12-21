@@ -41,16 +41,14 @@
                 <h6 class="mb-0">
                   No account?
                   <a href="javascript:void(0);" class="text-primary"
-                    >Sign up now</a
+                    ><router-link to="/register">Sign up now</router-link></a
                   >
                 </h6>
               </div>
               <div class="modal-footer clearfix">
                 <div class="float-right">
                   <b-button variant="success" size="lg" @click="login"
-                    ><router-link to="todo"
-                      ><p style="color: black">Login to YouPass</p></router-link
-                    >
+                    >Login to YouPass
                   </b-button>
                 </div>
               </div>
@@ -79,21 +77,16 @@ export default {
     checkState() {
       this.$store.dispatch("global/checkState");
       console.log(this.$store.state.global.isLogin);
-      if (this.$store.state.global.isLogin == true) {
-        router.push("/todo");
-      }
     },
     login() {
       this.$store.dispatch("global/login", {
         id: this.userid,
         password: this.password,
       });
-      if (this.$store.state.global.loginSuccess == true) {
-        router.push("./todo");
-      }
     },
   },
-  mounted() {
+  //每次进入登录页面，先检查是否已经登录，如果已经登录就直接跳转到/todo界面
+  beforeMount() {
     console.log("mounted");
     this.checkState();
   },

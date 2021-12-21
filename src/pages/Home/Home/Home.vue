@@ -1,6 +1,8 @@
 <template>
   <section class="home" id="home">
-    <div class="container d-flex align-items-center justify-content-center text-center">
+    <div
+      class="container d-flex align-items-center justify-content-center text-center"
+    >
       <div class="w-50">
         <div class="text1">Fighting,</div>
         <div class="text2">
@@ -19,8 +21,9 @@
 export default {
   name: "Home",
   mounted() {
-  }
-}
+    this.$store.dispatch("global/checkSession");
+  },
+};
 </script>
 
 <style scoped>
@@ -46,7 +49,7 @@ export default {
   font-size: 65px;
 }
 
-.home .text2 span{
+.home .text2 span {
   color: crimson;
 }
 
