@@ -7,9 +7,11 @@ export const signUp=(data) => {
     })
 }
 
-export const test = (postData)=>{
+export const login = (postData)=>{
     console.log(postData)
     return requests({url:'/account/login',method:'post',data:postData})
 }
-
+export const checkState = ()=>{
+    return requests({url:'/account/checkState',method:'get'})
+}
 

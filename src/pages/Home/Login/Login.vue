@@ -4,15 +4,17 @@
       <h2 class="title">Log In</h2>
     </div>
     <div class="info-container">
-      <button>go!</button>
+      <button>
+        <router-link active-class="active" to="login">go!</router-link>
+      </button>
     </div>
   </section>
 </template>
 
 <script>
 export default {
-  name: "Login"
-}
+  name: "Login",
+};
 </script>
 
 <style scoped>
@@ -24,7 +26,7 @@ export default {
   content: "let's go";
   background: #111;
 }
-.login .info-container{
+.login .info-container {
   /*background: crimson;*/
   display: flex;
   flex-wrap: wrap;

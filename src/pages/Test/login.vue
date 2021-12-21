@@ -20,6 +20,7 @@
                     type="text"
                     required
                     placeholder="Enter account number..."
+                    v-model="userid"
                   >
                   </b-form-input>
                 </b-form-group>
@@ -29,6 +30,7 @@
                     type="password"
                     required
                     placeholder="Enter password..."
+                    v-model="password"
                   >
                   </b-form-input>
                 </b-form-group>
@@ -45,9 +47,11 @@
               </div>
               <div class="modal-footer clearfix">
                 <div class="float-right">
-                  <b-button variant="primary" size="lg" @click="login"
-                    >Login to YouPass</b-button
-                  >
+                  <b-button variant="success" size="lg" @click="login"
+                    ><router-link to="todo"
+                      ><p style="color: black">Login to YouPass</p></router-link
+                    >
+                  </b-button>
                 </div>
               </div>
             </div>
@@ -62,13 +66,36 @@
 </template>
 
 <script>
+import router from "@/router";
 export default {
   name: "login",
+  data() {
+    return {
+      userid: "",
+      password: "",
+    };
+  },
   methods: {
-    login() {
-      // console.log(this.$store.state.global.isLogin)
-      this.$store.dispatch("global/login", { id: 1950000, password: "123" });
+    checkState() {
+      this.$store.dispatch("global/checkState");
+      console.log(this.$store.state.global.isLogin);
+      if (this.$store.state.global.isLogin == true) {
+        router.push("/todo");
+      }
     },
+    login() {
+      this.$store.dispatch("global/login", {
+        id: this.userid,
+        password: this.password,
+      });
+      if (this.$store.state.global.loginSuccess == true) {
+        router.push("./todo");
+      }
+    },
+  },
+  mounted() {
+    console.log("mounted");
+    this.checkState();
   },
 };
 </script>

@@ -65,7 +65,7 @@
                       label-for="exampleInput2"
                     >
                       <b-form-input
-                        id="exampleInput2"
+                        id="exampleInput3"
                         type="password"
                         required
                         placeholder="Repeat password..."
