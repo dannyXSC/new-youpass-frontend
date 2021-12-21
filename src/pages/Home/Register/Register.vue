@@ -6,15 +6,21 @@
     <div class="info-container">
       <div class="card">
         <a class="box"
-        ><i class="fas fa-user-alt"></i>
-          <div class="text">你是学生</div>
+          ><i class="fas fa-user-alt"></i>
+          <div class="text">
+            <router-link active-class="active" to="register"
+              >你是学生</router-link
+            >
+          </div>
         </a>
       </div>
 
       <div class="card">
         <a class="box"
-        ><i class="fas fa-user-graduate"></i>
-          <div class="text">你是教师</div>
+          ><i class="fas fa-user-graduate"></i>
+          <div class="text">
+            <router-link active-class="" to="register">你是教师</router-link>
+          </div>
         </a>
       </div>
     </div>
@@ -23,8 +29,8 @@
 
 <script>
 export default {
-  name: "Register"
-}
+  name: "Register",
+};
 </script>
 
 <style scoped>

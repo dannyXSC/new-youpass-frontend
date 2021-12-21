@@ -65,7 +65,7 @@
                       label-for="exampleInput2"
                     >
                       <b-form-input
-                        id="exampleInput2"
+                        id="exampleInput3"
                         type="password"
                         required
                         placeholder="Repeat password..."
@@ -90,6 +90,7 @@
               </div>
               <div class="modal-footer d-block text-center">
                 <b-button
+                  @click="register()"
                   color="primary"
                   class="btn-wide btn-pill btn-shadow btn-hover-shine"
                   size="lg"
@@ -106,3 +107,18 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  name: "Register",
+  methods: {
+    register() {
+      this.$store.dispatch("global/register", {
+        email: "123@123",
+        password: "123",
+        name: "YEXUBING",
+        type: "1",
+      });
+    },
+  },
+};
+</script>
