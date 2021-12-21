@@ -10,7 +10,7 @@ import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
 import VueRouter from "vue-router";
-
+import register from "@/pages/Test/register";
 
 
 // 创建一个路由器 并暴露
@@ -58,6 +58,11 @@ const router = new VueRouter({
             path: "/examTest",
             name: "examTest",
             component: examTest,
+        },
+        {
+            path: "/register",
+            name: "register",
+            component: register,
         },
 
     ]
