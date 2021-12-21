@@ -13,14 +13,12 @@ const global = {
     actions: {
         register(context, data) {
             console.log("connect!")
-            signUp(data).then(res=> {console.log(res.msg)}).catch(err=>{console.log(err)})   
-        }
-    actions:{
-        login(context, data){
+            signUp(data).then(res => { console.log(res.msg) }).catch(err => { console.log(err) })
+        },
+        login(context, data) {
             console.log("connect!", data)
             console.log(test(data));
         }
-            
     },
     // 准备mutations---用于操作数据
     mutations:{
