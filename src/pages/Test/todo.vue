@@ -68,7 +68,13 @@
               <h3 class="card-title">Coming Exams</h3>
               <hr />
               <div
-                class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--animate vertical-timeline--one-column"
+                class="
+                  vertical-time-simple
+                  vertical-without-time
+                  vertical-timeline
+                  vertical-timeline--animate
+                  vertical-timeline--one-column
+                "
               >
                 <div
                   v-for="(exam, index) in $store.state.global.examList"
@@ -162,6 +168,7 @@ export default {
           break;
         }
       }
+      localStorage.setItem("todos", JSON.stringify(this.todos));
     },
     addTodo() {
       if (this.inputTodo != "" && !this.todos.includes(this.inputTodo)) {
@@ -174,7 +181,8 @@ export default {
       }
     },
     test() {
-      this.$store.dispatch("global/getInfo", 1950000);
+      console.log("@@@" + this.$store.state.global.examList);
+      // this.$store.dispatch("global/getInfo", 1950000);
     },
   },
   mounted() {
