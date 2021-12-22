@@ -17,6 +17,8 @@ export default {
     },
   },
   mounted() {
+    console.log("此处获取全部信息");
+    console.log(this.$store.state);
     this.$store.dispatch("global/getInfo", this.$store.state.global.id);
   },
 };

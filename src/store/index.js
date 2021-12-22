@@ -10,7 +10,9 @@ import {
     signUp,
     setSession,
     getExamQuestion,
-    addQuestions, manualCorrect
+    addQuestions,
+    manualCorrect,
+    quit
 } from "@/api/index";
 import router from "@/router";
 import Vue from 'vue';
@@ -23,6 +25,7 @@ const global = {
     namespaced: true,
     // 准备action---用于响应组件中的动作
     actions: {
+
         register(context, data) {
             console.log(data)
 
@@ -31,7 +34,7 @@ const global = {
                 console.log(res.code)
                 if (res.code == '100') {
                     alert("注册成功！您的id为：" + res.data)
-                    router.push('/login')
+                    router.push({ name: "login" })
                 } else if (res.code == '1') {
                     alert("该邮箱已经被注册过！")
                 }
@@ -63,9 +66,9 @@ const global = {
             })
         },
         getInfo(context, data) {
-            console.log("connect!", data)
+            console.log("学生的id为：", data)
             getAllInfo(data).then((res) => {
-                console.log("res!", res)
+                console.log("getInfo被调用", res)
                 context.commit("SETINFO", res);
             }).catch((err =>
                 alert(err)
@@ -122,6 +125,12 @@ const global = {
                 alert(err)
             ))
         },
+        logout(context) {
+            quit().then(res => {
+                sessionStorage.removeItem("key");
+                router.push({ name: "HomeIndex" });
+            })
+        },
         uploadQuestions(context, data) {
             addQuestions(data).then((res) => {
                 context.commit("COMPLETE", res)
@@ -129,13 +138,13 @@ const global = {
                 alert(error)
             })
         },
-        manualCorrect(context,data){
+        manualCorrect(context, data) {
             manualCorrect(data).then((res) => {
                 context.commit("COMPLETE", res)
             }).catch((error) => {
                 alert(error)
             })
-        }
+        },
     },
     // 准备mutations---用于操作数据
     mutations: {
@@ -148,6 +157,7 @@ const global = {
             state.courseListStu = res.data.courseListStu;
             state.courseListTea = res.data.courseList;
             state.examList = res.data.examList;
+            state.messageList = res.data.noticeInfoSet
         },
         UPDATECOURSE(state, res) {
             state.searchedCourse = res.data;
@@ -177,7 +187,6 @@ const global = {
     },
     // 准备state---用于存储数据
 
-
     state: {
         register: false,
         loginSuccess: false,
@@ -193,6 +202,8 @@ const global = {
         searchedCourse: [],
         type: 0,
         isTesting: false,
+        messageList: [],
+
     },
     // 准备getters---用于将state中的数据进行加工
     // 类似计算属性

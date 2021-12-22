@@ -1,20 +1,23 @@
 // 用于创建整个应用的路由器
-import {checkState} from "@/api";
+import { checkState } from "@/api";
 import CourseManagement from "@/pages/courseManagement/CourseManagement";
-import dashboard from "@/pages/Dashboard/index";
-import HomeIndex from "@/pages/Home/index";
-import notfound from "@/pages/notfound";
-import examTest from "@/pages/Dashboard/examTest";
-import Test from "@/pages/Test/index";
-import login from "@/pages/login";
-import message from "@/pages/Dashboard/message";
-import pick from "@/pages/Dashboard/pick";
-import register from "@/pages/register";
+import addQuestions from "@/pages/Dashboard/addQuestions";
 import course from "@/pages/Dashboard/course";
+import examTest from "@/pages/Dashboard/examTest";
+import dashboard from "@/pages/Dashboard/index";
+import message from "@/pages/Dashboard/message";
+import personInfo from "@/pages/Dashboard/personInfo";
+import pick from "@/pages/Dashboard/pick";
+import todo from "@/pages/Dashboard/todo";
+import HomeIndex from "@/pages/Home/index";
+import login from "@/pages/login";
+import notfound from "@/pages/notfound";
+import register from "@/pages/register";
+import PersonalPage from "@/pages/studentPage/PersonalPage";
+import Test from "@/pages/Test/index";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
-import todo from "@/pages/Dashboard/todo";
 import VueRouter from "vue-router";
 import addQuestions from "@/pages/Dashboard/addQuestions";
 import correctPaper from "@/pages/Dashboard/correctPaper";
@@ -24,16 +27,15 @@ import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
 // 创建一个路由器 并暴露
 const router = new VueRouter({
     routes: [{
-        path: "/",
-        name: "HomeIndex",
-        component: HomeIndex
-    },
+            path: "/",
+            name: "HomeIndex",
+            component: HomeIndex
+        },
         {
             path: "/dashboard",
             name: "Dashboard",
             component: dashboard,
-            children: [
-                {
+            children: [{
                     path: "/dashboard",
                     component: todo,
                     name: todo
@@ -67,14 +69,18 @@ const router = new VueRouter({
                     path: "/dashboard/course",
                     component: course
                 },
+                {
+                    path: "/personinfo",
+                    component: personInfo,
+                    name: personInfo
+                },
             ]
         },
         {
             path: "/test",
             name: "Test",
             component: Test,
-            children: [
-                {
+            children: [{
                     path: "/test2",
                     component: test2
                 },
@@ -87,6 +93,28 @@ const router = new VueRouter({
                     path: "/courseManagement",
                     name: "CourseManagement",
                     component: CourseManagement,
+                },
+
+                {
+                    path: "/pick",
+                    component: pick
+                },
+                {
+                    path: "/message",
+                    component: message
+                },
+                {
+                    path: "/todo",
+                    component: todo,
+                    name: todo
+                },
+                {
+                    path: "/personal/:courseId",
+                    component: PersonalPage
+                },
+                {
+                    path: '/exam/:examId',
+                    component: CourseManagement
                 },
                 {
                     path: "/test4",
@@ -122,41 +150,39 @@ const router = new VueRouter({
 
 //配置全局路由guard,每次路由切换之前被调用
 router.beforeEach((to, from, next) => {
-    //已经登录的情况已经在checkState中处理了
-
-    //没如果进入dashboard
+    //如果进入dashboard
     if (to.matched.filter(value => {
-        return value.name === "Dashboard"
-    }).length) {
+            return value.name === "Dashboard"
+        }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
                     next()
                 } else {
-                    next({name: "notFound"})
+                    next({ name: "notFound" })
                 }
             })
             .catch((err) => {
                 console.error(err)
-                next({name: "notFound"})
+                next({ name: "notFound" })
             })
     }
     //进入login
     else if (to.matched.filter(value => {
-        return value.name === "login"
-    }).length) {
+            return value.name === "login"
+        }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
                     console.log("123")
-                    next({name: "Dashboard"})
+                    next({ name: "Dashboard" })
                 } else {
                     next()
                 }
             })
             .catch((err) => {
                 console.error(err)
-                next({name: "notFound"})
+                next({ name: "notFound" })
             })
     } else {
         next()

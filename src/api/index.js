@@ -33,6 +33,9 @@ export const setSession = (data)=>{
 export const getExamQuestion = ()=>{
     return requests({url:'/exam/takeExam/getExamQuestion',method:'get'})
 }
+export const quit = () => {
+    return requests({ url: '/account/quitAccount', method: 'delete' })
+}
 //老师添加题目
 export const addQuestions = (postData)=>{
     return requests({url:'/question/update',method:'post',data:postData})
@@ -47,5 +50,12 @@ export const manualCorrect = (data)=>{
 }
 //获取考试所有未批改的信息
 
+
+export const getExams = (courseId)=>{
+    return requests({url:"/exam/courseGetExam/"+courseId,method:'get'})
+}
+export const getMessage = (data)=>{
+    return requests({url:"/exam/courseGetExam/"+courseId,method:'get'})
+}
 
 
