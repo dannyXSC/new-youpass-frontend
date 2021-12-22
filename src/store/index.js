@@ -53,9 +53,8 @@ const global = {
         getInfo(context, data){
             console.log("connect!", data)
             getAllInfo(data).then((res) => {
+                console.log("res!", res)
                 context.commit("SETINFO", res);
-
-
             }).catch((err => 
                 alert(err)
                 ))
@@ -101,7 +100,6 @@ const global = {
     mutations:{
       
         SETINFO(state, res){
-            console.log(res);
             state.id = res.data.userInfo.id;
             state.email = res.data.userInfo.email;
             state.location = res.data.userInfo.location;
@@ -136,8 +134,8 @@ const global = {
             email:"",
             isLogin: false,
             name: "",
-            courseList:null,
-            examList:null,
+            courseList:[],
+            examList:[],
             register:false,
             searchedCourse:[],
             type:0

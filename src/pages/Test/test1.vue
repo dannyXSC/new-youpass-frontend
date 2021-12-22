@@ -72,38 +72,7 @@ export default {
         "Wide selection of buttons that feature different styles for backgrounds, borders and hover options!",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
 
-      fields: ["Course_Id", "Course_Name"],
-      items: [
-        {
-          isActive: true,
-          age: 40,
-          Course_Id: "Dickerson",
-          Course_Name: "Macdonald",
-          _showDetails: false,
-          style: "cursor: pointer;",
-        },
-        {
-          isActive: false,
-          age: 21,
-          Course_Id: "Larsen",
-          Course_Name: "Shaw",
-          _showDetails: false,
-        },
-        {
-          isActive: false,
-          age: 89,
-          Course_Id: "Geneva",
-          Course_Name: "Wilson",
-          _showDetails: false,
-        },
-        {
-          isActive: true,
-          age: 38,
-          Course_Id: "Jami",
-          Course_Name: "Carney",
-          _showDetails: false,
-        },
-      ],
+      fields: ["课程名称", "ID"],
       showChart: false,
       bars: [
         { variant: "success", value: 75 },
@@ -131,6 +100,21 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    items() {
+      console.log("computed" + this.$store.state.global);
+      let return_item = [];
+      for (let i = 0; i < this.$store.state.global.courseList.length; ++i) {
+        return_item.unshift({
+          _showDetails: false,
+          isActive: true,
+          课程名称: this.$store.state.global.courseList[i].title,
+          ID: this.$store.state.global.courseList[i].courseId,
+        });
+      }
+      return return_item;
+    },
   },
   mounted() {
     this.timer = setInterval(() => {

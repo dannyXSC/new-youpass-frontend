@@ -98,8 +98,6 @@
                     </div>
                   </div>
                 </div>
-
-                <button class="dropdown-item" @click="test">Add</button>
               </div>
             </div>
           </div>
@@ -173,10 +171,6 @@ export default {
       } else {
         alert("无法添加ToDo!");
       }
-    },
-    test() {
-      console.log("@@@" + this.$store.state.global.examList);
-      // this.$store.dispatch("global/getInfo", 1950000);
     },
   },
   mounted() {

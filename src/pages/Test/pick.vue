@@ -181,7 +181,6 @@ export default {
   },
   computed: {
     items() {
-      console.log("jisuanle", this.$store.state.global.searchedCourse);
       let return_item = [];
       for (let i = 0; i < this.$store.state.global.searchedCourse.length; ++i) {
         return_item.unshift({
