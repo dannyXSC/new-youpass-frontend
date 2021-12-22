@@ -276,10 +276,6 @@ export default {
       questionList: [],
 
       currentPage: 1,
-      expanded: false,
-      barStyle: {
-        backgroundColor: '#69aa8a'
-      },
 
       typeOptions: [
         {value: null, text: 'Please select an option'},
@@ -293,7 +289,6 @@ export default {
         {value: 1, text: '私有'},
         {value: 0, text: '公有'},
       ],
-      selected: null,
       text: "",
 
 
@@ -414,7 +409,7 @@ export default {
       this.editContent = ""
     },
     getMaxOptionId() {
-      var id = 0;
+      let id = 0;
       if (this.questionList[this.onShowId].option.length > 0) {
         this.questionList[this.onShowId].option.forEach((value) => {
           id = Math.max(id, value.id + 1);

@@ -184,7 +184,7 @@ export default {
   methods: {
     deleteTodo(key) {
       console.log("删除了", key);
-      for (var i = 0; i < this.todos.length; i++) {
+      for (let i = 0; i < this.todos.length; i++) {
         if (this.todos[i] == key) {
           if (i > -1) {
             this.todos.splice(i, 1);

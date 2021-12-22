@@ -1,6 +1,6 @@
 // 该文件用于创建Vuex中最核心的store
 
-import { addQuestions, checkState, getAllInfo, getExamQuestion, login, quit, searchCourse1, searchCourse2, searchCourse3, setSession, signUp ,getImage} from "@/api/index";
+import { addQuestions, checkState, getAllInfo, getExamQuestion, getImage, login, manualCorrect, quit, searchCourse1, searchCourse2, searchCourse3, setSession, signUp } from "@/api/index";
 import router from "@/router";
 import Vue from 'vue';
 //引入Vuex
@@ -12,7 +12,7 @@ const global = {
     namespaced: true,
     // 准备action---用于响应组件中的动作
     actions: {
-        
+
         register(context, data) {
             console.log(data)
 
@@ -22,8 +22,7 @@ const global = {
                 if (res.code == '100') {
                     alert("注册成功！您的id为：" + res.data)
                     router.push({ name: "login" })
-                }
-                else if (res.code == '1') {
+                } else if (res.code == '1') {
                     alert("该邮箱已经被注册过！")
                 }
             }).catch(err => {
@@ -117,12 +116,18 @@ const global = {
             quit().then(res => {
                 sessionStorage.removeItem("key");
                 router.push({ name: "HomeIndex" });
-            })  
+            })
         },
         uploadQuestions(context, data) {
-            console.log(data)
             addQuestions(data).then((res) => {
-                context.commit("UPLOADQUESTIONS", res)
+                context.commit("COMPLETE", res)
+            }).catch((error) => {
+                alert(error)
+            })
+        },
+        manualCorrect(context, data) {
+            manualCorrect(data).then((res) => {
+                context.commit("COMPLETE", res)
             }).catch((error) => {
                 alert(error)
             })
@@ -148,7 +153,7 @@ const global = {
             state.courseListStu = res.data.courseListStu;
             state.courseListTea = res.data.courseList;
             state.examList = res.data.examList;
-            state.messageList=res.data.noticeInfoSet
+            state.messageList = res.data.noticeInfoSet
         },
         UPDATECOURSE(state, res) {
             state.searchedCourse = res.data;
@@ -163,7 +168,7 @@ const global = {
         SETUSERID(state, userId) {
             state.id = userId
         },
-        UPLOADQUESTIONS(state, res) {
+        COMPLETE(state, res) {
             if (res.code !== 100) {
                 alert(res.msg)
             }

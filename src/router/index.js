@@ -19,25 +19,23 @@ import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
 import VueRouter from "vue-router";
-
-
-
-
+import addQuestions from "@/pages/Dashboard/addQuestions";
+import correctPaper from "@/pages/Dashboard/correctPaper";
+import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
 
 
 // 创建一个路由器 并暴露
 const router = new VueRouter({
     routes: [{
-        path: "/",
-        name: "HomeIndex",
-        component: HomeIndex
-    },
+            path: "/",
+            name: "HomeIndex",
+            component: HomeIndex
+        },
         {
             path: "/dashboard",
             name: "Dashboard",
             component: dashboard,
-            children: [
-                {
+            children: [{
                     path: "/dashboard",
                     component: todo,
                     name: todo
@@ -54,6 +52,14 @@ const router = new VueRouter({
                     path: "/dashboard/addQuestion",
                     component: addQuestions
                 },
+                {
+                    path: "/dashboard/correctPaper",
+                    component: correctPaper
+                },
+                {
+                    path: "/dashboard/correctedQuestion",
+                    component: correctedQuestion
+                },
                 // {
                 //     path: "/dashboard/todo",
                 //     component: todo,
@@ -66,7 +72,7 @@ const router = new VueRouter({
                 {
                     path: "/personinfo",
                     component: personInfo,
-                    name:personInfo
+                    name: personInfo
                 },
             ]
         },
@@ -74,8 +80,7 @@ const router = new VueRouter({
             path: "/test",
             name: "Test",
             component: Test,
-            children: [
-                {
+            children: [{
                     path: "/test2",
                     component: test2
                 },
@@ -101,16 +106,16 @@ const router = new VueRouter({
                 {
                     path: "/todo",
                     component: todo,
-                    name:todo
+                    name: todo
                 },
                 {
-                    path:"/personal/:courseId",
+                    path: "/personal/:courseId",
                     component: PersonalPage
                 },
                 {
-                    path:'/exam/:examId',
+                    path: '/exam/:examId',
                     component: CourseManagement
-                  },
+                },
                 {
                     path: "/test4",
                     component: test4
@@ -147,37 +152,37 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     //如果进入dashboard
     if (to.matched.filter(value => {
-        return value.name === "Dashboard"
-    }).length) {
+            return value.name === "Dashboard"
+        }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
                     next()
                 } else {
-                    next({name: "notFound"})
+                    next({ name: "notFound" })
                 }
             })
             .catch((err) => {
                 console.error(err)
-                next({name: "notFound"})
+                next({ name: "notFound" })
             })
     }
     //进入login
     else if (to.matched.filter(value => {
-        return value.name === "login"
-    }).length) {
+            return value.name === "login"
+        }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
                     console.log("123")
-                    next({name: "Dashboard"})
+                    next({ name: "Dashboard" })
                 } else {
                     next()
                 }
             })
             .catch((err) => {
                 console.error(err)
-                next({name: "notFound"})
+                next({ name: "notFound" })
             })
     } else {
         next()
