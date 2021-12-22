@@ -27,5 +27,9 @@ export const searchCourse3 = (data)=>{
     return requests({url:'/course/getCourseByTName',method:'get', params:data})
 }
 
+export const getExams = (data)=>{
+    return requests({url:'/exam/courseGetExam/{courseId}',method:'get', params:data})
+}
+
 
 

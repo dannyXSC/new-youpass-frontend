@@ -11,6 +11,7 @@ const global = {
     namespaced:true,
     // 准备action---用于响应组件中的动作
     actions: {
+        
         register(context, data) {
             console.log("connect!")
             signUp(data).then(res => { console.log(res.msg) }).catch(err => { console.log(err) })
@@ -102,8 +103,6 @@ const global = {
 
     },
     // 准备state---用于存储数据
-
-      
     state:{
           
             register: false,
