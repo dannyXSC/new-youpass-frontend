@@ -35,6 +35,14 @@ export const getExamQuestion = ()=>{
 }
 export const quit = ()=>{
     return requests({url:'/account/quitAccount',method:'delete'})
+//老师添加题目
+export const addQuestions = (postData)=>{
+    return requests({url:'/question/update',method:'post',data:postData})
+}
+
+
+export const getExams = (courseId)=>{
+    return requests({url:"/exam/courseGetExam/"+courseId,method:'get'})
 }
 
 

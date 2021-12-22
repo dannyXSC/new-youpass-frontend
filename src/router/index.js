@@ -1,6 +1,7 @@
 // 用于创建整个应用的路由器
 import { checkState } from "@/api";
 import CourseManagement from "@/pages/courseManagement/CourseManagement";
+import addQuestions from "@/pages/Dashboard/addQuestions";
 import course from "@/pages/Dashboard/course";
 import examTest from "@/pages/Dashboard/examTest";
 import dashboard from "@/pages/Dashboard/index";
@@ -20,38 +21,46 @@ import VueRouter from "vue-router";
 
 
 
+
+
+
+
 // 创建一个路由器 并暴露
 const router = new VueRouter({
     routes: [{
-            path: "/",
-            name: "HomeIndex",
-            component: HomeIndex
+        path: "/",
+        name: "HomeIndex",
+        component: HomeIndex
     },
         {
             path: "/dashboard",
             name: "Dashboard",
             component: dashboard,
             children: [
+                {
+                    path: "/dashboard",
+                    component: todo,
+                    name: todo
+                },
+                {
+                    path: "/dashboard/pick",
+                    component: pick
+                },
+                {
+                    path: "/dashboard/message",
+                    component: message
+                },
+                {
+                    path: "/dashboard/addQuestion",
+                    component: addQuestions
+                },
                 // {
-                //     path: "/dashboard",
+                //     path: "/dashboard/todo",
                 //     component: todo,
                 //     name:todo
                 // },
                 {
-                    path: "/pick",
-                    component: pick
-                },
-                {
-                    path: "/message",
-                    component: message
-                },
-                {
-                    path: "/todo",
-                    component: todo,
-                    name:todo
-                },
-                {
-                    path: "/course",
+                    path: "/dashboard/course",
                     component: course
                 },
                 {
@@ -76,11 +85,33 @@ const router = new VueRouter({
                 },
                 {
 
-                    path:"/courseManagement",
-                    name:"CourseManagement",
-                    component:CourseManagement,
+                    path: "/courseManagement",
+                    name: "CourseManagement",
+                    component: CourseManagement,
                 },
-                {   
+
+                {
+                    path: "/pick",
+                    component: pick
+                },
+                {
+                    path: "/message",
+                    component: message
+                },
+                {
+                    path: "/todo",
+                    component: todo,
+                    name:todo
+                },
+                {
+                    path:"/personal/:courseId",
+                    component: PersonalPage
+                },
+                {
+                    path:'/exam/:examId',
+                    component: CourseManagement
+                  },
+                {
                     path: "/test4",
                     component: test4
                 },
@@ -105,7 +136,7 @@ const router = new VueRouter({
         {
             path: "/:catchAll(.*)",
             name: "notFound",
-            component:notfound
+            component: notfound
         }
 
 
@@ -116,42 +147,42 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     //如果进入dashboard
     if (to.matched.filter(value => {
-        return value.name==="Dashboard"
+        return value.name === "Dashboard"
     }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
                     next()
                 } else {
-                    next({name:"notFound"})
+                    next({name: "notFound"})
                 }
             })
             .catch((err) => {
                 console.error(err)
-                next({name:"notFound"})
+                next({name: "notFound"})
             })
     }
     //进入login
     else if (to.matched.filter(value => {
-        return value.name==="login"
+        return value.name === "login"
     }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
                     console.log("123")
-                    next({name:"Dashboard"})
+                    next({name: "Dashboard"})
                 } else {
                     next()
                 }
             })
             .catch((err) => {
                 console.error(err)
-                next({name:"notFound"})
+                next({name: "notFound"})
             })
     } else {
         next()
     }
-    
-  })
+
+})
 
 export default router
