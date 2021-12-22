@@ -410,7 +410,6 @@ export default {
   }),
   methods: {
     pick(event) {
-      console.log(12312);
       console.log(event);
     },
     handleOpen(key, keyPath) {

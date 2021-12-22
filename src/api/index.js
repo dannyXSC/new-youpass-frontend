@@ -28,7 +28,7 @@ export const searchCourse3 = (data)=>{
     return requests({url:'/course/getCourseByTName',method:'get', params:data})
 }
 export const setSession = (data)=>{
-    return requests({url:'/exam/setSession',method:'post', params:data})
+    return requests({url:'/exam/setSession',method:'post', data:data})
 }
 export const getExamQuestion = ()=>{
     return requests({url:'/exam/takeExam/getExamQuestion',method:'get'})

@@ -43,7 +43,7 @@ const global = {
             login(data).then(res => {
                 if (res.code == '100') {
                     context.commit("SETUSERID", data.id)
-                    router.push({name: "Dashboard"});
+                    router.push({ name: "Dashboard" });
                 } else {
                     alert("账号密码错误，请重新输入！")
                 }
@@ -68,7 +68,7 @@ const global = {
                 console.log("res!", res)
                 context.commit("SETINFO", res);
             }).catch((err =>
-                    alert(err)
+                alert(err)
             ))
         },
         searchCourse1(context, data) {
@@ -105,17 +105,21 @@ const global = {
             })
         },
         setSession(context, data) {
-            getAllInfo(data).then((res) => {
-                context.commit("SETINFO", res);
+            setSession(data).then((res) => {
+                if (res.code == '100') {
+                    context.commit("SETEXAMSESSION");
+                } else {
+                    alert(res.code + "没有考试权限");
+                }
             }).catch((err =>
-                    alert(err)
+                alert(err)
             ))
         },
         getExamQuestion(context) {
-            getAllInfo(data).then((res) => {
-                context.commit("SETINFO", res);
+            getExamQuestion().then((res) => {
+                context.commit("SETEXAMINFO", res);
             }).catch((err =>
-                    alert(err)
+                alert(err)
             ))
         },
         uploadQuestions(context, data) {
@@ -129,7 +133,6 @@ const global = {
     },
     // 准备mutations---用于操作数据
     mutations: {
-
         SETINFO(state, res) {
             state.id = res.data.userInfo.id;
             state.email = res.data.userInfo.email;
@@ -158,6 +161,12 @@ const global = {
                 alert(res.msg)
             }
             router.push("/dashboard")
+        },
+        SETEXAMINFO(state, res) {
+            console.log("exam", res);
+        },
+        SETEXAMSESSION(state) {
+            state.isTesting = true;
         }
     },
     // 准备state---用于存储数据
@@ -176,7 +185,8 @@ const global = {
         courseListTea: [],
         examList: [],
         searchedCourse: [],
-        type: 0
+        type: 0,
+        isTesting: false,
     },
     // 准备getters---用于将state中的数据进行加工
     // 类似计算属性
@@ -184,8 +194,8 @@ const global = {
 }
 
 /*
-* 这里写import
-* */
+ * 这里写import
+ * */
 
 //暴露store 并创建
 export default new Vuex.Store({

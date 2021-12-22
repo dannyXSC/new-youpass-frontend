@@ -43,15 +43,17 @@
                       </div>
                       <div class="widget-subheading">
                         考试编号：{{ exam.exam_id }} <br />
-                        开始时间：{{ exam.start_time.slice(0, 10) }} {{ exam.start_time.slice(11, 16) }} <br />
-                        结束时间：{{ exam.end_time.slice(0, 10) }} {{ exam.end_time.slice(11, 16) }}
+                        开始时间：{{ exam.start_time.slice(0, 10) }}
+                        {{ exam.start_time.slice(11, 16) }} <br />
+                        结束时间：{{ exam.end_time.slice(0, 10) }}
+                        {{ exam.end_time.slice(11, 16) }}
                       </div>
                     </div>
                     <div class="widget-content-right">
                       <button
                         type="button"
                         class="btn btn-light"
-                        @click="test(row)"
+                        @click="enterExam(exam.courseId, exam.exam_id)"
                       >
                         进入考试
                       </button>
@@ -93,7 +95,7 @@ import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
 
 export default {
-  name: 'course',
+  name: "course",
   components: { MyList, PageTitle },
   data() {
     return {
@@ -130,6 +132,20 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    enterExam(courseId, exam_id) {
+      this.$store.dispatch("global/setSession", {
+        courseId: courseId,
+        examId: exam_id,
+      });
+      console.log("权限"+this.$store.state.global.isTesting)
+      if (this.$store.state.global.isTesting) {
+        console.log("进入考试");
+        this.$store.dispatch("global/getExamQuestion");
+        window.location.href="/#/examTest"
+      }
+    },
   },
   computed: {
     items() {
