@@ -33,5 +33,10 @@ export const setSession = (data)=>{
 export const getExamQuestion = ()=>{
     return requests({url:'/exam/takeExam/getExamQuestion',method:'get'})
 }
+//老师添加题目
+export const addQuestions = (postData)=>{
+    return requests({url:'/question/update',method:'post',data:postData})
+}
+
 
 

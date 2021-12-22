@@ -245,8 +245,11 @@ import parseLatex from "@/utils/parseLatex";
 import MySelect from "@/components/mySelect";
 
 export default {
-  name: "test3",
+  name: "addQuestions",
   components: {MySelect, MyCountBar, MyEditModal, PageTitle,},
+  props: {
+    courseId: Number
+  },
   data() {
     return {
       heading: '上传题目',
@@ -456,7 +459,6 @@ export default {
         this.questionList[this.onShowId].option[index].id = cnt;
         cnt += 1;
       });
-
     },
     handleSubmitOption(optionList) {
       console.log("submit")
@@ -477,7 +479,7 @@ export default {
         this.currentPage = Math.floor(this.questionList.length / this.per_page) + 1
         // console.log(this.questionList.length, Math.floor(this.questionList.length / this.per_page) + 1, this.currentPage)
       }
-      console.log(this.currentPage)
+      // console.log(this.currentPage)
       this.questionList.push({
         id: this.questionList.length,
         type: null,
@@ -495,7 +497,6 @@ export default {
         this.questionList = this.questionList.filter((value) => {
           return value.id != this.onShowId
         })
-        console.log(this.questionList, this.onShowId)
         this.questionList = this.questionList.map((value) => {
           if (value.id >= this.onShowId) {
             value.id--
@@ -506,7 +507,7 @@ export default {
         })
         if (this.onShowId >= 1) {
           this.onShowId--
-          this.currentPage = Math.floor((this.onShowId - 1) / this.per_page) + 1
+          this.currentPage = Math.floor(this.onShowId / this.per_page)+1
         } else {
           this.onShowId = 0
         }
@@ -556,10 +557,33 @@ export default {
           cnt += 1
         }
       })
-      if(cnt>0){
+      if (cnt > 0) {
         alert("你必须完成所题目信息的填写")
-      }else{
+      } else {
         //发送信息
+        let postData = []
+        let curTime = new Date()
+        this.questionList.forEach((value, index) => {
+          let dataItem = {}
+          dataItem.questionId = value.id
+          dataItem.courseId = this.courseId
+          dataItem.description = value.description
+          dataItem.type = value.type
+          dataItem.standardAnswer = ""
+          if (value.type === 0 || value.type === 1) {
+            dataItem.optionInfoList = []
+            value.option.forEach((value) => {
+              dataItem.standardAnswer += value.isAnswer === true ? "1" : "0"
+              dataItem.optionInfoList.push({optionId: value.id, content: value.description})
+            })
+          } else {
+            dataItem.standardAnswer = value.standAnswer
+          }
+          dataItem.subject = value.subject
+          dataItem.createTime = curTime
+          postData.push(dataItem)
+        })
+        this.$store.dispatch("global/uploadQuestions", postData);
       }
     }
   }
