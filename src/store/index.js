@@ -54,9 +54,9 @@ const global = {
             })
         },
         getInfo(context, data) {
-            console.log("connect!", data)
+            console.log("学生的id为：", data)
             getAllInfo(data).then((res) => {
-                console.log("res!", res)
+                console.log("getInfo被调用", res)
                 context.commit("SETINFO", res);
             }).catch((err =>
                 alert(err)
@@ -139,6 +139,7 @@ const global = {
             state.courseListStu = res.data.courseListStu;
             state.courseListTea = res.data.courseList;
             state.examList = res.data.examList;
+            state.messageList=res.data.noticeInfoSet
         },
         UPDATECOURSE(state, res) {
             state.searchedCourse = res.data;
@@ -183,6 +184,7 @@ const global = {
         searchedCourse: [],
         type: 0,
         isTesting: false,
+        messageList: [],
 
     },
     // 准备getters---用于将state中的数据进行加工

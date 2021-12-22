@@ -13,12 +13,12 @@ import HomeIndex from "@/pages/Home/index";
 import login from "@/pages/login";
 import notfound from "@/pages/notfound";
 import register from "@/pages/register";
+import PersonalPage from "@/pages/studentPage/PersonalPage";
 import Test from "@/pages/Test/index";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
 import VueRouter from "vue-router";
-
 
 
 

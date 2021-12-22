@@ -59,7 +59,7 @@ export default {
               title: "待办事项",
             },
             {
-              href: "/course",
+              href: "/dashboard/course",
               title: "查看我的课程",
             },
             {

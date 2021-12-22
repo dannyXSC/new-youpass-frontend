@@ -15,137 +15,32 @@
           <div
             class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--animate vertical-timeline--one-column"
           >
-            <div class="dot-danger vertical-timeline-element">
+            <div
+              class="dot-danger vertical-timeline-element"
+              v-for="(item, index) in items"
+              :key="index"
+            >
               <div>
                 <span class="vertical-timeline-element-icon bounce-in"></span>
                 <div class="vertical-timeline-element-content bounce-in">
                   <h4 class="timeline-title">
-                    2021/12/20, at <span class="text-success">15:00 PM</span>
+                    {{ item.time.slice(0, 10) }}, at
+                    <span class="text-success"
+                      >{{ item.time.slice(11, 16) }}PM</span
+                    >
                   </h4>
-                  <div class="col-md-9">
+                  <div class="col-md-10">
                     <div
                       class="card-shadow-primary border mb-3 card card-body border-primary"
                     >
                       <h5 class="card-title">
-                        <span class="text-success">Message From </span>数据结构
+                        <span class="text-success"
+                          >Message From Course Id：</span
+                        >{{ item.courseId }}
                       </h5>
-                      <h7
-                        >教师发布了数据结构期末测验，时间为2021年12月20日，请注意考试日期及其安排。</h7
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="dot-warning vertical-timeline-element">
-              <div>
-                <span class="vertical-timeline-element-icon bounce-in"></span>
-                <div class="vertical-timeline-element-content bounce-in">
-                  <h4 class="timeline-title">
-                    2021/12/19, at <span class="text-success">18:00 PM</span>
-                  </h4>
-                  <div class="col-md-9">
-                    <div
-                      class="card-shadow-primary border mb-3 card card-body border-primary"
-                    >
-                      <h5 class="card-title">
-                        <span class="text-success">Message From </span
-                        >数据库课程设计
-                      </h5>
-                      <h7
-                        >《数据结构》作为一门独立的课程最早是美国的一些大学开设的，1968年美国唐·欧·克努特教授开创了数据结构的最初体系，他所著的《计算机程序设计技巧》第一卷《基本算法》是第一本较系统地阐述数据的逻辑结构和存储结构及其操作的著作。从20世纪60年代末到70年代初，出现了大型程序，软件也相对独立，结构程序设计成为程序设计方法学的主要内容，人们就越来越重视数据结构，认为程序设计的实质是对确定的问题选择一种好的结构，加上设计一种好的算法。从20世纪70年代中期到80年代初，各种版本的数据结构著作就相继出现。
-                        目前在我国，《数据结构》也已经不仅仅是计算机专业的教学计划中的核心课程之一，而且是其它非计算机专业的主要选修课程之一。</h7
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="dot-success vertical-timeline-element">
-              <div>
-                <span class="vertical-timeline-element-icon bounce-in"></span>
-                <div class="vertical-timeline-element-content bounce-in">
-                  <h4 class="timeline-title">
-                    2021/12/20, at <span class="text-success">15:00 PM</span>
-                  </h4>
-                  <div class="col-md-9">
-                    <div
-                      class="card-shadow-primary border mb-3 card card-body border-primary"
-                    >
-                      <h5 class="card-title">
-                        <span class="text-success">Message From </span>软件工程
-                      </h5>
-                      <h7
-                        >教师发布了数据结构期末测验，时间为2021年12月20日，请注意考试日期及其安排。</h7
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="dot-primary vertical-timeline-element">
-              <div>
-                <span class="vertical-timeline-element-icon bounce-in"></span>
-                <div class="vertical-timeline-element-content bounce-in">
-                  <h4 class="timeline-title">
-                    2021/12/20, at <span class="text-success">15:00 PM</span>
-                  </h4>
-                  <div class="col-md-9">
-                    <div
-                      class="card-shadow-primary border mb-3 card card-body border-primary"
-                    >
-                      <h5 class="card-title">
-                        <span class="text-success">Message From </span>软件工程
-                      </h5>
-                      <h7
-                        >教师发布了数据结构期末测验，时间为2021年12月20日，请注意考试日期及其安排。</h7
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="dot-info vertical-timeline-element">
-              <div>
-                <span class="vertical-timeline-element-icon bounce-in"></span>
-                <div class="vertical-timeline-element-content bounce-in">
-                  <h4 class="timeline-title">
-                    2021/12/20, at <span class="text-success">15:00 PM</span>
-                  </h4>
-                  <div class="col-md-9">
-                    <div
-                      class="card-shadow-primary border mb-3 card card-body border-primary"
-                    >
-                      <h5 class="card-title">
-                        <span class="text-success">Message From </span>软件工程
-                      </h5>
-                      <h7
-                        >教师发布了数据结构期末测验，时间为2021年12月20日，请注意考试日期及其安排。</h7
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="dot-dark vertical-timeline-element">
-              <div>
-                <span class="vertical-timeline-element-icon bounce-in"></span>
-                <div class="vertical-timeline-element-content bounce-in">
-                  <h4 class="timeline-title">
-                    2021/12/20, at <span class="text-success">15:00 PM</span>
-                  </h4>
-                  <div class="col-md-9">
-                    <div
-                      class="card-shadow-primary border mb-3 card card-body border-primary"
-                    >
-                      <h5 class="card-title">
-                        <span class="text-success">Message From </span>软件工程
-                      </h5>
-                      <h7
-                        >教师发布了数据结构期末测验，时间为2021年12月20日，请注意考试日期及其安排。</h7
-                      >
+                      <h6>
+                        {{ item.content }}
+                      </h6>
                     </div>
                   </div>
                 </div>
@@ -161,6 +56,30 @@
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
+
+Date.prototype.format = function (fmt) {
+  var o = {
+    "M+": this.getMonth() + 1, //月份
+    "d+": this.getDate(), //日
+    "h+": this.getHours(), //小时
+    "m+": this.getMinutes(), //分
+    "s+": this.getSeconds(), //秒
+    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+    S: this.getMilliseconds(), //毫秒
+  };
+  if (/(y+)/.test(fmt))
+    fmt = fmt.replace(
+      RegExp.$1,
+      (this.getFullYear() + "").substr(4 - RegExp.$1.length)
+    );
+  for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt))
+      fmt = fmt.replace(
+        RegExp.$1,
+        RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length)
+      );
+  return fmt;
+};
 
 export default {
   name: "message",
@@ -188,15 +107,23 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.timer = setInterval(() => {
-      this.bars.forEach((bar) => (bar.value = 25 + Math.random() * 75));
-    }, 2000);
+  computed: {
+    items() {
+      console.log("computed" + this.$store.state.global.messageList);
+      let return_item = [];
+      for (let i = 0; i < this.$store.state.global.messageList.length; ++i) {
+        return_item.unshift({
+          content: this.$store.state.global.messageList[i].content,
+          time: new Date(this.$store.state.global.messageList[i].time).format(
+            "yyyy-MM-dd hh:mm"
+          ),
+          courseId: this.$store.state.global.messageList[i].courseId,
+        });
+      }
+      return return_item;
+    },
   },
-  beforeDestroy() {
-    clearInterval(this.timer);
-    this.timer = null;
-  },
+  methods: {},
 };
 </script>
 

@@ -45,5 +45,8 @@ export const addQuestions = (postData)=>{
 export const getExams = (courseId)=>{
     return requests({url:"/exam/courseGetExam/"+courseId,method:'get'})
 }
+export const getMessage = (data)=>{
+    return requests({url:"/exam/courseGetExam/"+courseId,method:'get'})
+}
 
 
