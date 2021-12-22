@@ -96,15 +96,20 @@ const global = {
             })
         },
         setSession(context, data){
-            getAllInfo(data).then((res) => {
-                context.commit("SETINFO", res);
+            setSession(data).then((res) => {
+                if (res.code == '100') {
+                    context.commit("SETEXAMSESSION");
+                }
+                else {
+                    alert(res.code + "没有考试权限");
+                }
             }).catch((err => 
                 alert(err)
                 ))
         },
         getExamQuestion(context){
-            getAllInfo(data).then((res) => {
-                context.commit("SETINFO", res);
+            getExamQuestion().then((res) => {
+                context.commit("SETEXAMINFO", res);
             }).catch((err => 
                 alert(err)
                 ))
@@ -112,7 +117,6 @@ const global = {
     },
     // 准备mutations---用于操作数据
     mutations:{
-      
         SETINFO(state, res){
             state.id = res.data.userInfo.id;
             state.email = res.data.userInfo.email;
@@ -127,14 +131,20 @@ const global = {
             state.searchedCourse = res.data;
             console.log(state.searchedCourse);
         },
-        SETSTUDENTTYPE(state,type) {
+        SETSTUDENTTYPE(state, type) {
             state.type = type;
         },
-        SETTEACHERTYPE(state,type) {
+        SETTEACHERTYPE(state, type) {
             state.type = type;
         },
-        SETUSERID(state,userId) {
+        SETUSERID(state, userId) {
             state.id = userId
+        },
+        SETEXAMINFO(state, res) {
+            console.log("exam", res);
+        },
+        SETEXAMSESSION(state) {
+            state.isTesting = true;
         }
     },
     // 准备state---用于存储数据
@@ -154,7 +164,8 @@ const global = {
             examList:[],
             register:false,
             searchedCourse:[],
-            type:0
+            type:0,
+            isTesting:false,
     },
     // 准备getters---用于将state中的数据进行加工
     // 类似计算属性
