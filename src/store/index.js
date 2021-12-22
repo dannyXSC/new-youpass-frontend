@@ -23,10 +23,8 @@ const global = {
     namespaced: true,
     // 准备action---用于响应组件中的动作
     actions: {
-        
         register(context, data) {
             console.log(data)
-
             console.log("进入register!")
             signUp(data).then(res => {
                 console.log(res.code)
@@ -130,7 +128,7 @@ const global = {
             }).catch((error) => {
                 alert(error)
             })
-        }
+        },
     },
     // 准备mutations---用于操作数据
     mutations: {
@@ -144,7 +142,8 @@ const global = {
             state.courseListTea = res.data.courseList;
             state.examList = res.data.examList;
         },
-        UPDATECOURSE(state, res) {
+
+        UPDATECOURSE(state,res) {
             state.searchedCourse = res.data;
             console.log(state.searchedCourse);
         },
@@ -168,6 +167,15 @@ const global = {
         },
         SETEXAMSESSION(state) {
             state.isTesting = true;
+        },
+        SETCURRENTEXAM(state,data) {
+            state.currentExam = data;
+            console.log("yyy",state.currentExam)
+            
+        },
+        SETCURRENTCOURSEID(state,data){
+            state.currentCourseId=data;
+            console.log("xxx",state.currentCourseId)
         }
     },
     // 准备state---用于存储数据
@@ -187,7 +195,8 @@ const global = {
         searchedCourse: [],
         type: 0,
         isTesting: false,
-
+        currentExam:"",
+        currentCourseId:"",
     },
     // 准备getters---用于将state中的数据进行加工
     // 类似计算属性

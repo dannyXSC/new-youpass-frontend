@@ -37,10 +37,14 @@ export const getExamQuestion = ()=>{
 export const addQuestions = (postData)=>{
     return requests({url:'/question/update',method:'post',data:postData})
 }
-
-
+//获取课程的考试
 export const getExams = (courseId)=>{
     return requests({url:"/exam/courseGetExam/"+courseId,method:'get'})
 }
+//获取考试所有学生的成绩
+export const getAllStudents=(courseId,examId)=>{
+    return requests({url:'/score/getGrade'+courseId+"/"+examId,method:'get'})
+}
+
 
 

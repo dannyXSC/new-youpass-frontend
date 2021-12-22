@@ -16,16 +16,16 @@
                 </b-col>
             </b-row>
             <b-row>
-                <b-col id="课程" md="9">
+                <b-col id="考试列表" md="12">
               
                     <b-card 
                         body-border-variant="dark"
-                        header="我的课程"
+                        header="所有考试"
                         header-text-variant="white"
                         header-class="h5"
                         header-bg-variant="dark">
                          <b-row> 
-                         <b-col sm="4" v-for="(exam,i) in exams" :key="i">
+                         <b-col sm="3" v-for="(exam,i) in exams" :key="i">
                              <!--
                               <b-card body-class="courseCard" bg-variant="dark" text-variant="white" title="Card Title">
                                 <b-card-text>
@@ -48,7 +48,7 @@
                                 style="max-width: 20rem;"
                                 class="mb-4"
                                 body-class="pl-3 py-2"
-                                @click="gotoExam(exam.id)"
+                                @click="gotoExam(exam)"
                             >
                             <template style="padding:0px">
                                 <b-card-text class="font-weight-bold ">
@@ -101,31 +101,34 @@
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import {getExams} from "@/api/index"
+import store from '@/store';
 
 
 export default {
-    
-    
-    name:"PersonalPage",
+    name:"Exams",
     
     components: {PageTitle},
     created(){
         //this.$router.push(`/personal/${1000}`)
         this.courseId=this.$route.params.courseId
+        console.log("this.courseId:",this.courseId)
+        this.$store.commit('global/SETCURRENTCOURSEID',this.courseId)
         console.log(this.courseId)
-
         getExams(
             this.courseId
         ).then(res=>{
             this.exams=res.data
-            console.log("aaa")
             console.log(res.data)
+            
         })
     },
     methods:{
-        gotoExam(examId){
-        this.$router.push(`/exam/${examId}`)
-        
+        gotoExam(exam){
+        console.log(exam)
+        this.$store.commit('global/SETCURRENTEXAM',exam)
+       
+        this.$router.push(`/exam/${exam.exam_id}`)
+
       },   
     },
     data(){

@@ -1,6 +1,6 @@
 // 用于创建整个应用的路由器
 import {checkState} from "@/api";
-import CourseManagement from "@/pages/courseManagement/CourseManagement";
+import CertainExam from "@/pages/exams/CertainExam";
 import dashboard from "@/pages/Dashboard/index";
 import HomeIndex from "@/pages/Home/index";
 
@@ -21,7 +21,7 @@ import test4 from "@/pages/Test/test4";
 import todo from "@/pages/Dashboard/todo";
 import VueRouter from "vue-router";
 import addQuestions from "@/pages/Dashboard/addQuestions";
-
+import Exams from "@/pages/studentPage/Exams"
 
 // 创建一个路由器 并暴露
 const router = new VueRouter({
@@ -76,13 +76,7 @@ const router = new VueRouter({
                     path: "/test3",
                     component: test3
                 },
-                {
-
-                    path: "/courseManagement",
-                    name: "CourseManagement",
-                    component: CourseManagement,
-                },
-
+           
                 {
                     path: "/pick",
                     component: pick
@@ -97,12 +91,12 @@ const router = new VueRouter({
                     name:todo
                 },
                 {
-                    path:"/personal/:courseId",
-                    component: PersonalPage
+                    path:"/examlist/:courseId",
+                    component: Exams
                 },
                 {
                     path:'/exam/:examId',
-                    component: CourseManagement
+                    component: CertainExam
                   },
                 {
                     path: "/test4",
