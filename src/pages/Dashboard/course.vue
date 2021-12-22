@@ -32,7 +32,7 @@
             <b-tab title="考试信息" active>
               <li
                 v-for="exam in row.row.item.examList"
-                :key="exam"
+                :key="exam.id"
                 class="list-group-item"
               >
                 <div class="widget-content p-0">
@@ -93,6 +93,7 @@ import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
 
 export default {
+  name: 'course',
   components: { MyList, PageTitle },
   data() {
     return {

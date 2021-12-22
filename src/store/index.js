@@ -1,6 +1,6 @@
 // 该文件用于创建Vuex中最核心的store
 
-import { checkState, getAllInfo, login, searchCourse1, searchCourse2, searchCourse3, signUp } from "@/api/index";
+import { checkState, getAllInfo, login, searchCourse1, searchCourse2, searchCourse3, signUp, setSession, getExamQuestion } from "@/api/index";
 import router from "@/router";
 import Vue from 'vue';
 //引入Vuex
@@ -94,6 +94,20 @@ const global = {
             }).catch(err => {
                 alert("未检索到相关课程信息！");
             })
+        },
+        setSession(context, data){
+            getAllInfo(data).then((res) => {
+                context.commit("SETINFO", res);
+            }).catch((err => 
+                alert(err)
+                ))
+        },
+        getExamQuestion(context){
+            getAllInfo(data).then((res) => {
+                context.commit("SETINFO", res);
+            }).catch((err => 
+                alert(err)
+                ))
         }
     },
     // 准备mutations---用于操作数据

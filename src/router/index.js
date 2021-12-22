@@ -4,17 +4,17 @@ import CourseManagement from "@/pages/courseManagement/CourseManagement";
 import dashboard from "@/pages/Dashboard/index";
 import HomeIndex from "@/pages/Home/index";
 import notfound from "@/pages/notfound";
-import examTest from "@/pages/Test/examTest";
+import examTest from "@/pages/Dashboard/examTest";
 import Test from "@/pages/Test/index";
-import login from "@/pages/Test/login";
-import message from "@/pages/Test/message";
-import pick from "@/pages/Test/pick";
-import register from "@/pages/Test/register";
-import test1 from "@/pages/Test/test1";
+import login from "@/pages/Dashboard/login";
+import message from "@/pages/Dashboard/message";
+import pick from "@/pages/Dashboard/pick";
+import register from "@/pages/Dashboard/register";
+import course from "@/pages/Dashboard/course";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
-import todo from "@/pages/Test/todo";
+import todo from "@/pages/Dashboard/todo";
 import VueRouter from "vue-router";
 
 
@@ -37,16 +37,30 @@ const router = new VueRouter({
                     component: todo,
                     name:todo
                 },
+                {
+                    path: "/pick",
+                    component: pick
+                },
+                {
+                    path: "/message",
+                    component: message
+                },
+                {
+                    path: "/todo",
+                    component: todo,
+                    name:todo
+                },
+                {
+                    path: "/course",
+                    component: course
+                },
             ]
         },
         {
             path: "/test",
             name: "Test",
             component: Test,
-            children: [{
-                    path: "/test1",
-                    component: test1
-                },
+            children: [
                 {
                     path: "/test2",
                     component: test2
@@ -64,19 +78,6 @@ const router = new VueRouter({
                 {   
                     path: "/test4",
                     component: test4
-                },
-                {
-                    path: "/pick",
-                    component: pick
-                },
-                {
-                    path: "/message",
-                    component: message
-                },
-                {
-                    path: "/todo",
-                    component: todo,
-                    name:todo
                 },
 
             ]
