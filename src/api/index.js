@@ -19,4 +19,3 @@ export const getAllInfo = (postData)=>{
     return requests({url:'/account/getAllInfo',method:'get'})
 }
 
-
