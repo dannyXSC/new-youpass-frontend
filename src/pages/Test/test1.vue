@@ -13,10 +13,7 @@
           <b-tabs pills card>
             <b-tab title="课程信息" active>
               <p>
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
+                {{ row.row }}
               </p>
             </b-tab>
             <b-tab title="图表">
