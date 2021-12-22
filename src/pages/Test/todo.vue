@@ -174,7 +174,8 @@ export default {
       }
     },
     test() {
-      this.$store.dispatch("global/getInfo", 1950000);
+      console.log("@@@"+this.$store.state.global.examList)
+      // this.$store.dispatch("global/getInfo", 1950000);
     },
   },
   mounted() {
