@@ -17,6 +17,8 @@ import test4 from "@/pages/Test/test4";
 import todo from "@/pages/Dashboard/todo";
 import VueRouter from "vue-router";
 import addQuestions from "@/pages/Dashboard/addQuestions";
+import correctPaper from "@/pages/Dashboard/correctPaper";
+import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
 
 
 // 创建一个路由器 并暴露
@@ -47,6 +49,14 @@ const router = new VueRouter({
                 {
                     path: "/dashboard/addQuestion",
                     component: addQuestions
+                },
+                {
+                    path: "/dashboard/correctPaper",
+                    component: correctPaper
+                },
+                {
+                    path: "/dashboard/correctedQuestion",
+                    component: correctedQuestion
                 },
                 // {
                 //     path: "/dashboard/todo",

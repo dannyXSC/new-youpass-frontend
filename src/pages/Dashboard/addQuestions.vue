@@ -417,7 +417,7 @@ export default {
       this.editContent = ""
     },
     getMaxOptionId() {
-      var id = 0;
+      let id = 0;
       if (this.questionList[this.onShowId].option.length > 0) {
         this.questionList[this.onShowId].option.forEach((value) => {
           id = Math.max(id, value.id + 1);

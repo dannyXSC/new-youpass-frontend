@@ -37,6 +37,15 @@ export const getExamQuestion = ()=>{
 export const addQuestions = (postData)=>{
     return requests({url:'/question/update',method:'post',data:postData})
 }
+//获取老师需要批改的所有题目
+export const getCorrectedQuestion = (data)=>{
+    return requests({url:'/question/getStu',method:'post',data:data})
+}
+//老师批改完提交
+export const manualCorrect = (data)=>{
+    return requests({url:'/score/manualCorrect',method:'post',data:data})
+}
+//获取考试所有未批改的信息
 
 
 

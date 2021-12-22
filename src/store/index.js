@@ -10,7 +10,7 @@ import {
     signUp,
     setSession,
     getExamQuestion,
-    addQuestions
+    addQuestions, manualCorrect
 } from "@/api/index";
 import router from "@/router";
 import Vue from 'vue';
@@ -123,9 +123,15 @@ const global = {
             ))
         },
         uploadQuestions(context, data) {
-            console.log(data)
             addQuestions(data).then((res) => {
-                context.commit("UPLOADQUESTIONS", res)
+                context.commit("COMPLETE", res)
+            }).catch((error) => {
+                alert(error)
+            })
+        },
+        manualCorrect(context,data){
+            manualCorrect(data).then((res) => {
+                context.commit("COMPLETE", res)
             }).catch((error) => {
                 alert(error)
             })
@@ -156,7 +162,7 @@ const global = {
         SETUSERID(state, userId) {
             state.id = userId
         },
-        UPLOADQUESTIONS(state, res) {
+        COMPLETE(state, res) {
             if (res.code !== 100) {
                 alert(res.msg)
             }
