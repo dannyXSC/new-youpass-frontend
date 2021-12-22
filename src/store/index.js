@@ -1,27 +1,29 @@
 // 该文件用于创建Vuex中最核心的store
 
 import { checkState, getAllInfo, login, searchCourse1, searchCourse2, searchCourse3, signUp, setSession, getExamQuestion, postAnswer, deleteSession } from "@/api/index";
+import { addQuestions, checkState, getAllInfo, getExamQuestion, getImage, login, manualCorrect, quit, searchCourse1, searchCourse2, searchCourse3, setSession, signUp } from "@/api/index";
 import router from "@/router";
 import Vue from 'vue';
 //引入Vuex
 import Vuex from "vuex";
+
 Vue.use(Vuex)
 
 const global = {
-    namespaced:true,
+    namespaced: true,
     // 准备action---用于响应组件中的动作
     actions: {
+
         register(context, data) {
             console.log(data)
 
             console.log("进入register!")
-            signUp(data).then(res => { 
+            signUp(data).then(res => {
                 console.log(res.code)
                 if (res.code == '100') {
                     alert("注册成功！您的id为：" + res.data)
-                    router.push('/login')
-                }
-                else if (res.code=='1'){
+                    router.push({ name: "login" })
+                } else if (res.code == '1') {
                     alert("该邮箱已经被注册过！")
                 }
             }).catch(err => {
@@ -32,15 +34,14 @@ const global = {
             login(data).then(res => {
                 if (res.code == '100') {
                     context.commit("SETUSERID", data.id)
-                    router.push({name:"Dashboard"});
-                }
-                else {
+                    router.push({ name: "Dashboard" });
+                } else {
                     alert("账号密码错误，请重新输入！")
                 }
              }).catch(err => { console.log(err) })
         },
         checkSession(context) {
-            checkState().then(res => {    
+            checkState().then(res => {
                 if (res.code == '100') {
                     sessionStorage.setItem("key", "token");
                 }
@@ -48,52 +49,49 @@ const global = {
                 console.log(err)
             })
         },
-        getInfo(context, data){
-            console.log("connect!", data)
+        getInfo(context, data) {
+            console.log("用户的id为：", data)
             getAllInfo(data).then((res) => {
-                console.log("res!", res)
+                console.log("getInfo被调用", res)
                 context.commit("SETINFO", res);
-            }).catch((err => 
+            }).catch((err =>
                 alert(err)
-                ))
+            ))
         },
-        searchCourse1(context, data){
-            searchCourse1(data).then(res => {       
+        searchCourse1(context, data) {
+            searchCourse1(data).then(res => {
                 if (res.data.length != 0) {
                     context.commit("UPDATECOURSE", res);
-                }
-                else {
+                } else {
                     alert("未检索到相关课程信息！");
                 }
             }).catch(err => {
                 alert("未检索到相关课程信息！");
             })
         },
-        searchCourse2(context, data){
-            searchCourse2(data).then(res => {  
+        searchCourse2(context, data) {
+            searchCourse2(data).then(res => {
                 if (res.data.length != 0) {
                     context.commit("UPDATECOURSE", res);
-                }
-                else {
+                } else {
                     alert("未检索到相关课程信息！");
                 }
             }).catch(err => {
                 alert("未检索到相关课程信息！");
             })
         },
-        searchCourse3(context, data){
-            searchCourse3(data).then(res => {       
+        searchCourse3(context, data) {
+            searchCourse3(data).then(res => {
                 if (res.data.length != 0) {
                     context.commit("UPDATECOURSE", res);
-                }
-                else {
+                } else {
                     alert("未检索到相关课程信息！");
                 }
             }).catch(err => {
                 alert("未检索到相关课程信息！");
             })
         },
-        setSession(context, data){
+        setSession(context, data) {
             setSession(data).then((res) => {
                 if (res.code == '100') {
                     context.commit("SETEXAMSESSION");
@@ -102,14 +100,14 @@ const global = {
                 else {
                     alert(res.code + "没有考试权限");
                 }
-            }).catch((err => 
+            }).catch((err =>
                 alert(err)
-                ))
+            ))
         },
         getExamQuestion(context) {
             getExamQuestion().then((res) => {
                 context.commit("SETEXAMINFO", res);
-            }).catch((err => 
+            }).catch((err =>
                 alert(err)
                 ))
         },
@@ -126,11 +124,40 @@ const global = {
             }).catch((err => 
                 alert(err)
                 ))
+        },
+        logout(context) {
+            quit().then(res => {
+                sessionStorage.removeItem("key");
+                router.push({ name: "HomeIndex" });
+            })
+        },
+        uploadQuestions(context, data) {
+            addQuestions(data).then((res) => {
+                context.commit("COMPLETE", res)
+            }).catch((error) => {
+                alert(error)
+            })
+        },
+        manualCorrect(context, data) {
+            manualCorrect(data).then((res) => {
+                context.commit("COMPLETE", res)
+            }).catch((error) => {
+                alert(error)
+            })
+        },
+        getImage(context) {
+            console.log("获取照片")
+            getImage().then(res => {
+                if (res.code == '100') {
+                    var blob = res.data
+                    
+                }
+            })
         }
     },
     // 准备mutations---用于操作数据
-    mutations:{
-        SETINFO(state, res){
+    mutations: {
+        SETINFO(state, res) {
             state.id = res.data.userInfo.id;
             state.email = res.data.userInfo.email;
             state.location = res.data.userInfo.location;
@@ -139,6 +166,7 @@ const global = {
             state.courseListStu = res.data.courseListStu;
             state.courseListTea = res.data.courseList;
             state.examList = res.data.examList;
+            state.messageList = res.data.noticeInfoSet
         },
         UPDATECOURSE(state, res) {
             state.searchedCourse = res.data;
@@ -152,6 +180,12 @@ const global = {
         },
         SETUSERID(state, userId) {
             state.id = userId;
+        },
+        COMPLETE(state, res) {
+            if (res.code !== 100) {
+                alert(res.msg)
+            }
+            router.push("/dashboard")
         },
         SETEXAMINFO(state, res) {
             console.log("exam", res);
@@ -191,23 +225,23 @@ const global = {
             courseListStu:[],
             courseListTea:[],
             examList:[],
-            register:false,
             searchedCourse:[],
             type:0,
             isTesting:false,
             questionList:[],
             ansList:[],
+            messageList: [],
+            imageInfo:"",
+
     },
     // 准备getters---用于将state中的数据进行加工
     // 类似计算属性
-    getters:{
-        
-    }
+    getters: {}
 }
 
 /*
-* 这里写import
-* */
+ * 这里写import
+ * */
 
 //暴露store 并创建
 export default new Vuex.Store({

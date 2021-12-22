@@ -81,9 +81,16 @@
                     ></span>
                     <div class="vertical-timeline-element-content bounce-in">
                       <h4 class="timeline-title">
-                        {{ exam.start_time.slice(0, 10) }} , at
+                        {{
+                          new Date(exam.start_time)
+                            .format("yyyy-MM-dd hh:mm")
+                            .slice(0, 10)
+                        }}
+                        , at
                         <span class="text-success">{{
-                          exam.start_time.slice(11, 16)
+                          new Date(exam.start_time)
+                            .format("yyyy-MM-dd hh:mm")
+                            .slice(11, 16)
                         }}</span>
                       </h4>
                       <div class="col-md-9">
@@ -115,6 +122,31 @@ import PageTitle from "../../layout/Components/PageTitle.vue";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+//日期格式化
+Date.prototype.format = function (fmt) {
+  var o = {
+    "M+": this.getMonth() + 1, //月份
+    "d+": this.getDate(), //日
+    "h+": this.getHours(), //小时
+    "m+": this.getMinutes(), //分
+    "s+": this.getSeconds(), //秒
+    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+    S: this.getMilliseconds(), //毫秒
+  };
+  if (/(y+)/.test(fmt))
+    fmt = fmt.replace(
+      RegExp.$1,
+      (this.getFullYear() + "").substr(4 - RegExp.$1.length)
+    );
+  for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt))
+      fmt = fmt.replace(
+        RegExp.$1,
+        RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length)
+      );
+  return fmt;
+};
 
 library.add(faTrashAlt, faCheck);
 
@@ -152,7 +184,7 @@ export default {
   methods: {
     deleteTodo(key) {
       console.log("删除了", key);
-      for (var i = 0; i < this.todos.length; i++) {
+      for (let i = 0; i < this.todos.length; i++) {
         if (this.todos[i] == key) {
           if (i > -1) {
             this.todos.splice(i, 1);

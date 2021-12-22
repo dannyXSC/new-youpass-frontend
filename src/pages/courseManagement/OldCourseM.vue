@@ -18,7 +18,7 @@
         <div>
             <b-card no-body>
                 <b-tabs card>
-                <b-tab title="成绩">
+                <b-tab title="人员">
                     <students :v-bind="students"></students>
                 </b-tab>
                 <b-tab title="考试成绩分析">
@@ -50,7 +50,7 @@ export default {
     name: 'CourseManagement',
     components: {MyList, PageTitle,Courses,Grade,Students,ExamTable},
     created(){
-        this.courseId=this.$route.params.examId
+        this.courseId=kthis.$route.params.id
     },
     data(){
         return{

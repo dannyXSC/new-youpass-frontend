@@ -74,7 +74,6 @@ export default {
         if (rowResult.length)
           result.push(rowResult)
       }
-      console.log("in", this.currentPage_props)
       return result
     },
   },

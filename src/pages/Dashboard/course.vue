@@ -17,12 +17,12 @@
                   <div class="widget-content-wrapper">
                     <div class="widget-content-left">
                       <div class="widget-heading">
-                        {{ row.row.item.teacherName }}
+                        授课教师：{{ row.row.item.teacherName }}
                       </div>
                     </div>
                     <div class="widget-content-right">
                       <div class="widget-heading">
-                        {{ row.row.item.teacherId }}
+                        编号： {{ row.row.item.teacherId }}
                       </div>
                     </div>
                   </div>
@@ -99,9 +99,8 @@ export default {
   components: { MyList, PageTitle },
   data() {
     return {
-      heading: "Standard Buttons",
-      subheading:
-        "Wide selection of buttons that feature different styles for backgrounds, borders and hover options!",
+      heading: "课程信息",
+      subheading: "记得按时上课哦！",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
 
       fields: ["课程名称", "ID"],
