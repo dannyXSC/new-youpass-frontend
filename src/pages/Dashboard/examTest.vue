@@ -10,251 +10,78 @@
     <b-container>
       <b-row>
         <b-col cols="8">
-          <div class="main-card mb-3 card">
+          <div
+            v-for="question in questionList"
+            :key="question.questionId"
+            class="main-card mb-3 card"
+          >
             <div class="card-body">
               <div class="per-question">
                 <div class="left-question">
-                  <i>1</i>
+                  <i>{{ question.numInPaper }}</i>
                 </div>
 
                 <div class="right-question">
                   <div class="question-title">
-                    <h5 class="card-title">{{ testTitle1 }}</h5>
+                    <h5 class="card-title">{{ question.description }}</h5>
                   </div>
                   <hr />
-                  <div class="choice">
-                    <div class="per-choice">
+                  <div v-if="question.type < 2" class="choice">
+                    <div
+                      v-for="(option, index) in question.options"
+                      :key="index"
+                      class="per-choice"
+                    >
                       <div class="option-tag">
-                        <h5>A</h5>
+                        <h5>{{ transform(index) }}</h5>
                       </div>
-                      <div class="option-button">
+                      <div v-if="question.type === 0" class="option-button">
                         <b-button
                           block
                           class="btn-md mr-2 mb-2 text-left"
-                          variant="primary"
+                          :variant="calChoiceVariant(question, index)"
+                          @click="
+                            pickSingle(
+                              question.numInPaper,
+                              question.questionId,
+                              index
+                            )
+                          "
                         >
-                          在工具栏中点击“workflow”标签
+                          {{ option.content }}
                         </b-button>
                       </div>
-                    </div>
-
-                    <div class="per-choice">
-                      <div class="option-tag">
-                        <h5>B</h5>
-                      </div>
-                      <div class="option-button">
+                      <div v-if="question.type === 1" class="option-button">
                         <b-button
                           block
                           class="btn-md mr-2 mb-2 text-left"
-                          variant="primary"
+                          :variant="calChoiceVariant(question, index)"
+                          @click="
+                            pickMulti(
+                              question.numInPaper,
+                              question.questionId,
+                              index
+                            )
+                          "
                         >
-                          在缺陷单界面中点击“推进流程”按钮
-                        </b-button>
-                      </div>
-                    </div>
-                    <div class="per-choice">
-                      <div class="option-tag">
-                        <h5>C</h5>
-                      </div>
-                      <div class="option-button">
-                        <b-button
-                          block
-                          class="btn-md mr-2 mb-2 text-left"
-                          variant="primary"
-                        >
-                          在缺陷单界面中点击“提交”按钮
-                        </b-button>
-                      </div>
-                    </div>
-                    <div class="per-choice">
-                      <div class="option-tag">
-                        <h5>D</h5>
-                      </div>
-                      <div class="option-button">
-                        <b-button
-                          block
-                          class="btn-md mr-2 mb-2 text-left"
-                          variant="primary"
-                        >
-                          后台启动流程推进
+                          {{ option.content }}
                         </b-button>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="main-card mb-3 card">
-            <div class="card-body">
-              <div class="per-question">
-                <div class="left-question">
-                  <i>2</i>
-                </div>
-
-                <div class="right-question">
-                  <div class="question-title">
-                    <h5 class="card-title">{{ testTitle2 }}</h5>
-                  </div>
-                  <hr />
-                  <div class="choice">
-                    <div class="per-choice">
-                      <div class="option-tag">
-                        <h5>A</h5>
-                      </div>
-                      <div class="option-button">
-                        <b-button
-                          block
-                          class="btn-md mr-2 mb-2 text-left"
-                          variant="primary"
-                        >
-                          在工具栏中点击“workflow”标签
-                        </b-button>
-                      </div>
-                    </div>
-
-                    <div class="per-choice">
-                      <div class="option-tag">
-                        <h5>B</h5>
-                      </div>
-                      <div class="option-button">
-                        <b-button
-                          block
-                          class="btn-md mr-2 mb-2 text-left"
-                          variant="primary"
-                        >
-                          在缺陷单界面中点击“推进流程”按钮
-                        </b-button>
-                      </div>
-                    </div>
-                    <div class="per-choice">
-                      <div class="option-tag">
-                        <h5>C</h5>
-                      </div>
-                      <div class="option-button">
-                        <b-button
-                          block
-                          class="btn-md mr-2 mb-2 text-left"
-                          variant="primary"
-                        >
-                          在缺陷单界面中点击“提交”按钮
-                        </b-button>
-                      </div>
-                    </div>
-                    <div class="per-choice">
-                      <div class="option-tag">
-                        <h5>D</h5>
-                      </div>
-                      <div class="option-button">
-                        <b-button
-                          block
-                          class="btn-md mr-2 mb-2 text-left"
-                          variant="primary"
-                        >
-                          后台启动流程推进
-                        </b-button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="main-card mb-3 card">
-            <div class="card-body">
-              <div class="per-question">
-                <div class="left-question">
-                  <i>3</i>
-                </div>
-
-                <div class="right-question">
-                  <div class="question-title">
-                    <h5 class="card-title">{{ testTitle3 }}</h5>
-                  </div>
-                  <hr />
-                  <div class="choice">
-                    <div class="per-choice">
-                      <div class="option-tag">
-                        <h5>A</h5>
-                      </div>
-                      <div class="option-button">
-                        <b-button
-                          block
-                          class="btn-md mr-2 mb-2 text-left"
-                          variant="primary"
-                        >
-                          在工具栏中点击“workflow”标签
-                        </b-button>
-                      </div>
-                    </div>
-
-                    <div class="per-choice">
-                      <div class="option-tag">
-                        <h5>B</h5>
-                      </div>
-                      <div class="option-button">
-                        <b-button
-                          block
-                          class="btn-md mr-2 mb-2 text-left"
-                          variant="primary"
-                        >
-                          在缺陷单界面中点击“推进流程”按钮
-                        </b-button>
-                      </div>
-                    </div>
-                    <div class="per-choice">
-                      <div class="option-tag">
-                        <h5>C</h5>
-                      </div>
-                      <div class="option-button">
-                        <b-button
-                          block
-                          class="btn-md mr-2 mb-2 text-left"
-                          variant="primary"
-                        >
-                          在缺陷单界面中点击“提交”按钮
-                        </b-button>
-                      </div>
-                    </div>
-                    <div class="per-choice">
-                      <div class="option-tag">
-                        <h5>D</h5>
-                      </div>
-                      <div class="option-button">
-                        <b-button
-                          block
-                          class="btn-md mr-2 mb-2 text-left"
-                          variant="primary"
-                        >
-                          后台启动流程推进
-                        </b-button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="main-card mb-3 card">
-            <div class="card-body">
-              <div class="per-question">
-                <div class="left-question">
-                  <i>4</i>
-                </div>
-
-                <div class="right-question">
-                  <div class="question-title">
-                    <h5 class="card-title">{{ testTitle3 }}</h5>
-                  </div>
-                  <hr />
-                  <div class="fillin">
+                  <div v-if="question.type > 1" class="fillin">
                     <div class="input-group">
                       <textarea
+                        v-model="ansList[question.numInPaper - 1]"
                         class="form-control"
                         placeholder="请在此输入答案..."
                         style="resize: none; width: 700px; height: 200px"
+                        @keyup.enter="
+                          saveInput(question.numInPaper, question.questionId)
+                        "
+                        @blur="
+                          saveInput(question.numInPaper, question.questionId)
+                        "
                       ></textarea>
                     </div>
                   </div>
@@ -265,99 +92,61 @@
         </b-col>
 
         <b-col cols="4">
-          <b-card body-class="text-center">
-            <template #header> 题目总览 </template>
-
-            <b-card-body>
-              <b-container>
-                <b-row>
-                  <b-col cols="4"
-                    ><b-button pill variant="success">1</b-button></b-col
-                  >
-                  <b-col cols="4"
-                    ><b-button pill variant="success">2</b-button></b-col
-                  >
-                  <b-col cols="4"
-                    ><b-button pill variant="success">3</b-button></b-col
-                  >
-                </b-row>
-                <br />
-                <b-row>
-                  <b-col cols="4"
-                    ><b-button pill variant="success">4</b-button></b-col
-                  >
-                  <b-col cols="4"
-                    ><b-button pill variant="success">5</b-button></b-col
-                  >
-                  <b-col cols="4"
-                    ><b-button pill variant="success">6</b-button></b-col
-                  >
-                </b-row>
-                <br />
-                <b-row>
-                  <b-col cols="4"
-                    ><b-button pill variant="success">7</b-button></b-col
-                  >
-                  <b-col cols="4"
-                    ><b-button pill variant="success">8</b-button></b-col
-                  >
-                  <b-col cols="4"
-                    ><b-button pill variant="success">9</b-button></b-col
-                  >
-                </b-row>
-                <br />
-                <b-row>
-                  <b-col cols="4"
-                    ><b-button pill variant="success">10</b-button></b-col
-                  >
-                  <b-col cols="4"
-                    ><b-button pill variant="success">11</b-button></b-col
-                  >
-                  <b-col cols="4"
-                    ><b-button pill variant="success">12</b-button></b-col
-                  >
-                </b-row>
-                <br />
-              </b-container>
-            </b-card-body>
-
-            <b-pagination
-              v-model="currentPage"
-              :total-rows="20"
-              :per-page="1"
-              pills
-              size="sm"
-            ></b-pagination>
-
-            <b-card-footer>
+          <my-count-bar
+            :currentPage_props="currentPage"
+            :total_rows_props="questionList.length"
+            :per_page_props="per_page"
+            :items="questionList"
+            @updatePage="updatePage"
+            @onSelect="handleSelect"
+          >
+            <template v-slot:header> 题目导览 </template>
+            <template v-slot:footer>
               <b-row class="justify-content-between">
                 <b-col cols="8" md="auto"> </b-col>
                 <b-col cols="4" md="auto">
-                  <b-button pill variant="warning">提交测验</b-button>
+                  <b-button pill variant="warning" @click="submitTest"
+                    >提交测验</b-button
+                  >
                 </b-col>
               </b-row>
-            </b-card-footer>
-          </b-card>
+            </template>
+            <template v-slot:button="item">
+              <b-button
+                pill
+                :variant="calButtonVariant(item.item)"
+                @click="handleSelect(item.item)"
+              >
+                {{ item.item.numInPaper }}
+              </b-button>
+            </template>
+          </my-count-bar>
         </b-col>
       </b-row>
     </b-container>
+    {{ edit }}
   </div>
 </template>
 
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import TestNavbar from "@/layout/Components/PageTitle3.vue";
+import MyCountBar from "@/components/myCountBar";
 
 export default {
   name: "examTest",
   components: {
     PageTitle,
     TestNavbar,
+    MyCountBar,
   },
   props: {
     msg: String,
   },
   data: () => ({
+    currentPage: 1,
+    per_page: 9,
+
     testTitle1:
       "在生产管理信息系统中，下列操抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客作步骤能正确将工单推进流程的是（）",
     testTitle2:
@@ -366,22 +155,6 @@ export default {
     heading: "JavaEE 期中测验",
     subheading: "2021/12/18",
     icon: "pe-7s-drawer icon-gradient bg-tempting-azure",
-
-    fields: ["first_name", "last_name", "age"],
-    items: [
-      { age: 40, first_name: "Dickerson", last_name: "Macdonald" },
-      { age: 21, first_name: "Larsen", last_name: "Shaw" },
-      { age: 89, first_name: "Geneva", last_name: "Wilson" },
-    ],
-    striped: false,
-    bordered: false,
-    outlined: false,
-    small: false,
-    hover: false,
-    dark: false,
-    fixed: false,
-    footClone: false,
-
     breadcrumbItem: [
       {
         text: "Java 期中测验",
@@ -389,37 +162,111 @@ export default {
       },
     ],
 
-    items: [
-      { id: 1 },
-      { id: 2 },
-      { id: 3 },
-      { id: 4 },
-      { id: 5 },
-      { id: 6 },
-      { id: 7 },
-      { id: 8 },
-      { id: 9 },
-      { id: 10 },
-    ],
-
     currentPage: 1,
     expanded: false,
     barStyle: {
       backgroundColor: "#69aa8a",
     },
+    edit: true,
   }),
+  computed: {
+    questionList() {
+      return this.$store.state.global.questionList;
+    },
+    ansList() {
+      return this.$store.state.global.ansList;
+    },
+  },
+  mounted() {
+    this.$store.dispatch("global/getExamQuestion");
+  },
+
   methods: {
-    pick(event) {
-      console.log(12312);
-      console.log(event);
+    transform(num) {
+      return String.fromCharCode(num + 65);
     },
-    handleOpen(key, keyPath) {
-      console.log(key, keyPath);
+
+    transferList(inputList) {
+      var CharList = [];
+      for (var a = 0; a < inputList.length; a++) {
+        CharList[a] = this.transform(inputList[a]);
+      }
+      console.log(CharList);
+      return CharList;
     },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
+
+    saveInput(numInPaper, questionId) {
+      if (
+        this.ansList[numInPaper - 1] != null &&
+        this.ansList[numInPaper - 1] != ""
+      ) {
+        this.$store.dispatch("global/postAnswer", {
+          questionId: questionId,
+          stuFillAnswer: this.ansList[numInPaper - 1],
+        });
+      }
     },
-    onSidebarChanged() {},
+
+    pickMulti(numInPaper, questionId, ans) {
+      if (this.ansList[numInPaper - 1].includes(ans)) {
+        for (var i = 0; i < this.ansList[numInPaper - 1].length; i++) {
+          if (this.ansList[numInPaper - 1][i] == ans) {
+            if (i > -1) {
+              this.ansList[numInPaper - 1].splice(i, 1);
+            }
+            break;
+          }
+        }
+      } else {
+        this.ansList[numInPaper - 1].unshift(ans);
+      }
+      console.log(numInPaper, questionId, ans, this.ansList[numInPaper - 1]);
+      this.edit = !this.edit;
+
+      this.$store.dispatch("global/postAnswer", {
+        questionId: questionId,
+        stuChoiceAnswer: this.transferList(this.ansList[numInPaper - 1]),
+      });
+    },
+
+    pickSingle(numInPaper, questionId, ans) {
+      this.test = 2;
+      if (this.ansList[numInPaper - 1].includes(ans)) {
+      } else {
+        this.ansList[numInPaper - 1] = [];
+        this.ansList[numInPaper - 1].unshift(ans);
+      }
+      console.log(numInPaper, questionId, ans, this.ansList[numInPaper - 1]);
+      this.edit = !this.edit;
+
+      this.$store.dispatch("global/postAnswer", {
+        questionId: questionId,
+        stuChoiceAnswer: this.transferList(this.ansList[numInPaper - 1]),
+      });
+    },
+
+    calChoiceVariant(question, ans) {
+      if (this.ansList[question.numInPaper - 1] == null) {
+        return "success";
+      } else {
+        if (this.ansList[question.numInPaper - 1].includes(ans)) {
+          return "outline-success";
+        } else {
+          return "success";
+        }
+      }
+    },
+
+    submitTest() {
+      alert("试卷已提交！");
+      this.$store.state.global.isTesting = false;
+      this.$store.dispatch("global/deleteSession");
+      window.location.href = "/#/course";
+    },
+    handleSelect(item) {},
+    calButtonVariant(item) {},
+    updatePage() {},
+    handleSelect() {},
   },
 };
 </script>

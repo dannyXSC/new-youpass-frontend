@@ -139,12 +139,6 @@ export default {
         courseId: courseId,
         examId: exam_id,
       });
-      console.log("权限"+this.$store.state.global.isTesting)
-      if (this.$store.state.global.isTesting) {
-        console.log("进入考试");
-        this.$store.dispatch("global/getExamQuestion");
-        window.location.href="/#/examTest"
-      }
     },
   },
   computed: {

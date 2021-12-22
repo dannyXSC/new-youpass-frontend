@@ -33,5 +33,11 @@ export const setSession = (data)=>{
 export const getExamQuestion = ()=>{
     return requests({url:'/exam/takeExam/getExamQuestion',method:'get'})
 }
+export const postAnswer = (data)=>{
+    return requests({url:'/exam/takeExam/studentPostAnswer',method:'post', data:data})
+}
+export const deleteSession = (data)=>{
+    return requests({url:'/exam/takeExam/deleteSession',method:'delete'})
+}
 
 

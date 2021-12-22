@@ -1,6 +1,6 @@
 // 该文件用于创建Vuex中最核心的store
 
-import { checkState, getAllInfo, login, searchCourse1, searchCourse2, searchCourse3, signUp, setSession, getExamQuestion } from "@/api/index";
+import { checkState, getAllInfo, login, searchCourse1, searchCourse2, searchCourse3, signUp, setSession, getExamQuestion, postAnswer, deleteSession } from "@/api/index";
 import router from "@/router";
 import Vue from 'vue';
 //引入Vuex
@@ -38,8 +38,6 @@ const global = {
                     alert("账号密码错误，请重新输入！")
                 }
              }).catch(err => { console.log(err) })
-
-            
         },
         checkSession(context) {
             checkState().then(res => {    
@@ -99,6 +97,7 @@ const global = {
             setSession(data).then((res) => {
                 if (res.code == '100') {
                     context.commit("SETEXAMSESSION");
+                    window.location.href="/#/examTest"
                 }
                 else {
                     alert(res.code + "没有考试权限");
@@ -107,9 +106,23 @@ const global = {
                 alert(err)
                 ))
         },
-        getExamQuestion(context){
+        getExamQuestion(context) {
             getExamQuestion().then((res) => {
                 context.commit("SETEXAMINFO", res);
+            }).catch((err => 
+                alert(err)
+                ))
+        },
+        postAnswer(context, data) {
+            postAnswer(data).then((res) => {
+                console.log(res.code);
+            }).catch((err => 
+                alert(err)
+                ))
+        },
+        deleteSession(context) {
+            deleteSession().then((res) => {
+                console.log(res.code);
             }).catch((err => 
                 alert(err)
                 ))
@@ -138,10 +151,26 @@ const global = {
             state.type = type;
         },
         SETUSERID(state, userId) {
-            state.id = userId
+            state.id = userId;
         },
         SETEXAMINFO(state, res) {
             console.log("exam", res);
+            state.questionList = res.data.questionList;
+            console.log(state.questionList);
+
+            var answerList = [];
+            for (var a = 0; a < state.questionList.length; a++) {
+            if (!state.questionList[a].done) {
+                answerList[a] = [];
+            } else {
+            if (state.questionList[a].type > 1) {
+                answerList[a] = state.questionList[a].fill_content;
+            } else {
+                answerList[a] = state.questionList[a].multiList;
+                }
+            }
+            state.ansList = answerList;
+        }
         },
         SETEXAMSESSION(state) {
             state.isTesting = true;
@@ -166,6 +195,8 @@ const global = {
             searchedCourse:[],
             type:0,
             isTesting:false,
+            questionList:[],
+            ansList:[],
     },
     // 准备getters---用于将state中的数据进行加工
     // 类似计算属性
