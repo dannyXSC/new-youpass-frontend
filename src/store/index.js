@@ -32,7 +32,8 @@ const global = {
             console.log("进入login！")
             login(data).then(res => {
                 if (res.code == '100') {
-                    context.commit("SETUSERID",data.id)
+                    context.commit("SETUSERID", data.id)
+                    
                     sessionStorage.setItem("key", "token");
                     router.push("/todo");
                 }
@@ -63,7 +64,8 @@ const global = {
         },
         getInfo(context, data){
             console.log("connect!", data)
-            getAllInfo(data).then((res)=>{
+            getAllInfo(data).then((res) => {
+                console.log("在此处设置姓名等信息！")
                 context.commit("SETINFO", res);
 
 

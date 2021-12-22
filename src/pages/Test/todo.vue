@@ -178,6 +178,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch("global/getInfo", this.$store.state.global.id);
     this.todos = JSON.parse(localStorage.getItem("todos"));
   },
 };
