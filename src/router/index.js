@@ -1,4 +1,5 @@
 // 用于创建整个应用的路由器
+import CourseManagement from "@/pages/courseManagement/CourseManagement";
 import HomeIndex from "@/pages/Home/index";
 import examTest from "@/pages/Test/examTest";
 import Test from "@/pages/Test/index";
@@ -12,6 +13,7 @@ import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
 import todo from "@/pages/Test/todo";
 import VueRouter from "vue-router";
+
 
 
 // 创建一个路由器 并暴露
@@ -38,6 +40,12 @@ const router = new VueRouter({
                     component: test3
                 },
                 {
+
+                    path:"/courseManagement",
+                    name:"CourseManagement",
+                    component:CourseManagement,
+                },
+                {   
                     path: "/test4",
                     component: test4
                 },
@@ -51,8 +59,10 @@ const router = new VueRouter({
                 },
                 {
                     path: "/todo",
-                    component: todo
+                    component: todo,
+                    name:todo
                 },
+
             ]
         },
         {
@@ -71,35 +81,33 @@ const router = new VueRouter({
             component: register,
         },
 
+
     ]
 })
 
 //配置全局路由guard,每次路由切换之前被调用
 router.beforeEach((to, from, next) => {
-    // console.log(to, from)
-    //首先验证是否已经登录
-    // let token = sessionStorage.getItem("key")
-    // console.log(token)
-    // if (token == 'token') {
-    //     next(todo)
-    // }
-    // else {
-    //         //除去注册和登录外都需要进行验证
-    //     if (to.name != 'login' && to.name != 'register' &&to.name!='HomeIndex') {
-        
-    //         if (token=='token') {
-    //             next()
-    //         }
-    //         else {
-    //             // alert("请先登录！")
-    //             next('/');
-    //         }
-    //     }
-    //     else {
-    //         next()
-    //     }
-    // }
-    next()
+    //已经登录的情况已经在checkState中处理了
+    console.log(from, to)
+    
+    let token = sessionStorage.getItem("key")
+
+    //没有登录的情况
+    if (to.name != 'login' && to.name != 'register' &&to.name!='HomeIndex') {
+    
+        if (token=='token') {
+            next()
+        }
+        else {
+            console.log(to.name)
+            alert("请先登录！")
+        }
+    }
+    else {
+        next()
+    }
+    
+
     
   })
 

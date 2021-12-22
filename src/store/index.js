@@ -1,10 +1,10 @@
 // 该文件用于创建Vuex中最核心的store
 
-import { checkState, getAllInfo, login, signUp } from "@/api/index"
-import Vue from 'vue'
+import { checkState, getAllInfo, login, searchCourse1, searchCourse2, searchCourse3, signUp } from "@/api/index";
+import router from "@/router";
+import Vue from 'vue';
 //引入Vuex
-import Vuex from "vuex"
-
+import Vuex from "vuex";
 Vue.use(Vuex)
 
 const global = {
@@ -12,21 +12,51 @@ const global = {
     // 准备action---用于响应组件中的动作
     actions: {
         register(context, data) {
-            console.log("connect!")
-            signUp(data).then(res => { console.log(res.msg) }).catch(err => { console.log(err) })
-        },
-        login(context, data) {
-            console.log("connect!", data)
-            login(data).then(res => {
-                context.commit("LOGINSUCESS");
-            }).catch(err=>{
+            console.log(data)
+
+            console.log("进入register!")
+            signUp(data).then(res => { 
+                console.log(res.code)
+                if (res.code == '100') {
+                    alert("注册成功！您的id为：" + res.data)
+                    router.push('/login')
+                }
+                else if (res.code=='1'){
+                    alert("该邮箱已经被注册过！")
+                }
+            }).catch(err => {
                 console.log(err)
             })
         },
-        checkState(context) {
-            checkState().then(res => {       
+        login(context, data) {
+            console.log("进入login！")
+            login(data).then(res => {
                 if (res.code == '100') {
-                    context.commit("CHANGELOGINSTATE");
+                    context.commit("SETUSERID", data.id)
+                    
+                    sessionStorage.setItem("key", "token");
+                    router.push("/todo");
+                }
+                else {
+                    alert("账号密码错误，请重新输入！")
+                }
+             }).catch(err => { console.log(err) })
+
+            
+        },
+        checkState(context) {
+            checkState().then(res => {    
+                if (res.code == '100') {
+                    sessionStorage.setItem("key", "token");
+                    router.push("/todo");
+                }
+            }).catch(err => {
+                console.log(err)
+            })
+        },checkSession(context) {
+            checkState().then(res => {    
+                if (res.code == '100') {
+                    sessionStorage.setItem("key", "token");
                 }
             }).catch(err => {
                 console.log(err)
@@ -34,21 +64,55 @@ const global = {
         },
         getInfo(context, data){
             console.log("connect!", data)
-            getAllInfo(data).then((res)=>{
+            getAllInfo(data).then((res) => {
+                console.log("在此处设置姓名等信息！")
                 context.commit("SETINFO", res);
+
+
             }).catch((err => 
                 alert(err)
                 ))
+        },
+        searchCourse1(context, data){
+            searchCourse1(data).then(res => {       
+                if (res.data.length != 0) {
+                    context.commit("UPDATECOURSE", res);
+                }
+                else {
+                    alert("未检索到相关课程信息！");
+                }
+            }).catch(err => {
+                alert("未检索到相关课程信息！");
+            })
+        },
+        searchCourse2(context, data){
+            searchCourse2(data).then(res => {  
+                if (res.data.length != 0) {
+                    context.commit("UPDATECOURSE", res);
+                }
+                else {
+                    alert("未检索到相关课程信息！");
+                }
+            }).catch(err => {
+                alert("未检索到相关课程信息！");
+            })
+        },
+        searchCourse3(context, data){
+            searchCourse3(data).then(res => {       
+                if (res.data.length != 0) {
+                    context.commit("UPDATECOURSE", res);
+                }
+                else {
+                    alert("未检索到相关课程信息！");
+                }
+            }).catch(err => {
+                alert("未检索到相关课程信息！");
+            })
         }
     },
     // 准备mutations---用于操作数据
     mutations:{
-        CHANGELOGINSTATE(state) {
-            state.isLogin = true;
-        },
-        LOGINSUCESS(state) {
-            state.loginSuccess = true;
-        },
+      
         SETINFO(state, res){
             console.log(res);
             state.id = res.data.userInfo.id;
@@ -58,14 +122,25 @@ const global = {
             state.accountType = res.data.userInfo.type;
             state.courseList = res.data.courseList;
             state.examList = res.data.examList;
+        },
+        UPDATECOURSE(state, res) {
+            state.searchedCourse = res.data;
+            console.log(state.searchedCourse);
+        },
+        SETSTUDENTTYPE(state,type) {
+            state.type = type;
+        },
+        SETTEACHERTYPE(state,type) {
+            state.type = type;
+        },
+        SETUSERID(state,userId) {
+            state.id = userId
         }
-
     },
     // 准备state---用于存储数据
 
       
     state:{
-          
             register: false,
             loginSuccess:false,
             id:0,
@@ -76,7 +151,9 @@ const global = {
             name: "",
             courseList:null,
             examList:null,
-            register:false
+            register:false,
+            searchedCourse:[],
+            type:0
     },
     // 准备getters---用于将state中的数据进行加工
     // 类似计算属性

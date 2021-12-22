@@ -19,10 +19,10 @@
                     <b-row>
                       <b-col cols="8">
                         <b-form-input
-                          type="email"
-                          name="email"
-                          id="exampleEmail"
+                          type="text"
                           placeholder="在此搜索课程..."
+                          v-model="inputContent"
+                          @keyup.enter="search(searchMethod)"
                         />
                       </b-col>
 
@@ -33,25 +33,29 @@
                           text="Search"
                           class="mb-2 mr-2"
                           variant="primary"
+                          @click="search(searchMethod)"
                         >
                           <button
                             type="button"
-                            tabindex="0"
+                            tabindex="1"
                             class="dropdown-item"
+                            @click="search(1)"
                           >
                             按照课号搜索
                           </button>
                           <button
                             type="button"
-                            tabindex="0"
+                            tabindex="2"
                             class="dropdown-item"
+                            @click="search(2)"
                           >
                             按照课程名搜索
                           </button>
                           <button
                             type="button"
-                            tabindex="0"
+                            tabindex="3"
                             class="dropdown-item"
+                            @click="search(3)"
                           >
                             按照教师搜索
                           </button>
@@ -64,9 +68,11 @@
             </Form>
           </div>
 
+          <h5>{{ $store.state.global.searchedCourse }}</h5>
+
           <div class="modal-body">
             <div>
-              <my-list title="课程搜索结果" :items="items" :fields="fields">
+              <my-list title="课程搜索结果" y :items="items" :fields="fields">
                 <template slot-scope="row">
                   <b-card class="mb-3 nav-justified" no-body>
                     <b-tabs pills card>
@@ -74,23 +80,20 @@
                         <li class="list-group-item">
                           <div class="widget-content p-0">
                             <div class="widget-content-wrapper">
-                              <div class="widget-content-left mr-3">
-                                <img
-                                  width="42"
-                                  class="rounded-circle"
-                                  src="@/assets/images/avatars/3.jpg"
-                                  alt=""
-                                />
-                              </div>
                               <div class="widget-content-left">
-                                <div class="widget-heading">张颖</div>
-                                <div class="widget-subheading">Professor</div>
+                                <div class="widget-heading">
+                                  {{ row.row.item.teacher_name }}
+                                </div>
                                 <div class="widget-subheading">
-                                  Lorem ipsum dolor sit amet, consectetuer
+                                  {{ row.row.item.teacher_id }}
                                 </div>
                               </div>
                               <div class="widget-content-right">
-                                <button type="button" class="btn btn-light">
+                                <button
+                                  type="button"
+                                  class="btn btn-light"
+                                  @click="test(row)"
+                                >
                                   加入课程
                                 </button>
                               </div>
@@ -157,44 +160,9 @@ export default {
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
 
       fields: ["课程名称", "ID"],
-      items: [
-        {
-          isActive: true,
-          课程名称: "数据结构",
-          ID: "15000",
-          _showDetails: false,
-        },
-        {
-          isActive: false,
-          课程名称: "数据库课程设计",
-          ID: "15001",
-          _showDetails: false,
-        },
-        {
-          isActive: false,
-          课程名称: "机器学习",
-          ID: "15002",
-          _showDetails: false,
-        },
-        {
-          isActive: true,
-          课程名称: "计算机视觉",
-          ID: "15003",
-          _showDetails: false,
-        },
-      ],
-      showChart: false,
-      bars: [
-        { variant: "success", value: 75 },
-        { variant: "info", value: 75 },
-        { variant: "warning", value: 75 },
-        { variant: "danger", value: 75 },
-        { variant: "primary", value: 75 },
-        { variant: "secondary", value: 75 },
-        { variant: "dark", value: 75 },
-        { variant: "alternate", value: 75 },
-        { variant: "focus", value: 75 },
-      ],
+
+      searchMethod: 1,
+      inputContent: "",
       breadcrumbItem: [
         {
           text: "Admin",
@@ -211,15 +179,60 @@ export default {
       ],
     };
   },
-  mounted() {
-    this.timer = setInterval(() => {
-      this.bars.forEach((bar) => (bar.value = 25 + Math.random() * 75));
-    }, 2000);
+  computed: {
+    items() {
+      console.log("jisuanle", this.$store.state.global.searchedCourse);
+      let return_item = [];
+      for (let i = 0; i < this.$store.state.global.searchedCourse.length; ++i) {
+        return_item.unshift({
+          _showDetails: false,
+          isActive: true,
+          课程名称: this.$store.state.global.searchedCourse[i].title,
+          ID: this.$store.state.global.searchedCourse[i].id.courseId,
+          teacher_id:
+            this.$store.state.global.searchedCourse[i].teacher.id.teacherId,
+          teacher_name: this.$store.state.global.searchedCourse[i].teacher.name,
+        });
+      }
+      return return_item;
+    },
   },
-  beforeDestroy() {
-    clearInterval(this.timer);
-    this.timer = null;
+  methods: {
+    search(method) {
+      if (this.inputContent != "") {
+        console.log(method);
+        if (method == 1) {
+          // 课号
+          this.$store.dispatch("global/searchCourse1", {
+            courseId: this.inputContent,
+          });
+          this.inputContent = "";
+          this.searchMethod = 1;
+        } else if (method == 2) {
+          // 课程名
+          this.$store.dispatch("global/searchCourse2", {
+            title: this.inputContent,
+          });
+          this.inputContent = "";
+          this.searchMethod = 2;
+        } else if (method == 3) {
+          // 教师
+          this.$store.dispatch("global/searchCourse3", {
+            teacherName: this.inputContent,
+          });
+          this.inputContent = "";
+          this.searchMethod = 3;
+        }
+      } else {
+        alert("搜索内容不可为空!");
+      }
+    },
+    test(row) {
+      console.log(row);
+    },
   },
+  mounted() {},
+  beforeDestroy() {},
 };
 </script>
 

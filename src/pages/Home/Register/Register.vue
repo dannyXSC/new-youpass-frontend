@@ -8,7 +8,10 @@
         <a class="box"
           ><i class="fas fa-user-alt"></i>
           <div class="text">
-            <router-link active-class="active" to="register"
+            <router-link
+              active-class="active"
+              to="register"
+              @click.native="setTypeStudent"
               >你是学生</router-link
             >
           </div>
@@ -19,7 +22,12 @@
         <a class="box"
           ><i class="fas fa-user-graduate"></i>
           <div class="text">
-            <router-link active-class="" to="register">你是教师</router-link>
+            <router-link
+              active-class=""
+              to="register"
+              @click.native="setTypeTeacher"
+              >你是教师</router-link
+            >
           </div>
         </a>
       </div>
@@ -30,6 +38,16 @@
 <script>
 export default {
   name: "Register",
+  methods: {
+    setTypeStudent() {
+      this.$store.commit("global/SETSTUDENTTYPE", 1);
+      console.log(this.$store.state.global.type);
+    },
+    setTypeTeacher() {
+      this.$store.commit("global/SETTEACHERTYPE", 0);
+      console.log(this.$store.state.global.type);
+    },
+  },
 };
 </script>
 

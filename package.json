@@ -15,12 +15,15 @@
     "animate.css": "^4.1.1",
     "axios": "^0.24.0",
     "bootstrap": "^4.6.1",
+    "bootstrap-icons": "^1.7.2",
     "bootstrap-vue": "^2.21.2",
     "chart.js": "^2.8.0",
     "core-js": "^3.6.5",
+    "echarts": "^5.2.2",
     "element-ui": "^2.15.6",
     "es6-promise": "^4.2.6",
     "increase-memory-limit": "^1.0.6",
+    "katex": "^0.15.1",
     "lodash": "^4.17.21",
     "node-sass": "^4.11.0",
     "nprogress": "^0.2.0",
@@ -51,25 +54,6 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "vue-template-compiler": "^2.6.11"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
   },
   "browserslist": [
     "> 1%",

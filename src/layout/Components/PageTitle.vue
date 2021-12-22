@@ -15,12 +15,22 @@
           </div>
         </div>
         <div class="page-title-actions">
+          <!--
           <button type="button" class="btn-shadow mr-3 btn btn-dark">
             <font-awesome-icon icon="arrow-left"/>
           </button>
           <button type="button" class="btn-shadow mr-3 btn btn-dark">
             <font-awesome-icon icon="arrow-right"/>
           </button>
+         -->
+         <slot name="button">
+           <button type="button" class="btn-shadow mr-3 btn btn-dark">
+            <font-awesome-icon icon="arrow-left"/>
+          </button>
+          <button type="button" class="btn-shadow mr-3 btn btn-dark">
+            <font-awesome-icon icon="arrow-right"/>
+          </button>
+         </slot>
         </div>
       </div>
     </div>

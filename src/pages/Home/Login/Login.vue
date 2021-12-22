@@ -5,7 +5,7 @@
     </div>
     <div class="info-container">
       <button>
-        <router-link active-class="active" to="login">go!</router-link>
+        <router-link active-class="active" to="/login">go!</router-link>
       </button>
     </div>
   </section>
