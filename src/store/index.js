@@ -105,7 +105,8 @@ const global = {
             state.location = res.data.userInfo.location;
             state.name = res.data.userInfo.name;
             state.accountType = res.data.userInfo.type;
-            state.courseList = res.data.courseList;
+            state.courseListStu = res.data.courseListStu;
+            state.courseListTea = res.data.courseList;
             state.examList = res.data.examList;
         },
         UPDATECOURSE(state, res) {
@@ -134,7 +135,8 @@ const global = {
             email:"",
             isLogin: false,
             name: "",
-            courseList:[],
+            courseListStu:[],
+            courseListTea:[],
             examList:[],
             register:false,
             searchedCourse:[],

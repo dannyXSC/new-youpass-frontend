@@ -12,12 +12,22 @@
         <b-card class="mb-3 nav-justified" no-body>
           <b-tabs pills card>
             <b-tab title="课程信息" active>
-              <p>
-                It was popularised in the 1960s with the release of Letraset
-                sheets containing Lorem Ipsum passages, and more recently with
-                desktop publishing software like Aldus PageMaker including
-                versions of Lorem Ipsum.
-              </p>
+              <li class="list-group-item">
+                <div class="widget-content p-0">
+                  <div class="widget-content-wrapper">
+                    <div class="widget-content-left">
+                      <div class="widget-heading">
+                        {{ row.row.item.teacherName }}
+                      </div>
+                    </div>
+                    <div class="widget-content-right">
+                      <div class="widget-heading">
+                        {{ row.row.item.teacherId }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
             </b-tab>
             <b-tab title="图表">
               <div v-for="bar in bars" class="row mb-1">
@@ -103,14 +113,17 @@ export default {
   },
   computed: {
     items() {
-      console.log("computed" + this.$store.state.global);
+      console.log("computed" + this.$store.state.global.courseListStu);
       let return_item = [];
-      for (let i = 0; i < this.$store.state.global.courseList.length; ++i) {
+      for (let i = 0; i < this.$store.state.global.courseListStu.length; ++i) {
         return_item.unshift({
           _showDetails: false,
           isActive: true,
-          课程名称: this.$store.state.global.courseList[i].title,
-          ID: this.$store.state.global.courseList[i].courseId,
+          课程名称: this.$store.state.global.courseListStu[i].courseInfo.title,
+          ID: this.$store.state.global.courseListStu[i].courseInfo.courseId,
+          teacherId: this.$store.state.global.courseListStu[i].teacherId,
+          teacherName: this.$store.state.global.courseListStu[i].teacherName,
+          examList: this.$store.state.global.courseListStu[i].examList,
         });
       }
       return return_item;

@@ -68,8 +68,6 @@
             </Form>
           </div>
 
-          <h5>{{ $store.state.global.searchedCourse }}</h5>
-
           <div class="modal-body">
             <div>
               <my-list title="课程搜索结果" y :items="items" :fields="fields">
