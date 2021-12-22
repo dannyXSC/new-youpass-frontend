@@ -29,17 +29,38 @@
                 </div>
               </li>
             </b-tab>
-            <b-tab title="图表">
-              <div v-for="bar in bars" class="row mb-1">
-                <div class="col-sm-2">{{ bar.variant }}:</div>
-                <div class="col-sm-10 pt-1">
-                  <b-progress
-                    :value="bar.value"
-                    :variant="bar.variant"
-                    :key="bar.variant"
-                  ></b-progress>
+            <b-tab title="考试信息" active>
+              <li
+                v-for="exam in row.row.item.examList"
+                :key="exam.id"
+                class="list-group-item"
+              >
+                <div class="widget-content p-0">
+                  <div class="widget-content-wrapper">
+                    <div class="widget-content-left">
+                      <div class="widget-heading">
+                        {{ exam.title }}
+                      </div>
+                      <div class="widget-subheading">
+                        考试编号：{{ exam.exam_id }} <br />
+                        开始时间：{{ exam.start_time.slice(0, 10) }}
+                        {{ exam.start_time.slice(11, 16) }} <br />
+                        结束时间：{{ exam.end_time.slice(0, 10) }}
+                        {{ exam.end_time.slice(11, 16) }}
+                      </div>
+                    </div>
+                    <div class="widget-content-right">
+                      <button
+                        type="button"
+                        class="btn btn-light"
+                        @click="enterExam(exam.courseId, exam.exam_id)"
+                      >
+                        进入考试
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </li>
             </b-tab>
             <b-tab title="其他功能">
               <template
@@ -74,6 +95,7 @@ import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
 
 export default {
+  name: "course",
   components: { MyList, PageTitle },
   data() {
     return {
@@ -111,6 +133,20 @@ export default {
       ],
     };
   },
+  methods: {
+    enterExam(courseId, exam_id) {
+      this.$store.dispatch("global/setSession", {
+        courseId: courseId,
+        examId: exam_id,
+      });
+      console.log("权限"+this.$store.state.global.isTesting)
+      if (this.$store.state.global.isTesting) {
+        console.log("进入考试");
+        this.$store.dispatch("global/getExamQuestion");
+        window.location.href="/#/examTest"
+      }
+    },
+  },
   computed: {
     items() {
       console.log("computed" + this.$store.state.global.courseListStu);
@@ -123,7 +159,7 @@ export default {
           ID: this.$store.state.global.courseListStu[i].courseInfo.courseId,
           teacherId: this.$store.state.global.courseListStu[i].teacherId,
           teacherName: this.$store.state.global.courseListStu[i].teacherName,
-          examList: this.$store.state.global.courseListStu[i].examList,
+          examList: this.$store.state.global.courseListStu[i].exams,
         });
       }
       return return_item;

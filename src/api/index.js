@@ -27,6 +27,17 @@ export const searchCourse2 = (data)=>{
 export const searchCourse3 = (data)=>{
     return requests({url:'/course/getCourseByTName',method:'get', params:data})
 }
+export const setSession = (data)=>{
+    return requests({url:'/exam/setSession',method:'post', data:data})
+}
+export const getExamQuestion = ()=>{
+    return requests({url:'/exam/takeExam/getExamQuestion',method:'get'})
+}
+//老师添加题目
+export const addQuestions = (postData)=>{
+    return requests({url:'/question/update',method:'post',data:postData})
+}
+
 
 export const getExams = (courseId)=>{
     return requests({url:"/exam/courseGetExam/"+courseId,method:'get'})
