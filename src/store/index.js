@@ -29,13 +29,10 @@ const global = {
             })
         },
         login(context, data) {
-            console.log("进入login！")
             login(data).then(res => {
                 if (res.code == '100') {
                     context.commit("SETUSERID", data.id)
-                    
-                    sessionStorage.setItem("key", "token");
-                    router.push("/todo");
+                    router.push({name:"Dashboard"});
                 }
                 else {
                     alert("账号密码错误，请重新输入！")
@@ -44,16 +41,7 @@ const global = {
 
             
         },
-        checkState(context) {
-            checkState().then(res => {    
-                if (res.code == '100') {
-                    sessionStorage.setItem("key", "token");
-                    router.push("/todo");
-                }
-            }).catch(err => {
-                console.log(err)
-            })
-        },checkSession(context) {
+        checkSession(context) {
             checkState().then(res => {    
                 if (res.code == '100') {
                     sessionStorage.setItem("key", "token");
@@ -65,7 +53,6 @@ const global = {
         getInfo(context, data){
             console.log("connect!", data)
             getAllInfo(data).then((res) => {
-                console.log("在此处设置姓名等信息！")
                 context.commit("SETINFO", res);
 
 

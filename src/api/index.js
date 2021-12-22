@@ -2,7 +2,7 @@
 import requests from "@/utils/requests";
 
 export const signUp = (data) => {
-    console.log(123123)
+
     return requests({
         url:'/account/signup',method:'post',data:data
     })
