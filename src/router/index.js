@@ -1,22 +1,22 @@
 // 用于创建整个应用的路由器
 import { checkState } from "@/api";
 import CourseManagement from "@/pages/courseManagement/CourseManagement";
-import dashboard from "@/pages/Dashboard/index";
-import HomeIndex from "@/pages/Home/index";
-import notfound from "@/pages/notfound";
+import course from "@/pages/Dashboard/course";
 import examTest from "@/pages/Dashboard/examTest";
-import Test from "@/pages/Test/index";
+import dashboard from "@/pages/Dashboard/index";
 import login from "@/pages/Dashboard/login";
 import message from "@/pages/Dashboard/message";
+import personInfo from "@/pages/Dashboard/personInfo";
 import pick from "@/pages/Dashboard/pick";
 import register from "@/pages/Dashboard/register";
-import course from "@/pages/Dashboard/course";
+import todo from "@/pages/Dashboard/todo";
+import HomeIndex from "@/pages/Home/index";
+import notfound from "@/pages/notfound";
+import Test from "@/pages/Test/index";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
-import todo from "@/pages/Dashboard/todo";
 import VueRouter from "vue-router";
-
 
 
 
@@ -32,11 +32,11 @@ const router = new VueRouter({
             name: "Dashboard",
             component: dashboard,
             children: [
-                {
-                    path: "/dashboard",
-                    component: todo,
-                    name:todo
-                },
+                // {
+                //     path: "/dashboard",
+                //     component: todo,
+                //     name:todo
+                // },
                 {
                     path: "/pick",
                     component: pick
@@ -53,6 +53,11 @@ const router = new VueRouter({
                 {
                     path: "/course",
                     component: course
+                },
+                {
+                    path: "/personinfo",
+                    component: personInfo,
+                    name:personInfo
                 },
             ]
         },
@@ -109,9 +114,7 @@ const router = new VueRouter({
 
 //配置全局路由guard,每次路由切换之前被调用
 router.beforeEach((to, from, next) => {
-    //已经登录的情况已经在checkState中处理了
-
-    //没如果进入dashboard
+    //如果进入dashboard
     if (to.matched.filter(value => {
         return value.name==="Dashboard"
     }).length) {

@@ -1,6 +1,6 @@
 // 该文件用于创建Vuex中最核心的store
 
-import { checkState, getAllInfo, login, searchCourse1, searchCourse2, searchCourse3, signUp, setSession, getExamQuestion } from "@/api/index";
+import { checkState, getAllInfo, getExamQuestion, login, quit, searchCourse1, searchCourse2, searchCourse3, setSession, signUp } from "@/api/index";
 import router from "@/router";
 import Vue from 'vue';
 //引入Vuex
@@ -19,7 +19,7 @@ const global = {
                 console.log(res.code)
                 if (res.code == '100') {
                     alert("注册成功！您的id为：" + res.data)
-                    router.push('/login')
+                    router.push({name:"login"})
                 }
                 else if (res.code=='1'){
                     alert("该邮箱已经被注册过！")
@@ -113,6 +113,12 @@ const global = {
             }).catch((err => 
                 alert(err)
                 ))
+        },
+        logout(context) {
+            quit().then(res => {
+                sessionStorage.removeItem("key");
+                router.push({ name: "HomeIndex" });
+            })
         }
     },
     // 准备mutations---用于操作数据

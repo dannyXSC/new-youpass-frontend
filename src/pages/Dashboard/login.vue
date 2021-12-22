@@ -46,8 +46,13 @@
                 </h6>
               </div>
               <div class="modal-footer clearfix">
+                <div class="float-left">
+                  <b-button variant="warning" size="sl" @click="back"
+                    >Back to Home
+                  </b-button>
+                </div>
                 <div class="float-right">
-                  <b-button variant="success" size="lg" @click="login"
+                  <b-button variant="success" size="sl" @click="login"
                     >Login to YouPass
                   </b-button>
                 </div>
@@ -79,6 +84,9 @@ export default {
         id: this.userid,
         password: this.password,
       });
+    },
+    back() {
+      router.push({ name: "HomeIndex" });
     },
   },
 };

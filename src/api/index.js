@@ -33,5 +33,8 @@ export const setSession = (data)=>{
 export const getExamQuestion = ()=>{
     return requests({url:'/exam/takeExam/getExamQuestion',method:'get'})
 }
+export const quit = ()=>{
+    return requests({url:'/account/quitAccount',method:'delete'})
+}
 
 
