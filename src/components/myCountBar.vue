@@ -10,9 +10,12 @@
           <div v-for="(row, rIndex) in onShowItems" :key="rIndex">
             <b-row>
               <b-col cols="4" v-for="(item, iIndex) in row" :key="iIndex">
-                <b-button pill variant="success" @click="handleSelect(item)">
-                  {{ (currentPage - 1) * per_page_props + rIndex * 3 + iIndex + 1 }}
-                </b-button>
+                <slot name="button" :item="item">
+                  <b-button pill variant="success" @click="handleSelect(item)">
+                    {{ (currentPage_props - 1) * per_page_props + rIndex * 3 + iIndex + 1 }}
+                  </b-button>
+                </slot>
+
               </b-col>
             </b-row>
             <br>
@@ -22,14 +25,14 @@
 
       <div style="display: flex;justify-content: center">
         <b-pagination
-            v-model="currentPage"
             :total-rows="total_rows_props"
             :per-page="per_page_props"
             pills
             size="sm"
+            v-model="currentPage"
+            @input="handleChangePage"
         ></b-pagination>
       </div>
-
 
       <b-card-footer>
         <slot name="footer"></slot>
@@ -53,9 +56,9 @@ export default {
     }
   },
   watch: {
-    currentPage: function (newVal) {
-      this.$emit("updatePage", newVal)
-    },
+    currentPage_props: function (newVal) {
+      this.currentPage = newVal
+    }
   },
   computed: {
     onShowItems: function () {
@@ -63,22 +66,26 @@ export default {
       for (let i = 0; i < this.items.length; i += 3) {
         const rowResult = []
         for (let j = i; j < i + 3 && j < this.items.length; j++) {
-          if (j >= (this.currentPage - 1) * this.per_page_props
-              && j < this.currentPage * this.per_page_props) {
+          if (j >= (this.currentPage_props - 1) * this.per_page_props
+              && j < this.currentPage_props * this.per_page_props) {
             rowResult.push(this.items[j])
           }
         }
         if (rowResult.length)
           result.push(rowResult)
       }
+      console.log("in", this.currentPage_props)
       return result
-    }
+    },
   },
   methods: {
     handleSelect(item) {
       this.$emit("onSelect", item)
+    },
+    handleChangePage(page) {
+      this.$emit("updatePage", page)
     }
-  }
+  },
 }
 </script>
 

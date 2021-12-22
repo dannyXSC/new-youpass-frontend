@@ -25,6 +25,7 @@
                   description="We'll never share your email with anyone else."
                 >
                   <b-form-input
+                    v-model="email"
                     id="exampleInput1"
                     type="email"
                     required
@@ -32,15 +33,20 @@
                   >
                   </b-form-input>
                 </b-form-group>
+                <p v-show="isFormated == false" style="color: red">
+                  邮箱格式不正确！
+                </p>
+
                 <b-form-group
                   id="exampleInputGroup12"
                   label-for="exampleInput12"
                 >
                   <b-form-input
+                    v-model="name"
                     id="exampleInput12"
                     type="text"
                     required
-                    placeholder="Enter username..."
+                    placeholder="Enter your name..."
                   >
                   </b-form-input>
                 </b-form-group>
@@ -51,6 +57,7 @@
                       label-for="exampleInput2"
                     >
                       <b-form-input
+                        v-model="password1"
                         id="exampleInput2"
                         type="password"
                         required
@@ -65,6 +72,7 @@
                       label-for="exampleInput2"
                     >
                       <b-form-input
+                        v-model="password2"
                         id="exampleInput3"
                         type="password"
                         required
@@ -74,10 +82,22 @@
                     </b-form-group>
                   </div>
                 </div>
-                <b-form-checkbox name="check" id="exampleCheck">
+
+                <p v-show="isSame == false" style="color: red">
+                  *两遍输入的密码不一致！
+                </p>
+
+                <b-form-checkbox
+                  name="check"
+                  id="exampleCheck"
+                  v-model="isChecked"
+                >
                   Accept our
                   <a href="javascript:void(0);">Terms and Conditions</a>.
                 </b-form-checkbox>
+                <p v-if="isChecked === false" style="color: red">
+                  请勾选此协议！
+                </p>
                 <div class="divider" />
                 <h6 class="mb-0">
                   Already have an account?
@@ -100,7 +120,7 @@
             </div>
           </div>
           <div class="text-center text-white opacity-8 mt-3">
-            Copyright &copy; DannyXSC 2019
+            Copyright &copy; DannyXSC 2021
           </div>
         </b-col>
       </div>
@@ -112,12 +132,62 @@ export default {
   name: "Register",
   methods: {
     register() {
-      this.$store.dispatch("global/register", {
-        email: "123@123",
-        password: "123",
-        name: "YEXUBING",
-        type: "1",
-      });
+      if (
+        this.password1 == this.password2 &&
+        this.isChecked == true &&
+        this.isFormated == true &&
+        this.email != ""
+      ) {
+        this.$store.dispatch("global/register", {
+          email: this.email,
+          password: this.password1,
+          name: this.name,
+          type: this.$store.state.global.type,
+        });
+      }
+    },
+  },
+  data() {
+    return {
+      email: "",
+      password1: "",
+      password2: "",
+      name: "",
+      type: "",
+      isSame: true,
+      isChecked: false,
+      isFormated: true,
+    };
+  },
+  watch: {
+    password2: {
+      handler(newValue) {
+        if (newValue != this.password1) {
+          this.isSame = false;
+        } else {
+          this.isSame = true;
+        }
+      },
+    },
+    password1: {
+      handler(newValue) {
+        if (newValue != this.password2) {
+          this.isSame = false;
+        } else {
+          this.isSame = true;
+        }
+      },
+    },
+    isChecked() {
+      console.log("ischecked:" + this.isChecked);
+    },
+    email(newValue) {
+      var reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+      if (reg.test(newValue) || newValue == "") {
+        this.isFormated = true;
+      } else {
+        this.isFormated = false;
+      }
     },
   },
 };

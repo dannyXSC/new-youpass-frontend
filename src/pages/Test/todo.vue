@@ -98,8 +98,6 @@
                     </div>
                   </div>
                 </div>
-
-                <button class="dropdown-item" @click="test">Add</button>
               </div>
             </div>
           </div>
@@ -162,6 +160,7 @@ export default {
           break;
         }
       }
+      localStorage.setItem("todos", JSON.stringify(this.todos));
     },
     addTodo() {
       if (this.inputTodo != "" && !this.todos.includes(this.inputTodo)) {
@@ -173,12 +172,9 @@ export default {
         alert("无法添加ToDo!");
       }
     },
-    test() {
-      this.$store.dispatch("global/getInfo", 1950000);
-    },
   },
   mounted() {
-    this.todos = JSON.parse(localStorage.getItem("todos"));
+    this.todos = JSON.parse(localStorage.getItem("todos") || []);
   },
 };
 </script>

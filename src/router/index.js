@@ -1,5 +1,11 @@
 // 用于创建整个应用的路由器
+import { checkState } from "@/api";
+import CourseManagement from "@/pages/courseManagement/CourseManagement";
+import dashboard from "@/pages/Dashboard/index";
 import HomeIndex from "@/pages/Home/index";
+
+import notfound from "@/pages/notfound";
+import examTest from "@/pages/Test/examTest";
 
 import Test from "@/pages/Test/index";
 import login from "@/pages/Test/login";
@@ -9,15 +15,10 @@ import register from "@/pages/Test/register";
 import test1 from "@/pages/Test/test1";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
-
-import examTest from "@/pages/Test/examTest";
-import CourseManagement from "@/pages/courseManagement/CourseManagement"
-
 import test4 from "@/pages/Test/test4";
 import todo from "@/pages/Test/todo";
 import PersonalPage from "@/pages/studentPage/PersonalPage"
 import VueRouter from "vue-router";
-
 
 // 创建一个路由器 并暴露
 const router = new VueRouter({
@@ -25,6 +26,18 @@ const router = new VueRouter({
             path: "/",
             name: "HomeIndex",
             component: HomeIndex
+    },
+        {
+            path: "/dashboard",
+            name: "Dashboard",
+            component: dashboard,
+            children: [
+                {
+                    path: "/dashboard",
+                    component: todo,
+                    name:todo
+                },
+            ]
         },
         {
             path: "/test",
@@ -48,7 +61,7 @@ const router = new VueRouter({
                     name:"CourseManagement",
                     component:CourseManagement,
                 },
-                {
+                 {
                     path: "/test4",
                     component: test4
                 },
@@ -62,7 +75,8 @@ const router = new VueRouter({
                 },
                 {
                     path: "/todo",
-                    component: todo
+                    component: todo,
+                    name:todo
                 },
                 {
                     path:"/personal/:courseId",
@@ -90,6 +104,11 @@ const router = new VueRouter({
             name: "register",
             component: register,
         },
+        {
+            path: "/:catchAll(.*)",
+            name: "notFound",
+            component:notfound
+        }
 
 
     ]
@@ -97,30 +116,45 @@ const router = new VueRouter({
 
 //配置全局路由guard,每次路由切换之前被调用
 router.beforeEach((to, from, next) => {
-    // console.log(to, from)
-    //首先验证是否已经登录
-    // let token = sessionStorage.getItem("key")
-    // console.log(token)
-    // if (token == 'token') {
-    //     next(todo)
-    // }
-    // else {
-    //         //除去注册和登录外都需要进行验证
-    //     if (to.name != 'login' && to.name != 'register' &&to.name!='HomeIndex') {
-        
-    //         if (token=='token') {
-    //             next()
-    //         }
-    //         else {
-    //             // alert("请先登录！")
-    //             next('/');
-    //         }
-    //     }
-    //     else {
-    //         next()
-    //     }
-    // }
-    next()
+    //已经登录的情况已经在checkState中处理了
+
+    //没如果进入dashboard
+    if (to.matched.filter(value => {
+        return value.name==="Dashboard"
+    }).length) {
+        checkState()
+            .then((res) => {
+                if (res.code === 100) {
+                    next()
+                } else {
+                    next({name:"notFound"})
+                }
+            })
+            .catch((err) => {
+                console.error(err)
+                next({name:"notFound"})
+            })
+    }
+    //进入login
+    else if (to.matched.filter(value => {
+        return value.name==="login"
+    }).length) {
+        checkState()
+            .then((res) => {
+                if (res.code === 100) {
+                    console.log("123")
+                    next({name:"Dashboard"})
+                } else {
+                    next()
+                }
+            })
+            .catch((err) => {
+                console.error(err)
+                next({name:"notFound"})
+            })
+    } else {
+        next()
+    }
     
   })
 
