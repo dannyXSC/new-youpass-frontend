@@ -12,9 +12,22 @@
         <b-card class="mb-3 nav-justified" no-body>
           <b-tabs pills card>
             <b-tab title="课程信息" active>
-              <p>
-                {{ row.row }}
-              </p>
+              <li class="list-group-item">
+                <div class="widget-content p-0">
+                  <div class="widget-content-wrapper">
+                    <div class="widget-content-left">
+                      <div class="widget-heading">
+                        {{ row.row.item.teacherName }}
+                      </div>
+                    </div>
+                    <div class="widget-content-right">
+                      <div class="widget-heading">
+                        {{ row.row.item.teacherId }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
             </b-tab>
             <b-tab title="图表">
               <div v-for="bar in bars" class="row mb-1">
@@ -69,38 +82,7 @@ export default {
         "Wide selection of buttons that feature different styles for backgrounds, borders and hover options!",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
 
-      fields: ["Course_Id", "Course_Name"],
-      items: [
-        {
-          isActive: true,
-          age: 40,
-          Course_Id: "Dickerson",
-          Course_Name: "Macdonald",
-          _showDetails: false,
-          style: "cursor: pointer;",
-        },
-        {
-          isActive: false,
-          age: 21,
-          Course_Id: "Larsen",
-          Course_Name: "Shaw",
-          _showDetails: false,
-        },
-        {
-          isActive: false,
-          age: 89,
-          Course_Id: "Geneva",
-          Course_Name: "Wilson",
-          _showDetails: false,
-        },
-        {
-          isActive: true,
-          age: 38,
-          Course_Id: "Jami",
-          Course_Name: "Carney",
-          _showDetails: false,
-        },
-      ],
+      fields: ["课程名称", "ID"],
       showChart: false,
       bars: [
         { variant: "success", value: 75 },
@@ -128,6 +110,24 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    items() {
+      console.log("computed" + this.$store.state.global.courseListStu);
+      let return_item = [];
+      for (let i = 0; i < this.$store.state.global.courseListStu.length; ++i) {
+        return_item.unshift({
+          _showDetails: false,
+          isActive: true,
+          课程名称: this.$store.state.global.courseListStu[i].courseInfo.title,
+          ID: this.$store.state.global.courseListStu[i].courseInfo.courseId,
+          teacherId: this.$store.state.global.courseListStu[i].teacherId,
+          teacherName: this.$store.state.global.courseListStu[i].teacherName,
+          examList: this.$store.state.global.courseListStu[i].examList,
+        });
+      }
+      return return_item;
+    },
   },
   mounted() {
     this.timer = setInterval(() => {
