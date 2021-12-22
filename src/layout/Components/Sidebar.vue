@@ -19,9 +19,21 @@
         </button>
       </div>
     </div>
-    <div class="app-sidebar-content">
+    <div
+      class="app-sidebar-content"
+      v-if="this.$store.state.global.accountType == 1"
+    >
       <VuePerfectScrollbar class="app-sidebar-scroll" v-once>
-        <sidebar-menu showOneChild :menu="menu" />
+        <sidebar-menu showOneChild :menu="StudentMenu" />
+      </VuePerfectScrollbar>
+    </div>
+
+    <div
+      class="app-sidebar-content"
+      v-if="this.$store.state.global.accountType == 0"
+    >
+      <VuePerfectScrollbar class="app-sidebar-scroll" v-once>
+        <sidebar-menu showOneChild :menu="TeacherMenu" />
       </VuePerfectScrollbar>
     </div>
   </div>
@@ -41,7 +53,7 @@ export default {
       isOpen: false,
       sidebarActive: false,
 
-      menu: [
+      StudentMenu: [
         {
           header: true,
           title: "Main Menu",
@@ -217,6 +229,30 @@ export default {
         //   title: "ChartJS",
         //   href: "/charts/chartjs",
         // },
+      ],
+      TeacherMenu: [
+        {
+          header: true,
+          title: "Main Menu",
+        },
+        {
+          title: "基本功能栏",
+          icon: "pe-7s-rocket",
+          child: [
+            {
+              href: "/personInfo",
+              title: "查看个人信息",
+            },
+            {
+              href: "/todo",
+              title: "待办事项",
+            },
+            {
+              href: "/dashboard/course",
+              title: "查看我的课程",
+            },
+          ],
+        },
       ],
       collapsed: true,
 

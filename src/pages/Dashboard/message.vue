@@ -86,9 +86,8 @@ export default {
   components: { MyList, PageTitle },
   data() {
     return {
-      heading: "Standard Buttons",
-      subheading:
-        "Wide selection of buttons that feature different styles for backgrounds, borders and hover options!",
+      heading: "Always Check Your Message",
+      subheading: "不要错过重要的通知哦！",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
 
       breadcrumbItem: [

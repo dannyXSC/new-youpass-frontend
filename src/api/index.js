@@ -48,5 +48,7 @@ export const getExams = (courseId)=>{
 export const getMessage = (data)=>{
     return requests({url:"/exam/courseGetExam/"+courseId,method:'get'})
 }
-
+export const getImage = () => { 
+    return requests({ url: '/account/getImage', method: 'get' })
+}
 

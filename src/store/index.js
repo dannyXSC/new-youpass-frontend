@@ -1,6 +1,6 @@
 // 该文件用于创建Vuex中最核心的store
 
-import { addQuestions, checkState, getAllInfo, getExamQuestion, login, quit, searchCourse1, searchCourse2, searchCourse3, setSession, signUp } from "@/api/index";
+import { addQuestions, checkState, getAllInfo, getExamQuestion, login, quit, searchCourse1, searchCourse2, searchCourse3, setSession, signUp ,getImage} from "@/api/index";
 import router from "@/router";
 import Vue from 'vue';
 //引入Vuex
@@ -54,7 +54,7 @@ const global = {
             })
         },
         getInfo(context, data) {
-            console.log("学生的id为：", data)
+            console.log("用户的id为：", data)
             getAllInfo(data).then((res) => {
                 console.log("getInfo被调用", res)
                 context.commit("SETINFO", res);
@@ -127,6 +127,15 @@ const global = {
                 alert(error)
             })
         },
+        getImage(context) {
+            console.log("获取照片")
+            getImage().then(res => {
+                if (res.code == '100') {
+                    var blob = res.data
+                    
+                }
+            })
+        }
     },
     // 准备mutations---用于操作数据
     mutations: {
@@ -185,6 +194,7 @@ const global = {
         type: 0,
         isTesting: false,
         messageList: [],
+        imageInfo:""
 
     },
     // 准备getters---用于将state中的数据进行加工
