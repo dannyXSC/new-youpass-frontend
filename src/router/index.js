@@ -1,6 +1,9 @@
 // 用于创建整个应用的路由器
+import { checkState } from "@/api";
 import CourseManagement from "@/pages/courseManagement/CourseManagement";
+import dashboard from "@/pages/Dashboard/index";
 import HomeIndex from "@/pages/Home/index";
+import notfound from "@/pages/notfound";
 import examTest from "@/pages/Test/examTest";
 import Test from "@/pages/Test/index";
 import login from "@/pages/Test/login";
@@ -16,12 +19,25 @@ import VueRouter from "vue-router";
 
 
 
+
 // 创建一个路由器 并暴露
 const router = new VueRouter({
     routes: [{
             path: "/",
             name: "HomeIndex",
             component: HomeIndex
+    },
+        {
+            path: "/dashboard",
+            name: "Dashboard",
+            component: dashboard,
+            children: [
+                {
+                    path: "/dashboard",
+                    component: todo,
+                    name:todo
+                },
+            ]
         },
         {
             path: "/test",
@@ -80,6 +96,11 @@ const router = new VueRouter({
             name: "register",
             component: register,
         },
+        {
+            path: "/:catchAll(.*)",
+            name: "notFound",
+            component:notfound
+        }
 
 
     ]
@@ -88,26 +109,44 @@ const router = new VueRouter({
 //配置全局路由guard,每次路由切换之前被调用
 router.beforeEach((to, from, next) => {
     //已经登录的情况已经在checkState中处理了
-    console.log(from, to)
-    
-    let token = sessionStorage.getItem("key")
 
-    //没有登录的情况
-    if (to.name != 'login' && to.name != 'register' &&to.name!='HomeIndex') {
-    
-        if (token=='token') {
-            next()
-        }
-        else {
-            console.log(to.name)
-            alert("请先登录！")
-        }
+    //没如果进入dashboard
+    if (to.matched.filter(value => {
+        return value.name==="Dashboard"
+    }).length) {
+        checkState()
+            .then((res) => {
+                if (res.code === 100) {
+                    next()
+                } else {
+                    next({name:"notFound"})
+                }
+            })
+            .catch((err) => {
+                console.error(err)
+                next({name:"notFound"})
+            })
     }
-    else {
+    //进入login
+    else if (to.matched.filter(value => {
+        return value.name==="login"
+    }).length) {
+        checkState()
+            .then((res) => {
+                if (res.code === 100) {
+                    console.log("123")
+                    next({name:"Dashboard"})
+                } else {
+                    next()
+                }
+            })
+            .catch((err) => {
+                console.error(err)
+                next({name:"notFound"})
+            })
+    } else {
         next()
     }
-    
-
     
   })
 

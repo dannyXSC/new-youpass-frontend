@@ -74,21 +74,12 @@ export default {
     };
   },
   methods: {
-    checkState() {
-      this.$store.dispatch("global/checkState");
-      console.log(this.$store.state.global.isLogin);
-    },
     login() {
       this.$store.dispatch("global/login", {
         id: this.userid,
         password: this.password,
       });
     },
-  },
-  //每次进入登录页面，先检查是否已经登录，如果已经登录就直接跳转到/todo界面
-  beforeMount() {
-    console.log("mounted");
-    this.checkState();
   },
 };
 </script>

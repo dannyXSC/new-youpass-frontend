@@ -92,7 +92,16 @@ export default {
       id: this.$store.state.global.id,
     };
   },
+  mounted() {
+    console.log("@@@@@@@");
+    this.setProperty();
+  },
 
-  methods: {},
+  methods: {
+    setProperty() {
+      this.name = this.$store.state.global.name;
+      this.id = this.$store.state.global.id;
+    },
+  },
 };
 </script>
