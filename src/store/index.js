@@ -1,17 +1,7 @@
 // 该文件用于创建Vuex中最核心的store
 
-import {
-    checkState,
-    getAllInfo,
-    login,
-    searchCourse1,
-    searchCourse2,
-    searchCourse3,
-    signUp,
-    setSession,
-    getExamQuestion,
-    addQuestions
-} from "@/api/index";
+import { checkState, getAllInfo, login, searchCourse1, searchCourse2, searchCourse3, signUp, setSession, getExamQuestion, postAnswer, deleteSession } from "@/api/index";
+import { addQuestions, getImage, manualCorrect, quit } from "@/api/index";
 import router from "@/router";
 import Vue from 'vue';
 //引入Vuex
@@ -30,7 +20,7 @@ const global = {
                 console.log(res.code)
                 if (res.code == '100') {
                     alert("注册成功！您的id为：" + res.data)
-                    router.push('/login')
+                    router.push({ name: "login" })
                 } else if (res.code == '1') {
                     alert("该邮箱已经被注册过！")
                 }
@@ -46,11 +36,7 @@ const global = {
                 } else {
                     alert("账号密码错误，请重新输入！")
                 }
-            }).catch(err => {
-                console.log(err)
-            })
-
-
+             }).catch(err => { console.log(err) })
         },
         checkSession(context) {
             checkState().then(res => {
@@ -62,9 +48,9 @@ const global = {
             })
         },
         getInfo(context, data) {
-            console.log("connect!", data)
+            console.log("用户的id为：", data)
             getAllInfo(data).then((res) => {
-                console.log("res!", res)
+                console.log("getInfo被调用", res)
                 context.commit("SETINFO", res);
             }).catch((err =>
                 alert(err)
@@ -107,7 +93,9 @@ const global = {
             setSession(data).then((res) => {
                 if (res.code == '100') {
                     context.commit("SETEXAMSESSION");
-                } else {
+                    window.location.href="/#/examTest"
+                }
+                else {
                     alert(res.code + "没有考试权限");
                 }
             }).catch((err =>
@@ -119,16 +107,53 @@ const global = {
                 context.commit("SETEXAMINFO", res);
             }).catch((err =>
                 alert(err)
-            ))
+                ))
+        },
+        postAnswer(context, data) {
+            postAnswer(data).then((res) => {
+                console.log(res.code);
+            }).catch((err => 
+                alert(err)
+                ))
+        },
+        deleteSession(context) {
+            deleteSession().then((res) => {
+                console.log(res.code);
+            }).catch((err => 
+                alert(err)
+                ))
+        },
+        logout(context) {
+            quit().then(res => {
+                sessionStorage.removeItem("key");
+                router.push({ name: "HomeIndex" });
+            })
         },
         uploadQuestions(context, data) {
-            console.log(data)
             addQuestions(data).then((res) => {
-                context.commit("UPLOADQUESTIONS", res)
+                context.commit("COMPLETE", res)
             }).catch((error) => {
                 alert(error)
             })
         },
+
+        manualCorrect(context, data) {
+            manualCorrect(data).then((res) => {
+                context.commit("COMPLETE", res)
+            }).catch((error) => {
+                alert(error)
+            })
+        },
+        getImage(context) {
+            console.log("获取照片")
+            getImage().then(res => {
+                if (res.code == '100') {
+                    var blob = res.data
+                    
+                }
+            })
+        }
+
     },
     // 准备mutations---用于操作数据
     mutations: {
@@ -141,6 +166,7 @@ const global = {
             state.courseListStu = res.data.courseListStu;
             state.courseListTea = res.data.courseList;
             state.examList = res.data.examList;
+            state.messageList = res.data.noticeInfoSet
         },
 
         UPDATECOURSE(state,res) {
@@ -154,9 +180,9 @@ const global = {
             state.type = type;
         },
         SETUSERID(state, userId) {
-            state.id = userId
+            state.id = userId;
         },
-        UPLOADQUESTIONS(state, res) {
+        COMPLETE(state, res) {
             if (res.code !== 100) {
                 alert(res.msg)
             }
@@ -164,6 +190,22 @@ const global = {
         },
         SETEXAMINFO(state, res) {
             console.log("exam", res);
+            state.questionList = res.data.questionList;
+            console.log(state.questionList);
+
+            var answerList = [];
+            for (var a = 0; a < state.questionList.length; a++) {
+            if (!state.questionList[a].done) {
+                answerList[a] = [];
+            } else {
+            if (state.questionList[a].type > 1) {
+                answerList[a] = state.questionList[a].fill_content;
+            } else {
+                answerList[a] = state.questionList[a].multiList;
+                }
+            }
+            state.ansList = answerList;
+        }
         },
         SETEXAMSESSION(state) {
             state.isTesting = true;
@@ -180,23 +222,28 @@ const global = {
     },
     // 准备state---用于存储数据
 
-    state: {
-        register: false,
-        loginSuccess: false,
-        id: 0,
-        accountType: 1,
-        location: "",
-        email: "",
-        isLogin: false,
-        name: "",
-        courseListStu: [],
-        courseListTea: [],
-        examList: [],
-        searchedCourse: [],
-        type: 0,
-        isTesting: false,
-        currentExam:"",
-        currentCourseId:"",
+    state:{
+            register: false,
+            loginSuccess:false,
+            id:0,
+            accountType:1,
+            location:"",
+            email:"",
+            isLogin: false,
+            name: "",
+            courseListStu:[],
+            courseListTea:[],
+            examList:[],
+            searchedCourse:[],
+            type:0,
+            isTesting:false,
+            questionList:[],
+            ansList:[],
+            messageList: [],
+            imageInfo:"",
+            currentExam:"",
+            currentCourseId:"",
+
     },
     // 准备getters---用于将state中的数据进行加工
     // 类似计算属性

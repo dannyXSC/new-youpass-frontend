@@ -101,21 +101,22 @@
                 <div class="divider" />
                 <h6 class="mb-0">
                   Already have an account?
-                  <a href="javascript:void(0);" class="text-primary">Sign in</a>
-                  |
-                  <a href="javascript:void(0);" class="text-primary"
-                    >Recover Password</a
+                  <a href="javascript:void(0);" class="text-primary">
+                    <router-link to="/login">Login now</router-link></a
                   >
                 </h6>
               </div>
-              <div class="modal-footer d-block text-center">
-                <b-button
-                  @click="register()"
-                  color="primary"
-                  class="btn-wide btn-pill btn-shadow btn-hover-shine"
-                  size="lg"
-                  >Create Account
-                </b-button>
+              <div class="modal-footer clearfix">
+                <div class="float-left">
+                  <b-button variant="warning" size="sl" @click="back()"
+                    >Back to Home
+                  </b-button>
+                </div>
+                <div class="float-left">
+                  <b-button variant="success" size="sl" @click="register()"
+                    >Create Account
+                  </b-button>
+                </div>
               </div>
             </div>
           </div>
@@ -128,6 +129,7 @@
   </div>
 </template>
 <script>
+import router from "@/router";
 export default {
   name: "Register",
   methods: {
@@ -145,6 +147,9 @@ export default {
           type: this.$store.state.global.type,
         });
       }
+    },
+    back() {
+      router.push({ name: "HomeIndex" });
     },
   },
   data() {
