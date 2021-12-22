@@ -20,7 +20,9 @@ import VueKatex from 'vue-katex';
 
 import Default from './layout/Wrappers/baseLayout.vue';
 import Pages from './layout/Wrappers/pagesLayout.vue';
+import moment from 'moment'//导入文件
 
+Vue.prototype.$moment = moment;//赋值使用
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(VueToast)
@@ -32,8 +34,10 @@ Vue.use(VueKatex)
 Vue.component('default-layout', Default);
 Vue.component('userpages-layout', Pages);
 
-
-
+//全局时间过滤器
+Vue.filter('formatDate', function(value) {
+  return moment(value).format('YYYY-MM-DD HH:mm:ss')
+})
 
 new Vue({
   render: h => h(App),
