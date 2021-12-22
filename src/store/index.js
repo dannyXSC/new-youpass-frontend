@@ -1,6 +1,6 @@
 // 该文件用于创建Vuex中最核心的store
 
-import { checkState, getAllInfo, login, searchCourse1, searchCourse2, searchCourse3, signUp } from "@/api/index";
+import { checkState, getAllInfo, login, searchCourse1, searchCourse2, searchCourse3, signUp, setSession, getExamQuestion } from "@/api/index";
 import router from "@/router";
 import Vue from 'vue';
 //引入Vuex
@@ -53,9 +53,8 @@ const global = {
         getInfo(context, data){
             console.log("connect!", data)
             getAllInfo(data).then((res) => {
+                console.log("res!", res)
                 context.commit("SETINFO", res);
-
-
             }).catch((err => 
                 alert(err)
                 ))
@@ -95,19 +94,33 @@ const global = {
             }).catch(err => {
                 alert("未检索到相关课程信息！");
             })
+        },
+        setSession(context, data){
+            getAllInfo(data).then((res) => {
+                context.commit("SETINFO", res);
+            }).catch((err => 
+                alert(err)
+                ))
+        },
+        getExamQuestion(context){
+            getAllInfo(data).then((res) => {
+                context.commit("SETINFO", res);
+            }).catch((err => 
+                alert(err)
+                ))
         }
     },
     // 准备mutations---用于操作数据
     mutations:{
       
         SETINFO(state, res){
-            console.log(res);
             state.id = res.data.userInfo.id;
             state.email = res.data.userInfo.email;
             state.location = res.data.userInfo.location;
             state.name = res.data.userInfo.name;
             state.accountType = res.data.userInfo.type;
-            state.courseList = res.data.courseList;
+            state.courseListStu = res.data.courseListStu;
+            state.courseListTea = res.data.courseList;
             state.examList = res.data.examList;
         },
         UPDATECOURSE(state, res) {
@@ -136,8 +149,9 @@ const global = {
             email:"",
             isLogin: false,
             name: "",
-            courseList:null,
-            examList:null,
+            courseListStu:[],
+            courseListTea:[],
+            examList:[],
             register:false,
             searchedCourse:[],
             type:0
