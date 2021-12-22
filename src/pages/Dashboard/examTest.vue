@@ -261,7 +261,7 @@ export default {
       alert("试卷已提交！");
       this.$store.state.global.isTesting = false;
       this.$store.dispatch("global/deleteSession");
-      window.location.href = "/#/course";
+      window.location.href = "/#/dashboard/course";
     },
     handleSelect(item) {},
     calButtonVariant(item) {},

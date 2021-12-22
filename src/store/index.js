@@ -1,7 +1,7 @@
 // 该文件用于创建Vuex中最核心的store
 
 import { checkState, getAllInfo, login, searchCourse1, searchCourse2, searchCourse3, signUp, setSession, getExamQuestion, postAnswer, deleteSession } from "@/api/index";
-import { addQuestions, checkState, getAllInfo, getExamQuestion, getImage, login, manualCorrect, quit, searchCourse1, searchCourse2, searchCourse3, setSession, signUp } from "@/api/index";
+import { addQuestions, getImage, manualCorrect, quit } from "@/api/index";
 import router from "@/router";
 import Vue from 'vue';
 //引入Vuex
