@@ -89,3 +89,9 @@ export const courseGetExam = (courseId) => {
 export const autoCorrect = (data) => {
     return requests({url: "/score/autoCorrect", method: "post", data: data})
 }
+
+
+//获取考生所有考试成绩
+export const getStuCourseExamScore = (courseId) => {
+    return requests({url: "/score/getStuScore/" + courseId, method: "get"})
+}

@@ -67,6 +67,18 @@
                 </div>
               </li>
             </b-tab>
+            <b-tab title="其他功能">
+              <div class="widget-content-right">
+                <b-button
+                  block
+                  type="button"
+                  class="btn btn-light md-2"
+                  @click="getGrade(row.row.item.ID, row.row.item.课程名称)"
+                >
+                  查看课程考试成绩
+                </b-button>
+              </div>
+            </b-tab>
           </b-tabs>
         </b-card>
       </template>
@@ -104,7 +116,7 @@
             <b-tab title="其他功能">
               <div class="widget-content-right">
                 <b-button
-                    block
+                  block
                   type="button"
                   class="btn btn-light md-2"
                   @click="teacherExam(row.row.item.ID)"
@@ -112,10 +124,10 @@
                   管理考试
                 </b-button>
                 <b-button
-                    block
-                    type="button"
-                    class="btn btn-light md-2"
-                    @click="postExam(row.row.item.ID)"
+                  block
+                  type="button"
+                  class="btn btn-light md-2"
+                  @click="postExam(row.row.item.ID)"
                 >
                   发布考试
                 </b-button>
@@ -131,6 +143,8 @@
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
+
+import { getStuCourseExamScore } from "@/api/index";
 
 export default {
   name: "course",
@@ -163,6 +177,17 @@ export default {
     };
   },
   methods: {
+    getGrade(courseId) {
+      console.log(courseId);
+      getStuCourseExamScore(courseId)
+        .then((res) => {
+          console.log(res.code);
+        })
+        .catch((err) => alert(err));
+
+
+        
+    },
     enterExam(courseId, exam_id) {
       this.$store.dispatch("global/setSession", {
         courseId: courseId,
@@ -184,7 +209,7 @@ export default {
           courseId: courseId,
         },
       });
-    }
+    },
   },
   computed: {
     items() {
