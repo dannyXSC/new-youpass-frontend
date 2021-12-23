@@ -125,7 +125,7 @@ import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 //日期格式化
 Date.prototype.format = function (fmt) {
-  var o = {
+  let o = {
     "M+": this.getMonth() + 1, //月份
     "d+": this.getDate(), //日
     "h+": this.getHours(), //小时
@@ -139,7 +139,7 @@ Date.prototype.format = function (fmt) {
       RegExp.$1,
       (this.getFullYear() + "").substr(4 - RegExp.$1.length)
     );
-  for (var k in o)
+  for (let k in o)
     if (new RegExp("(" + k + ")").test(fmt))
       fmt = fmt.replace(
         RegExp.$1,

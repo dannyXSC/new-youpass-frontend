@@ -1,19 +1,19 @@
 <template>
   <div>
     <page-title
-      :heading="heading"
-      :subheading="subheading"
-      :icon="icon"
-      :breadcrumb-item="breadcrumbItem"
+        :heading="heading"
+        :subheading="subheading"
+        :icon="icon"
+        :breadcrumb-item="breadcrumbItem"
     ></page-title>
 
     <b-container>
       <b-row>
         <b-col cols="8">
           <div
-            v-for="question in questionList"
-            :key="question.questionId"
-            class="main-card mb-3 card"
+              v-for="question in questionList"
+              :key="question.questionId"
+              class="main-card mb-3 card"
           >
             <div class="card-body">
               <div class="per-question">
@@ -25,22 +25,22 @@
                   <div class="question-title">
                     <h5 class="card-title">{{ question.description }}</h5>
                   </div>
-                  <hr />
+                  <hr/>
                   <div v-if="question.type < 2" class="choice">
                     <div
-                      v-for="(option, index) in question.options"
-                      :key="index"
-                      class="per-choice"
+                        v-for="(option, index) in question.options"
+                        :key="index"
+                        class="per-choice"
                     >
                       <div class="option-tag">
                         <h5>{{ transform(index) }}</h5>
                       </div>
                       <div v-if="question.type === 0" class="option-button">
                         <b-button
-                          block
-                          class="btn-md mr-2 mb-2 text-left"
-                          :variant="calChoiceVariant(question, index)"
-                          @click="
+                            block
+                            class="btn-md mr-2 mb-2 text-left"
+                            :variant="calChoiceVariant(question, index)"
+                            @click="
                             pickSingle(
                               question.numInPaper,
                               question.questionId,
@@ -53,10 +53,10 @@
                       </div>
                       <div v-if="question.type === 1" class="option-button">
                         <b-button
-                          block
-                          class="btn-md mr-2 mb-2 text-left"
-                          :variant="calChoiceVariant(question, index)"
-                          @click="
+                            block
+                            class="btn-md mr-2 mb-2 text-left"
+                            :variant="calChoiceVariant(question, index)"
+                            @click="
                             pickMulti(
                               question.numInPaper,
                               question.questionId,
@@ -72,14 +72,14 @@
                   <div v-if="question.type > 1" class="fillin">
                     <div class="input-group">
                       <textarea
-                        v-model="ansList[question.numInPaper - 1]"
-                        class="form-control"
-                        placeholder="请在此输入答案..."
-                        style="resize: none; width: 700px; height: 200px"
-                        @keyup.enter="
+                          v-model="ansList[question.numInPaper - 1]"
+                          class="form-control"
+                          placeholder="请在此输入答案..."
+                          style="resize: none; width: 700px; height: 200px"
+                          @keyup.enter="
                           saveInput(question.numInPaper, question.questionId)
                         "
-                        @blur="
+                          @blur="
                           saveInput(question.numInPaper, question.questionId)
                         "
                       ></textarea>
@@ -93,29 +93,30 @@
 
         <b-col cols="4">
           <my-count-bar
-            :currentPage_props="currentPage"
-            :total_rows_props="questionList.length"
-            :per_page_props="per_page"
-            :items="questionList"
-            @updatePage="updatePage"
-            @onSelect="handleSelect"
+              :currentPage_props="currentPage"
+              :total_rows_props="questionList.length"
+              :per_page_props="per_page"
+              :items="questionList"
+              @updatePage="updatePage"
+              @onSelect="handleSelect"
           >
-            <template v-slot:header> 题目导览 </template>
+            <template v-slot:header> 题目导览</template>
             <template v-slot:footer>
               <b-row class="justify-content-between">
-                <b-col cols="8" md="auto"> </b-col>
+                <b-col cols="8" md="auto"></b-col>
                 <b-col cols="4" md="auto">
                   <b-button pill variant="warning" @click="submitTest"
-                    >提交测验</b-button
+                  >提交测验
+                  </b-button
                   >
                 </b-col>
               </b-row>
             </template>
             <template v-slot:button="item">
               <b-button
-                pill
-                :variant="calButtonVariant(item.item)"
-                @click="handleSelect(item.item)"
+                  pill
+                  :variant="calButtonVariant(item.item)"
+                  @click="handleSelect(item.item)"
               >
                 {{ item.item.numInPaper }}
               </b-button>
@@ -124,7 +125,9 @@
         </b-col>
       </b-row>
     </b-container>
-    {{ edit }}
+    <div style="display: none">
+      {{ edit }}
+    </div>
   </div>
 </template>
 
@@ -147,9 +150,9 @@ export default {
     per_page: 9,
 
     testTitle1:
-      "在生产管理信息系统中，下列操抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客作步骤能正确将工单推进流程的是（）",
+        "在生产管理信息系统中，下列操抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客作步骤能正确将工单推进流程的是（）",
     testTitle2:
-      "在营销系统中查询客户有无欠费、余额及抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客户时应做到哪些最基本的礼仪？",
+        "在营销系统中查询客户有无欠费、余额及抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客户时应做到哪些最基本的礼仪？",
     testTitle3: "以下属于南方电网员工职业操守中明文规定的有（）",
     heading: "JavaEE 期中测验",
     subheading: "2021/12/18",
@@ -196,8 +199,8 @@ export default {
 
     saveInput(numInPaper, questionId) {
       if (
-        this.ansList[numInPaper - 1] != null &&
-        this.ansList[numInPaper - 1] != ""
+          this.ansList[numInPaper - 1] != null &&
+          this.ansList[numInPaper - 1] != ""
       ) {
         this.$store.dispatch("global/postAnswer", {
           questionId: questionId,
@@ -246,12 +249,12 @@ export default {
 
     calChoiceVariant(question, ans) {
       if (this.ansList[question.numInPaper - 1] == null) {
-        return "success";
+        return "outline-success";
       } else {
         if (this.ansList[question.numInPaper - 1].includes(ans)) {
-          return "outline-success";
-        } else {
           return "success";
+        } else {
+          return "outline-success";
         }
       }
     },
@@ -262,10 +265,19 @@ export default {
       this.$store.dispatch("global/deleteSession");
       window.location.href = "/#/dashboard/course";
     },
-    handleSelect(item) {},
-    calButtonVariant(item) {},
-    updatePage() {},
-    handleSelect() {},
+    handleSelect(item) {
+    },
+    calButtonVariant(item) {
+      if(this.ansList[item.numInPaper - 1] != "" && this.ansList[item.numInPaper - 1] != null && this.ansList[item.numInPaper - 1] != []){
+        return "primary"
+      }else{
+        return "border-primary"
+      }
+    },
+    updatePage() {
+    },
+    handleSelect() {
+    },
   },
 };
 </script>
@@ -275,46 +287,56 @@ export default {
   float: left;
   width: 1000px;
 }
+
 .per-question .left-question {
   float: left;
   width: 60px;
 }
+
 .per-question .right-question {
   float: left;
   width: 600px;
 }
+
 .question-center {
   width: 400px;
   margin: 0 auto;
 }
+
 .question-title {
   margin-top: 10px;
 }
+
 .choice {
   margin-top: 10px;
   margin-right: 90px;
   margin-left: 3px;
 }
+
 .fillin {
   margin-top: 30px;
   margin-right: 50px;
   margin-left: 3px;
   margin-bottom: 10px;
 }
+
 .choice .per-choice {
   float: left;
   width: 1000px;
   vertical-align: middle;
 }
+
 .choice .per-choice .option-tag {
   float: left;
   width: 40px;
   margin-top: 3px;
 }
+
 .choice .per-choice .option-button {
   float: left;
   width: 500px;
 }
+
 .per-question .left-question i {
   width: 40px;
   height: 40px;
@@ -329,15 +351,18 @@ export default {
   font-size: 25px;
   font-weight: 700;
 }
+
 h5 {
   font-weight: 1000;
 }
+
 .test-head {
   position: fixed;
   width: 100%;
   height: 90px;
   background: #eee;
 }
+
 .paper-area {
 }
 </style>
