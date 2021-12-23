@@ -7,8 +7,6 @@
       :breadcrumb-item="breadcrumbItem"
     ></page-title>
 
-    <h5>{{ accountType }}</h5>
-
     <my-list
       v-if="accountType == 1"
       title="课程信息"
@@ -115,38 +113,26 @@
                     </div>
                     <div class="widget-content-right">
                       <div class="widget-heading">
-                        {{ row.row.item.课程名称 }}<br /><br />{{ row.row.item.ID }}
+                        {{ row.row.item.课程名称 }}<br /><br />{{
+                          row.row.item.ID
+                        }}
                       </div>
                     </div>
                   </div>
                 </div>
               </li>
             </b-tab>
-            <b-tab title="考试信息" active>
-              <li
-                v-for="exam in row.row.item.examList"
-                :key="exam.id"
-                class="list-group-item"
-              >
-                <div class="widget-content p-0">
-                  <div class="widget-content-wrapper">
-                    <div class="widget-content-left">
-                      <div class="widget-heading">
-                        {{ exam.title }}
-                      </div>
-                      <div class="widget-subheading">
-                        考试编号：{{ exam.exam_id }} <br />
-                        开始时间：{{ exam.start_time.slice(0, 10) }}
-                        {{ exam.start_time.slice(11, 16) }} <br />
-                        结束时间：{{ exam.end_time.slice(0, 10) }}
-                        {{ exam.end_time.slice(11, 16) }}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </li>
+            <b-tab title="其他功能">
+              <div class="widget-content-right">
+                <button
+                  type="button"
+                  class="btn btn-light"
+                  @click="teacherExam(row.row.item.ID)"
+                >
+                  进入考试
+                </button>
+              </div>
             </b-tab>
-            <b-tab title="其他功能"> </b-tab>
           </b-tabs>
         </b-card>
       </template>
@@ -195,6 +181,11 @@ export default {
         examId: exam_id,
       });
     },
+    teacherExam(courseId) {
+      this.$router.push({ name: "teacherExam" ,props: {
+        courseId:courseId,
+      }});
+    },
   },
   computed: {
     items() {
@@ -214,7 +205,7 @@ export default {
       return return_item;
     },
     t_items() {
-      console.log("computed" + this.$store.state.global.courseListTea);
+      console.log("computed teacher" + this.$store.state.global.courseListTea);
       let return_item = [];
       for (let i = 0; i < this.$store.state.global.courseListTea.length; ++i) {
         return_item.unshift({
@@ -222,7 +213,8 @@ export default {
           isActive: true,
           课程名称: this.$store.state.global.courseListTea[i].title,
           ID: this.$store.state.global.courseListTea[i].courseId,
-          examList: this.$store.state.global.courseListTea[i].examReturnInfoSet,
+          examListTea:
+            this.$store.state.global.courseListTea[i].examReturnInfoSet,
         });
       }
       return return_item;

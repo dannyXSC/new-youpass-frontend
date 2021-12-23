@@ -50,8 +50,8 @@
             </b-dropdown>
           </div>
           <div class="widget-content-left ml-3 header-user-info">
-            <div class="widget-heading">{{ name }}</div>
-            <div class="widget-subheading">{{ id }}</div>
+            <div class="widget-heading" v-if="name">{{ name }}</div>
+            <div class="widget-subheading" v-if="id">{{ id }}</div>
           </div>
           <div class="widget-content-right header-user-info ml-3">
             <!-- <b-btn
@@ -113,11 +113,6 @@ export default {
       file: "",
     };
   },
-  mounted() {
-    // console.log("in user", this.$store.state);
-    console.log("接下来调用赋值函数");
-    this.setProperty();
-  },
   computed: {
     name() {
       return this.$store.state.global.name;
@@ -127,13 +122,6 @@ export default {
     },
   },
   methods: {
-    setProperty() {
-      //   console.log("调用赋值函数");
-      this.name = this.$store.state.global.name;
-      this.id = this.$store.state.global.id;
-      //   console.log("in user", this.$store.state.global.name);
-      //   console.log("in user", this.name);
-    },
     logout() {
       this.$store.dispatch("global/logout");
     },
