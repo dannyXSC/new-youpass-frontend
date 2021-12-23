@@ -6,8 +6,7 @@
     <About/>
     <Login/>
     <Register/>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias dolor dolore, eveniet explicabo fugiat illum iure iusto laboriosam minima officia officiis perspiciatis, quae sapiente tenetur totam. Alias beatae corporis deserunt, dolore earum enim, eos ipsam iure molestias porro, possimus qui quis ratione recusandae voluptatum. Aspernatur corporis cum cumque cupiditate dicta dignissimos dolor enim fugit illum in ipsa iste iusto, labore modi molestiae molestias natus necessitatibus nesciunt odio odit optio quam repudiandae sapiente sit, temporibus totam vitae! A, autem cumque cupiditate dolor esse eveniet, inventore itaque optio provident, quam vel voluptate. Ab nulla quod reiciendis. Ea ex inventore ipsam nemo repudiandae?
-  </div>
+    </div>
 </template>
 
 <script>
@@ -41,7 +40,7 @@ export default {
 <style>
 /* section styling */
 section {
-  height: 100vh;
+  height: 80vh;
   padding: 70px 0;
 }
 section .title-container{

@@ -5,7 +5,7 @@
     </div>
     <div class="info-container">
       <button>
-        <router-link active-class="active" to="/login">go!</router-link>
+        <router-link active-class="active" to="/login">GO</router-link>
       </button>
     </div>
   </section>
@@ -39,15 +39,14 @@ button {
   background: crimson;
   color: #fff;
   font-size: 25px;
-  height: 100px;
-  width: 100px;
-  border-radius: 50%;
-  border: 2px solid crimson;
+  height: 130px;
+  width: 200px;
+  border-radius: 20%;
   transition: all 0.3s ease;
 }
 
 button:hover {
   color: crimson;
-  background: rgba(255, 255, 255, 0.5);
+  background:#fff;
 }
 </style>

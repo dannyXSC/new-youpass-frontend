@@ -67,27 +67,6 @@
                 </div>
               </li>
             </b-tab>
-            <b-tab title="其他功能">
-              <template
-                v-for="variant in [
-                  'primary',
-                  'secondary',
-                  'success',
-                  'info',
-                  'warning',
-                  'danger',
-                  'focus',
-                  'alternate',
-                  'light',
-                  'dark',
-                  'link',
-                ]"
-              >
-                <b-button class="mr-2 mb-2" :variant="variant" :key="variant">
-                  {{ variant }}
-                </b-button>
-              </template>
-            </b-tab>
           </b-tabs>
         </b-card>
       </template>

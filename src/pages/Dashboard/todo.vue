@@ -60,7 +60,7 @@
       </ul>
     </div>
 
-    <div class="content">
+    <div v-if="$store.state.global.accountType === 1" class="content">
       <div class="row">
         <div class="col-md-12">
           <div class="main-card mb-3 card">
@@ -68,7 +68,13 @@
               <h3 class="card-title">Coming Exams</h3>
               <hr />
               <div
-                class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--animate vertical-timeline--one-column"
+                class="
+                  vertical-time-simple
+                  vertical-without-time
+                  vertical-timeline
+                  vertical-timeline--animate
+                  vertical-timeline--one-column
+                "
               >
                 <div
                   v-for="(exam, index) in $store.state.global.examList"
@@ -155,10 +161,10 @@ export default {
     PageTitle,
     "font-awesome-icon": FontAwesomeIcon,
   },
-  computed:{
-    id(){
+  computed: {
+    id() {
       return this.$store.state.global.id;
-    }
+    },
   },
   data: () => ({
     inputTodo: "",
@@ -197,13 +203,19 @@ export default {
           break;
         }
       }
-      localStorage.setItem(this.$store.state.global.id, JSON.stringify(this.todos));
+      localStorage.setItem(
+        this.$store.state.global.id,
+        JSON.stringify(this.todos)
+      );
     },
     addTodo() {
       if (this.inputTodo != "" && !this.todos.includes(this.inputTodo)) {
         // console.log("添加Todo", this.inputTodo);
         this.todos.unshift(this.inputTodo);
-        localStorage.setItem(this.$store.state.global.id, JSON.stringify(this.todos));
+        localStorage.setItem(
+          this.$store.state.global.id,
+          JSON.stringify(this.todos)
+        );
         this.inputTodo = "";
       } else {
         alert("无法添加ToDo!");
@@ -211,7 +223,9 @@ export default {
     },
   },
   beforeUpdate() {
-    this.todos = JSON.parse(localStorage.getItem(this.id) || JSON.stringify([]));
+    this.todos = JSON.parse(
+      localStorage.getItem(this.id) || JSON.stringify([])
+    );
   },
 };
 </script>
