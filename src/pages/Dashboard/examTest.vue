@@ -109,12 +109,7 @@
                         >编辑
                       </b-button>
                       <div
-                        class="
-                          card-shadow-danger
-                          border
-                          card card-body
-                          border-danger
-                        "
+                        class="card-shadow-danger border card card-body border-danger"
                       >
                         <katex-element
                           :expression="
@@ -269,10 +264,7 @@ export default {
     },
 
     saveInput(numInPaper, questionId) {
-      if (
-        this.ansList[numInPaper - 1] != null &&
-        this.ansList[numInPaper - 1] != ""
-      ) {
+      if (this.ansList[numInPaper - 1] != null) {
         this.$store.dispatch("global/postAnswer", {
           questionId: questionId,
           stuFillAnswer: this.ansList[numInPaper - 1],
@@ -337,6 +329,7 @@ export default {
       window.location.href = "/#/dashboard/course";
     },
     calButtonVariant(item) {
+      console.log("123", this.ansList[item.numInPaper - 1]);
       if (
         this.ansList[item.numInPaper - 1] != "" &&
         this.ansList[item.numInPaper - 1] != null &&
@@ -356,6 +349,8 @@ export default {
           questionId = value.questionId;
         }
       });
+      this.edit = !this.edit;
+
       this.saveInput(this.editOwner, questionId);
 
       this.editOwner = null;
@@ -364,6 +359,8 @@ export default {
     handleCancel() {
       this.editOwner = null;
       this.editIntiContent = "";
+
+      this.edit = !this.edit;
     },
     handleSelect() {},
     openEdit() {
@@ -371,7 +368,15 @@ export default {
     },
     handleEdit(numInPaper) {
       this.editOwner = numInPaper;
-      this.editIntiContent = this.ansList[numInPaper - 1];
+      if (
+        this.ansList[numInPaper - 1] != "" &&
+        this.ansList[numInPaper - 1] != null &&
+        this.ansList[numInPaper - 1] != []
+      ) {
+        this.editIntiContent = this.ansList[numInPaper - 1];
+      } else {
+        this.editIntiContent = "";
+      }
       this.$nextTick(this.openEdit);
     },
   },

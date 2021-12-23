@@ -129,7 +129,7 @@
                   class="btn btn-light"
                   @click="teacherExam(row.row.item.ID)"
                 >
-                  进入考试
+                  管理考试
                 </button>
               </div>
             </b-tab>
@@ -182,9 +182,12 @@ export default {
       });
     },
     teacherExam(courseId) {
-      this.$router.push({ name: "teacherExam" ,props: {
-        courseId:courseId,
-      }});
+      this.$router.push({
+        name: "teacherExam",
+        params: {
+          courseId: courseId,
+        },
+      });
     },
   },
   computed: {

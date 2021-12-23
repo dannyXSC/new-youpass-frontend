@@ -103,6 +103,7 @@ const global = {
         },
         getExamQuestion(context) {
             getExamQuestion().then((res) => {
+                console.log(res)
                 context.commit("SETEXAMINFO", res);
             }).catch((err =>
                 alert(err)
