@@ -16,15 +16,15 @@ import HomeIndex from "@/pages/Home/index";
 import login from "@/pages/login";
 import notfound from "@/pages/notfound";
 import register from "@/pages/register";
-import Exams from "@/pages/studentPage/Exams";
 import Test from "@/pages/Test/index";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
 import VueRouter from "vue-router";
+import Exams from "@/pages/studentPage/Exams"
 
-
-
+import test1 from "@/pages/Test/test1";
+import teacherExam from "@/pages/Dashboard/teacherExam";
 
 
 
@@ -41,8 +41,7 @@ const router = new VueRouter({
             component: dashboard,
             children: [{
                     path: "/dashboard",
-                    component: todo,
-                    name: todo
+                    redirect: "todo"
                 },
                 {
                     path: "/dashboard/pick",
@@ -57,18 +56,26 @@ const router = new VueRouter({
                     component: addQuestions
                 },
                 {
+                    name: "correctPaper",
                     path: "/dashboard/correctPaper",
-                    component: correctPaper
+                    component: correctPaper,
+                    props: true
+                },
+                {
+                    name: "teacherExam",
+                    path: "/dashboard/teacherExam",
+                    component: teacherExam,
+                    props: true
                 },
                 {
                     path: "/dashboard/correctedQuestion",
                     component: correctedQuestion
                 },
-                // {
-                //     path: "/dashboard/todo",
-                //     component: todo,
-                //     name:todo
-                // },
+                {
+                    name: "todo",
+                    path: "/dashboard/todo",
+                    component: todo,
+                },
                 {
                     path: "/dashboard/course",
                     component: course
@@ -89,10 +96,14 @@ const router = new VueRouter({
                     component: test2
                 },
                 {
+                    path: "/test1",
+                    component: test1
+                },
+                {
                     path: "/test3",
                     component: test3
                 },
-           
+
                 {
                     path: "/pick",
                     component: pick
@@ -107,13 +118,13 @@ const router = new VueRouter({
                     name: todo
                 },
                 {
-                    path:"/examlist/:courseId",
+                    path: "/examlist/:courseId",
                     component: Exams
                 },
                 {
-                    path:'/exam/:examId',
+                    path: '/exam/:examId',
                     component: CertainExam
-                  },
+                },
                 {
                     path: "/test4",
                     component: test4

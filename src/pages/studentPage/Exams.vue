@@ -1,6 +1,5 @@
 <template>
     <div>
-        
         <b-container>
             <b-row>
                 <b-col  cols-lg="12">
@@ -106,9 +105,8 @@ import store from '@/store';
 
 export default {
     name:"Exams",
-    
     components: {PageTitle},
-    created(){
+    mounted(){
         //this.$router.push(`/personal/${1000}`)
         this.courseId=this.$route.params.courseId
         console.log("this.courseId:",this.courseId)
@@ -139,13 +137,8 @@ export default {
             subheading:"在此查看所有课程、个人信息以及成绩信息",
             exams:[
                 {couseId:'1000',exam_id:"1",title:"小测1",start_time:"2021年5月14日 14:23:23",end_time:"2021年5月14日 15:46:32"},
-             
-                
-    
             ],
         }
-      
-        
     }
 }
 </script>

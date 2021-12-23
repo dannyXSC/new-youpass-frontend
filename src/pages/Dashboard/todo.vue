@@ -155,6 +155,11 @@ export default {
     PageTitle,
     "font-awesome-icon": FontAwesomeIcon,
   },
+  computed:{
+    id(){
+      return this.$store.state.global.id;
+    }
+  },
   data: () => ({
     inputTodo: "",
     heading: "List Groups",
@@ -183,7 +188,7 @@ export default {
   }),
   methods: {
     deleteTodo(key) {
-      console.log("删除了", key);
+      // console.log("删除了", key);
       for (let i = 0; i < this.todos.length; i++) {
         if (this.todos[i] == key) {
           if (i > -1) {
@@ -192,21 +197,21 @@ export default {
           break;
         }
       }
-      localStorage.setItem("todos", JSON.stringify(this.todos));
+      localStorage.setItem(this.$store.state.global.id, JSON.stringify(this.todos));
     },
     addTodo() {
       if (this.inputTodo != "" && !this.todos.includes(this.inputTodo)) {
-        console.log("添加Todo", this.inputTodo);
+        // console.log("添加Todo", this.inputTodo);
         this.todos.unshift(this.inputTodo);
-        localStorage.setItem("todos", JSON.stringify(this.todos));
+        localStorage.setItem(this.$store.state.global.id, JSON.stringify(this.todos));
         this.inputTodo = "";
       } else {
         alert("无法添加ToDo!");
       }
     },
   },
-  mounted() {
-    this.todos = JSON.parse(localStorage.getItem("todos") || []);
+  beforeUpdate() {
+    this.todos = JSON.parse(localStorage.getItem(this.id) || JSON.stringify([]));
   },
 };
 </script>
