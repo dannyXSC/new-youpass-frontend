@@ -24,6 +24,7 @@ import VueRouter from "vue-router";
 import Exams from "@/pages/studentPage/Exams"
 
 import test1 from "@/pages/Test/test1";
+import teacherExam from "@/pages/Dashboard/teacherExam";
 
 
 
@@ -58,6 +59,12 @@ const router = new VueRouter({
                     name: "correctPaper",
                     path: "/dashboard/correctPaper",
                     component: correctPaper,
+                    props: true
+                },
+                {
+                    name: "teacherExam",
+                    path: "/dashboard/teacherExam",
+                    component: teacherExam,
                     props: true
                 },
                 {

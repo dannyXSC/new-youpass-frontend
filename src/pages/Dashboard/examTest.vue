@@ -144,7 +144,6 @@ export default {
     msg: String,
   },
   data: () => ({
-    currentPage: 1,
     per_page: 9,
 
     testTitle1:

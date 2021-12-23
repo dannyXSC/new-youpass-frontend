@@ -242,7 +242,6 @@ const global = {
             imageInfo:"",
             currentExam:"",
             currentCourseId:"",
-
     },
     // 准备getters---用于将state中的数据进行加工
     // 类似计算属性
