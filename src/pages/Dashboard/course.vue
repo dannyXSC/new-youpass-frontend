@@ -178,15 +178,23 @@ export default {
   },
   methods: {
     getGrade(courseId) {
-      console.log(courseId);
+      let gradeData = [];
       getStuCourseExamScore(courseId)
         .then((res) => {
-          console.log(res.code);
+          gradeData = res.data;
+          let responseList = [];
+          gradeData.forEach((element) => {
+            responseList.unshift({ name: element.title, value: element.score });
+          });
+          console.log(responseList);
+          this.$router.push({
+            name: "studentExam",
+            params: {
+              responseList: responseList,
+            },
+          });
         })
         .catch((err) => alert(err));
-
-
-        
     },
     enterExam(courseId, exam_id) {
       this.$store.dispatch("global/setSession", {

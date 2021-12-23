@@ -152,9 +152,9 @@ export default {
   components: { MyList, PageTitle },
   data() {
     return {
-      heading: "Standard Buttons",
+      heading: "搜索课程",
       subheading:
-        "Wide selection of buttons that feature different styles for backgrounds, borders and hover options!",
+        "Select courses!",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
 
       fields: ["课程名称", "ID"],
@@ -163,15 +163,7 @@ export default {
       inputContent: "",
       breadcrumbItem: [
         {
-          text: "Admin",
-          href: "#",
-        },
-        {
-          text: "Manage",
-          href: "#",
-        },
-        {
-          text: "Library",
+          text: "搜索课程",
           active: true,
         },
       ],
