@@ -110,12 +110,12 @@
                   <div class="widget-content-wrapper">
                     <div class="widget-content-left">
                       <div class="widget-heading">
-                        授课教师：{{ row.row.item.teacherName }}
+                        课程名称：<br /><br />课程编号：
                       </div>
                     </div>
                     <div class="widget-content-right">
                       <div class="widget-heading">
-                        编号： {{ row.row.item.teacherId }}
+                        {{ row.row.item.课程名称 }}<br /><br />{{ row.row.item.ID }}
                       </div>
                     </div>
                   </div>
@@ -142,21 +142,11 @@
                         {{ exam.end_time.slice(11, 16) }}
                       </div>
                     </div>
-                    <div class="widget-content-right">
-                      <button
-                        type="button"
-                        class="btn btn-light"
-                        @click="enterExam(exam.courseId, exam.exam_id)"
-                      >
-                        进入考试
-                      </button>
-                    </div>
                   </div>
                 </div>
               </li>
             </b-tab>
-            <b-tab title="其他功能">
-            </b-tab>
+            <b-tab title="其他功能"> </b-tab>
           </b-tabs>
         </b-card>
       </template>
