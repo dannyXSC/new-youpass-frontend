@@ -129,10 +129,17 @@ export default {
         // courseId:1000,
         // examId:1,
         questionId: item.questionId,
-      }).then(res=>{
-        console.log(res)
-      }).catch(error=>{
-
+      }).then(res => {
+        if (res.code === 100) {
+          alert("成功")
+          this.items = this.items.filter((value) => {
+            return value.questionId != item.questionId
+          })
+        } else {
+          alert(res.msg)
+        }
+      }).catch(error => {
+        alert(error)
       })
     }
   },

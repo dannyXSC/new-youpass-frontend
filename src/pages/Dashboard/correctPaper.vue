@@ -27,7 +27,7 @@
                       <h5>此学生的分数</h5>
                     </div>
                     <div class="widget-content-right">
-                      <h5>{{onShowStudentScore}}</h5>
+                      <h5>{{ onShowStudentScore }}</h5>
                     </div>
                   </div>
                 </div>
@@ -129,8 +129,8 @@
                     name="number"
                     id="exampleNumber"
                     placeholder="输入分数..."
-                    :min = "0"
-                    :max = "value"
+                    :min="0"
+                    :max="value"
                     v-model="studentList.find(el=>el.id===onShowId).score"
                 />
               </b-row>
@@ -203,17 +203,17 @@ export default {
     },
     onShowStudentScore() {
       let score = 0
-      this.studentList.forEach((value)=>{
-        if(value.id===this.onShowId){
+      this.studentList.forEach((value) => {
+        if (value.id === this.onShowId) {
           score = value.score
         }
       })
       return score
     },
-    onShowStudentAnswer(){
+    onShowStudentAnswer() {
       let answer = ""
-      this.studentList.forEach((value)=>{
-        if(value.id===this.onShowId){
+      this.studentList.forEach((value) => {
+        if (value.id === this.onShowId) {
           answer = value.answer
         }
       })
@@ -231,26 +231,26 @@ export default {
       this.onShowId = item.id
     },
     calButtonVariant(item) {
-      if(this.onShowId === item.id){
+      if (this.onShowId === item.id) {
         return 'secondary'
-      }else{
-        if(item.score!==null){
+      } else {
+        if (item.score !== null) {
           return 'outline-success'
-        }else{
+        } else {
           return 'outline-success'
         }
       }
     },
     handleSubmit() {
       let data = {
-        questionId:this.questionId,
-        courseId:this.courseId,
-        examId:this.examId,
-        scoreInfoList:[]
+        questionId: this.questionId,
+        courseId: this.courseId,
+        examId: this.examId,
+        scoreInfoList: []
       }
-      this.studentList.forEach((value)=>{
-        if(value.score!==null){
-          data.scoreInfoList.push({studentId:value.id,score:value.score})
+      this.studentList.forEach((value) => {
+        if (value.score !== null) {
+          data.scoreInfoList.push({studentId: value.id, score: value.score})
         }
       })
       console.log(data)
@@ -259,9 +259,9 @@ export default {
   },
   mounted() {
     getCorrectedQuestion({
-      questionId:this.questionId,
-      courseId:this.courseId,
-      examId:this.examId
+      questionId: this.questionId,
+      courseId: this.courseId,
+      examId: this.examId
     }).then(res => {
       console.log(res)
       if (res.code === 100) {
@@ -280,7 +280,7 @@ export default {
           })
 
           this.option.forEach((value, index) => {
-            if (res.data.questionInfo.standardAnswer.slice(index, index + 1) === "1") {
+            if (res.data.questionInfo.standardAnswer && res.data.questionInfo.standardAnswer.slice(index, index + 1) === "1") {
               this.optionStandardAnswer.push(value.optionId)
             }
           })
@@ -291,16 +291,15 @@ export default {
 
         //学生信息
         res.data.studentList.forEach((value, index) => {
-          if(this.type===0||this.type===1){
+          if (this.type === 0 || this.type === 1) {
             let answer = []
             this.option.forEach((optionValue, optionIndex) => {
-              if (value.studentAnswer.slice(optionIndex, optionIndex + 1) === "1") {
+              if (value.studentAnswer && value.studentAnswer.slice(optionIndex, optionIndex + 1) === "1") {
                 answer.push(optionValue.optionId)
               }
             })
             this.studentList.push({index: index, id: value.studentId, answer: answer, score: 0})
-          }
-          else{
+          } else {
             this.studentList.push({index: index, id: value.studentId, answer: value.studentAnswer, score: null})
           }
         })
