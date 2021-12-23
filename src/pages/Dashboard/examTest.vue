@@ -1,59 +1,66 @@
 <template>
   <div>
     <my-edit-modal
-        v-if="editOwner"
-        :init-content="editIntiContent"
-        @onSubmit="handleSubmit"
-        @onCancel="handleCancel"
+      v-if="editOwner"
+      :init-content="editIntiContent"
+      @onSubmit="handleSubmit"
+      @onCancel="handleCancel"
     />
 
     <page-title
-        :heading="heading"
-        :subheading="subheading"
-        :icon="icon"
-        :breadcrumb-item="breadcrumbItem"
+      :heading="heading"
+      :subheading="subheading"
+      :icon="icon"
+      :breadcrumb-item="breadcrumbItem"
     ></page-title>
 
     <b-container>
       <b-row>
         <b-col cols="8">
           <div
-              v-for="question in questionList"
-              :key="question.questionId"
-              class="main-card mb-3 card"
+            v-for="question in questionList"
+            :key="question.questionId"
+            class="main-card mb-3 card"
           >
             <div class="card-body">
               <div class="per-question">
                 <div class="left-question">
-                  <i>{{ question.numInPaper }}</i>
+                  <div>
+                    <i>{{ question.numInPaper }}</i>
+                  </div>
+                  <div class="option-tag-position">
+                    <div class="mb-2 mr-2 badge badge-primary">
+                      {{ typeTransform(question.type) }}
+                    </div>
+                  </div>
                 </div>
 
                 <div class="right-question">
                   <div class="question-title">
                     <h5 class="card-title">
                       <katex-element
-                          :expression="parseLatex(question.description)"
-                          :throw-on-error="false"
-                          :strict="false"
+                        :expression="parseLatex(question.description)"
+                        :throw-on-error="false"
+                        :strict="false"
                       />
                     </h5>
                   </div>
-                  <hr/>
+                  <hr />
                   <div v-if="question.type < 2" class="choice">
                     <div
-                        v-for="(option, index) in question.options"
-                        :key="index"
-                        class="per-choice"
+                      v-for="(option, index) in question.options"
+                      :key="index"
+                      class="per-choice"
                     >
                       <div class="option-tag">
                         <h5>{{ transform(index) }}</h5>
                       </div>
                       <div v-if="question.type === 0" class="option-button">
                         <b-button
-                            block
-                            class="btn-md mr-2 mb-2 text-left"
-                            :variant="calChoiceVariant(question, index)"
-                            @click="
+                          block
+                          class="btn-md mr-2 mb-2 text-left"
+                          :variant="calChoiceVariant(question, index)"
+                          @click="
                             pickSingle(
                               question.numInPaper,
                               question.questionId,
@@ -62,18 +69,18 @@
                           "
                         >
                           <katex-element
-                              :expression="parseLatex(option.content)"
-                              :throw-on-error="false"
-                              :strict="false"
+                            :expression="parseLatex(option.content)"
+                            :throw-on-error="false"
+                            :strict="false"
                           />
                         </b-button>
                       </div>
                       <div v-if="question.type === 1" class="option-button">
                         <b-button
-                            block
-                            class="btn-md mr-2 mb-2 text-left"
-                            :variant="calChoiceVariant(question, index)"
-                            @click="
+                          block
+                          class="btn-md mr-2 mb-2 text-left"
+                          :variant="calChoiceVariant(question, index)"
+                          @click="
                             pickMulti(
                               question.numInPaper,
                               question.questionId,
@@ -82,9 +89,9 @@
                           "
                         >
                           <katex-element
-                              :expression="parseLatex(option.content)"
-                              :throw-on-error="false"
-                              :strict="false"
+                            :expression="parseLatex(option.content)"
+                            :throw-on-error="false"
+                            :strict="false"
                           />
                         </b-button>
                       </div>
@@ -92,24 +99,44 @@
                   </div>
                   <div v-if="question.type > 1" class="fillin">
                     <div class="input-group">
-                      <b-button block class="mr-2 mb-3" pill variant="outline-primary" size="sm"
-                                >编辑
+                      <b-button
+                        block
+                        class="mr-2 mb-3"
+                        pill
+                        variant="outline-primary"
+                        size="sm"
+                        @click="handleEdit(question.numInPaper)"
+                        >编辑
                       </b-button>
-                      <div class="card-shadow-danger border card card-body border-danger">
-                        123
+                      <div
+                        class="
+                          card-shadow-danger
+                          border
+                          card card-body
+                          border-danger
+                        "
+                      >
+                        <katex-element
+                          :expression="
+                            parseLatex(ansList[question.numInPaper - 1])
+                          "
+                          :throw-on-error="false"
+                          :strict="false"
+                        />
                       </div>
-                      <textarea
-                          v-model="ansList[question.numInPaper - 1]"
-                          class="form-control"
-                          placeholder="请在此输入答案..."
-                          style="resize: none; width: 700px; height: 200px"
-                          @keyup.enter="
+
+                      <!-- <textarea
+                        v-model="ansList[question.numInPaper - 1]"
+                        class="form-control"
+                        placeholder="请在此输入答案..."
+                        style="resize: none; width: 700px; height: 200px"
+                        @keyup.enter="
                           saveInput(question.numInPaper, question.questionId)
                         "
-                          @blur="
+                        @blur="
                           saveInput(question.numInPaper, question.questionId)
                         "
-                      ></textarea>
+                      ></textarea> -->
                     </div>
                   </div>
                 </div>
@@ -120,12 +147,12 @@
 
         <b-col cols="4">
           <my-count-bar
-              :currentPage_props="currentPage"
-              :total_rows_props="questionList.length"
-              :per_page_props="per_page"
-              :items="questionList"
-              @updatePage="updatePage"
-              @onSelect="handleSelect"
+            :currentPage_props="currentPage"
+            :total_rows_props="questionList.length"
+            :per_page_props="per_page"
+            :items="questionList"
+            @updatePage="updatePage"
+            @onSelect="handleSelect"
           >
             <template v-slot:header> 题目导览</template>
             <template v-slot:footer>
@@ -133,17 +160,16 @@
                 <b-col cols="8" md="auto"></b-col>
                 <b-col cols="4" md="auto">
                   <b-button pill variant="warning" @click="submitTest"
-                  >提交测验
-                  </b-button
-                  >
+                    >提交测验
+                  </b-button>
                 </b-col>
               </b-row>
             </template>
             <template v-slot:button="item">
               <b-button
-                  pill
-                  :variant="calButtonVariant(item.item)"
-                  @click="handleSelect(item.item)"
+                pill
+                :variant="calButtonVariant(item.item)"
+                @click="handleSelect(item.item)"
               >
                 {{ item.item.numInPaper }}
               </b-button>
@@ -162,6 +188,7 @@
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import TestNavbar from "@/layout/Components/PageTitle3.vue";
 import MyCountBar from "@/components/myCountBar";
+import MyEditModal from "@/components/myEditModal.vue";
 
 import parse from "@/utils/parseLatex";
 
@@ -171,6 +198,7 @@ export default {
     PageTitle,
     TestNavbar,
     MyCountBar,
+    MyEditModal,
   },
   props: {
     msg: String,
@@ -179,9 +207,9 @@ export default {
     per_page: 9,
 
     testTitle1:
-        "在生产管理信息系统中，下列操抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客作步骤能正确将工单推进流程的是（）",
+      "在生产管理信息系统中，下列操抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客作步骤能正确将工单推进流程的是（）",
     testTitle2:
-        "在营销系统中查询客户有无欠费、余额及抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客户时应做到哪些最基本的礼仪？",
+      "在营销系统中查询客户有无欠费、余额及抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客户时应做到哪些最基本的礼仪？",
     testTitle3: "以下属于南方电网员工职业操守中明文规定的有（）",
     heading: "JavaEE 期中测验",
     subheading: "2021/12/18",
@@ -199,7 +227,7 @@ export default {
     },
     edit: true,
     editOwner: null,
-    editIntiContent:""
+    editIntiContent: "",
   }),
   computed: {
     questionList() {
@@ -213,8 +241,19 @@ export default {
     this.$store.dispatch("global/getExamQuestion");
   },
   methods: {
-    parseLatex(content){
-      return parse(content)
+    typeTransform(type) {
+      if (type === 0) {
+        return "单选";
+      } else if (type === 1) {
+        return "多选";
+      } else if (type === 2) {
+        return "填空";
+      } else if (type === 3) {
+        return "大题";
+      }
+    },
+    parseLatex(content) {
+      return parse(content);
     },
     transform(num) {
       return String.fromCharCode(num + 65);
@@ -231,8 +270,8 @@ export default {
 
     saveInput(numInPaper, questionId) {
       if (
-          this.ansList[numInPaper - 1] != null &&
-          this.ansList[numInPaper - 1] != ""
+        this.ansList[numInPaper - 1] != null &&
+        this.ansList[numInPaper - 1] != ""
       ) {
         this.$store.dispatch("global/postAnswer", {
           questionId: questionId,
@@ -298,20 +337,43 @@ export default {
       window.location.href = "/#/dashboard/course";
     },
     calButtonVariant(item) {
-      if(this.ansList[item.numInPaper - 1] != "" && this.ansList[item.numInPaper - 1] != null && this.ansList[item.numInPaper - 1] != []){
-        return "primary"
-      }else{
-        return "border-primary"
+      if (
+        this.ansList[item.numInPaper - 1] != "" &&
+        this.ansList[item.numInPaper - 1] != null &&
+        this.ansList[item.numInPaper - 1] != []
+      ) {
+        return "primary";
+      } else {
+        return "border-primary";
       }
     },
-    updatePage() {
-    },
-    handleSubmit() {
+    updatePage() {},
+    handleSubmit(content) {
+      this.ansList[this.editOwner - 1] = content;
+      let questionId = 0;
+      this.questionList.forEach((value) => {
+        if (value.numInPaper === this.editOwner) {
+          questionId = value.questionId;
+        }
+      });
+      this.saveInput(this.editOwner, questionId);
 
+      this.editOwner = null;
+      this.editIntiContent = "";
     },
     handleCancel() {
-
-    }
+      this.editOwner = null;
+      this.editIntiContent = "";
+    },
+    handleSelect() {},
+    openEdit() {
+      this.$bvModal.show("edit-modal");
+    },
+    handleEdit(numInPaper) {
+      this.editOwner = numInPaper;
+      this.editIntiContent = this.ansList[numInPaper - 1];
+      this.$nextTick(this.openEdit);
+    },
   },
 };
 </script>
@@ -396,7 +458,8 @@ h5 {
   height: 90px;
   background: #eee;
 }
-
-.paper-area {
+.per-question .left-question .option-tag-position {
+  margin-top: 55px;
+  margin-left: 3px;
 }
 </style>
