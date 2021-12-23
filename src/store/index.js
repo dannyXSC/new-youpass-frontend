@@ -1,6 +1,6 @@
 // 该文件用于创建Vuex中最核心的store
 
-import { addQuestions, getStuCourseExamScore, checkState, courseGetExam, deleteSession, getAllInfo, getExamQuestion, getImage, login, manualCorrect, postAnswer, postExam, quit, searchCourse1, searchCourse2, searchCourse3, setSession, signUp } from "@/api/index";
+import { addQuestions, checkState, courseGetExam, deleteSession, getAllInfo, getExamQuestion, getImage, getStuCourseExamScore, login, manualCorrect, postAnswer, postExam, quit, searchCourse1, searchCourse2, searchCourse3, setSession, signUp } from "@/api/index";
 import router from "@/router";
 import Vue from 'vue';
 //引入Vuex
@@ -147,7 +147,18 @@ const global = {
 
         manualCorrect(context, data) {
             manualCorrect(data).then((res) => {
-                context.commit("COMPLETE", res)
+                if (res.code !== 100) {
+                    alert(res.msg)
+                } else {
+                    console.log(data)
+                    router.push({
+                        name: "correctedQuestion",
+                        params: {
+                            courseId: data.courseId,
+                            examId:data.examId
+                        }
+                    })
+                }
             }).catch((error) => {
                 alert(error)
             })
@@ -166,7 +177,7 @@ const global = {
                 console.log(res)
                 if (res.code == '100') {
                     alert('发布考试成功！')
-                    router.push({ name: "teacherExam" });
+                    router.push({ name: "todo" });
                 }
             })
         },
