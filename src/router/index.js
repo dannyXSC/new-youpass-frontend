@@ -41,7 +41,7 @@ const router = new VueRouter({
             component: dashboard,
             children: [{
                     path: "/dashboard",
-                    redirect: "todo"
+                    redirect: "/dashboard/todo"
                 },
                 {
                     path: "/dashboard/pick",
@@ -68,8 +68,10 @@ const router = new VueRouter({
                     props: true
                 },
                 {
+                    name:"correctedQuestion",
                     path: "/dashboard/correctedQuestion",
-                    component: correctedQuestion
+                    component: correctedQuestion,
+                    props: true
                 },
                 {
                     name: "todo",
@@ -81,7 +83,7 @@ const router = new VueRouter({
                     component: course
                 },
                 {
-                    path: "/personinfo",
+                    path: "/dashboard/personinfo",
                     component: personInfo,
                     name: personInfo
                 },
@@ -184,7 +186,7 @@ router.beforeEach((to, from, next) => {
             .then((res) => {
                 if (res.code === 100) {
                     console.log("123")
-                    next({ name: "Dashboard" })
+                    next("/dashboard/todo")
                 } else {
                     next()
                 }
