@@ -41,14 +41,14 @@
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
-import Courses from "./Courses.vue"
+
 import Grade from "./Grade.vue"
 import Students from "./Students.vue"
 import ExamTable from "./ExamsTable.vue"
 
 export default {
     name: 'CourseManagement',
-    components: {MyList, PageTitle,Courses,Grade,Students,ExamTable},
+    components: {MyList, PageTitle,Grade,Students,ExamTable},
     created(){
         this.courseId=kthis.$route.params.id
     },

@@ -13,8 +13,38 @@
 import * as echarts from 'echarts'
 export default {
     name:"Grade",
+    props:["students"],
+    created(){
+        
+       
+    },
+    methods:{
+        countNums(){
+            
+            for(var i=0;i<this.students.length;i++){
+                if(this.students[i].score>=90){
+                    this.option.series[0].data[0].value+=1;
+
+                }
+                else if(this.students[i].score>=80){
+                    this.option.series[0].data[1].value+=1;
+                }
+                else if(this.students[i].score>=70){
+                    this.option.series[0].data[2].value+=1;
+                }
+                else if(this.students[i].score>=60){
+                    this.option.series[0].data[3].value+=1;
+                }
+                else {
+                    this.option.series[0].data[4].value+=1;
+                }
+            }
+            
+        }
+    },
     data(){
         return{
+          
             option:{
                 tooltip: {
                         trigger: 'item'
@@ -25,7 +55,7 @@ export default {
                 },
                 title: [
                     {
-                        text: '班级成绩分析',
+                        text: '成绩分析',
                         left: 'center'
                     },
                   
@@ -64,11 +94,11 @@ export default {
                             show: true
                         },
                          data: [
-                                { value: 1048, name: '90-100' },
-                                { value: 735, name: '80-90' },
-                                { value: 580, name: '70-80' },
-                                { value: 484, name: '60-70' },
-                                { value: 300, name: '0-60' }
+                                { value: '', name: '90-100' },
+                                { value:'', name: '80-90' },
+                                { value: '', name: '70-80' },
+                                { value: '', name: '60-70' },
+                                { value: '', name: '0-60' }
                             ]
                         
                         },
@@ -78,6 +108,13 @@ export default {
         }
     },
     mounted(){
+        this.option.series[0].data[0].value=0
+        this.option.series[0].data[1].value=0
+        this.option.series[0].data[2].value=0
+        this.option.series[0].data[3].value=0
+        this.option.series[0].data[4].value=0
+         this.countNums()
+        console.log(this.option.series[0].data)
          // 1. 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('score'))
 		 

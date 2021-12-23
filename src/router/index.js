@@ -1,8 +1,9 @@
 // 用于创建整个应用的路由器
+
 import { checkState } from "@/api";
-import CourseManagement from "@/pages/courseManagement/CourseManagement";
 import addQuestions from "@/pages/Dashboard/addQuestions";
 import course from "@/pages/Dashboard/course";
+
 import examTest from "@/pages/Dashboard/examTest";
 import dashboard from "@/pages/Dashboard/index";
 import message from "@/pages/Dashboard/message";
@@ -13,14 +14,18 @@ import HomeIndex from "@/pages/Home/index";
 import login from "@/pages/login";
 import notfound from "@/pages/notfound";
 import register from "@/pages/register";
-import PersonalPage from "@/pages/studentPage/PersonalPage";
 import Test from "@/pages/Test/index";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
 import VueRouter from "vue-router";
+
+import Exams from "@/pages/studentPage/Exams"
+
 import correctPaper from "@/pages/Dashboard/correctPaper";
 import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
+import CertainExam from "@/pages/exams/CertainExam";
+
 
 
 // 创建一个路由器 并暴露
@@ -87,12 +92,6 @@ const router = new VueRouter({
                     path: "/test3",
                     component: test3
                 },
-                {
-
-                    path: "/courseManagement",
-                    name: "CourseManagement",
-                    component: CourseManagement,
-                },
 
                 {
                     path: "/pick",
@@ -108,12 +107,12 @@ const router = new VueRouter({
                     name: todo
                 },
                 {
-                    path: "/personal/:courseId",
-                    component: PersonalPage
+                    path: "/examlist/:courseId",
+                    component: Exams
                 },
                 {
                     path: '/exam/:examId',
-                    component: CourseManagement
+                    component: CertainExam
                 },
                 {
                     path: "/test4",

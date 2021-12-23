@@ -15,7 +15,7 @@
                   <img
                     width="40"
                     class="rounded-circle"
-                    src="@/assets/images/avatars/1.jpg"
+                    :src="ImageURL"
                     alt=""
                   />
                 </div>
@@ -28,13 +28,15 @@
               >
                 查看个人信息
               </button>
-              <button
-                type="button"
-                tabindex="0"
-                class="dropdown-item"
-                @click="changeImage()"
-              >
-                更换头像
+              <button type="button" tabindex="0" class="dropdown-item">
+                修改头像
+                <input
+                  id="categoryPic"
+                  accept="image/*"
+                  type="file"
+                  name="image"
+                  @change="getFile($event)"
+                />
               </button>
               <div tabindex="-1" class="dropdown-divider"></div>
               <button
@@ -109,6 +111,8 @@ export default {
     return {
       name: this.$store.state.global.name,
       id: this.$store.state.global.id,
+      ImageURL: "http://localhost:5050/api/account/getImage/",
+      file: "",
     };
   },
   mounted() {
@@ -131,7 +135,22 @@ export default {
     checkPersonalInfo() {
       router.push("/personInfo");
     },
-    changeImage() {},
+
+    update: function () {
+      var url = this.uri + "/" + this.bean.id;
+      var formdata = new FormData();
+
+      formdata.append("name", this.bean.name);
+      formdata.append("image", this.file);
+
+      axios.put(url, formdata).then(function (response) {
+        location.href = vue.listURL;
+      });
+    },
+    getFile: function (event) {
+      this.file = event.target.files[0];
+      console.log(this.file);
+    },
   },
 };
 </script>
