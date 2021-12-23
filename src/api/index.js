@@ -33,31 +33,27 @@ export const setSession = (data)=>{
 export const getExamQuestion = ()=>{
     return requests({url:'/exam/takeExam/getExamQuestion',method:'get'})
 }
-export const quit = () => {
-    return requests({ url: '/account/quitAccount', method: 'delete' })
+export const postAnswer = (data)=>{
+    return requests({url:'/exam/takeExam/studentPostAnswer',method:'post', data:data})
 }
-//老师添加题目
-export const addQuestions = (postData)=>{
-    return requests({url:'/question/update',method:'post',data:postData})
+export const deleteSession = (data)=>{
+    return requests({url:'/exam/takeExam/deleteSession',method:'delete'})
 }
-//获取老师需要批改的所有题目
-export const getCorrectedQuestion = (data)=>{
-    return requests({url:'/question/getStu',method:'post',data:data})
-}
-//老师批改完提交
-export const manualCorrect = (data)=>{
-    return requests({url:'/score/manualCorrect',method:'post',data:data})
-}
-//获取考试所有未批改的信息
-
-
+//获取课程的考试
 export const getExams = (courseId)=>{
     return requests({url:"/exam/courseGetExam/"+courseId,method:'get'})
 }
+
+//获取考试所有学生的成绩
+export const getAllStudents=(courseId,examId)=>{
+    return requests({url:'/score/getGrade'+courseId+"/"+examId,method:'get'})
+}
+
 export const getMessage = (data)=>{
     return requests({url:"/exam/courseGetExam/"+courseId,method:'get'})
 }
 export const getImage = () => { 
     return requests({ url: '/account/getImage', method: 'get' })
 }
+
 

@@ -43,7 +43,7 @@
         :sort-by.sync="sortBy"
         :sort-desc.sync="sortDesc"
         :current-page="currentPage"
-        :per-page="10"
+        :per-page="8"
         :filter="filter"
         :filter-included-fields="filterOn"
         sort-icon-left
@@ -56,10 +56,10 @@
         </b-col>
        <b-col sm="4"  >
         <b-pagination
-        type="primary"
+          variant="warning"
           v-model="currentPage"
           :total-rows="totalRows"
-          :per-page=10
+          :per-page=8
           align="fill"
           size="sm"
           class="my-0"
@@ -73,10 +73,10 @@
 <script>
   export default {
     name:"Students",
-    //props:["students"],
+    props:["students"],
     data() {
       return {
-        sortBy: 'id',
+        sortBy: 'studentId',
         sortDesc: false,
         currentPage:1,
         totalRows:'',
@@ -87,92 +87,10 @@
         bordered: false,
         outlined: false,
         small: false,
-        students:[
-                {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-                 {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-                 {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-                 {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-                 {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-                 {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-                 {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-                 {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-                 {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-                 {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-                 {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-
-                {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-                {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-                {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-                {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-                {
-                    name:"coco",
-                    id:"1953275",
-                    score:"100"
-                },
-            ],
+      
         fields: [
          
-          { key: 'id', label:'学号', sortable: true,  sortDirection: 'asc'},
+          { key: 'studentId', label:'学号', sortable: true,  sortDirection: 'asc'},
           { key: 'name', label:'姓名', sortable: false},
           {key:'score',label:'成绩',sortable:true},
             ],

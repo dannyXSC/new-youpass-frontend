@@ -1,6 +1,6 @@
 // 用于创建整个应用的路由器
+
 import { checkState } from "@/api";
-import CourseManagement from "@/pages/courseManagement/CourseManagement";
 import addQuestions from "@/pages/Dashboard/addQuestions";
 import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
 import correctPaper from "@/pages/Dashboard/correctPaper";
@@ -15,12 +15,16 @@ import HomeIndex from "@/pages/Home/index";
 import login from "@/pages/login";
 import notfound from "@/pages/notfound";
 import register from "@/pages/register";
-import PersonalPage from "@/pages/studentPage/PersonalPage";
+import Exams from "@/pages/studentPage/Exams";
 import Test from "@/pages/Test/index";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
 import VueRouter from "vue-router";
+
+
+
+
 
 
 // 创建一个路由器 并暴露
@@ -87,13 +91,7 @@ const router = new VueRouter({
                     path: "/test3",
                     component: test3
                 },
-                {
-
-                    path: "/courseManagement",
-                    name: "CourseManagement",
-                    component: CourseManagement,
-                },
-
+           
                 {
                     path: "/pick",
                     component: pick
@@ -108,13 +106,13 @@ const router = new VueRouter({
                     name: todo
                 },
                 {
-                    path: "/personal/:courseId",
-                    component: PersonalPage
+                    path:"/examlist/:courseId",
+                    component: Exams
                 },
                 {
-                    path: '/exam/:examId',
-                    component: CourseManagement
-                },
+                    path:'/exam/:examId',
+                    component: CertainExam
+                  },
                 {
                     path: "/test4",
                     component: test4
