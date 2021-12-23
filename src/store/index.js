@@ -1,6 +1,6 @@
 // 该文件用于创建Vuex中最核心的store
 
-import { addQuestions, checkState, deleteSession, getAllInfo, getExamQuestion, getImage, login, manualCorrect, postAnswer, postExam, quit, searchCourse1, searchCourse2, searchCourse3, setSession, signUp } from "@/api/index";
+import { addQuestions, checkState, courseGetExam, deleteSession, getAllInfo, getExamQuestion, getImage, login, manualCorrect, postAnswer, postExam, quit, searchCourse1, searchCourse2, searchCourse3, setSession, signUp } from "@/api/index";
 import router from "@/router";
 import Vue from 'vue';
 //引入Vuex
@@ -31,7 +31,7 @@ const global = {
             login(data).then(res => {
                 if (res.code == '100') {
                     context.commit("SETUSERID", data.id)
-                    router.push({ name: "Dashboard" });
+                    router.push("/dashboard/todo");
                 } else {
                     alert("账号密码错误，请重新输入！")
                 }
@@ -162,6 +162,14 @@ const global = {
                     router.push({ name: "teacherExam" });
                 }
             })
+        },
+        getCourseExam(context, CourseId) {
+            courseGetExam(CourseId).then(res => {
+                if (res.code == '100') {
+                    var blob = res.data
+                    console.log(res);
+                }
+            })
         }
 
     },
@@ -177,6 +185,10 @@ const global = {
             state.courseListTea = res.data.courseList;
             state.examList = res.data.examList;
             state.messageList = res.data.noticeInfoSet
+        },
+
+        UPDATECOURSEEXAM(state,res) {
+
         },
 
         UPDATECOURSE(state,res) {

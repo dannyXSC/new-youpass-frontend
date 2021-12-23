@@ -1,6 +1,6 @@
 // 用于创建整个应用的路由器
 
-import { checkState } from "@/api";
+import {checkState, getExamQuestion} from "@/api";
 import addQuestions from "@/pages/Dashboard/addQuestions";
 import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
 import correctPaper from "@/pages/Dashboard/correctPaper";
@@ -42,7 +42,7 @@ const router = new VueRouter({
             component: dashboard,
             children: [{
                     path: "/dashboard",
-                    redirect: "todo"
+                    redirect: "/dashboard/todo"
                 },
                 {
                     path: "/dashboard/pick",
@@ -69,8 +69,10 @@ const router = new VueRouter({
                     props: true
                 },
                 {
+                    name:"correctedQuestion",
                     path: "/dashboard/correctedQuestion",
-                    component: correctedQuestion
+                    component: correctedQuestion,
+                    props: true
                 },
                 {
                     name: "todo",
@@ -190,7 +192,7 @@ router.beforeEach((to, from, next) => {
             .then((res) => {
                 if (res.code === 100) {
                     console.log("123")
-                    next({ name: "Dashboard" })
+                    next("/dashboard/todo")
                 } else {
                     next()
                 }
@@ -199,7 +201,19 @@ router.beforeEach((to, from, next) => {
                 console.error(err)
                 next({ name: "notFound" })
             })
-    } else {
+    }
+    else if(to.name==="examTest"){
+        getExamQuestion().then((res) => {
+            if(res.code===100){
+                next()
+            }else{
+                next("/notFound")
+            }
+        }).catch((err =>
+                next("/notFound")
+        ))
+    }
+    else {
         next()
     }
 

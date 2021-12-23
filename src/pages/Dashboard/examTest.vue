@@ -1,5 +1,12 @@
 <template>
   <div>
+    <my-edit-modal
+      v-if="editOwner"
+      :init-content="editIntiContent"
+      @onSubmit="handleSubmit"
+      @onCancel="handleCancel"
+    />
+
     <page-title
       :heading="heading"
       :subheading="subheading"
@@ -18,12 +25,25 @@
             <div class="card-body">
               <div class="per-question">
                 <div class="left-question">
-                  <i>{{ question.numInPaper }}</i>
+                  <div>
+                    <i>{{ question.numInPaper }}</i>
+                  </div>
+                  <div class="option-tag-position">
+                    <div class="mb-2 mr-2 badge badge-primary">
+                      {{ typeTransform(question.type) }}
+                    </div>
+                  </div>
                 </div>
 
                 <div class="right-question">
                   <div class="question-title">
-                    <h5 class="card-title">{{ question.description }}</h5>
+                    <h5 class="card-title">
+                      <katex-element
+                        :expression="parseLatex(question.description)"
+                        :throw-on-error="false"
+                        :strict="false"
+                      />
+                    </h5>
                   </div>
                   <hr />
                   <div v-if="question.type < 2" class="choice">
@@ -48,7 +68,11 @@
                             )
                           "
                         >
-                          {{ option.content }}
+                          <katex-element
+                            :expression="parseLatex(option.content)"
+                            :throw-on-error="false"
+                            :strict="false"
+                          />
                         </b-button>
                       </div>
                       <div v-if="question.type === 1" class="option-button">
@@ -64,14 +88,44 @@
                             )
                           "
                         >
-                          {{ option.content }}
+                          <katex-element
+                            :expression="parseLatex(option.content)"
+                            :throw-on-error="false"
+                            :strict="false"
+                          />
                         </b-button>
                       </div>
                     </div>
                   </div>
                   <div v-if="question.type > 1" class="fillin">
                     <div class="input-group">
-                      <textarea
+                      <b-button
+                        block
+                        class="mr-2 mb-3"
+                        pill
+                        variant="outline-primary"
+                        size="sm"
+                        @click="handleEdit(question.numInPaper)"
+                        >编辑
+                      </b-button>
+                      <div
+                        class="
+                          card-shadow-danger
+                          border
+                          card card-body
+                          border-danger
+                        "
+                      >
+                        <katex-element
+                          :expression="
+                            parseLatex(ansList[question.numInPaper - 1])
+                          "
+                          :throw-on-error="false"
+                          :strict="false"
+                        />
+                      </div>
+
+                      <!-- <textarea
                         v-model="ansList[question.numInPaper - 1]"
                         class="form-control"
                         placeholder="请在此输入答案..."
@@ -82,7 +136,7 @@
                         @blur="
                           saveInput(question.numInPaper, question.questionId)
                         "
-                      ></textarea>
+                      ></textarea> -->
                     </div>
                   </div>
                 </div>
@@ -100,14 +154,14 @@
             @updatePage="updatePage"
             @onSelect="handleSelect"
           >
-            <template v-slot:header> 题目导览 </template>
+            <template v-slot:header> 题目导览</template>
             <template v-slot:footer>
               <b-row class="justify-content-between">
-                <b-col cols="8" md="auto"> </b-col>
+                <b-col cols="8" md="auto"></b-col>
                 <b-col cols="4" md="auto">
                   <b-button pill variant="warning" @click="submitTest"
-                    >提交测验</b-button
-                  >
+                    >提交测验
+                  </b-button>
                 </b-col>
               </b-row>
             </template>
@@ -124,7 +178,9 @@
         </b-col>
       </b-row>
     </b-container>
-    {{ edit }}
+    <div style="display: none">
+      {{ edit }}
+    </div>
   </div>
 </template>
 
@@ -132,6 +188,9 @@
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import TestNavbar from "@/layout/Components/PageTitle3.vue";
 import MyCountBar from "@/components/myCountBar";
+import MyEditModal from "@/components/myEditModal.vue";
+
+import parse from "@/utils/parseLatex";
 
 export default {
   name: "examTest",
@@ -139,6 +198,7 @@ export default {
     PageTitle,
     TestNavbar,
     MyCountBar,
+    MyEditModal,
   },
   props: {
     msg: String,
@@ -160,13 +220,14 @@ export default {
         href: "#",
       },
     ],
-
     currentPage: 1,
     expanded: false,
     barStyle: {
       backgroundColor: "#69aa8a",
     },
     edit: true,
+    editOwner: null,
+    editIntiContent: "",
   }),
   computed: {
     questionList() {
@@ -179,8 +240,21 @@ export default {
   mounted() {
     this.$store.dispatch("global/getExamQuestion");
   },
-
   methods: {
+    typeTransform(type) {
+      if (type === 0) {
+        return "单选";
+      } else if (type === 1) {
+        return "多选";
+      } else if (type === 2) {
+        return "填空";
+      } else if (type === 3) {
+        return "大题";
+      }
+    },
+    parseLatex(content) {
+      return parse(content);
+    },
     transform(num) {
       return String.fromCharCode(num + 65);
     },
@@ -246,12 +320,12 @@ export default {
 
     calChoiceVariant(question, ans) {
       if (this.ansList[question.numInPaper - 1] == null) {
-        return "success";
+        return "outline-success";
       } else {
         if (this.ansList[question.numInPaper - 1].includes(ans)) {
-          return "outline-success";
-        } else {
           return "success";
+        } else {
+          return "outline-success";
         }
       }
     },
@@ -262,10 +336,44 @@ export default {
       this.$store.dispatch("global/deleteSession");
       window.location.href = "/#/dashboard/course";
     },
-    handleSelect(item) {},
-    calButtonVariant(item) {},
+    calButtonVariant(item) {
+      if (
+        this.ansList[item.numInPaper - 1] != "" &&
+        this.ansList[item.numInPaper - 1] != null &&
+        this.ansList[item.numInPaper - 1] != []
+      ) {
+        return "primary";
+      } else {
+        return "border-primary";
+      }
+    },
     updatePage() {},
+    handleSubmit(content) {
+      this.ansList[this.editOwner - 1] = content;
+      let questionId = 0;
+      this.questionList.forEach((value) => {
+        if (value.numInPaper === this.editOwner) {
+          questionId = value.questionId;
+        }
+      });
+      this.saveInput(this.editOwner, questionId);
+
+      this.editOwner = null;
+      this.editIntiContent = "";
+    },
+    handleCancel() {
+      this.editOwner = null;
+      this.editIntiContent = "";
+    },
     handleSelect() {},
+    openEdit() {
+      this.$bvModal.show("edit-modal");
+    },
+    handleEdit(numInPaper) {
+      this.editOwner = numInPaper;
+      this.editIntiContent = this.ansList[numInPaper - 1];
+      this.$nextTick(this.openEdit);
+    },
   },
 };
 </script>
@@ -275,46 +383,56 @@ export default {
   float: left;
   width: 1000px;
 }
+
 .per-question .left-question {
   float: left;
   width: 60px;
 }
+
 .per-question .right-question {
   float: left;
   width: 600px;
 }
+
 .question-center {
   width: 400px;
   margin: 0 auto;
 }
+
 .question-title {
   margin-top: 10px;
 }
+
 .choice {
   margin-top: 10px;
   margin-right: 90px;
   margin-left: 3px;
 }
+
 .fillin {
   margin-top: 30px;
   margin-right: 50px;
   margin-left: 3px;
   margin-bottom: 10px;
 }
+
 .choice .per-choice {
   float: left;
   width: 1000px;
   vertical-align: middle;
 }
+
 .choice .per-choice .option-tag {
   float: left;
   width: 40px;
   margin-top: 3px;
 }
+
 .choice .per-choice .option-button {
   float: left;
   width: 500px;
 }
+
 .per-question .left-question i {
   width: 40px;
   height: 40px;
@@ -329,15 +447,19 @@ export default {
   font-size: 25px;
   font-weight: 700;
 }
+
 h5 {
   font-weight: 1000;
 }
+
 .test-head {
   position: fixed;
   width: 100%;
   height: 90px;
   background: #eee;
 }
-.paper-area {
+.per-question .left-question .option-tag-position {
+  margin-top: 55px;
+  margin-left: 3px;
 }
 </style>

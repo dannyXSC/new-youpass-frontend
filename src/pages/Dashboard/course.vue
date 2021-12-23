@@ -7,7 +7,12 @@
       :breadcrumb-item="breadcrumbItem"
     ></page-title>
 
-    <my-list title="课程信息" :items="items" :fields="fields">
+    <my-list
+      v-if="accountType == 1"
+      title="课程信息"
+      :items="items"
+      :fields="fields"
+    >
       <template slot-scope="row">
         <b-card class="mb-3 nav-justified" no-body>
           <b-tabs pills card>
@@ -87,6 +92,51 @@
         </b-card>
       </template>
     </my-list>
+
+    <my-list
+      v-if="accountType == 0"
+      title="我的课程"
+      :items="t_items"
+      :fields="fields"
+    >
+      <template slot-scope="row">
+        <b-card class="mb-3 nav-justified" no-body>
+          <b-tabs pills card>
+            <b-tab title="课程信息" active>
+              <li class="list-group-item">
+                <div class="widget-content p-0">
+                  <div class="widget-content-wrapper">
+                    <div class="widget-content-left">
+                      <div class="widget-heading">
+                        课程名称：<br /><br />课程编号：
+                      </div>
+                    </div>
+                    <div class="widget-content-right">
+                      <div class="widget-heading">
+                        {{ row.row.item.课程名称 }}<br /><br />{{
+                          row.row.item.ID
+                        }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </b-tab>
+            <b-tab title="其他功能">
+              <div class="widget-content-right">
+                <button
+                  type="button"
+                  class="btn btn-light"
+                  @click="teacherExam(row.row.item.ID)"
+                >
+                  进入考试
+                </button>
+              </div>
+            </b-tab>
+          </b-tabs>
+        </b-card>
+      </template>
+    </my-list>
   </div>
 </template>
 
@@ -131,6 +181,11 @@ export default {
         examId: exam_id,
       });
     },
+    teacherExam(courseId) {
+      this.$router.push({ name: "teacherExam" ,props: {
+        courseId:courseId,
+      }});
+    },
   },
   computed: {
     items() {
@@ -148,6 +203,24 @@ export default {
         });
       }
       return return_item;
+    },
+    t_items() {
+      console.log("computed teacher" + this.$store.state.global.courseListTea);
+      let return_item = [];
+      for (let i = 0; i < this.$store.state.global.courseListTea.length; ++i) {
+        return_item.unshift({
+          _showDetails: false,
+          isActive: true,
+          课程名称: this.$store.state.global.courseListTea[i].title,
+          ID: this.$store.state.global.courseListTea[i].courseId,
+          examListTea:
+            this.$store.state.global.courseListTea[i].examReturnInfoSet,
+        });
+      }
+      return return_item;
+    },
+    accountType() {
+      return this.$store.state.global.accountType;
     },
   },
   mounted() {
