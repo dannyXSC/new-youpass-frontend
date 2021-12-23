@@ -1,6 +1,6 @@
 // 用于创建整个应用的路由器
 
-import { checkState } from "@/api";
+import {checkState, getExamQuestion} from "@/api";
 import addQuestions from "@/pages/Dashboard/addQuestions";
 import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
 import correctPaper from "@/pages/Dashboard/correctPaper";
@@ -195,7 +195,19 @@ router.beforeEach((to, from, next) => {
                 console.error(err)
                 next({ name: "notFound" })
             })
-    } else {
+    }
+    else if(to.name==="examTest"){
+        getExamQuestion().then((res) => {
+            if(res.code===100){
+                next()
+            }else{
+                next("/notFound")
+            }
+        }).catch((err =>
+                next("/notFound")
+        ))
+    }
+    else {
         next()
     }
 
