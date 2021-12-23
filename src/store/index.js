@@ -31,7 +31,7 @@ const global = {
             login(data).then(res => {
                 if (res.code == '100') {
                     context.commit("SETUSERID", data.id)
-                    router.push({ name: "Dashboard" });
+                    router.push("/dashboard/todo");
                 } else {
                     alert("账号密码错误，请重新输入！")
                 }

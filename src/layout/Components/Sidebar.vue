@@ -63,11 +63,11 @@ export default {
           icon: "pe-7s-rocket",
           child: [
             {
-              href: "/personInfo",
+              href: "/dashboard/personInfo",
               title: "查看个人信息",
             },
             {
-              href: "/todo",
+              href: "/dashboard",
               title: "待办事项",
             },
             {
@@ -75,7 +75,7 @@ export default {
               title: "查看我的课程",
             },
             {
-              href: "/message",
+              href: "/dashboard/message",
               title: "查看消息",
             },
           ],
@@ -240,11 +240,11 @@ export default {
           icon: "pe-7s-rocket",
           child: [
             {
-              href: "/personInfo",
+              href: "/dashboard/personInfo",
               title: "查看个人信息",
             },
             {
-              href: "/todo",
+              href: "/dashboard/todo",
               title: "待办事项",
             },
             {

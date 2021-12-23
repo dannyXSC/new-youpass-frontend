@@ -109,18 +109,23 @@ export default {
   },
   data() {
     return {
-      name: this.$store.state.global.name,
-      id: this.$store.state.global.id,
       ImageURL: "http://localhost:5050/api/account/getImage/",
       file: "",
     };
   },
   mounted() {
     // console.log("in user", this.$store.state);
-    // console.log("接下来调用赋值函数");
+    console.log("接下来调用赋值函数");
     this.setProperty();
   },
-
+  computed: {
+    name() {
+      return this.$store.state.global.name;
+    },
+    id() {
+      return this.$store.state.global.id;
+    },
+  },
   methods: {
     setProperty() {
       //   console.log("调用赋值函数");
