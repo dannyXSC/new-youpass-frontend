@@ -25,6 +25,7 @@ import Exams from "@/pages/studentPage/Exams"
 import correctPaper from "@/pages/Dashboard/correctPaper";
 import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
 import CertainExam from "@/pages/exams/CertainExam";
+import test1 from "@/pages/Test/test1";
 
 
 
@@ -41,8 +42,7 @@ const router = new VueRouter({
             component: dashboard,
             children: [{
                     path: "/dashboard",
-                    component: todo,
-                    name: todo
+                    redirect: "todo"
                 },
                 {
                     path: "/dashboard/pick",
@@ -57,18 +57,20 @@ const router = new VueRouter({
                     component: addQuestions
                 },
                 {
+                    name:"correctPaper",
                     path: "/dashboard/correctPaper",
-                    component: correctPaper
+                    component: correctPaper,
+                    props:true
                 },
                 {
                     path: "/dashboard/correctedQuestion",
                     component: correctedQuestion
                 },
-                // {
-                //     path: "/dashboard/todo",
-                //     component: todo,
-                //     name:todo
-                // },
+                {
+                    name:"todo",
+                    path: "/dashboard/todo",
+                    component: todo,
+                },
                 {
                     path: "/dashboard/course",
                     component: course
@@ -87,6 +89,10 @@ const router = new VueRouter({
             children: [{
                     path: "/test2",
                     component: test2
+                },
+                {
+                    path: "/test1",
+                    component: test1
                 },
                 {
                     path: "/test3",

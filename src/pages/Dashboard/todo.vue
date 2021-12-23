@@ -183,7 +183,7 @@ export default {
   }),
   methods: {
     deleteTodo(key) {
-      console.log("删除了", key);
+      // console.log("删除了", key);
       for (let i = 0; i < this.todos.length; i++) {
         if (this.todos[i] == key) {
           if (i > -1) {
@@ -196,7 +196,7 @@ export default {
     },
     addTodo() {
       if (this.inputTodo != "" && !this.todos.includes(this.inputTodo)) {
-        console.log("添加Todo", this.inputTodo);
+        // console.log("添加Todo", this.inputTodo);
         this.todos.unshift(this.inputTodo);
         localStorage.setItem("todos", JSON.stringify(this.todos));
         this.inputTodo = "";
@@ -206,7 +206,7 @@ export default {
     },
   },
   mounted() {
-    this.todos = JSON.parse(localStorage.getItem("todos") || []);
+    this.todos = JSON.parse(localStorage.getItem("todos") || JSON.stringify([]));
   },
 };
 </script>

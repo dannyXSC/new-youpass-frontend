@@ -11,38 +11,14 @@
       <template slot-scope="row">
         <b-card class="mb-3 nav-justified" no-body>
           <b-tabs pills card>
-            <b-tab title="课程信息" active>
-              <li class="list-group-item">
-                <div class="widget-content p-0">
-                  <div class="widget-content-wrapper">
-
-                  </div>
-                </div>
-              </li>
-            </b-tab>
-            <b-tab title="题目信息" active>
-
-            </b-tab>
-            <b-tab title="其他功能">
-              <template
-                  v-for="variant in [
-                  'primary',
-                  'secondary',
-                  'success',
-                  'info',
-                  'warning',
-                  'danger',
-                  'focus',
-                  'alternate',
-                  'light',
-                  'dark',
-                  'link',
-                ]"
-              >
-                <b-button class="mr-2 mb-2" :variant="variant" :key="variant">
-                  {{ variant }}
-                </b-button>
-              </template>
+            <b-tab title="其他功能" active>
+              <b-button class="mr-2 mb-2" variant="primary"
+              @click="handleManualCorrect(row.row.item)">
+                手动批改
+              </b-button >
+              <b-button class="mr-2 mb-2" variant="info">
+                自动批改
+              </b-button >
             </b-tab>
           </b-tabs>
         </b-card>
@@ -54,6 +30,8 @@
 <script>
 import myList from "@/components/myList";
 import PageTitle from "@/layout/Components/PageTitle.vue";
+import {getUnmarkedQuestion} from "@/api";
+import router from "@/router";
 
 export default {
   name: "correctedQuestion",
@@ -65,7 +43,32 @@ export default {
     examId: Number
   },
   mounted() {
-
+    getUnmarkedQuestion({
+      courseId:this.courseId,
+      examId:this.examId,
+      // courseId: 1000,
+      // examId: 1
+    }).then(res => {
+      console.log(res)
+      if (res.code === 100) {
+        if (Array.isArray(res.data)) {
+          res.data.forEach((value, index) => {
+            value._showDetails = false
+            value.isActive = false
+            this.items.push(JSON.parse(JSON.stringify(value)))
+          })
+          console.log(this.items)
+        } else {
+          alert("已经批改完成")
+          router.push("/dashboard")
+        }
+      } else {
+        alert("error")
+        router.push("/dashboard")
+      }
+    }).catch(error => {
+      alert(error)
+    })
   },
   data() {
     return {
@@ -87,8 +90,25 @@ export default {
           active: true,
         },
       ],
-      fields: ["题目id", "题干"],
+      fields: [{label: "题目id", key: "questionId"}, {label: "题干", key: "description"}, {
+        label: "未批改人数",
+        key: "restNumber"
+      }],
       items: []
+    }
+  },
+  methods: {
+    handleManualCorrect(item) {
+      this.$router.push({
+        name:"correctPaper",
+        params:{
+          courseId:this.courseId,
+          examId:this.examId,
+          // courseId:1000,
+          // examId:1,
+          questionId:item.questionId
+        }
+      })
     }
   }
 }

@@ -96,7 +96,6 @@
             ],
       }
     },
-   
     mounted() {
       // Set the initial number of items
       this.totalRows = this.students.length
