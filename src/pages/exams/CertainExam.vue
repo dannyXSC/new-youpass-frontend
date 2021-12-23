@@ -30,10 +30,9 @@
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
-
-import Grade from "./Grade.vue"
-import Students from "./Students.vue"
-import ExamTable from "./ExamsTable.vue"
+import Grade from "@/pages/exams/Grade.vue"
+import Students from "@/pages/exams/Students.vue"
+import ExamTable from "@/pages/exams/ExamsTable.vue"
 import { getAllStudents } from '@/api';
 
 export default {

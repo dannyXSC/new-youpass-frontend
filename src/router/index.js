@@ -24,7 +24,9 @@ import test1 from "@/pages/Test/test1";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
+import BarChart from "@/pages/exams/BarChart"
 import VueRouter from "vue-router";
+import StudentExam from "@/pages/exams/StudentExam";
 
 
 // 创建一个路由器 并暴露
@@ -92,6 +94,12 @@ const router = new VueRouter({
                     name: "postExam",
                     props: true
                 },
+                {
+                    name: 'studentExam',
+                    path:'/dashboard/studentExam',
+                    props:true,
+                    component: StudentExam,
+                },
             ]
         },
         {
@@ -131,6 +139,12 @@ const router = new VueRouter({
                 {
                     path: '/exam/:examId',
                     component: CertainExam
+                },
+                {
+                    name: 'studentExam',
+                    path:'/studentExam',
+                    props:true,
+                    component: StudentExam,
                 },
                 {
                     path: "/test4",
