@@ -68,25 +68,16 @@
               </li>
             </b-tab>
             <b-tab title="其他功能">
-              <template
-                v-for="variant in [
-                  'primary',
-                  'secondary',
-                  'success',
-                  'info',
-                  'warning',
-                  'danger',
-                  'focus',
-                  'alternate',
-                  'light',
-                  'dark',
-                  'link',
-                ]"
-              >
-                <b-button class="mr-2 mb-2" :variant="variant" :key="variant">
-                  {{ variant }}
+              <div class="widget-content-right">
+                <b-button
+                  block
+                  type="button"
+                  class="btn btn-light md-2"
+                  @click="getGrade(row.row.item.ID, row.row.item.课程名称)"
+                >
+                  查看课程考试成绩
                 </b-button>
-              </template>
+              </div>
             </b-tab>
           </b-tabs>
         </b-card>
@@ -125,7 +116,7 @@
             <b-tab title="其他功能">
               <div class="widget-content-right">
                 <b-button
-                    block
+                  block
                   type="button"
                   class="btn btn-light md-2"
                   @click="teacherExam(row.row.item.ID)"
@@ -133,10 +124,10 @@
                   管理考试
                 </b-button>
                 <b-button
-                    block
-                    type="button"
-                    class="btn btn-light md-2"
-                    @click="postExam(row.row.item.ID)"
+                  block
+                  type="button"
+                  class="btn btn-light md-2"
+                  @click="postExam(row.row.item.ID)"
                 >
                   发布考试
                 </b-button>
@@ -160,6 +151,8 @@
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
+
+import { getStuCourseExamScore } from "@/api/index";
 
 export default {
   name: "course",
@@ -192,6 +185,25 @@ export default {
     };
   },
   methods: {
+    getGrade(courseId) {
+      let gradeData = [];
+      getStuCourseExamScore(courseId)
+        .then((res) => {
+          gradeData = res.data;
+          let responseList = [];
+          gradeData.forEach((element) => {
+            responseList.unshift({ name: element.title, value: element.score });
+          });
+          console.log(responseList);
+          this.$router.push({
+            name: "studentExam",
+            params: {
+              responseList: responseList,
+            },
+          });
+        })
+        .catch((err) => alert(err));
+    },
     enterExam(courseId, exam_id) {
       this.$store.dispatch("global/setSession", {
         courseId: courseId,

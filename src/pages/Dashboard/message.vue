@@ -92,15 +92,7 @@ export default {
 
       breadcrumbItem: [
         {
-          text: "Admin",
-          href: "#",
-        },
-        {
-          text: "Manage",
-          href: "#",
-        },
-        {
-          text: "Library",
+          text: "消息",
           active: true,
         },
       ],
