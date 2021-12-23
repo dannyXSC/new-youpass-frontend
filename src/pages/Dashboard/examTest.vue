@@ -173,7 +173,7 @@
         </b-col>
       </b-row>
     </b-container>
-    <div style="display: none">
+    <div>
       {{ edit }}
     </div>
   </div>
@@ -255,8 +255,8 @@ export default {
     },
 
     transferList(inputList) {
-      var CharList = [];
-      for (var a = 0; a < inputList.length; a++) {
+      let CharList = [];
+      for (let a = 0; a < inputList.length; a++) {
         CharList[a] = this.transform(inputList[a]);
       }
       console.log(CharList);
@@ -274,7 +274,7 @@ export default {
 
     pickMulti(numInPaper, questionId, ans) {
       if (this.ansList[numInPaper - 1].includes(ans)) {
-        for (var i = 0; i < this.ansList[numInPaper - 1].length; i++) {
+        for (let i = 0; i < this.ansList[numInPaper - 1].length; i++) {
           if (this.ansList[numInPaper - 1][i] == ans) {
             if (i > -1) {
               this.ansList[numInPaper - 1].splice(i, 1);
