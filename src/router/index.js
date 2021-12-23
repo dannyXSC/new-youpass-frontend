@@ -2,8 +2,6 @@
 
 import { checkState } from "@/api";
 import addQuestions from "@/pages/Dashboard/addQuestions";
-import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
-import correctPaper from "@/pages/Dashboard/correctPaper";
 import course from "@/pages/Dashboard/course";
 import examTest from "@/pages/Dashboard/examTest";
 import dashboard from "@/pages/Dashboard/index";
@@ -21,6 +19,9 @@ import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
 import VueRouter from "vue-router";
+import addQuestions from "@/pages/Dashboard/addQuestions";
+import correctPaper from "@/pages/Dashboard/correctPaper";
+import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
 
 
 
