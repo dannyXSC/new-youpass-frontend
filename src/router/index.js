@@ -74,7 +74,7 @@ const router = new VueRouter({
                     component: course
                 },
                 {
-                    path: "/personinfo",
+                    path: "/dashboard/personinfo",
                     component: personInfo,
                     name: personInfo
                 },
