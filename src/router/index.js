@@ -27,23 +27,21 @@ import test4 from "@/pages/Test/test4";
 import VueRouter from "vue-router";
 
 
-
-
 // 创建一个路由器 并暴露
 const router = new VueRouter({
     routes: [{
-            path: "/",
-            name: "HomeIndex",
-            component: HomeIndex
-        },
+        path: "/",
+        name: "HomeIndex",
+        component: HomeIndex
+    },
         {
             path: "/dashboard",
             name: "Dashboard",
             component: dashboard,
             children: [{
-                    path: "/dashboard",
-                    redirect: "/dashboard/todo"
-                },
+                path: "/dashboard",
+                redirect: "/dashboard/todo"
+            },
                 {
                     path: "/dashboard/pick",
                     component: pick
@@ -69,7 +67,7 @@ const router = new VueRouter({
                     props: true
                 },
                 {
-                    name:"correctedQuestion",
+                    name: "correctedQuestion",
                     path: "/dashboard/correctedQuestion",
                     component: correctedQuestion,
                     props: true
@@ -91,7 +89,8 @@ const router = new VueRouter({
                 {
                     path: "/dashboard/postExam",
                     component: postExam,
-                    name: "postExam"
+                    name: "postExam",
+                    props: true
                 },
             ]
         },
@@ -100,9 +99,9 @@ const router = new VueRouter({
             name: "Test",
             component: Test,
             children: [{
-                    path: "/test2",
-                    component: test2
-                },
+                path: "/test2",
+                component: test2
+            },
                 {
                     path: "/test1",
                     component: test1
@@ -169,25 +168,25 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     //如果进入dashboard
     if (to.matched.filter(value => {
-            return value.name === "Dashboard"
-        }).length) {
+        return value.name === "Dashboard"
+    }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
                     next()
                 } else {
-                    next({ name: "notFound" })
+                    next({name: "notFound"})
                 }
             })
             .catch((err) => {
                 console.error(err)
-                next({ name: "notFound" })
+                next({name: "notFound"})
             })
     }
     //进入login
     else if (to.matched.filter(value => {
-            return value.name === "login"
-        }).length) {
+        return value.name === "login"
+    }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
@@ -199,21 +198,19 @@ router.beforeEach((to, from, next) => {
             })
             .catch((err) => {
                 console.error(err)
-                next({ name: "notFound" })
+                next({name: "notFound"})
             })
-    }
-    else if(to.name==="examTest"){
+    } else if (to.name === "examTest") {
         getExamQuestion().then((res) => {
-            if(res.code===100){
+            if (res.code === 100) {
                 next()
-            }else{
+            } else {
                 next("/notFound")
             }
         }).catch((err =>
                 next("/notFound")
         ))
-    }
-    else {
+    } else {
         next()
     }
 

@@ -103,13 +103,22 @@
             </b-tab>
             <b-tab title="其他功能">
               <div class="widget-content-right">
-                <button
+                <b-button
+                    block
                   type="button"
-                  class="btn btn-light"
+                  class="btn btn-light md-2"
                   @click="teacherExam(row.row.item.ID)"
                 >
                   管理考试
-                </button>
+                </b-button>
+                <b-button
+                    block
+                    type="button"
+                    class="btn btn-light md-2"
+                    @click="postExam(row.row.item.ID)"
+                >
+                  发布考试
+                </b-button>
               </div>
             </b-tab>
           </b-tabs>
@@ -168,6 +177,14 @@ export default {
         },
       });
     },
+    postExam(courseId) {
+      this.$router.push({
+        name: "postExam",
+        params: {
+          courseId: courseId,
+        },
+      });
+    }
   },
   computed: {
     items() {

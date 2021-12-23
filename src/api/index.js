@@ -74,13 +74,18 @@ export const getImage = () => {
 }
 //获得未批改的题目
 export const getUnmarkedQuestion = (data) => {
-    return requests({ url: '/question/getUnmarkedQuestion', method: 'get', params: data })
+    return requests({url: '/question/getUnmarkedQuestion', method: 'get', params: data})
 }
 //老师发布考试
 export const postExam = (data) => {
-    return requests({ url: '/exam/releasetest', method: 'post', data: data })
+    return requests({url: '/exam/releasetest', method: 'post', data: data})
 }
 
 export const courseGetExam = (courseId) => {
-    return requests({ url: "/exam/courseGetExam/" + courseId, method: "get" })
+    return requests({url: "/exam/courseGetExam/" + courseId, method: "get"})
+}
+
+//自动批改
+export const autoCorrect = (data) => {
+    return requests({url: "/score/autoCorrect", method: "post", data: data})
 }

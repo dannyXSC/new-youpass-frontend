@@ -78,6 +78,10 @@ export default {
               href: "/dashboard/message",
               title: "查看消息",
             },
+            {
+              href: "/dashboard/pick",
+              title: "搜索课程",
+            },
           ],
         },
         // {
