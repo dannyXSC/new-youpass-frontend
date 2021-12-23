@@ -2,14 +2,16 @@
 
 import { checkState } from "@/api";
 import addQuestions from "@/pages/Dashboard/addQuestions";
+import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
+import correctPaper from "@/pages/Dashboard/correctPaper";
 import course from "@/pages/Dashboard/course";
-
 import examTest from "@/pages/Dashboard/examTest";
 import dashboard from "@/pages/Dashboard/index";
 import message from "@/pages/Dashboard/message";
 import personInfo from "@/pages/Dashboard/personInfo";
 import pick from "@/pages/Dashboard/pick";
 import todo from "@/pages/Dashboard/todo";
+import CertainExam from "@/pages/exams/CertainExam";
 import HomeIndex from "@/pages/Home/index";
 import login from "@/pages/login";
 import notfound from "@/pages/notfound";
@@ -19,12 +21,8 @@ import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
 import VueRouter from "vue-router";
-
 import Exams from "@/pages/studentPage/Exams"
 
-import correctPaper from "@/pages/Dashboard/correctPaper";
-import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
-import CertainExam from "@/pages/exams/CertainExam";
 import test1 from "@/pages/Test/test1";
 
 
@@ -57,17 +55,17 @@ const router = new VueRouter({
                     component: addQuestions
                 },
                 {
-                    name:"correctPaper",
+                    name: "correctPaper",
                     path: "/dashboard/correctPaper",
                     component: correctPaper,
-                    props:true
+                    props: true
                 },
                 {
                     path: "/dashboard/correctedQuestion",
                     component: correctedQuestion
                 },
                 {
-                    name:"todo",
+                    name: "todo",
                     path: "/dashboard/todo",
                     component: todo,
                 },
