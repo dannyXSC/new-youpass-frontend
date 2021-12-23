@@ -10,21 +10,22 @@ import dashboard from "@/pages/Dashboard/index";
 import message from "@/pages/Dashboard/message";
 import personInfo from "@/pages/Dashboard/personInfo";
 import pick from "@/pages/Dashboard/pick";
+import postExam from "@/pages/Dashboard/postExam";
+import teacherExam from "@/pages/Dashboard/teacherExam";
 import todo from "@/pages/Dashboard/todo";
 import CertainExam from "@/pages/exams/CertainExam";
 import HomeIndex from "@/pages/Home/index";
 import login from "@/pages/login";
 import notfound from "@/pages/notfound";
 import register from "@/pages/register";
+import Exams from "@/pages/studentPage/Exams";
 import Test from "@/pages/Test/index";
+import test1 from "@/pages/Test/test1";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
 import VueRouter from "vue-router";
-import Exams from "@/pages/studentPage/Exams"
 
-import test1 from "@/pages/Test/test1";
-import teacherExam from "@/pages/Dashboard/teacherExam";
 
 
 
@@ -83,7 +84,12 @@ const router = new VueRouter({
                 {
                     path: "/dashboard/personinfo",
                     component: personInfo,
-                    name: personInfo
+                    name: "personInfo"
+                },
+                {
+                    path: "/dashboard/postExam",
+                    component: postExam,
+                    name: "postExam"
                 },
             ]
         },

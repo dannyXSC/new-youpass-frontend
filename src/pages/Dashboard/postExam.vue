@@ -261,7 +261,7 @@ import PageTitle from "@/layout/Components/PageTitle.vue";
 import { number } from "echarts";
 
 export default {
-  name: "test2.vue",
+  name: "postExam",
   components: { PageTitle },
   data() {
     return {

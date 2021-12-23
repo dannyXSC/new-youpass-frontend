@@ -28,7 +28,7 @@
               >
                 查看个人信息
               </button>
-              <button type="button" tabindex="0" class="dropdown-item">
+              <!-- <button type="button" tabindex="0" class="dropdown-item">
                 修改头像
                 <input
                   id="categoryPic"
@@ -37,7 +37,7 @@
                   name="image"
                   @change="getFile($event)"
                 />
-              </button>
+              </button> -->
               <div tabindex="-1" class="dropdown-divider"></div>
               <button
                 type="button"

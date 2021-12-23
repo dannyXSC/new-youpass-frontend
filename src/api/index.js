@@ -76,3 +76,7 @@ export const getImage = () => {
 export const getUnmarkedQuestion = (data) => {
     return requests({ url: '/question/getUnmarkedQuestion', method: 'get', params: data })
 }
+//老师发布考试
+export const postExam = (data) => {
+    return requests({ url: '/exam/releasetest', method: 'post', data: data })
+}
