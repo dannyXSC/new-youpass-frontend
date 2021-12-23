@@ -51,7 +51,7 @@ export default {
     courseId: Number,
   },
   mounted() {
-    courseGetExam(1000)
+    courseGetExam(this.courseId)
         .then((res) => {
           console.log(res);
           if (res.code === 100) {
