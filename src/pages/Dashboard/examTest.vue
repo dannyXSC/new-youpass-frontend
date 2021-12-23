@@ -1,5 +1,12 @@
 <template>
   <div>
+    <my-edit-modal
+        v-if="editOwner"
+        :init-content="editIntiContent"
+        @onSubmit="handleSubmit"
+        @onCancel="handleCancel"
+    />
+
     <page-title
         :heading="heading"
         :subheading="subheading"
@@ -23,7 +30,13 @@
 
                 <div class="right-question">
                   <div class="question-title">
-                    <h5 class="card-title">{{ question.description }}</h5>
+                    <h5 class="card-title">
+                      <katex-element
+                          :expression="parseLatex(question.description)"
+                          :throw-on-error="false"
+                          :strict="false"
+                      />
+                    </h5>
                   </div>
                   <hr/>
                   <div v-if="question.type < 2" class="choice">
@@ -48,7 +61,11 @@
                             )
                           "
                         >
-                          {{ option.content }}
+                          <katex-element
+                              :expression="parseLatex(option.content)"
+                              :throw-on-error="false"
+                              :strict="false"
+                          />
                         </b-button>
                       </div>
                       <div v-if="question.type === 1" class="option-button">
@@ -64,13 +81,23 @@
                             )
                           "
                         >
-                          {{ option.content }}
+                          <katex-element
+                              :expression="parseLatex(option.content)"
+                              :throw-on-error="false"
+                              :strict="false"
+                          />
                         </b-button>
                       </div>
                     </div>
                   </div>
                   <div v-if="question.type > 1" class="fillin">
                     <div class="input-group">
+                      <b-button block class="mr-2 mb-3" pill variant="outline-primary" size="sm"
+                                >编辑
+                      </b-button>
+                      <div class="card-shadow-danger border card card-body border-danger">
+                        123
+                      </div>
                       <textarea
                           v-model="ansList[question.numInPaper - 1]"
                           class="form-control"
@@ -136,6 +163,8 @@ import PageTitle from "@/layout/Components/PageTitle.vue";
 import TestNavbar from "@/layout/Components/PageTitle3.vue";
 import MyCountBar from "@/components/myCountBar";
 
+import parse from "@/utils/parseLatex";
+
 export default {
   name: "examTest",
   components: {
@@ -163,13 +192,14 @@ export default {
         href: "#",
       },
     ],
-
     currentPage: 1,
     expanded: false,
     barStyle: {
       backgroundColor: "#69aa8a",
     },
     edit: true,
+    editOwner: null,
+    editIntiContent:""
   }),
   computed: {
     questionList() {
@@ -182,8 +212,10 @@ export default {
   mounted() {
     this.$store.dispatch("global/getExamQuestion");
   },
-
   methods: {
+    parseLatex(content){
+      return parse(content)
+    },
     transform(num) {
       return String.fromCharCode(num + 65);
     },
@@ -265,8 +297,6 @@ export default {
       this.$store.dispatch("global/deleteSession");
       window.location.href = "/#/dashboard/course";
     },
-    handleSelect(item) {
-    },
     calButtonVariant(item) {
       if(this.ansList[item.numInPaper - 1] != "" && this.ansList[item.numInPaper - 1] != null && this.ansList[item.numInPaper - 1] != []){
         return "primary"
@@ -276,8 +306,12 @@ export default {
     },
     updatePage() {
     },
-    handleSelect() {
+    handleSubmit() {
+
     },
+    handleCancel() {
+
+    }
   },
 };
 </script>
