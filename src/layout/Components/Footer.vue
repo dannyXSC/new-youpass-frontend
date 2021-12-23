@@ -1,7 +1,7 @@
 <template>
     <div class="app-footer">
         <div class="app-footer__inner text-center">
-            Copyright dannyXSC
+            Copyright YouPass
         </div>
     </div>
 </template>

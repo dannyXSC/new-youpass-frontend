@@ -21,7 +21,7 @@ export default {
     methods:{
         countNums(){
             
-            for(var i=0;i<this.students.length;i++){
+            for(let i=0;i<this.students.length;i++){
                 if(this.students[i].score>=90){
                     this.option.series[0].data[0].value+=1;
 
@@ -116,7 +116,7 @@ export default {
          this.countNums()
         console.log(this.option.series[0].data)
          // 1. 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('score'))
+        let myChart = echarts.init(document.getElementById('score'))
 		 
 		  // 3. 使用刚指定的配置项和数据，显示图表
 		  myChart.setOption(this.option);

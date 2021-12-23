@@ -53,8 +53,10 @@ const router = new VueRouter({
                     component: message
                 },
                 {
+                    name:"addQuestion",
                     path: "/dashboard/addQuestion",
-                    component: addQuestions
+                    component: addQuestions,
+                    props:true
                 },
                 {
                     name: "correctPaper",
@@ -95,10 +97,18 @@ const router = new VueRouter({
                     props: true
                 },
                 {
+
                     name: 'studentExam',
-                    path:'/dashboard/studentExam',
-                    props:true,
+                    path: '/dashboard/studentExam',
+                    props: true,
                     component: StudentExam,
+                },
+                {
+                    name: "CertainExam",
+                    path: '/dashboard/exam',
+                    component: CertainExam,
+                    props: true
+
                 },
             ]
         },
@@ -137,6 +147,7 @@ const router = new VueRouter({
                     component: Exams
                 },
                 {
+
                     path: '/exam/:examId',
                     component: CertainExam
                 },
@@ -147,6 +158,7 @@ const router = new VueRouter({
                     component: StudentExam,
                 },
                 {
+
                     path: "/test4",
                     component: test4
                 },

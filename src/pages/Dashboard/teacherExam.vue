@@ -7,7 +7,7 @@
         :breadcrumb-item="breadcrumbItem"
     ></page-title>
 
-    <my-list title="课程信息" :items="examList" :fields="fields">
+    <my-list title="考试信息" :items="examList" :fields="fields">
       <template slot-scope="row">
         <b-card class="mb-3 nav-justified" no-body>
           <b-tabs pills card>
@@ -19,6 +19,14 @@
                   @click="handleCorrect(row.row.item)"
               >
                 批改试卷
+              </b-button>
+              <b-button
+                  block
+                  class="mr-2 mb-2"
+                  variant="outline-info"
+                  @click="handleCheckGrade(row.row.item)"
+              >
+                查看成绩
               </b-button>
             </b-tab>
           </b-tabs>
@@ -48,8 +56,11 @@ export default {
           console.log(res);
           if (res.code === 100) {
             res.data.forEach((value) => {
+              console.log(value)
               value._showDetails = false;
               value.isActive = false;
+              value.end_time = value.end_time.slice(0, 10) + " " + value.end_time.slice(11, 16)
+              value.start_time = value.start_time.slice(0, 10) + " " + value.start_time.slice(11, 16)
               this.examList.push(JSON.parse(JSON.stringify(value)));
             });
             console.log(this.examList);
@@ -103,6 +114,15 @@ export default {
         },
       });
     },
+    handleCheckGrade(item) {
+      this.$router.push({
+        name: "CertainExam",
+        params: {
+          courseId: this.courseId,
+          examId: item.exam_id,
+        },
+      });
+    }
   },
 };
 </script>

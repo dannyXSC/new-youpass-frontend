@@ -242,7 +242,6 @@ const global = {
         SETCURRENTEXAM(state,data) {
             state.currentExam = data;
             console.log("yyy",state.currentExam)
-            
         },
         SETCURRENTCOURSEID(state,data){
             state.currentCourseId=data;
