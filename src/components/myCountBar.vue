@@ -15,7 +15,6 @@
                     {{ (currentPage_props - 1) * per_page_props + rIndex * 3 + iIndex + 1 }}
                   </b-button>
                 </slot>
-
               </b-col>
             </b-row>
             <br>

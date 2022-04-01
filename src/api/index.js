@@ -12,6 +12,7 @@ export const signUp = (data) => {
 
 export const login = (postData) => {
     let ret = requests({url: '/account/login', method: 'post', data: postData})
+
     return ret
 }
 export const checkState = () => {
@@ -95,3 +96,4 @@ export const autoCorrect = (data) => {
 export const getStuCourseExamScore = (courseId) => {
     return requests({url: "/score/getStuScore/" + courseId, method: "get"})
 }
+
