@@ -556,6 +556,14 @@ export default {
       }else{
         //发送信息
       }
+    },
+    test(){
+      //上传
+      file;
+      res = api;
+      if(res.state= gogod){
+
+      }
     }
   }
 }

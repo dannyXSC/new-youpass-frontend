@@ -28,6 +28,7 @@ requests.interceptors.response.use((res)=>{
     //成功的回调函数：服务器响应数据回来以后，响应拦截器可以监测到，可以做一些事情
     //进度条结束
     nprogress.done()
+
     return res.data
 },(error)=>{
     //响应失败的回调函数
