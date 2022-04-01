@@ -28,6 +28,8 @@ import BarChart from "@/pages/exams/BarChart"
 import VueRouter from "vue-router";
 import StudentExam from "@/pages/exams/StudentExam";
 import test5 from "@/pages/Test/test5";
+import zjptest from "@/pages/Test/MyAccount";
+import MyAccount from "@/pages/Test/MyAccount";
 
 
 // 创建一个路由器 并暴露
@@ -167,7 +169,10 @@ const router = new VueRouter({
                     path: "/test5",
                     component: test5
                 },
-
+                {
+                    path: "/MyAccount",
+                    component: MyAccount
+                }
             ]
         },
         {
