@@ -30,6 +30,8 @@ import StudentExam from "@/pages/exams/StudentExam";
 import test5 from "@/pages/Test/test5";
 import zjptest from "@/pages/Test/MyAccount";
 import MyAccount from "@/pages/Test/MyAccount";
+import testStudentList from "@/pages/Test/testStudentList";
+import testHomeWork from "@/pages/Test/testHomeWork";
 
 
 // 创建一个路由器 并暴露
@@ -56,10 +58,10 @@ const router = new VueRouter({
                     component: message
                 },
                 {
-                    name:"addQuestion",
+                    name: "addQuestion",
                     path: "/dashboard/addQuestion",
                     component: addQuestions,
-                    props:true
+                    props: true
                 },
                 {
                     name: "correctPaper",
@@ -154,12 +156,12 @@ const router = new VueRouter({
                     path: '/exam/:examId',
                     component: CertainExam
                 },
-                {
-                    name: 'studentExam',
-                    path:'/studentExam',
-                    props:true,
-                    component: StudentExam,
-                },
+                // {
+                //     name: 'studentExam',
+                //     path:'/studentExam',
+                //     props:true,
+                //     component: StudentExam,
+                // },
                 {
 
                     path: "/test4",
@@ -168,6 +170,19 @@ const router = new VueRouter({
                 {
                     path: "/test5",
                     component: test5
+                },
+                {
+                    path: "/testStudentList",
+                    component: testStudentList,
+                    props: {
+                        courseId: 1000
+                    }
+                },
+                {
+                    name:"testHomeWork",
+                    path: "/testHomeWork",
+                    component: testHomeWork,
+                    props: true
                 },
                 {
                     path: "/MyAccount",
