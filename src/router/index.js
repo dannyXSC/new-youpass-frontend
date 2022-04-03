@@ -31,7 +31,6 @@ import test5 from "@/pages/Test/test5";
 import zjptest from "@/pages/Test/MyAccount";
 import MyAccount from "@/pages/Test/MyAccount";
 import CommentSection from "@/pages/Test/CommentSection";
-import testStudentList from "@/pages/Test/testStudentList";
 import testHomeWork from "@/pages/Test/testHomeWork";
 
 
