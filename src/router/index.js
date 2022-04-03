@@ -172,6 +172,19 @@ const router = new VueRouter({
                     component: test5
                 },
                 {
+                    path: "/testStudentList",
+                    component: testStudentList,
+                    props: {
+                        courseId: 1000
+                    }
+                },
+                {
+                    name:"testHomeWork",
+                    path: "/testHomeWork",
+                    component: testHomeWork,
+                    props: true
+                },
+                {
                     path: "/MyAccount",
                     component: MyAccount
                 }
