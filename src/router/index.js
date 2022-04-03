@@ -1,6 +1,6 @@
 // 用于创建整个应用的路由器
 
-import {checkState, getExamQuestion} from "@/api";
+import { checkState, getExamQuestion } from "@/api";
 import addQuestions from "@/pages/Dashboard/addQuestions";
 import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
 import correctPaper from "@/pages/Dashboard/correctPaper";
@@ -39,18 +39,18 @@ import OthersInfo from "@/pages/Test/OthersInfo";
 // 创建一个路由器 并暴露
 const router = new VueRouter({
     routes: [{
-        path: "/",
-        name: "HomeIndex",
-        component: HomeIndex
-    },
+            path: "/",
+            name: "HomeIndex",
+            component: HomeIndex
+        },
         {
             path: "/dashboard",
             name: "Dashboard",
             component: dashboard,
             children: [{
-                path: "/dashboard",
-                redirect: "/dashboard/todo"
-            },
+                    path: "/dashboard",
+                    redirect: "/dashboard/todo"
+                },
                 {
                     path: "/dashboard/pick",
                     component: pick
@@ -60,10 +60,10 @@ const router = new VueRouter({
                     component: message
                 },
                 {
-                    name:"addQuestion",
+                    name: "addQuestion",
                     path: "/dashboard/addQuestion",
                     component: addQuestions,
-                    props:true
+                    props: true
                 },
                 {
                     name: "correctPaper",
@@ -124,9 +124,9 @@ const router = new VueRouter({
             name: "Test",
             component: Test,
             children: [{
-                path: "/test2",
-                component: test2
-            },
+                    path: "/test2",
+                    component: test2
+                },
                 {
                     path: "/test1",
                     component: test1
@@ -160,8 +160,8 @@ const router = new VueRouter({
                 },
                 {
                     name: 'studentExam',
-                    path:'/studentExam',
-                    props:true,
+                    path: '/studentExam',
+                    props: true,
                     component: StudentExam,
                 },
                 {
@@ -181,7 +181,7 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    name:"testHomeWork",
+                    name: "testHomeWork",
                     path: "/testHomeWork",
                     component: testHomeWork,
                     props: true
@@ -225,25 +225,25 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     //如果进入dashboard
     if (to.matched.filter(value => {
-        return value.name === "Dashboard"
-    }).length) {
+            return value.name === "Dashboard"
+        }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
                     next()
                 } else {
-                    next({name: "notFound"})
+                    next({ name: "notFound" })
                 }
             })
             .catch((err) => {
                 console.error(err)
-                next({name: "notFound"})
+                next({ name: "notFound" })
             })
     }
     //进入login
     else if (to.matched.filter(value => {
-        return value.name === "login"
-    }).length) {
+            return value.name === "login"
+        }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
@@ -255,7 +255,7 @@ router.beforeEach((to, from, next) => {
             })
             .catch((err) => {
                 console.error(err)
-                next({name: "notFound"})
+                next({ name: "notFound" })
             })
     } else if (to.name === "examTest") {
         getExamQuestion().then((res) => {
@@ -265,7 +265,7 @@ router.beforeEach((to, from, next) => {
                 next("/notFound")
             }
         }).catch((err =>
-                next("/notFound")
+            next("/notFound")
         ))
     } else {
         next()
