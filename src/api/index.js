@@ -97,3 +97,44 @@ export const getStuCourseExamScore = (courseId) => {
     return requests({url: "/score/getStuScore/" + courseId, method: "get"})
 }
 
+
+//通过课程id获得所有学生的信息
+export const getStudentListByCourseId = (courseId) => {
+    return new Promise(function (resolve, reject) {
+        resolve({
+            code: 100,
+            data: [{
+                id: 1950000,
+                name: "张三",
+                //头像url之类的
+            },
+                {
+                    id: 1950001,
+                    name: "李四"
+                }
+            ]
+        })
+    })
+}
+
+//通过课程id和学生id踢出学生
+export const kickStudentByIdAndCourseId = (id, courseId) => {
+    return new Promise(function (resolve, reject) {
+        resolve({code: 100});
+    })
+}
+
+//通过学生id和课程id获得学生的所有作业
+export const getStudentHomeworkByIdAndCourseId = (id, courseId) => {
+    return new Promise(function (resolve, reject) {
+        resolve({
+            code: 100, data: [
+                {
+                    id: 1,
+                    title: "第一次作业",
+                    score: 1
+                }
+            ]
+        });
+    })
+}

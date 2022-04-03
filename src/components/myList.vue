@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     expandAdditionalInfo(row, index) {
-      console.log(row._showDetails)
+      // console.log(row._showDetails)
       row._showDetails = !row._showDetails
       if (row._rowVariant)
         row._rowVariant = null
