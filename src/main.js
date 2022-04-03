@@ -21,6 +21,7 @@ import VueKatex from 'vue-katex';
 import Default from './layout/Wrappers/baseLayout.vue';
 import Pages from './layout/Wrappers/pagesLayout.vue';
 import moment from 'moment'//导入文件
+import {BootstrapVueIcons} from "bootstrap-vue";
 
 Vue.prototype.$moment = moment;//赋值使用
 Vue.config.productionTip = false
@@ -29,6 +30,7 @@ Vue.use(VueToast)
 Vue.use(ElementUI)
 Vue.use(BootstrapVue);
 Vue.use(VueHamburgerButton);
+Vue.use(BootstrapVueIcons);
 Vue.use(VueKatex)
 
 Vue.component('default-layout', Default);
