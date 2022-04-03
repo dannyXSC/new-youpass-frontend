@@ -3,11 +3,11 @@
     <b-card-header style="font-size: 2em">About Me</b-card-header>
     <b-card-body>
       <b-row>
-        <b-col>
+        <b-col cols="3">
           <b-card-img-lazy left src="https://picsum.photos/125/125/?image=58" height="200"
                            width="200"></b-card-img-lazy>
         </b-col>
-        <b-col cols="9">
+        <b-col>
           <b-card-text style="font-size: 2.5em;color: #0ba360">{{ personInfo.name }}</b-card-text>
           <b-card-text style="font-size: 1.5em">学号:{{ personInfo.id }}</b-card-text>
           <b-card-text style="font-size: 1.5em">邮箱:{{ personInfo.email }}</b-card-text>

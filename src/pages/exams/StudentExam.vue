@@ -42,10 +42,6 @@ export default {
     name: 'StudentExam',
     components: {MyList, PageTitle,Grade,Students,ExamTable, BarChart, ExamsList},
     props:["responseList"],
-    created(){
-        
-    },
-    
     data(){
         return{  
             examId:"",
