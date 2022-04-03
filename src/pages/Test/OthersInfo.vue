@@ -1,5 +1,7 @@
 <template>
-other
+<div>
+  <h1>others</h1>
+</div>
 </template>
 
 <script>
