@@ -33,6 +33,7 @@ import MyAccount from "@/pages/Test/MyAccount";
 import CommentSection from "@/pages/Test/CommentSection";
 import testStudentList from "@/pages/Test/testStudentList";
 import testHomeWork from "@/pages/Test/testHomeWork";
+import OthersInfo from "@/pages/Test/OthersInfo";
 
 
 // 创建一个路由器 并暴露
@@ -184,6 +185,10 @@ const router = new VueRouter({
                     path: "/testHomeWork",
                     component: testHomeWork,
                     props: true
+                },
+                {
+                    path: "/OthersInfo",
+                    component: OthersInfo,
                 },
                 {
                     path: "/MyAccount",
