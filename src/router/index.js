@@ -191,7 +191,7 @@ const router = new VueRouter({
                     component: MyAccount
                 },
                 {
-                    path:"CommentSection" ,
+                    path:"/CommentSection" ,
                     component: CommentSection
                 },
                 {

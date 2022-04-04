@@ -138,3 +138,7 @@ export const getStudentHomeworkByIdAndCourseId = (id, courseId) => {
         });
     })
 }
+
+export const getHisInfo =(UserId)=>{
+    return requests({url: "/account/getHisInfo/", method: "post", data:{id:UserId}})
+}
