@@ -64,6 +64,7 @@
                         label="题目说明:"
                         label-cols-sm="3"
                         label-align-sm="right"
+                        aria-placeholder="无"
                       >
                       <b-button block
                                 class="mr-2 mb-3"
@@ -87,7 +88,8 @@
                         label-cols-sm="3"
                         label-align-sm="right"
                     >
-                      <croppa v-model="picQue"
+                      <croppa
+                        v-model="picQue"
                         :width="350"
                         :height="350"
                         :accept="'image/*'"
@@ -98,12 +100,14 @@
                         :show-remove-button="true">  
                       </croppa > 
                       </b-form-group>
+                      
                       <b-form-group
                         label="答案:"
                         label-cols-sm="3"
                         label-align-sm="right"
                     >
-                      <croppa v-model="picAnswer"
+                      <croppa
+                        v-model="picAnswer"
                         :width="350"
                         :height="350"
                         placeholder="Choose an image"
@@ -600,6 +604,8 @@ export default {
               if (flag)
                 return true
             }
+          }else if(this.questionList[id].type === 4){
+
           } else {
             if (this.questionList[id].standAnswer !== "") {
               return true
@@ -638,258 +644,3 @@ export default {
 
 </style>
 
-
-<!--
-{
-          description: "123",
-          type: 0,
-          standAnswer: "1",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [
-            {optionId: 0, description: "选择题内容1"},
-            {optionId: 1, description: "选择题内容2"}
-          ],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "123",
-          type: 1,
-          standAnswer: "1",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [
-            {optionId: 0, description: "选择题内容1"},
-            {optionId: 1, description: "选择题内容2"}
-          ],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "填空题",
-          type: 2,
-          standAnswer: "填空题答案",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "填空题",
-          type: 3,
-          standAnswer: "大题答案",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "123",
-          type: 0,
-          standAnswer: "1",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [
-            {optionId: 0, description: "选择题内容1"},
-            {optionId: 1, description: "选择题内容2"}
-          ],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "123",
-          type: 1,
-          standAnswer: "1",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [
-            {optionId: 0, description: "选择题内容1"},
-            {optionId: 1, description: "选择题内容2"}
-          ],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "填空题",
-          type: 2,
-          standAnswer: "填空题答案",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "填空题",
-          type: 3,
-          standAnswer: "大题答案",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "123",
-          type: 0,
-          standAnswer: "1",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [
-            {optionId: 0, description: "选择题内容1"},
-            {optionId: 1, description: "选择题内容2"}
-          ],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "123",
-          type: 1,
-          standAnswer: "1",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [
-            {optionId: 0, description: "选择题内容1"},
-            {optionId: 1, description: "选择题内容2"}
-          ],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "填空题",
-          type: 2,
-          standAnswer: "填空题答案",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "填空题",
-          type: 3,
-          standAnswer: "大题答案",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "123",
-          type: 0,
-          standAnswer: "1",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [
-            {optionId: 0, description: "选择题内容1"},
-            {optionId: 1, description: "选择题内容2"}
-          ],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "123",
-          type: 1,
-          standAnswer: "1",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [
-            {optionId: 0, description: "选择题内容1"},
-            {optionId: 1, description: "选择题内容2"}
-          ],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "填空题",
-          type: 2,
-          standAnswer: "填空题答案",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "填空题",
-          type: 3,
-          standAnswer: "大题答案",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "123",
-          type: 0,
-          standAnswer: "1",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [
-            {optionId: 0, description: "选择题内容1"},
-            {optionId: 1, description: "选择题内容2"}
-          ],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "123",
-          type: 1,
-          standAnswer: "1",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [
-            {optionId: 0, description: "选择题内容1"},
-            {optionId: 1, description: "选择题内容2"}
-          ],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "填空题",
-          type: 2,
-          standAnswer: "填空题答案",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [],
-          pool: 0,
-          courseId: 123
-        },
-        {
-          description: "填空题",
-          type: 3,
-          standAnswer: "大题答案",
-          subject: "数学",
-          createTime: "123",
-          isPrivate: 1,
-          option: [],
-          pool: 0,
-          courseId: 123
-        }
-
-
--->

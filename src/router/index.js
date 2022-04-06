@@ -26,6 +26,7 @@ import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
 import test5 from "@/pages/Test/test5";
 import test6 from "@/pages/Test/test6";
+import test997 from "@/pages/Test/test997";
 import test998 from "@/pages/Test/test998";
 import test999 from "@/pages/Test/test999";
 import BarChart from "@/pages/exams/BarChart"
@@ -37,7 +38,6 @@ import MyAccount from "@/pages/Test/MyAccount";
 // import testStudentList from "@/pages/Test/testStudentList";
 // import testHomeWork from "@/pages/Test/testHomeWork";
 import OthersInfo from "@/pages/Test/OthersInfo";
-import test6 from "@/pages/Test/test6";
 
 
 // 创建一个路由器 并暴露
@@ -140,12 +140,12 @@ const router = new VueRouter({
                     component: test3
                 },
                 {
-                    path: "/test6",
-                    component: test1
+                    path: "/test997",
+                    component: test997
                 },
                 {
                     path: "/test998",
-                    component: test3
+                    component: test998
                 },
                 {
                     path: "/test999",

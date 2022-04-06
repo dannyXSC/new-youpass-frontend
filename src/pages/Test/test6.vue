@@ -1,38 +1,20 @@
 <template>
   <div>
     <b-container fluid>
-      <b-row>
-        <b-col cols="8">
-          <div class="main-card mb-3 card">
+        <div class="main-card mb-3 card">
             <div class="card-body">
               <div class="wrapper">
                 <croppa
+                    :initial-image="img"
                     :height="resizableH"
                     :width="resizableW"
                     :show-remove-button="false"
                     class="resizable-croppa"></croppa>
-                <img src="../../assets/images/resize.png"
+                <img v-if="draggable" src="../../assets/images/resize.png"
                      class="icon-resize"
                      @mousedown.stop.prevent="onResizeTouchStart">
               </div>
-            </div>
-          </div>
-
-          <div class="main-card mb-3 card">
-            <div class="card-body">
-
-              <croppa v-model="croppa"
-                      initial-image="https://zhanziyang.github.io/vue-croppa/static/500.jpeg"
-                      :width="350"
-                      :height="350"
-                      :accept="'image/*'"
-                      placeholder="Choose an image"
-                      :placeholder-font-size="0"
-                      :disabled="false"
-                      :prevent-white-space="false"
-                      :show-remove-button="false">
-              </croppa>
-              <div class="modal-footer clearfix">
+              <div v-if="showDownload" class="modal-footer clearfix">
                 <div class="float-right">
                   <b-button variant="success" size="sl" @click="download('image/jpeg')"
                   >Download Answer
@@ -40,9 +22,7 @@
                 </div>
               </div>
             </div>
-          </div>
-        </b-col>
-      </b-row>
+        </div>
     </b-container>
   </div>
 </template>
@@ -56,13 +36,20 @@ import Croppa from 'vue-croppa'
 export default {
   name: "test6",
   // MyCountBar,
+  props: {
+    showDownload:Boolean,
+    imgUrl:String,
+    initDraggable:Boolean
+  },
   data() {
     return {
+      img: this.imgUrl,
+      draggable:this.initDraggable,
       resizing: false,
-      resizableH: 200,
-      resizableW: 300,
+      resizableH: 500,
+      resizableW: 600,
       dataUrl: '',
-      croppa: {}
+      answer: {}
     }
   },
   mounted() {
@@ -77,7 +64,7 @@ export default {
   },
   methods: {
     download(type, compressionRate) {
-      this.croppa.generateBlob((blob) => {
+      this.answer.generateBlob((blob) => {
         var url = URL.createObjectURL(blob)
         console.log(url)
         var a = document.createElement('a');
@@ -121,8 +108,11 @@ export default {
   position: absolute;
   right: 4px;
   bottom: 4px;
-  font-size: 16px;
+  font-size: 10px;
   width: 2em;
   cursor: nwse-resize;
+}
+.resizable-croppa{
+    max-width: 600px;
 }
 </style>
