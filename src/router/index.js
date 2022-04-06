@@ -1,6 +1,6 @@
 // 用于创建整个应用的路由器
 
-import {checkState, getExamQuestion} from "@/api";
+import { checkState, getExamQuestion } from "@/api";
 import addQuestions from "@/pages/Dashboard/addQuestions";
 import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
 import correctPaper from "@/pages/Dashboard/correctPaper";
@@ -24,31 +24,37 @@ import test1 from "@/pages/Test/test1";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
+import test5 from "@/pages/Test/test5";
+import test6 from "@/pages/Test/test6";
+import test997 from "@/pages/Test/test997";
+import test998 from "@/pages/Test/test998";
+import test999 from "@/pages/Test/test999";
 import BarChart from "@/pages/exams/BarChart"
 import VueRouter from "vue-router";
 import StudentExam from "@/pages/exams/StudentExam";
-import test5 from "@/pages/Test/test5";
 import zjptest from "@/pages/Test/MyAccount";
 import MyAccount from "@/pages/Test/MyAccount";
-import testStudentList from "@/pages/Test/testStudentList";
-import testHomeWork from "@/pages/Test/testHomeWork";
+// import CommentSection from "@/pages/Test/CommentSection";
+// import testStudentList from "@/pages/Test/testStudentList";
+// import testHomeWork from "@/pages/Test/testHomeWork";
+import OthersInfo from "@/pages/Test/OthersInfo";
 
 
 // 创建一个路由器 并暴露
 const router = new VueRouter({
     routes: [{
-        path: "/",
-        name: "HomeIndex",
-        component: HomeIndex
-    },
+            path: "/",
+            name: "HomeIndex",
+            component: HomeIndex
+        },
         {
             path: "/dashboard",
             name: "Dashboard",
             component: dashboard,
             children: [{
-                path: "/dashboard",
-                redirect: "/dashboard/todo"
-            },
+                    path: "/dashboard",
+                    redirect: "/dashboard/todo"
+                },
                 {
                     path: "/dashboard/pick",
                     component: pick
@@ -122,9 +128,9 @@ const router = new VueRouter({
             name: "Test",
             component: Test,
             children: [{
-                path: "/test2",
-                component: test2
-            },
+                    path: "/test2",
+                    component: test2
+                },
                 {
                     path: "/test1",
                     component: test1
@@ -133,7 +139,18 @@ const router = new VueRouter({
                     path: "/test3",
                     component: test3
                 },
-
+                {
+                    path: "/test997",
+                    component: test997
+                },
+                {
+                    path: "/test998",
+                    component: test998
+                },
+                {
+                    path: "/test999",
+                    component: test999
+                },
                 {
                     path: "/pick",
                     component: pick
@@ -156,12 +173,12 @@ const router = new VueRouter({
                     path: '/exam/:examId',
                     component: CertainExam
                 },
-                // {
-                //     name: 'studentExam',
-                //     path:'/studentExam',
-                //     props:true,
-                //     component: StudentExam,
-                // },
+                {
+                    name: 'studentExam',
+                    path: '/studentExam',
+                    props: true,
+                    component: StudentExam,
+                },
                 {
 
                     path: "/test4",
@@ -172,17 +189,25 @@ const router = new VueRouter({
                     component: test5
                 },
                 {
-                    path: "/testStudentList",
-                    component: testStudentList,
-                    props: {
-                        courseId: 1000
-                    }
+                    path: "/test6",
+                    component: test6
                 },
+                // {
+                //     path: "/testStudentList",
+                //     component: testStudentList,
+                //     props: {
+                //         courseId: 1000
+                //     }
+                // },
+                // {
+                //     name: "testHomeWork",
+                //     path: "/testHomeWork",
+                //     component: testHomeWork,
+                //     props: true
+                // },
                 {
-                    name:"testHomeWork",
-                    path: "/testHomeWork",
-                    component: testHomeWork,
-                    props: true
+                    path: "/OthersInfo",
+                    component: OthersInfo,
                 },
                 {
                     path: "/MyAccount",
@@ -219,25 +244,25 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     //如果进入dashboard
     if (to.matched.filter(value => {
-        return value.name === "Dashboard"
-    }).length) {
+            return value.name === "Dashboard"
+        }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
                     next()
                 } else {
-                    next({name: "notFound"})
+                    next({ name: "notFound" })
                 }
             })
             .catch((err) => {
                 console.error(err)
-                next({name: "notFound"})
+                next({ name: "notFound" })
             })
     }
     //进入login
     else if (to.matched.filter(value => {
-        return value.name === "login"
-    }).length) {
+            return value.name === "login"
+        }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
@@ -249,7 +274,7 @@ router.beforeEach((to, from, next) => {
             })
             .catch((err) => {
                 console.error(err)
-                next({name: "notFound"})
+                next({ name: "notFound" })
             })
     } else if (to.name === "examTest") {
         getExamQuestion().then((res) => {
@@ -259,7 +284,7 @@ router.beforeEach((to, from, next) => {
                 next("/notFound")
             }
         }).catch((err =>
-                next("/notFound")
+            next("/notFound")
         ))
     } else {
         next()

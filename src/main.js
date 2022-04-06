@@ -20,8 +20,14 @@ import VueKatex from 'vue-katex';
 
 import Default from './layout/Wrappers/baseLayout.vue';
 import Pages from './layout/Wrappers/pagesLayout.vue';
-import moment from 'moment'//导入文件
+import moment from 'moment'
+import Croppa from "vue-croppa";
+import Toggle from "bootstrap-toggle"
+//导入文件
 
+//croppa
+Vue.use(Croppa)
+Vue.use(Toggle)
 Vue.prototype.$moment = moment;//赋值使用
 Vue.config.productionTip = false
 Vue.use(VueRouter)
