@@ -2,7 +2,7 @@
   <div>
     <b-card>
       <b-list-group>
-        <b-list-group-item v-for="comment in comments">
+        <b-list-group-item v-for="comment in comments" style="margin-bottom: 1.5em">
           <h5 class="mb-1">
             <b-avatar button class="mr-3" @click="showHisInfo(comment.userId)"></b-avatar>
             <span class="mr-auto">{{ comment.userName }}</span>
@@ -28,15 +28,21 @@
             <b-row>
               <b-col cols="11">
                 <b-form-textarea
-                    v-model="myComment"
+                    v-model="comment.myComment"
                     placeholder="说点什么..."
                     rows="3"
                     max-rows="6"
                 ></b-form-textarea>
               </b-col>
               <b-col>
-              <b-button type="submit" style="height: 2em;margin-bottom: 1em" variant="success" @click="submitComment(comment.commentId,myComment)">提交</b-button>
-              <b-button type="reset" style="height: 2em" variant="danger">清除</b-button>
+                <b-button-group vertical size="lg">
+                  <b-button type="submit" style="height: 2em" variant="success"
+                            @click="submitComment(comment.commentId)">提交
+                  </b-button>
+                  <b-button type="reset" style="height: 2em" variant="danger" @click="clearComment(comment.commentId)">
+                    清除
+                  </b-button>
+                </b-button-group>
               </b-col>
             </b-row>
           </b-collapse>
@@ -54,7 +60,7 @@
         </b-list-group-item>
       </b-list-group>
     </b-card>
-    <b-modal centered size="lg" ref="HisInfo" hide-footer header-bg-variant="success">
+    <b-modal size="lg" ref="HisInfo" hide-footer header-bg-variant="success">
       <OthersInfo :user-id="checkHisInfo"></OthersInfo>
     </b-modal>
   </div>
@@ -68,14 +74,27 @@ export default {
   components: {OthersInfo},
   methods: {
     submitComment(targetId) {
+      let submitContent = ''
+      for (var i = 0; i < this.comments.length; i++) {
+        if (this.comments[i].commentId === targetId) {
+          submitContent = this.comments[i].myComment
+          break
+        }
+      }
       console.log(
           {
             userId: this.$store.state.global.id,
             targetCommentId: targetId,
-            content: this.myComment
+            content: submitContent
           }
       );
-      this.myComment = '';
+    },
+    clearComment(targetId) {
+      for (var i = 0; i < this.comments.length; i++) {
+        if (this.comments[i].commentId === targetId) {
+          this.comments[i].myComment = ''
+        }
+      }
     },
     showHisInfo(userId) {
       this.checkHisInfo = userId;
@@ -91,6 +110,7 @@ export default {
           commentId: 1,
           content: "第一条评论",
           supportNum: 1,
+          myComment: '',
           children: [
             {
               userId: 1950002,
@@ -114,6 +134,7 @@ export default {
           commentId: 2,
           supportNum: 123,
           content: "第二条评论",
+          myComment: '',
           children: [
             {
               userId: 1950004,
@@ -132,7 +153,6 @@ export default {
           ],
         },
       ],
-      myComment: '',
       openHisChild: -1,
       checkHisInfo: -1,
     }
