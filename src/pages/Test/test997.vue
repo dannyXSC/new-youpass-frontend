@@ -43,8 +43,11 @@
                         :throw-on-error="false"
                         :strict="false"
                       />
-
-                    
+                      <div v-if="question.type > 1" class="float-right">
+                        <label>
+                          <bootstrap-toggle v-model="question.checked" :options="{ on: '在线上传', off: '拍照上传' }" :disabled="false" />
+                        </label>
+                      </div>
                     </h5>
                   </div>
                   <hr />
@@ -99,7 +102,7 @@
                       </div>
                     </div>
                   </div>
-                  <div v-if="question.type > 1" class="fillin">
+                  <div v-if="question.type > 1 && question.checked" class="fillin">
                     <div class="input-group">
                       <b-button
                         block
@@ -135,6 +138,23 @@
                         "
                       ></textarea> -->
                     </div>
+                  </div>
+                  <div v-if="question.type > 1 && !question.checked" class="fillin">
+                    <div class="main-card mb-3 card">
+                      <div class="card-body">
+                        <div class="wrapper">
+                          <croppa
+                              :initial-image="img"
+                              :height="300"
+                              :width="500"
+                              :show-remove-button="false"
+                              class="resizable-croppa"></croppa>
+                          <img v-if="draggable" src="../../assets/images/resize.png"
+                              class="icon-resize"
+                              @mousedown.stop.prevent="onResizeTouchStart">
+                        </div>
+                      </div>
+                  </div>
                   </div>
                 </div>
               </div>
@@ -186,7 +206,7 @@ import PageTitle from "@/layout/Components/PageTitle.vue";
 import TestNavbar from "@/layout/Components/PageTitle3.vue";
 import MyCountBar from "@/components/myCountBar";
 import MyEditModal from "@/components/myEditModal.vue";
-
+import BootstrapToggle from 'vue-bootstrap-toggle'
 import parse from "@/utils/parseLatex";
 
 export default {
@@ -196,13 +216,14 @@ export default {
     TestNavbar,
     MyCountBar,
     MyEditModal,
+    BootstrapToggle
   },
   props: {
     msg: String,
   },
   data: () => ({
     per_page: 9,
-
+    checked: true,
     testTitle1:
       "在生产管理信息系统中，下列操抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客作步骤能正确将工单推进流程的是（）",
     testTitle2:
@@ -228,13 +249,17 @@ export default {
   }),
   computed: {
     questionList() {
-      return this.$store.state.global.questionList;
-    },
+      var array = this.$store.state.global.questionList;
+      array.forEach(item => {this.$set(item,'checked',true)})
+      console.log(array)
+      return array
+    },  
     ansList() {
       return this.$store.state.global.ansList;
     },
   },
   mounted() {
+    
     this.$store.dispatch("global/getExamQuestion");
   },
   methods: {
@@ -409,7 +434,6 @@ export default {
 .question-title {
   margin-top: 10px;
 }
-
 .choice {
   margin-top: 10px;
   margin-right: 90px;
@@ -422,7 +446,11 @@ export default {
   margin-left: 3px;
   margin-bottom: 10px;
 }
-
+.float-right{
+  position: absolute;
+  right: 30px;
+  top: 30px;
+}
 .choice .per-choice {
   float: left;
   width: 1000px;
