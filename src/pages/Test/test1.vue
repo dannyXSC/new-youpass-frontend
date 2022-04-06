@@ -1,84 +1,47 @@
 <template>
-  <div>
-    <page-title :heading=heading
-                :subheading=subheading
-                :icon=icon
-                :breadcrumb-item="breadcrumbItem"
-    ></page-title>
-    <my-list title="课程信息" :items="items" :fields="fields">
-      <template slot-scope="row">
-        <b-card class="mb-3 nav-justified" no-body>
-          <b-tabs pills card>
-            <b-tab title="课程信息" active>
-              <p>It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-                and more recently with desktop
-                publishing software like Aldus PageMaker
-                including versions of Lorem Ipsum.</p>
-            </b-tab>
-            <b-tab title="其他功能">
-              <template
-                  v-for="variant in ['primary','secondary','success','info','warning','danger','focus','alternate','light','dark','link']">
-                <b-button class="mr-2 mb-2" :variant="variant" :key="variant">
-                  {{ variant }}
-                </b-button>
-              </template>
-            </b-tab>
-          </b-tabs>
-        </b-card>
-      </template>
-    </my-list>
-  </div>
+  <croppa v-model="myCroppa"
+          :width="350"
+          :height="350"
+          placeholder="Choose an image"
+          :placeholder-font-size="0"
+          :disabled="false"
+          :prevent-white-space="true"
+          :show-remove-button="true"
+          @file-choose="handleCroppaFileChoose"
+          @file-size-exceed="handleCroppaFileSizeExceed"
+          @file-type-mismatch="handleCroppaFileTypeMismatch"
+          @image-remove="handleImageRemove"
+          @move="handleCroppaMove"
+          @zoom="handleCroppaZoom">
+  </croppa >
 </template>
 
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
+import $ from 'jquery'
+
+require('bootstrap-fileinput/js/fileinput.js') // 引入图片上传插件  input 的逻辑全部都写在了这个文件内部了  需要注意！！！
+require('bootstrap-fileinput/js/locales/zh.js') // 引入图片插件的汉化包
+require('bootstrap-fileinput/themes/fa/theme.js') // 引入主题包
+require('bootstrap/dist/js/bootstrap.js') // 引入 bootstrap
 
 export default {
   name: "test1",
-  components: {MyList, PageTitle},
-  data() {
-    return {
-      heading: 'Standard Buttons',
-      subheading: 'Wide selection of buttons that feature different styles for backgrounds, borders and hover options!',
-      icon: 'pe-7s-plane icon-gradient bg-tempting-azure',
-      breadcrumbItem: [
-        {
-          text: 'Admin',
-          href: '#'
-        },
-        {
-          text: 'Manage',
-          href: '#'
-        },
-        {
-          text: 'Library',
-          active: true
-        }
-      ],
-      fields: ['first_name', 'last_name'],
-      items: [
-        {
-          isActive: true,
-          age: 40,
-          first_name: 'Dickerson',
-          last_name: 'Macdonald',
-          _showDetails: false,
-          style: "cursor: pointer;"
-        },
-        {isActive: false, age: 21, first_name: 'Larsen', last_name: 'Shaw', _showDetails: false},
-        {
-          isActive: false,
-          age: 89,
-          first_name: 'Geneva',
-          last_name: 'Wilson',
-          _showDetails: false,
-        },
-        {isActive: true, age: 38, first_name: 'Jami', last_name: 'Carney', _showDetails: false}
-      ],
-      showChart: false
-    }
+  data: {
+    myCroppa: {}
+  },
 
+  methods: {
+    uploadCroppedImage() {
+      this.myCroppa.generateBlob(
+          blob => {
+            // write code to upload the cropped image file (a file is a blob)
+          },
+          'image/jpeg',
+          0.8
+      ); // 80% compressed jpeg file
+    }
   }
 }
 

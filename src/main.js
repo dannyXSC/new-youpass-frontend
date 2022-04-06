@@ -23,6 +23,11 @@ import Pages from './layout/Wrappers/pagesLayout.vue';
 import moment from 'moment'//导入文件
 import {BootstrapVueIcons} from "bootstrap-vue";
 
+// import Vue from 'vue';
+import Croppa from 'vue-croppa';
+
+Vue.use(Croppa);
+
 Vue.prototype.$moment = moment;//赋值使用
 Vue.config.productionTip = false
 Vue.use(BootstrapVueIcons)
