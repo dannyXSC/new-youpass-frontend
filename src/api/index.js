@@ -16,10 +16,10 @@ export const login = (postData) => {
     return ret
 }
 export const checkState = () => {
-    return requests({url: '/account/checkState', method: 'get'})
+    // return requests({url: '/account/checkState', method: 'get'})
 }
 export const getAllInfo = (postData) => {
-    return requests({url: '/account/getAllInfo', method: 'get', data: postData})
+    // return requests({url: '/account/getAllInfo', method: 'get', data: postData})
 }
 export const searchCourse1 = (data) => {
     return requests({url: '/course/getCourseById', method: 'get', params: data})

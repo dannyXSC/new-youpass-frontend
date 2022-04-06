@@ -30,10 +30,11 @@ import StudentExam from "@/pages/exams/StudentExam";
 import test5 from "@/pages/Test/test5";
 import zjptest from "@/pages/Test/MyAccount";
 import MyAccount from "@/pages/Test/MyAccount";
-import CommentSection from "@/pages/Test/CommentSection";
-import testStudentList from "@/pages/Test/testStudentList";
-import testHomeWork from "@/pages/Test/testHomeWork";
+// import CommentSection from "@/pages/Test/CommentSection";
+// import testStudentList from "@/pages/Test/testStudentList";
+// import testHomeWork from "@/pages/Test/testHomeWork";
 import OthersInfo from "@/pages/Test/OthersInfo";
+import test6 from "@/pages/Test/test6";
 
 
 // 创建一个路由器 并暴露
@@ -174,18 +175,22 @@ const router = new VueRouter({
                     component: test5
                 },
                 {
-                    path: "/testStudentList",
-                    component: testStudentList,
-                    props: {
-                        courseId: 1000
-                    }
+                    path: "/test6",
+                    component: test6
                 },
-                {
-                    name: "testHomeWork",
-                    path: "/testHomeWork",
-                    component: testHomeWork,
-                    props: true
-                },
+                // {
+                //     path: "/testStudentList",
+                //     component: testStudentList,
+                //     props: {
+                //         courseId: 1000
+                //     }
+                // },
+                // {
+                //     name: "testHomeWork",
+                //     path: "/testHomeWork",
+                //     component: testHomeWork,
+                //     props: true
+                // },
                 {
                     path: "/OthersInfo",
                     component: OthersInfo,
