@@ -203,8 +203,7 @@ import 'vue-croppa/dist/vue-croppa.css'
 const test61 = () => import('../Test/test6.vue')
 const test62 = () => import('../Test/test6.vue')
 const test63 = () => import('../Test/test6.vue')
-import Vue from 'vue'
-import Croppa from 'vue-croppa'
+
 // import MyCountBar from "@/components/myCountBar";
 export default {
     name: "test998",

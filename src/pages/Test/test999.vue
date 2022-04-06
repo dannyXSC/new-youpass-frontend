@@ -56,6 +56,7 @@
                         label-cols-sm="3"
                         label-align-sm="right"
                     >
+                    <input type="checkbox" checked data-toggle="toggle">
                       <b-form-select v-model="questionList[onShowId].isPrivate"
                                      :options="isPrivateOptions"></b-form-select>
                     </b-form-group>
@@ -309,7 +310,7 @@ import 'vue-croppa/dist/vue-croppa.css'
 import Vue from 'vue'
 import Croppa from 'vue-croppa'
 
- Vue.use(Croppa)  
+Vue.use(Croppa)  
 export default {
   name: "test999",
   components: {MySelect, MyCountBar, MyEditModal, PageTitle,},

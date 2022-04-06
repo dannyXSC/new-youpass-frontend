@@ -1,5 +1,4 @@
 <template>
-other
 </template>
 
 <script>
