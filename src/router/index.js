@@ -24,10 +24,13 @@ import test1 from "@/pages/Test/test1";
 import test2 from "@/pages/Test/test2";
 import test3 from "@/pages/Test/test3";
 import test4 from "@/pages/Test/test4";
+import test5 from "@/pages/Test/test5";
+import test6 from "@/pages/Test/test6";
+import test998 from "@/pages/Test/test998";
+import test999 from "@/pages/Test/test999";
 import BarChart from "@/pages/exams/BarChart"
 import VueRouter from "vue-router";
 import StudentExam from "@/pages/exams/StudentExam";
-import test5 from "@/pages/Test/test5";
 import zjptest from "@/pages/Test/MyAccount";
 import MyAccount from "@/pages/Test/MyAccount";
 // import CommentSection from "@/pages/Test/CommentSection";
@@ -136,7 +139,18 @@ const router = new VueRouter({
                     path: "/test3",
                     component: test3
                 },
-
+                {
+                    path: "/test6",
+                    component: test1
+                },
+                {
+                    path: "/test998",
+                    component: test3
+                },
+                {
+                    path: "/test999",
+                    component: test999
+                },
                 {
                     path: "/pick",
                     component: pick
