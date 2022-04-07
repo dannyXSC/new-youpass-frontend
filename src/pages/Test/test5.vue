@@ -1,20 +1,25 @@
 <template>
   <div>
-    <input type="checkbox" checked data-toggle="toggle" data-onstyle="danger">
-<!--    <bootstrap-toggle v-model="checked" :options="{ on: 'Yes', off: 'No' }" :disabled="false" datatype="btn-danger"/>-->
+    <input type="text" v-model="test.b" @input="handleInput">
   </div>
 </template>
 
 <script>
-import BootstrapToggle from 'vue-bootstrap-toggle'
 export default {
   name: "test5",
-  components: { BootstrapToggle },
+  props: ["value"],
   data() {
     return {
-      checked: true
+      test: this.value
+    }
+  },
+  methods:{
+    handleInput(e){
+      console.log(this.test)
+      this.$emit('input', this.test)
     }
   }
+
 }
 </script>
 

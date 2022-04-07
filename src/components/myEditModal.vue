@@ -1,6 +1,6 @@
 <template>
   <b-modal
-      id="edit-modal"
+      :id="id"
       size="xl"
       title="Edit"
       style="height: 80%"
@@ -26,7 +26,6 @@
             />
           </div>
         </b-col>
-
       </b-row>
     </b-container>
   </b-modal>
@@ -38,7 +37,12 @@ import parse from "@/utils/parseLatex";
 export default {
   name: "myEditModal",
   props: {
-    initContent: String
+    initContent: String,
+    id: {
+      type: String,
+      default: "edit-modal"
+
+    }
   },
   data() {
     return {
@@ -52,7 +56,7 @@ export default {
   },
   methods: {
     handleExit(trigger) {
-      if (trigger.trigger == "ok") {
+      if (trigger.trigger === "ok") {
         this.$emit("onSubmit", this.content)
       } else {
         this.$emit("onCancel")

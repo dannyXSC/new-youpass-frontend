@@ -12,7 +12,6 @@ export const signUp = (data) => {
 
 export const login = (postData) => {
     let ret = requests({url: '/account/login', method: 'post', data: postData})
-
     return ret
 }
 export const checkState = () => {
@@ -137,6 +136,13 @@ export const getStudentHomeworkByIdAndCourseId = (id, courseId) => {
             ]
         });
     })
+}
+
+//学生提交图片作业的接口
+
+//在学生提交图片作业的时候，通过图片的名字删除图片
+export const deleteImageByName = (name) => {
+    console.log(name)
 }
 
 export const getHisInfo =(UserId)=>{
