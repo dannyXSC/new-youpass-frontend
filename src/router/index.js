@@ -31,9 +31,10 @@ import test5 from "@/pages/Test/test5";
 import zjptest from "@/pages/Test/MyAccount";
 import MyAccount from "@/pages/Test/MyAccount";
 import testStudentList from "@/pages/Test/testStudentList";
-import testHomeWork from "@/pages/Test/testHomeWork";
+import testHomeWork from "@/pages/Test/testHomework";
 import CommentSection from "@/pages/Test/CommentSection";
 import OthersInfo from "@/pages/Test/OthersInfo";
+import testHomeworkInfo from "@/pages/Test/testHomeworkInfo";
 
 
 // 创建一个路由器 并暴露
@@ -184,6 +185,12 @@ const router = new VueRouter({
                     name:"testHomeWork",
                     path: "/testHomeWork",
                     component: testHomeWork,
+                    props: true
+                },
+                {
+                    name:"testHomeworkInfo",
+                    path: "/testHomeworkInfo",
+                    component: testHomeworkInfo,
                     props: true
                 },
                 {

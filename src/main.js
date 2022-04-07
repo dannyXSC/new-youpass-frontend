@@ -25,7 +25,6 @@ import {BootstrapVueIcons} from "bootstrap-vue";
 
 // import Vue from 'vue';
 import Croppa from 'vue-croppa';
-
 Vue.use(Croppa);
 
 Vue.prototype.$moment = moment;//赋值使用
@@ -45,6 +44,7 @@ Vue.component('userpages-layout', Pages);
 Vue.filter('formatDate', function(value) {
   return moment(value).format('YYYY-MM-DD HH:mm:ss')
 })
+
 
 new Vue({
   render: h => h(App),
