@@ -35,6 +35,7 @@ import testHomeWork from "@/pages/Test/testHomework";
 import CommentSection from "@/pages/Test/CommentSection";
 import OthersInfo from "@/pages/Test/OthersInfo";
 import testHomeworkInfo from "@/pages/Test/testHomeworkInfo";
+import testHomeworkFeedback from "@/pages/Test/testHomeworkFeedback";
 
 
 // 创建一个路由器 并暴露
@@ -191,6 +192,12 @@ const router = new VueRouter({
                     name:"testHomeworkInfo",
                     path: "/testHomeworkInfo",
                     component: testHomeworkInfo,
+                    props: true
+                },
+                {
+                    name:"testHomeworkFeedback",
+                    path: "/testHomeworkFeedback",
+                    component: testHomeworkFeedback,
                     props: true
                 },
                 {

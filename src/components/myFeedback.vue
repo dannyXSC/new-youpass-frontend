@@ -1,13 +1,5 @@
 <template>
   <div>
-    <my-edit-modal
-        v-if="isEditing"
-        :init-content="questionInfo.studentAnswer"
-        :id="'modal'+this.questionInfo.questionId"
-        @onSubmit="handleSubmit"
-        @onCancel="handleCancel"
-    />
-
     <div class="card-body">
       <div class="per-question">
         <b-container>
@@ -18,7 +10,7 @@
                   <i>{{ questionInfo.numInPaper }}</i>
                 </div>
                 <div class="option-tag-position">
-                  <div class="mb-2 mr-2 badge badge-primary">
+                  <div class="mb-2 mr-2 badge badge-dark">
                     {{ num2type[questionInfo.type] }}
                   </div>
                 </div>
@@ -43,7 +35,6 @@
                       <b-img :src="picture" fluid></b-img>
                     </div>
                   </template>
-
                 </div>
                 <hr/>
                 <div v-if="questionInfo.type < 2" class="choice">
@@ -65,7 +56,7 @@
                               block
                               class="btn-md mr-2 mb-2 text-left"
                               :variant="calChoiceVariant(index)"
-                              @click="pickSingle(index)"
+                              disabled
                           >
                             <katex-element
                                 :expression="parseLatex(option.description)"
@@ -73,6 +64,7 @@
                                 :strict="false"
                             />
                           </b-button>
+
                         </div>
 
                         <!-- 多选题 -->
@@ -81,7 +73,7 @@
                               block
                               class="btn-md mr-2 mb-2 text-left"
                               :variant="calChoiceVariant(index)"
-                              @click="pickMulti(index)"
+                              disabled
                           >
                             <katex-element
                                 :expression="parseLatex(option.description)"
@@ -97,17 +89,8 @@
                 </div>
                 <div v-if="questionInfo.type === 2 " class="fillin">
                   <div class="input-group">
-                    <b-button
-                        block
-                        class="mr-2 mb-3"
-                        pill
-                        variant="outline-primary"
-                        size="sm"
-                        @click="handleEdit()"
-                    >编辑
-                    </b-button>
                     <div
-                        class="card-shadow-danger border card card-body border-danger"
+                        class="card-shadow-dark border card card-body border-dark"
                     >
                       <katex-element
                           :expression="parseLatex(questionInfo.studentAnswer)"
@@ -120,17 +103,8 @@
                 <!-- 大题 图片题-->
                 <div v-if="questionInfo.type === 3 " class="fillin">
                   <div class="input-group">
-                    <b-button
-                        block
-                        class="mr-2 mb-3"
-                        pill
-                        variant="outline-primary"
-                        size="sm"
-                        @click="handleEdit()"
-                    >编辑
-                    </b-button>
                     <div
-                        class="card-shadow-danger border card card-body border-danger mb-3"
+                        class="card-shadow-dark border card card-body border-dark mb-3"
                     >
                       <katex-element
                           :expression="parseLatex(questionInfo.studentAnswer)"
@@ -139,14 +113,131 @@
                       />
                     </div>
                   </div>
-                  <vue-dropzone
-                      ref="myVueDropzone"
-                      :id="'dropzone'+questionInfo.questionId"
-                      :options="dropzoneOptions"
-                      @vdropzone-removed-file='removeThisFile'
-                  ></vue-dropzone>
-
                 </div>
+              </div>
+            </b-col>
+          </b-row>
+          <!-- 正确答案 -->
+          <b-row>
+            <b-col cols="1">
+              <div class="left-question">
+                <div class="mb-2 mr-2 badge badge-primary">
+                  正确答案
+                </div>
+              </div>
+            </b-col>
+            <b-col>
+              <hr/>
+              <div v-if="questionInfo.type < 2" class="choice">
+                <div
+                    v-for="(option, index) in questionInfo.options"
+                    :key="index"
+                    class="per-choice"
+                >
+                  <b-row>
+                    <b-col cols="1">
+                      <div class="option-tag">
+                        <h5>{{ transform(index) }}</h5>
+                      </div>
+                    </b-col>
+                    <b-col>
+                      <!-- 单选题 -->
+                      <div v-if="questionInfo.type === 0" class="option-button">
+                        <b-button
+                            block
+                            class="btn-md mr-2 mb-2 text-left"
+                            :variant="calStandardChoiceVariant(index)"
+                            disabled
+                        >
+                          <katex-element
+                              :expression="parseLatex(option.description)"
+                              :throw-on-error="false"
+                              :strict="false"
+                          />
+                        </b-button>
+                      </div>
+
+                      <!-- 多选题 -->
+                      <div v-if="questionInfo.type === 1" class="option-button">
+                        <b-button
+                            block
+                            class="btn-md mr-2 mb-2 text-left"
+                            :variant="calStandardChoiceVariant(index)"
+                            disabled
+                        >
+                          <katex-element
+                              :expression="parseLatex(option.description)"
+                              :throw-on-error="false"
+                              :strict="false"
+                          />
+                        </b-button>
+                      </div>
+                    </b-col>
+                  </b-row>
+                </div>
+              </div>
+              <div v-if="questionInfo.type === 2 " class="fillin">
+                <div class="input-group">
+                  <div
+                      class="card-shadow-success border card card-body border-success"
+                  >
+                    <katex-element
+                        :expression="parseLatex(questionInfo.standardAnswer)"
+                        :throw-on-error="false"
+                        :strict="false"
+                    />
+                  </div>
+                </div>
+              </div>
+              <!-- 大题 图片题-->
+              <div v-if="questionInfo.type === 3 " class="fillin">
+                <div class="input-group">
+                  <div
+                      class="card-shadow-success border card card-body border-success mb-3"
+                  >
+                    <katex-element
+                        :expression="parseLatex(questionInfo.standardAnswer)"
+                        :throw-on-error="false"
+                        :strict="false"
+                    />
+                  </div>
+                </div>
+                <div
+                    v-for="picture in questionInfo.standardPictureAnswers" :key="picture"
+                    class="mb-3"
+                >
+                  <b-img :src="picture" fluid></b-img>
+                </div>
+              </div>
+            </b-col>
+          </b-row>
+          <!-- 评论 -->
+          <b-row>
+            <b-col cols="1">
+              <div class="left-question">
+                <div class="mb-2 mr-2 badge badge-focus">
+                  评论
+                </div>
+              </div>
+            </b-col>
+            <b-col>
+              <hr/>
+              <div class="input-group">
+                <div
+                    class="card-shadow-focus border card card-body border-focus mb-3"
+                >
+                  <katex-element
+                      :expression="parseLatex(questionInfo.textComment)"
+                      :throw-on-error="false"
+                      :strict="false"
+                  />
+                </div>
+              </div>
+              <div
+                  v-for="picture in questionInfo.pictureComment" :key="picture"
+                  class="mb-3"
+              >
+                <b-img :src="picture" fluid></b-img>
               </div>
             </b-col>
           </b-row>
@@ -158,32 +249,16 @@
 
 <script>
 import parse from "@/utils/parseLatex";
-import MyEditModal from "@/components/myEditModal.vue";
-import vue2Dropzone from 'vue2-dropzone'
-import 'vue2-dropzone/dist/vue2Dropzone.min.css'
-import {deleteImageByName} from "@/api";
 
 export default {
-  name: "myQuestion",
+  name: "myFeedback",
   props: {
-    value: Object,
-  },
-  components: {
-    MyEditModal,
-    vueDropzone: vue2Dropzone
+    value: Object
   },
   data() {
     return {
-      dropzoneOptions: {
-        url: '/api/testUploadImage',
-        thumbnailWidth: 150,
-        maxFilesize: 2,
-        addRemoveLinks: true,
-      },
-      //是否正在添加文本答案
-      isEditing: false,
       num2type: ["单选", "多选", "填空", "大题"],
-      questionInfo: this.value
+      questionInfo: this.value,
       /*
       *
       * 公共
@@ -191,26 +266,33 @@ export default {
       * - questionId: 题目id(数据库中id)
       * - numInPaper: 在试卷中的序号
       * - description: 题目描述
+      * - textComment: 老师的文字评论
+      * - pictureComment: 老师图片评论
       *
       * 单选题 0
       * - options: 选项列表
       *     - optionId: 选项id(A/B/C....)
       *     - description: 选项描述
+      * - standardAnswer: 正确答案，数组, 但是里面只有一个数
       * - studentAnswer: 学生答案，数组，但是里面只有一个数
       *
       * 多选题 1
       * - options: 选项列表
       *     - optionId: 选项id(A/B/C....)
       *     - description: 选项描述
+      * - standardAnswer: 正确答案, 数组，对应optionId
       * - studentAnswer: 学生答案, 数组，对应optionId
       *
       * 填空题 2
       * - studentAnswer: 学生答案，文本
+      * - standardAnswer: 正确答案，文本
       *
       * 大题 3
       * - pictureDescription: 列表，每一项是一个图片的url
       * - studentAnswer: 学生答案，文本
-      * - studentPictureAnswers: 学生答案，图片 (弃用，可能不在这里存储了)
+      * - standardAnswer: 正确答案，文本
+      * - studentPictureAnswers: 学生答案，图片
+      * - standardPictureAnswers: 正确答案，图片
       *
       * */
     }
@@ -224,45 +306,28 @@ export default {
     },
     calChoiceVariant(ans) {
       if (!this.questionInfo.studentAnswer) {
-        return "outline-success";
+        return "outline-dark";
       } else {
         if (this.questionInfo.studentAnswer.includes(ans)) {
+          return "dark";
+        } else {
+          return "outline-dark";
+        }
+      }
+    },
+    calStandardChoiceVariant(ans){
+      if (!this.questionInfo.standardAnswer) {
+        return "outline-success";
+      } else {
+        if (this.questionInfo.standardAnswer.includes(ans)) {
           return "success";
         } else {
           return "outline-success";
         }
       }
     },
-    pickSingle(index) {
-      this.questionInfo.studentAnswer = [index];
-      this.handleInput();
-    },
-    pickMulti(index) {
-      if (this.questionInfo.studentAnswer.includes(index)) {
-        this.questionInfo.studentAnswer.splice(this.questionInfo.studentAnswer.indexOf(index), 1);
-      } else {
-        this.questionInfo.studentAnswer.push(index);
-      }
-      console.log(index);
-      this.handleInput();
-    },
     transform(num) {
       return String.fromCharCode(num + 'A'.charCodeAt(0));
-    },
-    handleEdit() {
-      this.isEditing = true;
-      this.$nextTick(_ => this.$bvModal.show(`modal${this.questionInfo.questionId}`))
-    },
-    handleSubmit(content) {
-      this.questionInfo.studentAnswer = content;
-      this.handleInput();
-      this.isEditing = false;
-    },
-    handleCancel() {
-      this.isEditing = false;
-    },
-    removeThisFile(file, error, xhr) {
-      deleteImageByName(file.name);
     },
   }
 }
