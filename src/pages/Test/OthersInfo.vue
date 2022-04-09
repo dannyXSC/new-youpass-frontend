@@ -15,9 +15,6 @@
         <b-card-text>家庭住址:{{ userInfo.location }}</b-card-text>
       </b-col>
     </b-row>
-    <b-row>
-      <b-img v-bind="mainProps" alt="Transparent image"></b-img>
-    </b-row>
   </b-card>
 </template>
 
