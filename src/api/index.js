@@ -11,11 +11,21 @@ export const signUp = (data) => {
 }
 
 export const login = (postData) => {
-    let ret = requests({ url: '/account/login', method: 'post', data: postData })
-    return ret
+    // let ret = requests({ url: '/account/login', method: 'post', data: postData })
+    // return ret
+    return new Promise(function(resolve, reject) {
+        resolve({
+            "code": 100,
+            "msg": "成功",
+            "data": null
+        }
+        )
+    })
 }
 export const checkState = () => {
-    return requests({ url: '/account/checkState', method: 'get' })
+    return requests({ url: '/account/checkState', method: 'get' }).then(res => {
+        return res
+    })
 }
 export const getAllInfo = (postData) => {
     return requests({ url: '/account/getAllInfo', method: 'get', data: postData })
