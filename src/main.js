@@ -31,7 +31,6 @@ Vue.use(Croppa);
 
 //croppa
 Vue.use(Croppa)
-Vue.use(Toggle)
 Vue.prototype.$moment = moment; //赋值使用
 Vue.config.productionTip = false
 Vue.use(BootstrapVueIcons)
