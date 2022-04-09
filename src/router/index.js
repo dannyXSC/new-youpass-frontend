@@ -34,10 +34,12 @@ import VueRouter from "vue-router";
 import StudentExam from "@/pages/exams/StudentExam";
 import zjptest from "@/pages/Test/MyAccount";
 import MyAccount from "@/pages/Test/MyAccount";
-// import CommentSection from "@/pages/Test/CommentSection";
-// import testStudentList from "@/pages/Test/testStudentList";
-// import testHomeWork from "@/pages/Test/testHomeWork";
+import testStudentList from "@/pages/Test/testStudentList";
+import testHomeWork from "@/pages/Test/testHomework";
+import CommentSection from "@/pages/Test/CommentSection";
 import OthersInfo from "@/pages/Test/OthersInfo";
+import testHomeworkInfo from "@/pages/Test/testHomeworkInfo";
+import testHomeworkFeedback from "@/pages/Test/testHomeworkFeedback";
 
 
 // 创建一个路由器 并暴露
@@ -210,9 +212,35 @@ const router = new VueRouter({
                     component: OthersInfo,
                 },
                 {
+                    name: "testHomeWork",
+                    path: "/testHomeWork",
+                    component: testHomeWork,
+                    props: true
+                },
+                {
+                    name: "testHomeworkInfo",
+                    path: "/testHomeworkInfo",
+                    component: testHomeworkInfo,
+                    props: true
+                },
+                {
+                    name: "testHomeworkFeedback",
+                    path: "/testHomeworkFeedback",
+                    component: testHomeworkFeedback,
+                    props: true
+                },
+                {
                     path: "/MyAccount",
                     component: MyAccount
-                }
+                },
+                {
+                    path: "/CommentSection",
+                    component: CommentSection
+                },
+                {
+                    path: "/OthersInfo",
+                    component: OthersInfo
+                },
             ]
         },
         {

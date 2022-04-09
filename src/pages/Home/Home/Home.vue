@@ -21,7 +21,7 @@
 export default {
   name: "Home",
   mounted() {
-    this.$store.dispatch("global/checkSession");
+    // this.$store.dispatch("global/checkSession");
   },
 };
 </script>

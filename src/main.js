@@ -20,16 +20,21 @@ import VueKatex from 'vue-katex';
 
 import Default from './layout/Wrappers/baseLayout.vue';
 import Pages from './layout/Wrappers/pagesLayout.vue';
-import moment from 'moment'
-import Croppa from "vue-croppa";
 import Toggle from "bootstrap-toggle"
 //导入文件
+import moment from 'moment' //导入文件
+import { BootstrapVueIcons } from "bootstrap-vue";
+
+// import Vue from 'vue';
+import Croppa from 'vue-croppa';
+Vue.use(Croppa);
 
 //croppa
 Vue.use(Croppa)
 Vue.use(Toggle)
-Vue.prototype.$moment = moment;//赋值使用
+Vue.prototype.$moment = moment; //赋值使用
 Vue.config.productionTip = false
+Vue.use(BootstrapVueIcons)
 Vue.use(VueRouter)
 Vue.use(VueToast)
 Vue.use(ElementUI)
@@ -42,11 +47,12 @@ Vue.component('userpages-layout', Pages);
 
 //全局时间过滤器
 Vue.filter('formatDate', function(value) {
-  return moment(value).format('YYYY-MM-DD HH:mm:ss')
+    return moment(value).format('YYYY-MM-DD HH:mm:ss')
 })
 
+
 new Vue({
-  render: h => h(App),
-  router,
-  store
+    render: h => h(App),
+    router,
+    store
 }).$mount('#app')

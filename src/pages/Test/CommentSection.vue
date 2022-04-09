@@ -1,0 +1,173 @@
+<template>
+  <div>
+    <b-card>
+      <b-list-group>
+        <b-list-group-item v-for="comment in comments" style="margin-bottom: 1.5em">
+          <h5 class="mb-1">
+            <b-avatar button class="mr-3" @click="showHisInfo(comment.userId)"></b-avatar>
+            <span class="mr-auto">{{ comment.userName }}</span>
+          </h5>
+          <p class="commentZone">
+            {{ comment.content }}
+          </p>
+          <b-row>
+            <b-col cols="1">
+              <span><b-button size="sm" variant="outline-white"><b-icon
+                  icon="hand-thumbs-up"></b-icon></b-button>{{ comment.supportNum }}</span>
+            </b-col>
+            <b-col cols="1">
+            <span><b-button size="sm" variant="outline-white" v-b-toggle="'collapse'+comment.commentId"><b-icon
+                icon="chat-left"></b-icon></b-button>{{ comment.children.length }}</span>
+            </b-col>
+            <b-col cols="1">
+              <span><b-button size="sm" variant="outline-white" v-b-toggle="'giveComment'+comment.commentId"><b-icon
+                  icon="chat-right-text-fill"></b-icon> </b-button></span>
+            </b-col>
+          </b-row>
+          <b-collapse :id="'giveComment'+comment.commentId" class="giveComment">
+            <b-row>
+              <b-col cols="11">
+                <b-form-textarea
+                    v-model="comment.myComment"
+                    placeholder="说点什么..."
+                    rows="3"
+                    max-rows="6"
+                ></b-form-textarea>
+              </b-col>
+              <b-col>
+                <b-button-group vertical size="lg">
+                  <b-button type="submit" style="height: 2em" variant="success"
+                            @click="submitComment(comment.commentId)">提交
+                  </b-button>
+                  <b-button type="reset" style="height: 2em" variant="danger" @click="clearComment(comment.commentId)">
+                    清除
+                  </b-button>
+                </b-button-group>
+              </b-col>
+            </b-row>
+          </b-collapse>
+          <b-collapse :id="'collapse'+comment.commentId">
+            <b-list-group>
+              <b-list-group-item v-for="child in comment.children">
+                <b-avatar size="sm" class="mr-3" button @click="showHisInfo(child.userId)"></b-avatar>
+                <span class="mr-auto">{{ child.userName }}</span>
+                <p class="commentZone">
+                  {{ child.content }}
+                </p>
+              </b-list-group-item>
+            </b-list-group>
+          </b-collapse>
+        </b-list-group-item>
+      </b-list-group>
+    </b-card>
+    <b-modal size="lg" ref="HisInfo" hide-footer header-bg-variant="success">
+      <OthersInfo :user-id="checkHisInfo"></OthersInfo>
+    </b-modal>
+  </div>
+</template>
+
+<script>
+import OthersInfo from "@/pages/Test/OthersInfo";
+
+export default {
+  name: "CommentSection",
+  components: {OthersInfo},
+  methods: {
+    submitComment(targetId) {
+      let submitContent = ''
+      for (var i = 0; i < this.comments.length; i++) {
+        if (this.comments[i].commentId === targetId) {
+          submitContent = this.comments[i].myComment
+          break
+        }
+      }
+      console.log(
+          {
+            userId: this.$store.state.global.id,
+            targetCommentId: targetId,
+            content: submitContent
+          }
+      );
+    },
+    clearComment(targetId) {
+      for (var i = 0; i < this.comments.length; i++) {
+        if (this.comments[i].commentId === targetId) {
+          this.comments[i].myComment = ''
+        }
+      }
+    },
+    showHisInfo(userId) {
+      this.checkHisInfo = userId;
+      this.$refs['HisInfo'].show();
+    }
+  },
+  data() {
+    return {
+      comments: [
+        {
+          userId: 1950000,
+          userName: "student",
+          commentId: 1,
+          content: "第一条评论",
+          supportNum: 1,
+          myComment: '',
+          children: [
+            {
+              userId: 1950002,
+              userName: "张纪鹏",
+              commentId: 3,
+              supportNum: 123,
+              content: "回复第一条评论",
+            },
+            {
+              userId: 1950003,
+              userName: "谢思程",
+              commentId: 4,
+              supportNum: 123,
+              content: "回复第一条评论",
+            },
+          ],
+        },
+        {
+          userId: 1950001,
+          userName: "student2",
+          commentId: 2,
+          supportNum: 123,
+          content: "第二条评论",
+          myComment: '',
+          children: [
+            {
+              userId: 1950004,
+              userName: "蒙俊杰",
+              commentId: 5,
+              supportNum: 123,
+              content: "回复第一条评论",
+            },
+            {
+              userId: 1950005,
+              userName: "柳淯之",
+              commentId: 6,
+              supportNum: 123,
+              content: "回复第一条评论",
+            },
+          ],
+        },
+      ],
+      openHisChild: -1,
+      checkHisInfo: -1,
+    }
+  }
+}
+</script>
+
+<style scoped>
+.commentZone {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.giveComment {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+</style>

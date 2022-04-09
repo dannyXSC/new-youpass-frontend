@@ -112,14 +112,14 @@ const global = {
         postAnswer(context, data) {
             postAnswer(data).then((res) => {
                 console.log(res.code);
-            }).catch((err => 
+            }).catch((err =>
                 alert(err)
                 ))
         },
         getStuCourseExamScore(context, courseId) {
             getStuCourseExamScore(courseId).then((res) => {
                 console.log(res.code);
-            }).catch((err => 
+            }).catch((err =>
                 alert(err)
                 ))
 
@@ -127,7 +127,7 @@ const global = {
         deleteSession(context) {
             deleteSession().then((res) => {
                 console.log(res.code);
-            }).catch((err => 
+            }).catch((err =>
                 alert(err)
                 ))
         },
@@ -189,7 +189,6 @@ const global = {
                 }
             })
         }
-
     },
     // 准备mutations---用于操作数据
     mutations: {
