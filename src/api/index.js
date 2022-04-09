@@ -11,16 +11,8 @@ export const signUp = (data) => {
 }
 
 export const login = (postData) => {
-    // let ret = requests({ url: '/account/login', method: 'post', data: postData })
-    // return ret
-    return new Promise(function(resolve, reject) {
-        resolve({
-            "code": 100,
-            "msg": "成功",
-            "data": null
-        }
-        )
-    })
+    let ret = requests({ url: '/account/login', method: 'post', data: postData })
+    return ret
 }
 export const checkState = () => {
     return requests({ url: '/account/checkState', method: 'get' }).then(res => {
