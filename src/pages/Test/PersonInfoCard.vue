@@ -37,25 +37,44 @@
       </b-card-body>
     </b-card>
     <b-modal id="pictureModal" size="lg" hide-header hide-footer>
-      <b-img center src="https://picsum.photos/125/125/?image=58" height="500"
-             width="500" role="button" v-b-modal.updateAvater></b-img>
+      <div id="app" style="text-align: center">
+        <b-img role="button" class="uploadImageStyle" @click="toggleShow" src="https://picsum.photos/125/125/?image=58"></b-img>
+        <my-upload field="img"
+                   @crop-success="cropSuccess"
+                   @crop-upload-success="cropUploadSuccess"
+                   @crop-upload-fail="cropUploadFail"
+                   v-model="show"
+                   :width="300"
+                   :height="300"
+                   url="/upload"
+                   :params="params"
+                   :headers="headers"
+                   img-format="png"></my-upload>
+        <img :src="imgDataUrl">
+      </div>
+<!--      <b-img center src="https://picsum.photos/125/125/?image=58" height="500"-->
+<!--             width="500" role="button" v-b-modal.updateAvater></b-img>-->
     </b-modal>
-    <b-modal id="updateAvater" hide-footer>
-      <b-form-file
-          v-model="avater"
-          :state="Boolean(avater)"
-          placeholder="Choose a file or drop it here..."
-          drop-placeholder="Drop file here..."
-      ></b-form-file>
-      <div class="mt-3" style="margin-bottom: 1.5em">Selected file: {{ avater ? avater.name : '' }}</div>
-      <b-button style="float: right" variant="success" @click="submitAvater">提交</b-button>
-    </b-modal>
+<!--    <b-modal id="updateAvater" hide-footer>-->
+<!--      <b-form-file-->
+<!--          v-model="avater"-->
+<!--          :state="Boolean(avater)"-->
+<!--          placeholder="Choose a file or drop it here..."-->
+<!--          drop-placeholder="Drop file here..."-->
+<!--      ></b-form-file>-->
+<!--      <div class="mt-3" style="margin-bottom: 1.5em">Selected file: {{ avater ? avater.name : '' }}</div>-->
+<!--      <b-button style="float: right" variant="success" @click="submitAvater">提交</b-button>-->
+<!--    </b-modal>-->
   </div>
 </template>
 
 <script>
+import myUpload from 'vue-image-crop-upload/upload-2.vue';
 export default {
   name: "PersonInfoCard",
+  components: {
+    'my-upload': myUpload
+  },
   data() {
     return {
       personInfo: {
@@ -70,7 +89,16 @@ export default {
         email: this.$store.state.global.email,
         location: this.$store.state.global.location,
       },
-      avater:null
+      avater:null,
+      show: true,
+      params: {
+        token: '123456798',
+        name: 'avatar'
+      },
+      headers: {
+        smail: '*_~'
+      },
+      imgDataUrl: ''
     }
   },
   computed:{
@@ -90,11 +118,49 @@ export default {
     },
     submitAvater(){
 
+    },
+    toggleShow() {
+      this.show = !this.show;
+    },
+    /**
+     * crop success
+     *
+     * [param] imgDataUrl
+     * [param] field
+     */
+    cropSuccess(imgDataUrl, field){
+      console.log('-------- crop success --------');
+      this.imgDataUrl = imgDataUrl;
+    },
+    /**
+     * upload success
+     *
+     * [param] jsonData  server api return data, already json encode
+     * [param] field
+     */
+    cropUploadSuccess(jsonData, field){
+      console.log('-------- upload success --------');
+      console.log(jsonData);
+      console.log('field: ' + field);
+    },
+    /**
+     * upload fail
+     *
+     * [param] status    server api return error status, like 500
+     * [param] field
+     */
+    cropUploadFail(status, field){
+      console.log('-------- upload fail --------');
+      console.log(status);
+      console.log('field: ' + field);
     }
   },
 }
 </script>
 
 <style scoped>
-
+.uploadImageStyle{
+  width: 40em;
+  height: 40em;
+}
 </style>
