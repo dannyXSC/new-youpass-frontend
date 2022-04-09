@@ -50,7 +50,6 @@ export default {
   },
   mounted() {
     getStudentListByCourseId(this.courseId).then(res => {
-      console.log(res)
       if (res.code === 100) {
         this.studentList = res.data;
         console.log(this.studentList, this.fields)

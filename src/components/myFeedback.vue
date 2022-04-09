@@ -264,7 +264,7 @@ export default {
       * 公共
       * - type: 0 1 2 3 4 分别表示单选、多选、填空、大题
       * - questionId: 题目id(数据库中id)
-      * - numInPaper: 在试卷中的序号
+      * - numInPaper: 在试卷中的序号 应该等于Index+1
       * - description: 题目描述
       * - textComment: 老师的文字评论
       * - pictureComment: 老师图片评论

@@ -40,19 +40,21 @@ import testHomeworkFeedback from "@/pages/Test/testHomeworkFeedback";
 
 // 创建一个路由器 并暴露
 const router = new VueRouter({
-    routes: [{
-        path: "/",
-        name: "HomeIndex",
-        component: HomeIndex
-    },
+    routes: [
+        {
+            path: "/",
+            name: "HomeIndex",
+            component: HomeIndex
+        },
         {
             path: "/dashboard",
             name: "Dashboard",
             component: dashboard,
-            children: [{
-                path: "/dashboard",
-                redirect: "/dashboard/todo"
-            },
+            children: [
+                {
+                    path: "/dashboard",
+                    redirect: "/dashboard/todo"
+                },
                 {
                     path: "/dashboard/pick",
                     component: pick
@@ -183,19 +185,19 @@ const router = new VueRouter({
                     }
                 },
                 {
-                    name:"testHomeWork",
+                    name: "testHomeWork",
                     path: "/testHomeWork",
                     component: testHomeWork,
                     props: true
                 },
                 {
-                    name:"testHomeworkInfo",
+                    name: "testHomeworkInfo",
                     path: "/testHomeworkInfo",
                     component: testHomeworkInfo,
                     props: true
                 },
                 {
-                    name:"testHomeworkFeedback",
+                    name: "testHomeworkFeedback",
                     path: "/testHomeworkFeedback",
                     component: testHomeworkFeedback,
                     props: true
@@ -205,7 +207,7 @@ const router = new VueRouter({
                     component: MyAccount
                 },
                 {
-                    path:"/CommentSection" ,
+                    path: "/CommentSection",
                     component: CommentSection
                 },
                 {
