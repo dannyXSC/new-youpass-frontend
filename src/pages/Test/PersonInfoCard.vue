@@ -5,28 +5,45 @@
       <b-card-body>
         <b-row>
           <b-col>
-            <b-card-img-lazy left src="https://picsum.photos/125/125/?image=58" height="200"
+            <b-card-img-lazy left :src="personInfo.avater" height="200"
                              width="200" role="button" v-b-modal.pictureModal></b-card-img-lazy>
           </b-col>
           <b-col cols="8">
             <b-card-text style="font-size: 2.5em;color: #0ba360">{{ personInfo.name }}</b-card-text>
             <b-card-text style="font-size: 1.5em">学号:{{ personInfo.id }}</b-card-text>
-            <b-card-text style="font-size: 1.5em">邮箱:{{ personInfo.email }}</b-card-text>
-            <b-card-text style="font-size: 1.5em">家庭住址:{{ personInfo.location }}</b-card-text>
+            <b-row>
+              <b-col>
+                <b-card-text style="font-size: 1.5em">性别:{{personInfo.sex}}</b-card-text>
+                <b-card-text style="font-size: 1.5em">联系电话:{{personInfo.tel}}</b-card-text>
+              </b-col>
+              <b-col>
+                <b-card-text style="font-size: 1.5em">邮箱:{{ personInfo.email }}</b-card-text>
+                <b-card-text style="font-size: 1.5em">学校:{{ personInfo.school }}</b-card-text>
+              </b-col>
+            </b-row>
           </b-col>
           <b-col>
             <b-dropdown squared variant="success" style="float: right" dropleft text="修改个人信息" class="m-2">
               <b-dropdown-form>
-                <b-form-group label="昵称">
+                <b-form-group label="姓名">
                   <b-form-input placeholder="nickname" v-model="updateInfo.name" :state="nameInvalid">
                   </b-form-input>
                 </b-form-group>
-                <b-form-group label="学号">
-                  <b-form-input placeholder="id" v-model="updateInfo.id" :state="idInvalid">
+                <b-form-group label="性别">
+                  <b-form-select v-model="updateInfo.sex" :options="sexOptions">
+
+                  </b-form-select>
+                </b-form-group>
+                <b-form-group label="联系电话">
+                  <b-form-input placeholder="id" v-model="updateInfo.tel" :state="telInvalid">
                   </b-form-input>
                 </b-form-group>
                 <b-form-group label="邮箱">
-                  <b-form-input placeholder="email" v-model="updateInfo.email">
+                  <b-form-input placeholder="email" v-model="updateInfo.email" :state="emailInvalid">
+                  </b-form-input>
+                </b-form-group>
+                <b-form-group label="学校">
+                  <b-form-input placeholder="id" v-model="updateInfo.school" :state="schoolInvalid">
                   </b-form-input>
                 </b-form-group>
                 <b-button variant="success" :disabled="ifInfoProper" @click="submitInfo">提交</b-button>
@@ -37,10 +54,10 @@
       </b-card-body>
     </b-card>
     <b-modal id="pictureModal" size="lg" hide-header hide-footer>
-      <b-img center src="https://picsum.photos/125/125/?image=58" height="500"
+      <b-img center :src="personInfo.avater" height="500"
              width="500" role="button" v-b-modal.updateAvater></b-img>
     </b-modal>
-    <b-modal id="updateAvater" hide-footer>
+    <b-modal id="updateAvater" ref="updateAvater" hide-footer>
       <b-form-file
           v-model="avater"
           :state="Boolean(avater)"
@@ -54,42 +71,98 @@
 </template>
 
 <script>
+import {getHisInfo ,updateInfo, updateAvater} from "@/api";
+
 export default {
   name: "PersonInfoCard",
   data() {
     return {
       personInfo: {
-        id: this.$store.state.global.id,
-        name: this.$store.state.global.name,
-        email: this.$store.state.global.email,
-        location: this.$store.state.global.location,
+        id:0,
+        name:'',
+        email:'',
+        school:'',
+        sex:'',
+        tel:'',
+        avater:''
       },
-      updateInfo:{
-        id: this.$store.state.global.id,
-        name: this.$store.state.global.name,
-        email: this.$store.state.global.email,
-        location: this.$store.state.global.location,
+      updateInfo: {
+        id:0,
+        name:'',
+        email:'',
+        school:'',
+        sex:'',
+        tel:'',
+        avater:''
       },
+      sexOptions:[
+        { value: '男', text: '男' },
+        { value: '女', text: '女' },
+      ],
       avater:null
     }
   },
-  computed:{
-    nameInvalid(){
-      return this.updateInfo.name.length>0
+  mounted() {
+    getHisInfo(this.$store.state.global.id).then((res)=>{
+      if(res.code===100){
+        this.personInfo.name=this.updateInfo.name=res.data[0].name
+        this.personInfo.id=this.updateInfo.id=res.data[0].id
+        this.personInfo.sex=this.updateInfo.sex=res.data[0].sex
+        this.personInfo.email=this.updateInfo.email=res.data[0].email
+        this.personInfo.tel=this.updateInfo.tel=res.data[0].tel
+        this.personInfo.school=this.updateInfo.school=res.data[0].school
+        this.personInfo.avater=this.updateInfo.avater=res.data[0].avater
+      }
+    })
+  },
+  computed: {
+    nameInvalid() {
+      return this.updateInfo.name.length > 0
     },
-    idInvalid(){
-      return this.updateInfo.id.toString().length>0
+    telInvalid() {
+      return this.updateInfo.tel.length > 0
     },
-    ifInfoProper(){
-      return !(this.updateInfo.name.length>0||this.updateInfo.id.length>0)
+    emailInvalid(){
+      return this.updateInfo.email.length > 0
+    },
+    schoolInvalid(){
+      return this.updateInfo.school.length > 0
+    },
+    ifInfoProper() {
+      return !(this.updateInfo.name.length > 0 && this.updateInfo.tel.length > 0 && this.updateInfo.email.length > 0 && this.updateInfo.school.length > 0)
     }
   },
-  methods:{
-    submitInfo(){
-      console.log(this.updateInfo)
+  methods: {
+    submitInfo() {
+      updateInfo(this.updateInfo).then((res)=>{
+        if(res.code===100){
+          console.log('update success')
+        }
+        else{
+          this.$bvToast.toast("上传失败", {
+            title: "提示",
+            variant: "danger",
+            solid: true,
+            autoHideDelay: 2000
+          });
+        }
+      })
     },
-    submitAvater(){
-
+    submitAvater() {
+      updateAvater(this.personInfo.id,this.avater).then((res)=>{
+        if(res.code===100){
+          console.log('update success')
+          this.$refs.updateAvater.hide()
+        }
+        else{
+          this.$bvToast.toast("上传头像失败", {
+            title: "提示",
+            variant: "danger",
+            solid: true,
+            autoHideDelay: 2000
+          });
+        }
+      })
     }
   },
 }

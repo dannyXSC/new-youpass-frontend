@@ -4,7 +4,7 @@
       <b-list-group>
         <b-list-group-item v-for="comment in comments" style="margin-bottom: 1.5em">
           <h5 class="mb-1">
-            <b-avatar button class="mr-3" @click="showHisInfo(comment.userId)"></b-avatar>
+            <b-avatar button class="mr-3" :src="comment.userAvater" @click="showHisInfo(comment.userId)"></b-avatar>
             <span class="mr-auto">{{ comment.userName }}</span>
           </h5>
           <p class="commentZone">
@@ -12,7 +12,7 @@
           </p>
           <b-row>
             <b-col cols="1">
-              <span><b-button size="sm" variant="outline-white"><b-icon
+              <span><b-button size="sm" variant="outline-white" :disabled="comment.supported" @click="giveLike(comment.commentId)"><b-icon
                   icon="hand-thumbs-up"></b-icon></b-button>{{ comment.supportNum }}</span>
             </b-col>
             <b-col cols="1">
@@ -26,7 +26,7 @@
           </b-row>
           <b-collapse :id="'giveComment'+comment.commentId" class="giveComment">
             <b-row>
-              <b-col cols="11">
+              <b-col cols="10">
                 <b-form-textarea
                     v-model="comment.myComment"
                     placeholder="说点什么..."
@@ -34,10 +34,10 @@
                     max-rows="6"
                 ></b-form-textarea>
               </b-col>
-              <b-col>
+              <b-col cols="2">
                 <b-button-group vertical size="lg">
                   <b-button type="submit" style="height: 2em" variant="success"
-                            @click="submitComment(comment.commentId)">提交
+                            @click="thesubmitComment(comment.commentId)">提交
                   </b-button>
                   <b-button type="reset" style="height: 2em" variant="danger" @click="clearComment(comment.commentId)">
                     清除
@@ -49,7 +49,7 @@
           <b-collapse :id="'collapse'+comment.commentId">
             <b-list-group>
               <b-list-group-item v-for="child in comment.children">
-                <b-avatar size="sm" class="mr-3" button @click="showHisInfo(child.userId)"></b-avatar>
+                <b-avatar size="sm" class="mr-3" :src="child.userAvater" button @click="showHisInfo(child.userId)"></b-avatar>
                 <span class="mr-auto">{{ child.userName }}</span>
                 <p class="commentZone">
                   {{ child.content }}
@@ -68,12 +68,18 @@
 
 <script>
 import OthersInfo from "@/pages/Test/OthersInfo";
-
+import {getCommentsByAssignmentId ,submitComment, addLike} from "@/api";
 export default {
   name: "CommentSection",
   components: {OthersInfo},
+  mounted() {
+    getCommentsByAssignmentId(0).then((res)=>{
+      console.log(res)
+      this.comments=res.data[0].comments
+    })
+  },
   methods: {
-    submitComment(targetId) {
+    thesubmitComment(targetId) {
       let submitContent = ''
       for (var i = 0; i < this.comments.length; i++) {
         if (this.comments[i].commentId === targetId) {
@@ -81,13 +87,11 @@ export default {
           break
         }
       }
-      console.log(
-          {
-            userId: this.$store.state.global.id,
-            targetCommentId: targetId,
-            content: submitContent
-          }
-      );
+      submitComment(this.$store.state.global.id,targetId,submitContent).then((res)=>{
+        if(res.code===100){
+          this.clearComment(targetId)
+        }
+      })
     },
     clearComment(targetId) {
       for (var i = 0; i < this.comments.length; i++) {
@@ -99,60 +103,35 @@ export default {
     showHisInfo(userId) {
       this.checkHisInfo = userId;
       this.$refs['HisInfo'].show();
+    },
+    giveLike(targetId){
+      addLike(this.$store.state.global.id,targetId).then((res)=>{
+        if(res.code===100){
+          for (let i=0;i<this.comments.length;i++){
+            if(this.comments[i].commentId===targetId) {
+              this.$set(this.comments[i],'supported',true)
+              break
+            }
+            for(let j=0;j<this.comments[i].children.length;j++){
+              this.$set(this.comments[i].children[j],'supported',true)
+              break
+            }
+          }
+        }
+        else{
+          this.$bvToast.toast("点赞失败", {
+            title: "提示",
+            variant: "danger",
+            solid: true,
+            autoHideDelay: 2000
+          });
+        }
+      })
     }
   },
   data() {
     return {
-      comments: [
-        {
-          userId: 1950000,
-          userName: "student",
-          commentId: 1,
-          content: "第一条评论",
-          supportNum: 1,
-          myComment: '',
-          children: [
-            {
-              userId: 1950002,
-              userName: "张纪鹏",
-              commentId: 3,
-              supportNum: 123,
-              content: "回复第一条评论",
-            },
-            {
-              userId: 1950003,
-              userName: "谢思程",
-              commentId: 4,
-              supportNum: 123,
-              content: "回复第一条评论",
-            },
-          ],
-        },
-        {
-          userId: 1950001,
-          userName: "student2",
-          commentId: 2,
-          supportNum: 123,
-          content: "第二条评论",
-          myComment: '',
-          children: [
-            {
-              userId: 1950004,
-              userName: "蒙俊杰",
-              commentId: 5,
-              supportNum: 123,
-              content: "回复第一条评论",
-            },
-            {
-              userId: 1950005,
-              userName: "柳淯之",
-              commentId: 6,
-              supportNum: 123,
-              content: "回复第一条评论",
-            },
-          ],
-        },
-      ],
+      comments: {},
       openHisChild: -1,
       checkHisInfo: -1,
     }

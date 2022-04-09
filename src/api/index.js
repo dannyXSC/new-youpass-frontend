@@ -147,5 +147,151 @@ export const deleteImageByName = (name) => {
 }
 
 export const getHisInfo = (UserId) => {
-    return requests({ url: "/account/getHisInfo/", method: "post", data: { id: UserId } })
+    return new Promise(function (resolve,reject){
+        resolve({
+            code:100,
+            data:[{
+                id:1953694,
+                name:'张纪鹏',
+                email:'914856774@qq.com',
+                school:'同济大学',
+                sex:'男',
+                tel:'186****4795',
+                avater:'https://picsum.photos/250/250/?image=59'
+            }]
+        })
+    })
+}
+
+export const getCommentsByAssignmentId=(AssignmentId)=>{
+    return new Promise(function (resolve,reject){
+        resolve({
+            code:100,
+            data:[{
+                comments: [
+                    {
+                        userId: 1950000,
+                        userName: "student",
+                        userAvater:'https://picsum.photos/250/250/?image=59',
+                        commentId: 1,
+                        supported:false,
+                        content: "第一条评论",
+                        supportNum: 1,
+                        myComment: '',
+                        children: [
+                            {
+                                userId: 1950002,
+                                userName: "张纪鹏",
+                                userAvater:'https://picsum.photos/250/250/?image=59',
+                                commentId: 3,
+                                supportNum: 123,
+                                supported:false,
+                                content: "回复第一条评论",
+                            },
+                            {
+                                userId: 1950003,
+                                userName: "谢思程",
+                                userAvater:'https://picsum.photos/250/250/?image=59',
+                                commentId: 4,
+                                supportNum: 123,
+                                supported:false,
+                                content: "回复第一条评论",
+                            },
+                        ],
+                    },
+                    {
+                        userId: 1950001,
+                        userName: "student2",
+                        userAvater:'https://picsum.photos/250/250/?image=59',
+                        commentId: 2,
+                        supportNum: 123,
+                        supported:false,
+                        content: "第二条评论",
+                        myComment: '',
+                        children: [
+                            {
+                                userId: 1950004,
+                                userName: "蒙俊杰",
+                                userAvater:'https://picsum.photos/250/250/?image=59',
+                                commentId: 5,
+                                supportNum: 123,
+                                supported:false,
+                                content: "回复第一条评论",
+                            },
+                            {
+                                userId: 1950005,
+                                userName: "柳淯之",
+                                userAvater:'https://picsum.photos/250/250/?image=59',
+                                commentId: 6,
+                                supportNum: 123,
+                                supported:false,
+                                content: "回复第一条评论",
+                            },
+                        ],
+                    },
+                ]
+            }]
+        })
+    })
+}
+
+export const submitComment=(userId,targetCommentId,content)=>{
+    return new Promise(function (resolve, reject){
+        console.log(
+            {
+                userId: userId,
+                targetCommentId: targetCommentId,
+                content: content
+            }
+        );
+        resolve({
+            code:100,
+        })
+    })
+}
+
+export const updateInfo=(updateInfo)=>{
+    return new Promise(function (resolve, reject){
+        console.log(
+            {
+                id:updateInfo.id,
+                name:updateInfo.name,
+                email:updateInfo.email,
+                school:updateInfo.school,
+                sex:updateInfo.sex,
+                tel:updateInfo.tel,
+            }
+        );
+        resolve({
+            code:100,
+        })
+    })
+}
+
+
+export const updateAvater=(id,avater)=>{
+    return new Promise(function (resolve, reject){
+        console.log(
+            {
+                id:id,
+                avater:avater
+            }
+        );
+        resolve({
+            code:100,
+        })
+    })
+}
+export const addLike=(id,targetId)=>{
+    return new Promise(function (resolve, reject){
+        console.log(
+            {
+                id:id,
+                targetId:targetId
+            }
+        );
+        resolve({
+            code:100,
+        })
+    })
 }
