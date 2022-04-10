@@ -97,7 +97,7 @@ export default {
         })
       } else {
         //发送请求
-        login({id: this.userid, password: this.password}).then(res => {
+        this.$store.dispatch("global/login",{id: this.userid, password: this.password}).then(res => {
           if (res.code === 100) {
             router.push("/dashboard/todo");
           } else {

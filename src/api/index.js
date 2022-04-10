@@ -1,6 +1,22 @@
 //api写在这里 可以根据需要穿件文件夹
 import requests from "@/utils/requests";
 
+/**
+ *
+ * @param data
+ * {
+ *     email: string 邮箱
+ *     password: string 密码
+ *     name: string 姓名
+ *     type: Number 老师还是学生
+ * }
+ * @returns {AxiosPromise}
+ * {
+ *      "code": 100,
+ *      "msg": "成功",
+ *      "data": 10507
+ * }
+ */
 export const signUp = (data) => {
 
     return requests({
@@ -8,6 +24,13 @@ export const signUp = (data) => {
         method: 'post',
         data: data
     })
+    // return new Promise((resolve, reject) => {
+    //     resolve({
+    //         code: 100,
+    //         msg: '成功',
+    //         data: 10507
+    //     })
+    // })
 }
 
 /**
@@ -25,15 +48,15 @@ export const signUp = (data) => {
  * }
  */
 export const login = (postData) => {
-    // let ret = requests({ url: '/account/login', method: 'post', data: postData })
-    // return ret
-    return new Promise(function (resolve, reject) {
-        resolve({
-            "code": 100,
-            "msg": "成功",
-            "data": null
-        })
-    })
+    let ret = requests({url: '/account/login', method: 'post', data: postData})
+    return ret
+    // return new Promise(function (resolve, reject) {
+    //     resolve({
+    //         code: 100,
+    //         msg: "成功",
+    //         data: null
+    //     })
+    // })
 }
 /**
  * 获取用户状态（是否登录）
@@ -45,19 +68,43 @@ export const login = (postData) => {
  * }
  */
 export const checkState = () => {
-    // return requests({url: '/account/checkState', method: 'get'}).then(res => {
-    //     return res
-    // })
-    return new Promise(function (resolve, reject) {
-        resolve({
-            "code": 100,
-            "msg": "成功",
-            "data": null
-        })
+    return requests({url: '/account/checkState', method: 'get'}).then(res => {
+        return res
     })
+    // return new Promise(function (resolve, reject) {
+    //     resolve({
+    //         code: 100,
+    //         msg: "成功",
+    //         data: null
+    //     })
+    // })
 }
-export const getAllInfo = (postData) => {
-    return requests({url: '/account/getAllInfo', method: 'get', data: postData})
+/**
+ * 获得基本信息
+ * @param postData
+ * @returns {AxiosPromise}
+ * {
+ *      "code": 100,
+ *      "msg": "成功",
+ *      "data": {
+ *          "name": "student",
+ *          "id": 1950000,
+ *          "type": 1,
+ *      }
+ * }
+ */
+export const getBasicInfo = (postData) => {
+    return requests({url: '/account/getAllInfo', method: 'get', data: postData}).then(res => {
+        return {
+            code: 100,
+            msg: "成功",
+            data: {
+                name: res.data.userInfo.name,
+                id: res.data.userInfo.id,
+                type: res.data.userInfo.type
+            }
+        }
+    })
 }
 export const searchCourse1 = (data) => {
     return requests({url: '/course/getCourseById', method: 'get', params: data})

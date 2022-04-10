@@ -1,10 +1,30 @@
 // 该文件用于创建Vuex中最核心的store
 
-import { addQuestions, checkState, courseGetExam, deleteSession, getAllInfo, getExamQuestion, getImage, getStuCourseExamScore, login, manualCorrect, postAnswer, postExam, quit, searchCourse1, searchCourse2, searchCourse3, setSession, signUp } from "@/api/index";
+import {
+    addQuestions,
+    checkState,
+    courseGetExam,
+    deleteSession,
+    getAllInfo, getBasicInfo,
+    getExamQuestion,
+    getImage,
+    getStuCourseExamScore,
+    login,
+    manualCorrect,
+    postAnswer,
+    postExam,
+    quit,
+    searchCourse1,
+    searchCourse2,
+    searchCourse3,
+    setSession,
+    signUp
+} from "@/api/index";
 import router from "@/router";
 import Vue from 'vue';
 //引入Vuex
 import Vuex from "vuex";
+import {Promise} from "es6-promise";
 
 Vue.use(Vuex)
 
@@ -12,6 +32,29 @@ const global = {
     namespaced: true,
     // 准备action---用于响应组件中的动作
     actions: {
+        getBasicInfo(context, data) {
+            return new Promise((resolve, reject) => {
+                getBasicInfo(data).then((res) => {
+                    if(res.code===100)
+                        context.commit("SETINFO", res);
+                    resolve(res);
+                }).catch((err => reject(err)))
+            })
+        },
+        login(context, data) {
+            return new Promise((resolve, reject) => {
+                login(data).then(res => {
+                    if (res.code === 100)
+                        context.commit("SETID", data.id)
+                    resolve(res)
+                }).catch(err => {
+                    reject(err)
+                })
+            })
+        },
+
+
+        /*弃用*/
         register(context, data) {
             console.log(data)
             console.log("进入register!")
@@ -19,23 +62,13 @@ const global = {
                 console.log(res.code)
                 if (res.code == '100') {
                     alert("注册成功！您的id为：" + res.data)
-                    router.push({ name: "login" })
+                    router.push({name: "login"})
                 } else if (res.code == '1') {
                     alert("该邮箱已经被注册过！")
                 }
             }).catch(err => {
                 console.log(err)
             })
-        },
-        login(context, data) {
-            login(data).then(res => {
-                if (res.code == '100') {
-                    context.commit("SETUSERID", data.id)
-                    router.push("/dashboard/todo");
-                } else {
-                    alert("账号密码错误，请重新输入！")
-                }
-             }).catch(err => { console.log(err) })
         },
         checkSession(context) {
             checkState().then(res => {
@@ -45,15 +78,6 @@ const global = {
             }).catch(err => {
                 console.log(err)
             })
-        },
-        getInfo(context, data) {
-            console.log("用户的id为：", data)
-            getAllInfo(data).then((res) => {
-                console.log("getInfo被调用", res)
-                context.commit("SETINFO", res);
-            }).catch((err =>
-                alert(err)
-            ))
         },
         searchCourse1(context, data) {
             searchCourse1(data).then(res => {
@@ -92,13 +116,12 @@ const global = {
             setSession(data).then((res) => {
                 if (res.code == '100') {
                     context.commit("SETEXAMSESSION");
-                    window.location.href="/#/examTest"
-                }
-                else {
+                    window.location.href = "/#/examTest"
+                } else {
                     alert(res.code + "没有考试权限");
                 }
             }).catch((err =>
-                alert(err)
+                    alert(err)
             ))
         },
         getExamQuestion(context) {
@@ -106,35 +129,35 @@ const global = {
                 console.log(res)
                 context.commit("SETEXAMINFO", res);
             }).catch((err =>
-                alert(err)
-                ))
+                    alert(err)
+            ))
         },
         postAnswer(context, data) {
             postAnswer(data).then((res) => {
                 console.log(res.code);
             }).catch((err =>
-                alert(err)
-                ))
+                    alert(err)
+            ))
         },
         getStuCourseExamScore(context, courseId) {
             getStuCourseExamScore(courseId).then((res) => {
                 console.log(res.code);
             }).catch((err =>
-                alert(err)
-                ))
+                    alert(err)
+            ))
 
         },
         deleteSession(context) {
             deleteSession().then((res) => {
                 console.log(res.code);
             }).catch((err =>
-                alert(err)
-                ))
+                    alert(err)
+            ))
         },
         logout(context) {
             quit().then(res => {
                 sessionStorage.removeItem("key");
-                router.push({ name: "HomeIndex" });
+                router.push({name: "HomeIndex"});
             })
         },
         uploadQuestions(context, data) {
@@ -155,7 +178,7 @@ const global = {
                         name: "correctedQuestion",
                         params: {
                             courseId: data.courseId,
-                            examId:data.examId
+                            examId: data.examId
                         }
                     })
                 }
@@ -172,12 +195,12 @@ const global = {
             })
         },
         submitExam(context, data) {
-            console.log("发布考试被执行了",data)
+            console.log("发布考试被执行了", data)
             postExam(data).then(res => {
                 console.log(res)
                 if (res.code == '100') {
                     alert('发布考试成功！')
-                    router.push({ name: "todo" });
+                    router.push({name: "todo"});
                 }
             })
         },
@@ -192,23 +215,33 @@ const global = {
     },
     // 准备mutations---用于操作数据
     mutations: {
+        SETID(state, id) {
+            state.id = id;
+            return 1
+        },
         SETINFO(state, res) {
-            state.id = res.data.userInfo.id;
-            state.email = res.data.userInfo.email;
-            state.location = res.data.userInfo.location;
-            state.name = res.data.userInfo.name;
-            state.accountType = res.data.userInfo.type;
-            state.courseListStu = res.data.courseListStu;
-            state.courseListTea = res.data.courseList;
-            state.examList = res.data.examList;
-            state.messageList = res.data.noticeInfoSet
+            state.id = res.data.id;
+            state.name = res.data.name;
+            state.accountType = res.data.type;
+            // state.email = res.data.userInfo.email;
+            // state.location = res.data.userInfo.location;
+            // state.courseListStu = res.data.courseListStu;
+            // state.courseListTea = res.data.courseList;
+            // state.examList = res.data.examList;
+            // state.messageList = res.data.noticeInfoSet
         },
 
-        UPDATECOURSEEXAM(state,res) {
+
+
+
+
+
+        /*弃用*/
+        UPDATECOURSEEXAM(state, res) {
 
         },
 
-        UPDATECOURSE(state,res) {
+        UPDATECOURSE(state, res) {
             state.searchedCourse = res.data;
             console.log(state.searchedCourse);
         },
@@ -234,53 +267,55 @@ const global = {
 
             var answerList = [];
             for (var a = 0; a < state.questionList.length; a++) {
-            if (!state.questionList[a].done) {
-                answerList[a] = [];
-            } else {
-            if (state.questionList[a].type > 1) {
-                answerList[a] = state.questionList[a].fill_content;
-            } else {
-                answerList[a] = state.questionList[a].multiList;
+                if (!state.questionList[a].done) {
+                    answerList[a] = [];
+                } else {
+                    if (state.questionList[a].type > 1) {
+                        answerList[a] = state.questionList[a].fill_content;
+                    } else {
+                        answerList[a] = state.questionList[a].multiList;
+                    }
                 }
+                state.ansList = answerList;
             }
-            state.ansList = answerList;
-        }
         },
         SETEXAMSESSION(state) {
             state.isTesting = true;
         },
-        SETCURRENTEXAM(state,data) {
+        SETCURRENTEXAM(state, data) {
             state.currentExam = data;
-            console.log("yyy",state.currentExam)
+            console.log("yyy", state.currentExam)
         },
-        SETCURRENTCOURSEID(state,data){
-            state.currentCourseId=data;
-            console.log("xxx",state.currentCourseId)
+        SETCURRENTCOURSEID(state, data) {
+            state.currentCourseId = data;
+            console.log("xxx", state.currentCourseId)
         }
     },
     // 准备state---用于存储数据
 
-    state:{
-            register: false,
-            loginSuccess:false,
-            id:0,
-            accountType:1,
-            location:"",
-            email:"",
-            isLogin: false,
-            name: "",
-            courseListStu:[],
-            courseListTea:[],
-            examList:[],
-            searchedCourse:[],
-            type:0,
-            isTesting:false,
-            questionList:[],
-            ansList:[],
-            messageList: [],
-            imageInfo:"",
-            currentExam:"",
-            currentCourseId:"",
+    state: {
+        id: 0,
+        name: "",
+        accountType: 1,
+
+        /*弃用*/
+        register: false,
+        loginSuccess: false,
+        location: "",
+        email: "",
+        isLogin: false,
+        courseListStu: [],
+        courseListTea: [],
+        examList: [],
+        searchedCourse: [],
+        type: 0,
+        isTesting: false,
+        questionList: [],
+        ansList: [],
+        messageList: [],
+        imageInfo: "",
+        currentExam: "",
+        currentCourseId: "",
     },
     // 准备getters---用于将state中的数据进行加工
     // 类似计算属性
