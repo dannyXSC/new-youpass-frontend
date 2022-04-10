@@ -90,7 +90,7 @@
                                 <button
                                   type="button"
                                   class="btn btn-light"
-                                  @click="test(row)"
+                                  @click="attendCourse(row.row.item.courseId)"
                                 >
                                   加入课程
                                 </button>
@@ -166,7 +166,7 @@
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
-import {searchCourse1, searchCourse2, searchCourse3} from "@/api";
+import {searchCourse1, searchCourse2, searchCourse3 ,attendCourse} from "@/api";
 
 export default {
   name: "pick",
@@ -271,9 +271,9 @@ export default {
         alert("搜索内容不可为空!");
       }
     },
-    test(row) {
-      console.log(row);
-    },
+    attendCourse(courseId){
+      attendCourse(courseId)
+    }
   },
   mounted() {},
   beforeDestroy() {},
