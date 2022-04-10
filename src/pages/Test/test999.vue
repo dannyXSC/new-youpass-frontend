@@ -88,17 +88,13 @@
                         label-cols-sm="3"
                         label-align-sm="right"
                     >
-                      <croppa
-                        v-model="picQue"
-                        :width="350"
-                        :height="350"
-                        :accept="'image/*'"
-                        placeholder="Choose an image"
-                        :placeholder-font-size="0"
-                        :disabled="false"
-                        :prevent-white-space="false"
-                        :show-remove-button="true">  
-                      </croppa > 
+                      <vue-dropzone
+                      ref="myVueDropzone"
+                      :id="'dropzoneQue'+onShowId"
+                      :options="dropzoneOptions"
+                      @vdropzone-removed-file='removeThisFile'
+                      @vdropzone-success='queUploadSuccess'
+                      ></vue-dropzone>
                       </b-form-group>
                       
                       <b-form-group
@@ -106,16 +102,13 @@
                         label-cols-sm="3"
                         label-align-sm="right"
                     >
-                      <croppa
-                        v-model="picAnswer"
-                        :width="350"
-                        :height="350"
-                        placeholder="Choose an image"
-                        :placeholder-font-size="0"
-                        :disabled="false"
-                        :prevent-white-space="false"
-                        :show-remove-button="true">  
-                      </croppa > 
+                      <vue-dropzone
+                      ref="myVueDropzone"
+                      :id="'dropzoneAns'+onShowId"
+                      :options="dropzoneOptions"
+                      @vdropzone-removed-file='removeThisFile'
+                      @vdropzone-success='ansUploadSuccess'
+                      ></vue-dropzone>
                       </b-form-group>
                     </template>
 
@@ -302,7 +295,10 @@ import $ from 'jquery'
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyEditModal from "@/components/myEditModal";
 import MyCountBar from "@/components/myCountBar";
-
+import vue2Dropzone from 'vue2-dropzone'
+import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+import {deleteImageByName} from "@/api";
+import {questionImageUpload} from "@/api"
 import parseLatex from "@/utils/parseLatex";
 import MySelect from "@/components/mySelect";
 import 'vue-croppa/dist/vue-croppa.css'
@@ -312,9 +308,15 @@ import Croppa from 'vue-croppa'
 Vue.use(Croppa)  
 export default {
   name: "test999",
-  components: {MySelect, MyCountBar, MyEditModal, PageTitle,},
+  components: {MySelect, MyCountBar, MyEditModal, PageTitle,vueDropzone:vue2Dropzone,questionImageUpload},
   data() {
     return {
+      dropzoneOptions: {
+        url: '/api/testUploadImage',
+        thumbnailWidth: 150,
+        maxFilesize: 2,
+        addRemoveLinks: true,
+      },
       heading: '上传题目',
       subheading: '您可以在此页面上传题目',
       icon: 'pe-7s-plane icon-gradient bg-tempting-azure',
@@ -387,10 +389,26 @@ export default {
     //     pool: 0,
     //     courseId: 123
     //   })
+     //   this.questionList.push({
+    //     id: i,
+    //     type: 4,
+    //     description: "填空题f(x,y) = \\sqrt[n]{{x^2}{y^3}}",
+
+    //   })
     // }
   },
   methods: {
-
+    removeThisFile(file, error, xhr) {
+      deleteImageByName(file.name);
+    },
+    queUploadSuccess(file, response){
+      questionImageUpload(file.name)
+      this.questionList[this.onShowId].questionImage.push(file.name)
+    },
+    ansUploadSuccess(file, response){
+      questionImageUpload(file.name)
+      this.questionList[this.onShowId].answerImage.push(file.name)
+    },
     openEdit() {
       this.$bvModal.show('edit-modal')
     },
@@ -546,6 +564,8 @@ export default {
         id: this.questionList.length,
         type: null,
         description: "",
+        questionImage:[],
+        answerImage:[],
         standAnswer: "",
         subject: "",
         createTime: "",
@@ -589,7 +609,15 @@ export default {
     },
     judgeQuestionIsComplete(id) {
       if (id < this.questionList.length) {
-        if (this.questionList[id].type !== null
+        if(this.questionList[id].type === 4){
+            if(this.questionList[id].questionImage.length > 0 && this.questionList[id].answerImage.length >0){
+              return true
+            }
+            else{
+              return false
+            }
+          }
+        else if (this.questionList[id].type !== null
             && this.questionList[id].description !== ""
             && this.questionList[id].isPrivate !== null
             && this.questionList[id].subject !== "") {
@@ -604,8 +632,6 @@ export default {
               if (flag)
                 return true
             }
-          }else if(this.questionList[id].type === 4){
-
           } else {
             if (this.questionList[id].standAnswer !== "") {
               return true
@@ -626,6 +652,33 @@ export default {
         alert("你必须完成所题目信息的填写")
       }else{
         //发送信息
+        let postData = []
+        let curTime = new Date()
+        this.questionList.forEach((value, index) => {
+          let dataItem = {}
+          dataItem.questionId = value.id
+          dataItem.courseId = this.courseId
+          dataItem.description = value.description
+          dataItem.type = value.type
+          dataItem.standardAnswer = ""
+          if(value.type === 4){
+            dataItem.questionImage = value.questionImage
+            dataItem.answerImage = value.answerImage
+          }
+          if (value.type === 0 || value.type === 1) {
+            dataItem.optionInfoList = []
+            value.option.forEach((value) => {
+              dataItem.standardAnswer += value.isAnswer === true ? "1" : "0"
+              dataItem.optionInfoList.push({optionId: value.id, content: value.description})
+            })
+          } else {
+            dataItem.standardAnswer = value.standAnswer
+          }
+          dataItem.subject = value.subject
+          dataItem.createTime = curTime
+          postData.push(dataItem)
+        })
+        this.$store.dispatch("global/uploadQuestions", postData);
       }
     },
     test(){

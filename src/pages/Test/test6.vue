@@ -14,13 +14,7 @@
                      class="icon-resize"
                      @mousedown.stop.prevent="onResizeTouchStart">
               </div>
-              <div v-if="showDownload" class="modal-footer clearfix">
-                <div class="float-right">
-                  <b-button variant="success" size="sl" @click="download('image/jpeg')"
-                  >Download Answer
-                  </b-button>
-                </div>
-              </div>
+              
             </div>
         </div>
     </b-container>
@@ -37,7 +31,6 @@ export default {
   name: "test6",
   // MyCountBar,
   props: {
-    showDownload:Boolean,
     imgUrl:String,
     initDraggable:Boolean
   },
@@ -46,7 +39,7 @@ export default {
       img: this.imgUrl,
       draggable:this.initDraggable,
       resizing: false,
-      resizableH: 500,
+      resizableH: 300,
       resizableW: 600,
       dataUrl: '',
       answer: {}

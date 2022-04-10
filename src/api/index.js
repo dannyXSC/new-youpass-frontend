@@ -140,7 +140,9 @@ export const getStudentHomeworkByIdAndCourseId = (id, courseId) => {
 }
 
 //学生提交图片作业的接口
-
+export const questionImageUpload = (name) =>{
+    console.log(name)
+}
 //在学生提交图片作业的时候，通过图片的名字删除图片
 export const deleteImageByName = (name) => {
     console.log(name)

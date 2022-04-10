@@ -23,13 +23,10 @@ export default {
   data() {
     return {
       dropzoneOptions: {
-        url: (file) => this.saveImages(file),
+        url: '/api/testUploadImage',
         thumbnailWidth: 150,
         maxFilesize: 2,
         addRemoveLinks: true,
-        params: () => {
-          return { id: 0 };
-        },
       },
     };
   },
