@@ -40,17 +40,13 @@
               <h5 class="card-title">题干信息</h5>
               <hr />
               <p>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-                commodo ligula eget dolor. Aenean massa. Lorem ipsum dolor sit
-                amet consectetur adipisicing elit. Labore ipsum itaque
-                voluptatibus veniam nobis non enim qui, laborum sequi suscipit.
-                Sed corporis suscipit soluta distinctio cupiditate impedit ipsa
-                in velit. Lorem ipsum dolor sit amet, consectetuer adipiscing
-                elit. Aenean commodo ligula eget dolor. Aenean massa.
+                {{question.questionDescription}}
               </p>
-              <test61
-                :initDraggable="false"
-                :showDownload="false"></test61>
+              <div class="main-card mb-3 card" v-for="(que,index) in question.questionPic">
+                <test61
+                  :initDraggable="false"
+                  :imgUrl="question.questionPic[index]"></test61>
+              </div>
             </div>
           </div>
 
@@ -59,20 +55,29 @@
               <h5 class="card-title">学生答案</h5>
               <hr />
               <p>
-                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-                commodo ligula eget dolor. Aenean massa. Lorem ipsum dolor sit
-                amet consectetur adipisicing elit. Labore ipsum itaque
-                voluptatibus veniam nobis non enim qui, laborum sequi suscipit.
-                Sed corporis suscipit soluta distinctio cupiditate impedit ipsa
-                in velit. Lorem ipsum dolor sit amet, consectetuer adipiscing
-                elit. Aenean commodo ligula eget dolor. Aenean massa.
+                {{studentAnswers[0].description}}
               </p>
+              <div class="main-card mb-3 card" v-for="(answer,index) in studentAnswers[0].studentAnswer">
                 <test62
                     :initDraggable="false"
-                    :showDownload="true"
-                    :imgUrl="this.imgUrl">
+                    :imgUrl="studentAnswers[0].studentAnswer[index]">
                 </test62>
+              </div>
+                
             </div>
+            <b-card-footer>
+                <div class="test4-input">
+                  <b-container>
+                    <b-row class="justify-content-end">
+                      <b-col cols="12" md="auto">
+                        <b-button pill variant="outline-success" @click="submit"
+                          >下载学生答案</b-button
+                        >
+                      </b-col>
+                    </b-row>
+                  </b-container>
+                </div>
+              </b-card-footer>
           </div>
 
           <div class="main-card mb-3 card">
@@ -80,16 +85,13 @@
               <h5 class="card-title">标准答案</h5>
               <hr />
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore
-                ipsum itaque voluptatibus veniam nobis non enim qui, laborum
-                sequi suscipit. Sed corporis suscipit soluta distinctio
-                cupiditate impedit ipsa in velit. Lorem ipsum dolor sit amet,
-                consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-                Aenean massa.
+                {{standardAnswer.standardDescription}}
               </p>
+              <div class="main-card mb-3 card" v-for="(answer,index) in standardAnswer.standardPic">
               <test63
                 :initDraggable="false"
-                :showDownload="false"></test63>
+                :imgUrl="standardAnswer.standardPic[index]"></test63>
+              </div>
             </div>
           </div>
         </b-col>
@@ -213,7 +215,32 @@ export default {
         return{
             imgUrl:'https://zhanziyang.github.io/vue-croppa/static/500.jpeg',
             dataUrl: '',
-            answer: {}
+            answer: {},
+            studentAnswers:[
+              {
+                questionId: 4,
+                studentId: 4,
+                numInPaper: 4,
+                description: "第一题xxxx 1_321",
+                studentAnswer: ["https://picsum.photos/1024/400/?image=41","https://picsum.photos/1024/400/?image=41"]
+              },
+              {
+                questionId: 4,
+                studentId: 5,
+                numInPaper: 5,
+                description: "第一题xxxx 1_321",
+                studentAnswer: ["https://picsum.photos/1024/400/?image=41","https://picsum.photos/1024/400/?image=41"]
+              },
+            ],
+            question:{
+              questionPic:["https://picsum.photos/1024/400/?image=41","https://picsum.photos/1024/400/?image=41"],
+              questionDescription:"adsadasdadsas"
+            },
+            standardAnswer:{
+              standardPic:["https://picsum.photos/1024/400/?image=41","https://picsum.photos/1024/400/?image=41"],
+              standardDescription:"adsadasdadsas"
+            }
+            
         }
     },
     mounted(){

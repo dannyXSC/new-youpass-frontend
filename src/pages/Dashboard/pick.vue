@@ -106,9 +106,9 @@
                               <b-container>
                                 <b-row>
                                   <b-col cols="8">
-                                    <h5>授课地址</h5>
+                                    <h5>课程名称</h5>
                                   </b-col>
-                                  <b-col cols="4"> <h6>广楼 304</h6></b-col>
+                                  <b-col cols="4"> <h6>{{ row.row.item.courseName }}</h6></b-col>
                                 </b-row>
                               </b-container>
                             </li>
@@ -118,18 +118,38 @@
                                   <b-col cols="8">
                                     <h5>授课时间</h5>
                                   </b-col>
-                                  <b-col cols="4"> <h6>星期一 7-8节</h6></b-col>
+                                  <b-col cols="4"> <h6>{{ row.row.item.courseTime }}</h6></b-col>
                                 </b-row>
                               </b-container>
                             </li>
                           </ul>
                         </div>
                       </b-tab>
-                      <b-tab title="课程简介">
-                        <h6>
-                          《数据结构》作为一门独立的课程最早是美国的一些大学开设的，1968年美国唐·欧·克努特教授开创了数据结构的最初体系，他所著的《计算机程序设计技巧》第一卷《基本算法》是第一本较系统地阐述数据的逻辑结构和存储结构及其操作的著作。从20世纪60年代末到70年代初，出现了大型程序，软件也相对独立，结构程序设计成为程序设计方法学的主要内容，人们就越来越重视数据结构，认为程序设计的实质是对确定的问题选择一种好的结构，加上设计一种好的算法。从20世纪70年代中期到80年代初，各种版本的数据结构著作就相继出现。
-                          目前在我国，《数据结构》也已经不仅仅是计算机专业的教学计划中的核心课程之一，而且是其它非计算机专业的主要选修课程之一。
-                        </h6>
+                      <b-tab title="上课方式">
+                        <div class="card-body">
+                          <ul class="list-group">
+                            <li class="list-group-item">
+                              <b-container>
+                                <b-row>
+                                  <b-col cols="8">
+                                    <h5>课程链接</h5>
+                                  </b-col>
+                                  <b-col cols="4"> <h6>{{ row.row.item.url }}</h6></b-col>
+                                </b-row>
+                              </b-container>
+                            </li>
+                            <li class="list-group-item">
+                              <b-container>
+                                <b-row>
+                                  <b-col cols="8">
+                                    <h5>密码</h5>
+                                  </b-col>
+                                  <b-col cols="4"> <h6>{{ row.row.item.password }}</h6></b-col>
+                                </b-row>
+                              </b-container>
+                            </li>
+                          </ul>
+                        </div>
                       </b-tab>
                     </b-tabs>
                   </b-card>
@@ -146,6 +166,7 @@
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
+import {searchCourse1} from "@/api";
 
 export default {
   name: "pick",
@@ -167,20 +188,25 @@ export default {
           active: true,
         },
       ],
+      searchedCourse:[]
     };
   },
   computed: {
     items() {
       let return_item = [];
-      for (let i = 0; i < this.$store.state.global.searchedCourse.length; ++i) {
+      for (let i = 0; i < this.searchedCourse.length; ++i) {
         return_item.unshift({
           _showDetails: false,
           isActive: true,
-          课程名称: this.$store.state.global.searchedCourse[i].title,
-          ID: this.$store.state.global.searchedCourse[i].id.courseId,
+          课程名称: this.searchedCourse[i].name,
+          courseName:this.searchedCourse[i].name,
+          ID: this.searchedCourse[i].courseId,
+          password:this.searchedCourse[i].password,
           teacher_id:
-            this.$store.state.global.searchedCourse[i].teacher.id.teacherId,
-          teacher_name: this.$store.state.global.searchedCourse[i].teacher.name,
+            this.searchedCourse[i].teacherId,
+          teacher_name: this.searchedCourse[i].teacherName,
+          url:this.searchedCourse[i].url,
+          courseTime:this.searchedCourse[i].courseTime
         });
       }
       return return_item;
@@ -189,28 +215,57 @@ export default {
   methods: {
     search(method) {
       if (this.inputContent != "") {
-        console.log(method);
         if (method == 1) {
           // 课号
-          this.$store.dispatch("global/searchCourse1", {
-            courseId: this.inputContent,
-          });
-          this.inputContent = "";
-          this.searchMethod = 1;
+          searchCourse1(this.inputContent).then((res)=>{
+            if(res.code===100){
+              this.searchedCourse=res.data
+              this.inputContent = "";
+              this.searchMethod = 1;
+            }
+            else{
+              this.$bvToast.toast("未检索到相关课程信息", {
+                title: "提示",
+                variant: "danger",
+                solid: true,
+                autoHideDelay: 2000
+              });
+            }
+          })
         } else if (method == 2) {
           // 课程名
-          this.$store.dispatch("global/searchCourse2", {
-            title: this.inputContent,
-          });
-          this.inputContent = "";
-          this.searchMethod = 2;
+          searchCourse2(this.inputContent).then((res)=>{
+            if(res.code===100){
+              this.searchedCourse=res.data
+              this.inputContent = "";
+              this.searchMethod = 2;
+            }
+            else{
+              this.$bvToast.toast("未检索到相关课程信息", {
+                title: "提示",
+                variant: "danger",
+                solid: true,
+                autoHideDelay: 2000
+              });
+            }
+          })
         } else if (method == 3) {
           // 教师
-          this.$store.dispatch("global/searchCourse3", {
-            teacherName: this.inputContent,
-          });
-          this.inputContent = "";
-          this.searchMethod = 3;
+          searchCourse3(this.inputContent).then((res)=>{
+            if(res.code===100){
+              this.searchedCourse=res.data
+              this.inputContent = "";
+              this.searchMethod = 3;
+            }
+            else{
+              this.$bvToast.toast("未检索到相关课程信息", {
+                title: "提示",
+                variant: "danger",
+                solid: true,
+                autoHideDelay: 2000
+              });
+            }
+          })
         }
       } else {
         alert("搜索内容不可为空!");

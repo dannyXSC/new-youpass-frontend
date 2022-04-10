@@ -5,7 +5,8 @@ import {
     checkState,
     courseGetExam,
     deleteSession,
-    getAllInfo, getBasicInfo,
+    getAllInfo,
+    getBasicInfo,
     getExamQuestion,
     getImage,
     getStuCourseExamScore,
@@ -24,7 +25,7 @@ import router from "@/router";
 import Vue from 'vue';
 //引入Vuex
 import Vuex from "vuex";
-import {Promise} from "es6-promise";
+import { Promise } from "es6-promise";
 
 Vue.use(Vuex)
 
@@ -35,7 +36,7 @@ const global = {
         getBasicInfo(context, data) {
             return new Promise((resolve, reject) => {
                 getBasicInfo(data).then((res) => {
-                    if(res.code===100)
+                    if (res.code === 100)
                         context.commit("SETINFO", res);
                     resolve(res);
                 }).catch((err => reject(err)))
@@ -62,7 +63,7 @@ const global = {
                 console.log(res.code)
                 if (res.code == '100') {
                     alert("注册成功！您的id为：" + res.data)
-                    router.push({name: "login"})
+                    router.push({ name: "login" })
                 } else if (res.code == '1') {
                     alert("该邮箱已经被注册过！")
                 }
@@ -121,7 +122,7 @@ const global = {
                     alert(res.code + "没有考试权限");
                 }
             }).catch((err =>
-                    alert(err)
+                alert(err)
             ))
         },
         getExamQuestion(context) {
@@ -129,21 +130,21 @@ const global = {
                 console.log(res)
                 context.commit("SETEXAMINFO", res);
             }).catch((err =>
-                    alert(err)
+                alert(err)
             ))
         },
         postAnswer(context, data) {
             postAnswer(data).then((res) => {
                 console.log(res.code);
             }).catch((err =>
-                    alert(err)
+                alert(err)
             ))
         },
         getStuCourseExamScore(context, courseId) {
             getStuCourseExamScore(courseId).then((res) => {
                 console.log(res.code);
             }).catch((err =>
-                    alert(err)
+                alert(err)
             ))
 
         },
@@ -151,13 +152,13 @@ const global = {
             deleteSession().then((res) => {
                 console.log(res.code);
             }).catch((err =>
-                    alert(err)
+                alert(err)
             ))
         },
         logout(context) {
             quit().then(res => {
                 sessionStorage.removeItem("key");
-                router.push({name: "HomeIndex"});
+                router.push({ name: "HomeIndex" });
             })
         },
         uploadQuestions(context, data) {
@@ -200,7 +201,7 @@ const global = {
                 console.log(res)
                 if (res.code == '100') {
                     alert('发布考试成功！')
-                    router.push({name: "todo"});
+                    router.push({ name: "todo" });
                 }
             })
         },
