@@ -22,14 +22,86 @@ export const checkState = () => {
 export const getAllInfo = (postData) => {
     return requests({ url: '/account/getAllInfo', method: 'get', data: postData })
 }
-export const searchCourse1 = (data) => {
-    return requests({ url: '/course/getCourseById', method: 'get', params: data })
+export const searchCourse1 = (courseId) => {
+    return new Promise(function (resolve, reject){
+        resolve({
+            code:100,
+            data:[
+                {
+                    courseId:1,
+                    name:'数学',
+                    password:'123456',
+                    teacherId:'12345',
+                    teacherName:'谢思程',
+                    url:'www.abc.com',
+                    courseTime:'周一一二,周三一二'
+                },
+                {
+                    courseId:2,
+                    name:'语文',
+                    password:'988776',
+                    teacherId:'345265',
+                    teacherName: '金伟祖',
+                    url:'www.bnnmm.com',
+                    courseTime:'周五五六'
+                },
+            ]
+        })
+    })
 }
-export const searchCourse2 = (data) => {
-    return requests({ url: '/course/getCourseByTitle', method: 'get', params: data });
+export const searchCourse2 = (courseName) => {
+    return new Promise(function (resolve, reject){
+        resolve({
+            code:100,
+            data:[
+                {
+                    courseId:1,
+                    name:'数学',
+                    password:'123456',
+                    teacherId:'12345',
+                    teacherName:'谢思程',
+                    url:'www.abc.com',
+                    courseTime:'周一一二,周三一二'
+                },
+                {
+                    courseId:2,
+                    name:'语文',
+                    password:'988776',
+                    teacherId:'345265',
+                    teacherName: '金伟祖',
+                    url:'www.bnnmm.com',
+                    courseTime:'周五五六'
+                },
+            ]
+        })
+    })
 }
-export const searchCourse3 = (data) => {
-    return requests({ url: '/course/getCourseByTName', method: 'get', params: data })
+export const searchCourse3 = (teacherName) => {
+    return new Promise(function (resolve, reject){
+        resolve({
+            code:100,
+            data:[
+                {
+                    courseId:1,
+                    name:'数学',
+                    password:'123456',
+                    teacherId:'12345',
+                    teacherName:'谢思程',
+                    url:'www.abc.com',
+                    courseTime:'周一一二,周三一二'
+                },
+                {
+                    courseId:2,
+                    name:'语文',
+                    password:'988776',
+                    teacherId:'345265',
+                    teacherName: '金伟祖',
+                    url:'www.bnnmm.com',
+                    courseTime:'周五五六'
+                },
+            ]
+        })
+    })
 }
 export const setSession = (data) => {
     return requests({ url: '/exam/setSession', method: 'post', data: data })
