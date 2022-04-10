@@ -80,39 +80,6 @@ const global = {
                 console.log(err)
             })
         },
-        searchCourse1(context, data) {
-            searchCourse1(data).then(res => {
-                if (res.data.length != 0) {
-                    context.commit("UPDATECOURSE", res);
-                } else {
-                    alert("未检索到相关课程信息！");
-                }
-            }).catch(err => {
-                alert("未检索到相关课程信息！");
-            })
-        },
-        searchCourse2(context, data) {
-            searchCourse2(data).then(res => {
-                if (res.data.length != 0) {
-                    context.commit("UPDATECOURSE", res);
-                } else {
-                    alert("未检索到相关课程信息！");
-                }
-            }).catch(err => {
-                alert("未检索到相关课程信息！");
-            })
-        },
-        searchCourse3(context, data) {
-            searchCourse3(data).then(res => {
-                if (res.data.length != 0) {
-                    context.commit("UPDATECOURSE", res);
-                } else {
-                    alert("未检索到相关课程信息！");
-                }
-            }).catch(err => {
-                alert("未检索到相关课程信息！");
-            })
-        },
         setSession(context, data) {
             setSession(data).then((res) => {
                 if (res.code == '100') {
@@ -226,7 +193,7 @@ const global = {
             state.accountType = res.data.type;
             // state.email = res.data.userInfo.email;
             // state.location = res.data.userInfo.location;
-            // state.courseListStu = res.data.courseListStu;
+             //state.courseListStu = res.data.courseListStu;
             // state.courseListTea = res.data.courseList;
             // state.examList = res.data.examList;
             // state.messageList = res.data.noticeInfoSet

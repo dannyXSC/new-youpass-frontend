@@ -166,7 +166,7 @@
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
-import {searchCourse1} from "@/api";
+import {searchCourse1, searchCourse2, searchCourse3} from "@/api";
 
 export default {
   name: "pick",
@@ -215,7 +215,7 @@ export default {
   methods: {
     search(method) {
       if (this.inputContent != "") {
-        if (method == 1) {
+        if (method === 1) {
           // 课号
           searchCourse1(this.inputContent).then((res)=>{
             if(res.code===100){
@@ -232,7 +232,7 @@ export default {
               });
             }
           })
-        } else if (method == 2) {
+        } else if (method === 2) {
           // 课程名
           searchCourse2(this.inputContent).then((res)=>{
             if(res.code===100){
@@ -249,7 +249,7 @@ export default {
               });
             }
           })
-        } else if (method == 3) {
+        } else if (method === 3) {
           // 教师
           searchCourse3(this.inputContent).then((res)=>{
             if(res.code===100){
