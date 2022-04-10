@@ -3,7 +3,7 @@
     <div class="h-100 bg-plum-plate bg-animation">
       <div class="d-flex h-100 justify-content-center align-items-center">
         <b-col md="8" class="mx-auto app-login-box">
-          <div class="app-logo-inverse mx-auto mb-3" />
+          <div class="app-logo-inverse mx-auto mb-3"/>
 
           <div class="modal-dialog w-100 mx-auto">
             <div class="modal-content">
@@ -16,44 +16,46 @@
                 </div>
                 <b-form-group id="exampleInputGroup1" label-for="exampleInput1">
                   <b-form-input
-                    id="exampleInput1"
-                    type="text"
-                    required
-                    placeholder="Enter account number..."
-                    v-model="userid"
+                      id="exampleInput1"
+                      type="text"
+                      required
+                      placeholder="Enter account number..."
+                      v-model="userid"
                   >
                   </b-form-input>
                 </b-form-group>
                 <b-form-group id="exampleInputGroup2" label-for="exampleInput2">
                   <b-form-input
-                    id="exampleInput2"
-                    type="password"
-                    required
-                    placeholder="Enter password..."
-                    v-model="password"
+                      id="exampleInput2"
+                      type="password"
+                      required
+                      placeholder="Enter password..."
+                      v-model="password"
                   >
                   </b-form-input>
                 </b-form-group>
                 <b-form-checkbox name="check" id="exampleCheck">
                   Keep me logged in
                 </b-form-checkbox>
-                <div class="divider" />
+                <div class="divider"/>
                 <h6 class="mb-0">
                   No account?
                   <a href="javascript:void(0);" class="text-primary"
-                    ><router-link to="/register">Sign up now</router-link></a
+                  >
+                    <router-link to="/register">Sign up now</router-link>
+                  </a
                   >
                 </h6>
               </div>
               <div class="modal-footer clearfix">
                 <div class="float-left">
                   <b-button variant="warning" size="sl" @click="back"
-                    >Back to Home
+                  >Back to Home
                   </b-button>
                 </div>
                 <div class="float-right">
-                  <b-button variant="success" size="sl" @click="login"
-                    >Login to YouPass
+                  <b-button variant="success" size="sl" @click="handleLogin"
+                  >Login to YouPass
                   </b-button>
                 </div>
               </div>
@@ -70,6 +72,8 @@
 
 <script>
 import router from "@/router";
+import {login} from "@/api";
+
 export default {
   name: "login",
   data() {
@@ -79,14 +83,44 @@ export default {
     };
   },
   methods: {
-    login() {
-      this.$store.dispatch("global/login", {
-        id: this.userid,
-        password: this.password,
-      });
+    handleLogin() {
+      let id = Number(this.userid)
+      //错误处理
+      if (isNaN(id)) {
+        // this.userid = "";
+        // this.password = "";
+
+        this.$toast.open({
+          message: 'Id is not number!',
+          type: 'error',
+          position: 'top'
+        })
+      } else {
+        //发送请求
+        login({id: this.userid, password: this.password}).then(res => {
+          if (res.code === 100) {
+            router.push("/dashboard/todo");
+          } else {
+            this.$toast.open({
+              message: res.msg,
+              type: 'error',
+              position: 'top'
+            })
+          }
+        }).catch(err => {
+          // this.userid = "";
+          // this.password = "";
+
+          this.$toast.open({
+            message: err.message,
+            type: 'error',
+            position: 'top'
+          })
+        })
+      }
     },
     back() {
-      router.push({ name: "HomeIndex" });
+      router.push({name: "HomeIndex"});
     },
   },
 };
