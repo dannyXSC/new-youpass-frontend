@@ -24,11 +24,14 @@ import Toggle from "bootstrap-toggle"
 //导入文件
 import moment from 'moment' //导入文件
 import { BootstrapVueIcons } from "bootstrap-vue";
+import VueGoodTablePlugin from 'vue-good-table';
 
+// import the styles
+import 'vue-good-table/dist/vue-good-table.css'
 // import Vue from 'vue';
 import Croppa from 'vue-croppa';
 Vue.use(Croppa);
-
+Vue.use(VueGoodTablePlugin);
 //croppa
 Vue.use(Croppa)
 Vue.prototype.$moment = moment; //赋值使用

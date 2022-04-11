@@ -8,7 +8,7 @@
     ></page-title>
 
     <my-list
-      v-if="accountType == 1"
+      v-if="accountType === 1"
       title="课程信息"
       :items="items"
       :fields="fields"
@@ -33,10 +33,37 @@
                   </div>
                 </div>
               </li>
+              <li class="list-group-item">
+                <div class="widget-content p-0">
+                  <div class="widget-content-wrapper">
+                    <div class="widget-content-left">
+                      <div class="widget-heading">
+                        网课网址：{{ row.row.item.url }}
+                      </div>
+                    </div>
+                    <div class="widget-content-right">
+                      <div class="widget-heading">
+                        密码： {{ row.row.item.password }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="widget-content p-0">
+                  <div class="widget-content-wrapper">
+                    <div class="widget-content-left">
+                      <div class="widget-heading">
+                        上课时间：{{ row.row.item.courseTime }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
             </b-tab>
-            <b-tab title="考试信息" active>
+            <b-tab title="作业信息" active>
               <li
-                v-for="exam in row.row.item.examList"
+                v-for="exam in row.row.item.assignments"
                 :key="exam.id"
                 class="list-group-item"
               >
@@ -47,10 +74,8 @@
                         {{ exam.title }}
                       </div>
                       <div class="widget-subheading">
-                        考试编号：{{ exam.exam_id }} <br />
-                        开始时间：{{ exam.start_time.slice(0, 10) }}
-                        {{ exam.start_time.slice(11, 16) }} <br />
-                        结束时间：{{ exam.end_time.slice(0, 10) }}
+                        作业编号：{{ exam.assignmentId }} <br />
+                        截止时间：{{ exam.end_time.slice(0, 10) }}
                         {{ exam.end_time.slice(11, 16) }}
                       </div>
                     </div>
@@ -58,9 +83,9 @@
                       <button
                         type="button"
                         class="btn btn-light"
-                        @click="enterExam(exam.courseId, exam.exam_id)"
+                        @click="enterAssignment(exam.courseId, exam.assignmentId)"
                       >
-                        进入考试
+                        编辑作业
                       </button>
                     </div>
                   </div>
@@ -73,7 +98,7 @@
                   block
                   type="button"
                   class="btn btn-light md-2"
-                  @click="getGrade(row.row.item.ID, row.row.item.课程名称)"
+                  @click="getAssignmentsResults(row.row.item.courseId)"
                 >
                   查看课程考试成绩
                 </b-button>
@@ -85,7 +110,7 @@
     </my-list>
 
     <my-list
-      v-if="accountType == 0"
+      v-if="accountType === 0"
       title="我的课程"
       :items="t_items"
       :fields="fields"
@@ -119,17 +144,17 @@
                   block
                   type="button"
                   class="btn btn-light md-2"
-                  @click="teacherExam(row.row.item.ID)"
+                  @click="manageAssignments(row.row.item.ID)"
                 >
-                  管理考试
+                  管理作业
                 </b-button>
                 <b-button
                   block
                   type="button"
                   class="btn btn-light md-2"
-                  @click="postExam(row.row.item.ID)"
+                  @click="releaseAssignment(row.row.item.ID)"
                 >
-                  发布考试
+                  发布作业
                 </b-button>
                 <b-button
                     block
@@ -152,7 +177,7 @@
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
 
-import { getStuCourseExamScore } from "@/api/index";
+import {getStuCourses ,getTeaCourses} from "@/api/index";
 
 export default {
   name: "course",
@@ -182,87 +207,57 @@ export default {
           active: true,
         },
       ],
+      courseListStu:[],
+      courseListTea:[],
     };
   },
   methods: {
-    getGrade(courseId) {
-      let gradeData = [];
-      getStuCourseExamScore(courseId)
-        .then((res) => {
-          gradeData = res.data;
-          let responseList = [];
-          gradeData.forEach((element) => {
-            responseList.unshift({ name: element.title, value: element.score });
-          });
-          console.log(responseList);
-          this.$router.push({
-            name: "studentExam",
-            params: {
-              responseList: responseList,
-            },
-          });
-        })
-        .catch((err) => alert(err));
+    getAssignmentsResults(courseId){
+
     },
-    enterExam(courseId, exam_id) {
-      this.$store.dispatch("global/setSession", {
-        courseId: courseId,
-        examId: exam_id,
-      });
+    enterAssignment(courseId,assignmentId){
+
     },
-    teacherExam(courseId) {
-      this.$router.push({
-        name: "teacherExam",
-        params: {
-          courseId: courseId,
-        },
-      });
+    manageAssignments(courseId) {
+
     },
-    postExam(courseId) {
-      this.$router.push({
-        name: "postExam",
-        params: {
-          courseId: courseId,
-        },
-      });
+    releaseAssignment(courseId) {
+
     },
     addQuestion(courseId) {
-      this.$router.push({
-        name: "addQuestion",
-        params: {
-          courseId: courseId,
-        },
-      });
+
     }
   },
   computed: {
     items() {
-      console.log("computed" + this.$store.state.global.courseListStu);
       let return_item = [];
-      for (let i = 0; i < this.$store.state.global.courseListStu.length; ++i) {
+      for (let i = 0; i < this.courseListStu.length; ++i) {
         return_item.unshift({
           _showDetails: false,
           isActive: true,
-          课程名称: this.$store.state.global.courseListStu[i].courseInfo.title,
-          ID: this.$store.state.global.courseListStu[i].courseInfo.courseId,
-          teacherId: this.$store.state.global.courseListStu[i].teacherId,
-          teacherName: this.$store.state.global.courseListStu[i].teacherName,
-          examList: this.$store.state.global.courseListStu[i].exams,
+          课程名称: this.courseListStu[i].name,
+          name:this.courseListStu[i].name,
+          ID: this.courseListStu[i].courseId,
+          teacherId: this.courseListStu[i].teacherId,
+          teacherName: this.courseListStu[i].teacherName,
+          assignments: this.courseListStu[i].assignments,
+          url:this.courseListStu[i].url,
+          courseTime:this.courseListStu[i].courseTime,
+          password:this.courseListStu[i].password
         });
       }
       return return_item;
     },
     t_items() {
-      console.log("computed teacher" + this.$store.state.global.courseListTea);
       let return_item = [];
-      for (let i = 0; i < this.$store.state.global.courseListTea.length; ++i) {
+      for (let i = 0; i < this.courseListTea.length; ++i) {
         return_item.unshift({
           _showDetails: false,
           isActive: true,
-          课程名称: this.$store.state.global.courseListTea[i].title,
-          ID: this.$store.state.global.courseListTea[i].courseId,
+          课程名称: this.courseListTea[i].title,
+          ID: this.courseListTea[i].courseId,
           examListTea:
-            this.$store.state.global.courseListTea[i].examReturnInfoSet,
+            this.courseListTea[i].assignments,
         });
       }
       return return_item;
@@ -272,6 +267,36 @@ export default {
     },
   },
   mounted() {
+    if(this.$store.state.global.accountType===1){
+      getStuCourses(this.$store.state.global.id).then((res)=>{
+        if(res.code===100){
+          this.courseListStu=res.data
+        }
+        else {
+          this.$bvToast.toast("未检索到相关课程信息", {
+            title: "提示",
+            variant: "danger",
+            solid: true,
+            autoHideDelay: 2000
+          });
+        }
+      })
+    }
+    else{
+      getTeaCourses().then((res)=>{
+        if(res.code===100){
+          this.courseListTea=res.data
+        }
+        else {
+          this.$bvToast.toast("未检索到相关课程信息", {
+            title: "提示",
+            variant: "danger",
+            solid: true,
+            autoHideDelay: 2000
+          });
+        }
+      })
+    }
     this.timer = setInterval(() => {
       this.bars.forEach((bar) => (bar.value = 25 + Math.random() * 75));
     }, 2000);
