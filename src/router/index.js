@@ -42,15 +42,27 @@ import OthersInfo from "@/pages/Test/OthersInfo";
 import testHomeworkInfo from "@/pages/Test/testHomeworkInfo";
 import testHomeworkFeedback from "@/pages/Test/testHomeworkFeedback";
 import homeworkFeedback from "@/pages/Dashboard/homeworkFeedback";
+import testLogin from "@/pages/Test/testLogin";
 
 
 // 创建一个路由器 并暴露
 const router = new VueRouter({
-    routes: [{
-        path: "/",
-        name: "HomeIndex",
-        component: HomeIndex
-    },
+    routes: [
+        {
+            path: "/",
+            name: "login",
+            component: login,
+        },
+        {
+            path: "/register",
+            name: "register",
+            component: register,
+        },
+        {
+            path: "/homeIndex",
+            name: "HomeIndex",
+            component: HomeIndex
+        },
         {
             path: "/dashboard",
             name: "Dashboard",
@@ -261,20 +273,15 @@ const router = new VueRouter({
             component: examTest,
         },
         {
-            path: "/login",
-            name: "login",
-            component: login,
-        },
-        {
-            path: "/register",
-            name: "register",
-            component: register,
+            name: "testLogin",
+            path: "/testLogin",
+            component: testLogin
         },
         {
             path: "/:catchAll(.*)",
             name: "notFound",
             component: notfound
-        }
+        },
 
 
     ]

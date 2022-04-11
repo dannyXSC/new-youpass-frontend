@@ -13,40 +13,48 @@
           <!--     End  header Content  -->
           <br>
           <div class="field-set">
+
             <!--   user name -->
             <span class="input-item">
            <i class="fa fa-user-circle"></i>
          </span>
             <!--   user name Input-->
-            <input class="form-input" id="txt-input" type="text" placeholder="@UserName" v-model="userid" required>
+            <input class="form-input" id="txt-input" type="text" placeholder="@UserName" required>
+
             <br>
+
             <!--   Password -->
+
             <span class="input-item">
         <i class="fa fa-key"></i>
        </span>
             <!--   Password Input-->
-            <input class="form-input" type="password" placeholder="Password" id="pwd" name="password" v-model="password"
-                   required>
+            <input class="form-input" type="password" placeholder="Password" id="pwd" name="password" required>
+
             <!--      Show/hide password  -->
             <span>
         <i class="fa fa-eye" aria-hidden="true" type="button" id="eye"></i>
      </span>
+
+
             <br>
             <!--        buttons -->
             <!--      button LogIn -->
-            <button class="log-in" @click="handleLogin"> Log In</button>
+            <button class="log-in"> Log In</button>
           </div>
+
           <!--   other buttons -->
           <div class="other">
             <!--      Forgot Password button-->
             <button class="btn submits frgt-pass">Forgot Password</button>
             <!--     Sign Up button -->
-            <button class="btn submits sign-up" @click="handleSignUp">Sign Up
+            <button class="btn submits sign-up">Sign Up
               <!--         Sign Up font icon -->
               <i class="fa fa-user-plus" aria-hidden="true"></i>
             </button>
             <!--      End Other the Division -->
           </div>
+
           <!--   End Conrainer  -->
         </div>
 
@@ -54,101 +62,23 @@
       </form>
     </div>
   </div>
-  <!--  <div style="height: 100vh">-->
-  <!--    <div class="h-100 bg-plum-plate bg-animation">-->
-  <!--      <div class="d-flex h-100 justify-content-center align-items-center">-->
-  <!--        <b-col md="8" class="mx-auto app-login-box">-->
-  <!--          <div class="app-logo-inverse mx-auto mb-3"/>-->
-
-  <!--          <div class="modal-dialog w-100 mx-auto">-->
-  <!--            <div class="modal-content">-->
-  <!--              <div class="modal-body">-->
-  <!--                <div class="h5 modal-title text-center">-->
-  <!--                  <h4 class="mt-2">-->
-  <!--                    <div>Welcome back,</div>-->
-  <!--                    <span>Please sign in to your account below.</span>-->
-  <!--                  </h4>-->
-  <!--                </div>-->
-  <!--                <b-form-group id="exampleInputGroup1" label-for="exampleInput1">-->
-  <!--                  <b-form-input-->
-  <!--                      id="exampleInput1"-->
-  <!--                      type="text"-->
-  <!--                      required-->
-  <!--                      placeholder="Enter account number..."-->
-  <!--                      v-model="userid"-->
-  <!--                  >-->
-  <!--                  </b-form-input>-->
-  <!--                </b-form-group>-->
-  <!--                <b-form-group id="exampleInputGroup2" label-for="exampleInput2">-->
-  <!--                  <b-form-input-->
-  <!--                      id="exampleInput2"-->
-  <!--                      type="password"-->
-  <!--                      required-->
-  <!--                      placeholder="Enter password..."-->
-  <!--                      v-model="password"-->
-  <!--                  >-->
-  <!--                  </b-form-input>-->
-  <!--                </b-form-group>-->
-  <!--                <b-form-checkbox name="check" id="exampleCheck">-->
-  <!--                  Keep me logged in-->
-  <!--                </b-form-checkbox>-->
-  <!--                <div class="divider"/>-->
-  <!--                <h6 class="mb-0">-->
-  <!--                  No account?-->
-  <!--                  <a href="javascript:void(0);" class="text-primary"-->
-  <!--                  >-->
-  <!--                    <router-link to="/register">Sign up now</router-link>-->
-  <!--                  </a-->
-  <!--                  >-->
-  <!--                </h6>-->
-  <!--              </div>-->
-  <!--              <div class="modal-footer clearfix">-->
-  <!--                <div class="float-left">-->
-  <!--                  <b-button variant="warning" size="sl" @click="back"-->
-  <!--                  >Back to Home-->
-  <!--                  </b-button>-->
-  <!--                </div>-->
-  <!--                <div class="float-right">-->
-  <!--                  <b-button variant="success" size="sl" @click="handleLogin"-->
-  <!--                  >Login to YouPass-->
-  <!--                  </b-button>-->
-  <!--                </div>-->
-  <!--              </div>-->
-  <!--            </div>-->
-  <!--          </div>-->
-  <!--          <div class="text-center text-white opacity-8 mt-3">-->
-  <!--            Copyright &copy; YouPass-->
-  <!--          </div>-->
-  <!--        </b-col>-->
-  <!--      </div>-->
-  <!--    </div>-->
-  <!--  </div>-->
 </template>
 
 <script>
-import router from "@/router";
-import {login} from "@/api";
-
 export default {
-  name: "login",
-  data() {
-    return {
-      userid: "",
-      password: "",
-    };
-  },
+  name: "testLogin",
   mounted() {
     function show() {
-      let p = document.getElementById('pwd');
+      var p = document.getElementById('pwd');
       p.setAttribute('type', 'text');
     }
 
     function hide() {
-      let p = document.getElementById('pwd');
+      var p = document.getElementById('pwd');
       p.setAttribute('type', 'password');
     }
 
-    let pwShown = 0;
+    var pwShown = 0;
 
     document.getElementById("eye").addEventListener("click", function () {
       if (pwShown == 0) {
@@ -159,56 +89,11 @@ export default {
         hide();
       }
     }, false);
-  },
-  methods: {
-    handleLogin() {
-      let id = Number(this.userid)
-      //错误处理
-      if (isNaN(id)) {
-        // this.userid = "";
-        // this.password = "";
-
-        this.$toast.open({
-          message: 'Id is not number!',
-          type: 'error',
-          position: 'top'
-        })
-      } else {
-        //发送请求
-        this.$store.dispatch("global/login", {id: this.userid, password: this.password}).then(res => {
-          if (res.code === 100) {
-            router.push("/dashboard/todo");
-          } else {
-            this.$toast.open({
-              message: res.msg,
-              type: 'error',
-              position: 'top'
-            })
-          }
-        }).catch(err => {
-          // this.userid = "";
-          // this.password = "";
-
-          this.$toast.open({
-            message: err.message,
-            type: 'error',
-            position: 'top'
-          })
-        })
-      }
-    },
-    back() {
-      router.push({name: "HomeIndex"});
-    },
-    handleSignUp() {
-      router.push({name: "register"});
-    },
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
-
 /* Fonts Form Google Font ::- https://fonts.google.com/  -:: */
 @import url('https://fonts.googleapis.com/css?family=Abel|Abril+Fatface|Alegreya|Arima+Madurai|Dancing+Script|Dosis|Merriweather|Oleo+Script|Overlock|PT+Serif|Pacifico|Playball|Playfair+Display|Share|Unica+One|Vibur');
 /* End Fonts */
@@ -441,4 +326,5 @@ button:hover {
     transform: translateY(5px);
   }
 }
+
 </style>

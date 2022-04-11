@@ -90,27 +90,38 @@
                 <b-form-checkbox
                     name="check"
                     id="exampleCheck"
+                    v-model="type"
+                    class="mb-3"
+                    :value="1"
+                    :unchecked-value="0"
+                >
+                  IsTeacher
+                </b-form-checkbox>
+
+                <b-form-checkbox
+                    name="check"
+                    id="exampleCheck"
                     v-model="isChecked"
                 >
                   Accept our
                   <a href="javascript:void(0);">Terms and Conditions</a>.
                 </b-form-checkbox>
-                <p v-if="isChecked === false" style="color: red">
+                <p v-if="isChecked === false" style="padding : 10px 0 0 0 ;margin: 0; color: red">
                   请勾选此协议！
                 </p>
-                <div class="divider"/>
-                <h6 class="mb-0">
-                  Already have an account?
-                  <a href="javascript:void(0);" class="text-primary">
-                    <router-link to="/login">Login now</router-link>
-                  </a
-                  >
-                </h6>
+                <!--                <div class="divider"/>-->
+                <!--                <h6 class="mb-0">-->
+                <!--                  Already have an account?-->
+                <!--                  <a href="javascript:void(0);" class="text-primary">-->
+                <!--                    <router-link to="/login">Login now</router-link>-->
+                <!--                  </a-->
+                <!--                  >-->
+                <!--                </h6>-->
               </div>
               <div class="modal-footer clearfix">
                 <div class="float-left">
                   <b-button variant="warning" size="sl" @click="back()"
-                  >Back to Home
+                  >Go To Login
                   </b-button>
                 </div>
                 <div class="float-left">
@@ -132,9 +143,11 @@
 <script>
 import router from "@/router";
 import {signUp} from "@/api";
+import BootstrapToggle from 'vue-bootstrap-toggle'
 
 export default {
   name: "Register",
+  components: {BootstrapToggle},
   methods: {
     register() {
       if (
@@ -148,7 +161,7 @@ export default {
           password: this.password1,
           name: this.name,
           //TODO: 需要选择是老师还是学生
-          type: 0,
+          type: this.type,
         }).then(res => {
           if (res.code === 100) {
             alert("注册成功！您的id为：" + res.data)
@@ -162,7 +175,7 @@ export default {
       }
     },
     back() {
-      router.push({name: "HomeIndex"});
+      router.push({name: "login"});
     },
   },
   data() {
@@ -171,7 +184,7 @@ export default {
       password1: "",
       password2: "",
       name: "",
-      type: "",
+      type: 0,
       isSame: true,
       isChecked: false,
       isFormated: true,
@@ -180,7 +193,7 @@ export default {
   watch: {
     password2: {
       handler(newValue) {
-        if (newValue != this.password1) {
+        if (newValue !== this.password1) {
           this.isSame = false;
         } else {
           this.isSame = true;
@@ -189,7 +202,7 @@ export default {
     },
     password1: {
       handler(newValue) {
-        if (newValue != this.password2) {
+        if (newValue !== this.password2) {
           this.isSame = false;
         } else {
           this.isSame = true;

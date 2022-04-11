@@ -48,15 +48,15 @@ export const signUp = (data) => {
  * }
  */
 export const login = (postData) => {
-    let ret = requests({url: '/account/login', method: 'post', data: postData})
-    return ret
-    // return new Promise(function (resolve, reject) {
-    //     resolve({
-    //         code: 100,
-    //         msg: "成功",
-    //         data: null
-    //     })
-    // })
+    // let ret = requests({url: '/account/login', method: 'post', data: postData})
+    // return ret
+    return new Promise(function (resolve, reject) {
+        resolve({
+            code: 100,
+            msg: "成功",
+            data: null
+        })
+    })
 }
 /**
  * 获取用户状态（是否登录）
@@ -68,16 +68,16 @@ export const login = (postData) => {
  * }
  */
 export const checkState = () => {
-    return requests({url: '/account/checkState', method: 'get'}).then(res => {
-        return res
-    })
-    // return new Promise(function (resolve, reject) {
-    //     resolve({
-    //         code: 100,
-    //         msg: "成功",
-    //         data: null
-    //     })
+    // return requests({url: '/account/checkState', method: 'get'}).then(res => {
+    //     return res
     // })
+    return new Promise(function (resolve, reject) {
+        resolve({
+            code: 101,
+            msg: "成功",
+            data: null
+        })
+    })
 }
 /**
  * 获得基本信息
