@@ -78,9 +78,9 @@ jp
 
 xsc
 1. 对图片进行批改
-2. teacherExam
+2. teacherExam -> homeworkList
 3. message
-4. examTest
+4. examTest(等jj做好)
 5. correctPaper/correctQuestion
 
 jj

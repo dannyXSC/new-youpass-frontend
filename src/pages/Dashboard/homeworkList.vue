@@ -39,10 +39,10 @@
 <script>
 import myList from "@/components/myList";
 import PageTitle from "@/layout/Components/PageTitle.vue";
-import {courseGetExam} from "@/api";
+import {getHomeworkByCourseId} from "@/api";
 
 export default {
-  name: "teacherExam",
+  name: "homeworkList",
   components: {
     myList,
     PageTitle,
@@ -51,19 +51,26 @@ export default {
     courseId: Number,
   },
   mounted() {
-    courseGetExam(this.courseId)
+    getHomeworkByCourseId(this.courseId)
         .then((res) => {
-          console.log(res);
           if (res.code === 100) {
+
             res.data.forEach((value) => {
-              console.log(value)
+              let endTime = new Date(value.end_time)
+              let startTime = new Date(value.start_time)
+              endTime.setHours(endTime.getHours() - 8)
+              startTime.setHours(startTime.getHours() - 8)
               value._showDetails = false;
               value.isActive = false;
-              value.end_time = value.end_time.slice(0, 10) + " " + value.end_time.slice(11, 16)
-              value.start_time = value.start_time.slice(0, 10) + " " + value.start_time.slice(11, 16)
+              value.exam_id = value.id;
+              value.end_time = endTime.format("yyyy-MM-dd hh:mm:ss")
+              value.start_time = startTime.format("yyyy-MM-dd hh:mm:ss")
               this.examList.push(JSON.parse(JSON.stringify(value)));
             });
-            console.log(this.examList);
+            //根据开始时间排序
+            this.examList.sort((a, b) => {
+              return (new Date(a.start_time)) < (new Date(b.start_time)) ? -1 : 1;
+            });
           } else {
             alert(res.msg);
           }
@@ -74,7 +81,7 @@ export default {
   },
   data() {
     return {
-      heading: "考试管理",
+      heading: "作业管理",
       subheading:
           "Wide selection of buttons that feature different styles for backgrounds, borders and hover options!",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
@@ -85,14 +92,14 @@ export default {
           href: "#/dashboard/course",
         },
         {
-          text: "考试管理",
+          text: "作业管理",
           active: true,
         },
       ],
 
       examList: [],
       fields: [
-        {label: "考试id", key: "exam_id"},
+        {label: "作业id", key: "exam_id"},
         {
           label: "名称",
           key: "title",
@@ -118,8 +125,9 @@ export default {
       this.$router.push({
         name: "CertainExam",
         params: {
-          courseId: this.courseId,
-          examId: item.exam_id,
+          // courseId: this.courseId,
+          // examId: item.exam_id,
+          homeworkId: item.exam_id
         },
       });
     }

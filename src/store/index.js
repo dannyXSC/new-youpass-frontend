@@ -80,39 +80,6 @@ const global = {
                 console.log(err)
             })
         },
-        searchCourse1(context, data) {
-            searchCourse1(data).then(res => {
-                if (res.data.length != 0) {
-                    context.commit("UPDATECOURSE", res);
-                } else {
-                    alert("未检索到相关课程信息！");
-                }
-            }).catch(err => {
-                alert("未检索到相关课程信息！");
-            })
-        },
-        searchCourse2(context, data) {
-            searchCourse2(data).then(res => {
-                if (res.data.length != 0) {
-                    context.commit("UPDATECOURSE", res);
-                } else {
-                    alert("未检索到相关课程信息！");
-                }
-            }).catch(err => {
-                alert("未检索到相关课程信息！");
-            })
-        },
-        searchCourse3(context, data) {
-            searchCourse3(data).then(res => {
-                if (res.data.length != 0) {
-                    context.commit("UPDATECOURSE", res);
-                } else {
-                    alert("未检索到相关课程信息！");
-                }
-            }).catch(err => {
-                alert("未检索到相关课程信息！");
-            })
-        },
         setSession(context, data) {
             setSession(data).then((res) => {
                 if (res.code == '100') {

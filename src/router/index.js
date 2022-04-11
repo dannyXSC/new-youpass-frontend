@@ -1,6 +1,6 @@
 // 用于创建整个应用的路由器
 
-import { checkState, getExamQuestion } from "@/api";
+import {checkState, getExamQuestion} from "@/api";
 import addQuestions from "@/pages/Dashboard/addQuestions";
 import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
 import correctPaper from "@/pages/Dashboard/correctPaper";
@@ -11,7 +11,7 @@ import message from "@/pages/Dashboard/message";
 import personInfo from "@/pages/Dashboard/personInfo";
 import pick from "@/pages/Dashboard/pick";
 import postExam from "@/pages/Dashboard/postExam";
-import teacherExam from "@/pages/Dashboard/teacherExam";
+import homeworkList from "@/pages/Dashboard/homeworkList";
 import todo from "@/pages/Dashboard/todo";
 import CertainExam from "@/pages/exams/CertainExam";
 import HomeIndex from "@/pages/Home/index";
@@ -40,23 +40,24 @@ import CommentSection from "@/pages/Test/CommentSection";
 import OthersInfo from "@/pages/Test/OthersInfo";
 import testHomeworkInfo from "@/pages/Test/testHomeworkInfo";
 import testHomeworkFeedback from "@/pages/Test/testHomeworkFeedback";
+import homeworkFeedback from "@/pages/Dashboard/homeworkFeedback";
 
 
 // 创建一个路由器 并暴露
 const router = new VueRouter({
     routes: [{
-            path: "/",
-            name: "HomeIndex",
-            component: HomeIndex
-        },
+        path: "/",
+        name: "HomeIndex",
+        component: HomeIndex
+    },
         {
             path: "/dashboard",
             name: "Dashboard",
             component: dashboard,
             children: [{
-                    path: "/dashboard",
-                    redirect: "/dashboard/todo"
-                },
+                path: "/dashboard",
+                redirect: "/dashboard/todo"
+            },
                 {
                     path: "/dashboard/pick",
                     component: pick
@@ -78,9 +79,9 @@ const router = new VueRouter({
                     props: true
                 },
                 {
-                    name: "teacherExam",
-                    path: "/dashboard/teacherExam",
-                    component: teacherExam,
+                    name: "homeworkList",
+                    path: "/dashboard/homeworkList",
+                    component: homeworkList,
                     props: true,
                 },
                 {
@@ -121,7 +122,12 @@ const router = new VueRouter({
                     path: '/dashboard/exam',
                     component: CertainExam,
                     props: true
-
+                },
+                {
+                    name: "homeworkFeedback",
+                    path: '/dashboard/homeworkFeedback',
+                    component: homeworkFeedback,
+                    props: true
                 },
             ]
         },
@@ -130,9 +136,9 @@ const router = new VueRouter({
             name: "Test",
             component: Test,
             children: [{
-                    path: "/test2",
-                    component: test2
-                },
+                path: "/test2",
+                component: test2
+            },
                 {
                     path: "/test1",
                     component: test1
@@ -272,25 +278,25 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     //如果进入dashboard
     if (to.matched.filter(value => {
-            return value.name === "Dashboard"
-        }).length) {
+        return value.name === "Dashboard"
+    }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
                     next()
                 } else {
-                    next({ name: "notFound" })
+                    next({name: "notFound"})
                 }
             })
             .catch((err) => {
                 console.error(err)
-                next({ name: "notFound" })
+                next({name: "notFound"})
             })
     }
     //进入login
     else if (to.matched.filter(value => {
-            return value.name === "login"
-        }).length) {
+        return value.name === "login"
+    }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
@@ -302,7 +308,7 @@ router.beforeEach((to, from, next) => {
             })
             .catch((err) => {
                 console.error(err)
-                next({ name: "notFound" })
+                next({name: "notFound"})
             })
     } else if (to.name === "examTest") {
         getExamQuestion().then((res) => {
@@ -312,7 +318,7 @@ router.beforeEach((to, from, next) => {
                 next("/notFound")
             }
         }).catch((err =>
-            next("/notFound")
+                next("/notFound")
         ))
     } else {
         next()
