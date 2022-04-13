@@ -163,6 +163,7 @@ import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import {deleteImageByName} from "@/api";
 
+// 学生做题界面的组件，用于展示每一道题目的信息
 export default {
   name: "myQuestion",
   props: {

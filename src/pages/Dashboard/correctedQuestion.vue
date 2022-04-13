@@ -136,7 +136,7 @@ export default {
           if (res.code === 100) {
             alert("成功");
             this.items = this.items.filter((value) => {
-              return value.questionId != item.questionId;
+              return value.questionId !== item.questionId;
             });
             if (this.items.length <= 0) {
               alert("已经批改完成");
