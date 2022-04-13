@@ -48,15 +48,15 @@ export const signUp = (data) => {
  * }
  */
 export const login = (postData) => {
-    // let ret = requests({url: '/account/login', method: 'post', data: postData})
-    // return ret
-    return new Promise(function (resolve, reject) {
-        resolve({
-            code: 100,
-            msg: "成功",
-            data: null
-        })
-    })
+    let ret = requests({url: '/account/login', method: 'post', data: postData})
+    return ret
+    // return new Promise(function (resolve, reject) {
+    //     resolve({
+    //         code: 100,
+    //         msg: "成功",
+    //         data: null
+    //     })
+    // })
 }
 /**
  * 获取用户状态（是否登录）
@@ -68,16 +68,16 @@ export const login = (postData) => {
  * }
  */
 export const checkState = () => {
-    // return requests({url: '/account/checkState', method: 'get'}).then(res => {
-    //     return res
-    // })
-    return new Promise(function (resolve, reject) {
-        resolve({
-            code: 101,
-            msg: "成功",
-            data: null
-        })
+    return requests({url: '/account/checkState', method: 'get'}).then(res => {
+        return res
     })
+    // return new Promise(function (resolve, reject) {
+    //     resolve({
+    //         code: 100,
+    //         msg: "成功",
+    //         data: null
+    //     })
+    // })
 }
 /**
  * 获得基本信息
@@ -719,25 +719,25 @@ export const addLike = (id, targetId) => {
         })
     })
 }
-export const getStuCourses=(studentId)=>{
-    return new Promise(function (resolve, reject){
+export const getStuCourses = (studentId) => {
+    return new Promise(function (resolve, reject) {
         resolve({
-            code:100,
-            data:[{
-                courseId:1,
-                name:'数学',
-                password:'123456',
-                teacherId:'33333',
-                teacherName:'谢思程',
-                url:'www.123.com',
-                courseTime:'周一一二',
-                assignments:[
+            code: 100,
+            data: [{
+                courseId: 1,
+                name: '数学',
+                password: '123456',
+                teacherId: '33333',
+                teacherName: '谢思程',
+                url: 'www.123.com',
+                courseTime: '周一一二',
+                assignments: [
                     {
-                        id:1,
-                        title:'第一次作业',
-                        assignmentId:111,
-                        courseId:1,
-                        end_time:'2021-12-29T17:05:13.000+00:00'
+                        id: 1,
+                        title: '第一次作业',
+                        assignmentId: 111,
+                        courseId: 1,
+                        end_time: '2021-12-29T17:05:13.000+00:00'
                     }
                 ]
             }]
@@ -745,26 +745,30 @@ export const getStuCourses=(studentId)=>{
     })
 }
 
-export const attendCourse=(courseId)=>{
-    return new Promise(function (resolve, reject){
+export const attendCourse = (courseId) => {
+    return new Promise(function (resolve, reject) {
         resolve({
-            code:100,
+            code: 100,
         })
     })
 }
-export const getTeaCourses=()=>{
-    return new Promise(function (resolve, reject){
+export const getTeaCourses = () => {
+    return new Promise(function (resolve, reject) {
         resolve({
-            code:100,
-            data:[
+            code: 100,
+            data: [
                 {
-                    title:'数学',
-                    courseId:1,
-                    assignments:[
-
-                    ]
+                    title: '数学',
+                    courseId: 1,
+                    assignments: []
                 }
             ]
         })
     })
+}
+
+
+export const testPostImage = (file) => {
+
+    return requests({url: "/testUploadImage", method: "post", data: file})
 }

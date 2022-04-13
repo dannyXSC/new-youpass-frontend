@@ -34,7 +34,7 @@
             <br>
             <!--        buttons -->
             <!--      button LogIn -->
-            <button class="log-in" @click="handleLogin"> Log In</button>
+            <button class="log-in" @click.prevent="handleLogin"> Log In</button>
           </div>
           <!--   other buttons -->
           <div class="other">
@@ -177,7 +177,7 @@ export default {
         //发送请求
         this.$store.dispatch("global/login", {id: this.userid, password: this.password}).then(res => {
           if (res.code === 100) {
-            router.push("/dashboard/todo");
+            router.push({name: "todo"});
           } else {
             this.$toast.open({
               message: res.msg,
