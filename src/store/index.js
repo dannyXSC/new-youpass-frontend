@@ -125,7 +125,7 @@ const global = {
         logout(context) {
             quit().then(res => {
                 sessionStorage.removeItem("key");
-                router.push({ name: "HomeIndex" });
+                router.push({ name: "login" });
             })
         },
         uploadQuestions(context, data) {
@@ -264,7 +264,7 @@ const global = {
     state: {
         id: 0,
         name: "",
-        accountType: 1,
+        accountType: 0,
 
         /*弃用*/
         register: false,

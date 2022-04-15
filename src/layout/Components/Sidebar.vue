@@ -75,6 +75,10 @@ export default {
               title: "查看我的课程",
             },
             {
+              href: "/dashboard/homeworkListOfStudent",
+              title: "查看我的作业",
+            },
+            {
               href: "/dashboard/message",
               title: "查看消息",
             },

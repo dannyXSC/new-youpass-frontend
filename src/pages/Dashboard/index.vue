@@ -40,8 +40,9 @@ export default {
   },
   mounted() {
     this.$store.dispatch("global/getBasicInfo", this.$store.state.global.id).then(res => {
-      if(res.code===100)
+      if(res.code===100) {
         this.isLoading = false;
+      }
       else
         this.$toast.error("something went wrong");
     }).catch(err => {

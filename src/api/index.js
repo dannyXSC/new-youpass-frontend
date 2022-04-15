@@ -449,6 +449,31 @@ export const quit = () => {
     return requests({url: '/account/quitAccount', method: 'delete'})
 }
 
+/**
+ * 学生退课
+ * @param courseId
+ * @returns {AxiosPromise}
+ */
+export const studentQuitCourse = (courseId) => {
+    return new Promise((resolve, reject) => {
+        resolve({
+            code: 100,
+            msg: "成功",
+            data: null
+        })
+    })
+}
+
+export const createCourse = () => {
+    return new Promise((resolve, reject) => {
+        resolve({
+            code: 100,
+            msg: "成功",
+            data: null
+        })
+    })
+}
+
 //获取老师需要批改的所有题目
 export const getCorrectedQuestion = (data) => {
     // return requests({url: '/question/getStu', method: 'post', data: data})
@@ -702,12 +727,41 @@ export const getHomeworkByCourseId = (courseId) => {
                     title: '作业1',
                     start_time: '2021-12-16T04:12:15.000+00:00',
                     end_time: '2021-12-23T15:48:01.437+00:00',
+                    score: 5,
                 },
                 {
                     id: 2,
                     title: '作业2',
                     start_time: '2021-12-15T04:12:15.000+00:00',
                     end_time: '2021-12-23T15:48:01.437+00:00',
+                    score: 5,
+                },
+            ]
+        })
+    })
+}
+
+export const getHomeworkByStudent = () => {
+    return new Promise((resolve, reject) => {
+        resolve({
+            code: 100,
+            msg: "123",
+            data: [
+                {
+                    courseId: 1000,
+                    homeworkId: 1,
+                    title: '作业1',
+                    start_time: '2021-12-16T04:12:15.000+00:00',
+                    end_time: '2021-12-23T15:48:01.437+00:00',
+                    score: 5,
+                },
+                {
+                    courseId: 1001,
+                    homeworkId: 2,
+                    title: '作业2',
+                    start_time: '2021-12-15T04:12:15.000+00:00',
+                    end_time: '2021-12-23T15:48:01.437+00:00',
+                    score: 5,
                 },
             ]
         })

@@ -24,7 +24,6 @@ export default {
             for(let i=0;i<this.students.length;i++){
                 if(this.students[i].score>=90){
                     this.option.series[0].data[0].value+=1;
-
                 }
                 else if(this.students[i].score>=80){
                     this.option.series[0].data[1].value+=1;

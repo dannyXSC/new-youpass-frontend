@@ -1,5 +1,6 @@
 <template>
-  <b-card :title="title" class="main-card mb-4">
+  <b-card class="main-card mb-4">
+    <h4>{{ title }}</h4>
     <b-table :items="items" :fields="fields"
              @row-clicked="expandAdditionalInfo"
              thead-class="green-bg bg-dark text-white"
@@ -9,6 +10,7 @@
         <slot :row="row"></slot>
       </template>
     </b-table>
+    <slot name="footer"></slot>
   </b-card>
 
 </template>

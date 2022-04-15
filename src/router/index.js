@@ -2,16 +2,16 @@
 
 import {checkState, getExamQuestion} from "@/api";
 import addQuestions from "@/pages/Dashboard/addQuestions";
-import correctedQuestion from "@/pages/Dashboard/correctedQuestion";
-import correctPaper from "@/pages/Dashboard/correctPaper";
-import course from "@/pages/Dashboard/course";
+import correctedQuestion from "@/pages/Dashboard/course/correctedQuestion";
+import correctPaper from "@/pages/Dashboard/course/correctPaper";
+import course from "@/pages/Dashboard/course/course";
 import examTest from "@/pages/Dashboard/examTest";
 import dashboard from "@/pages/Dashboard/index";
 import message from "@/pages/Dashboard/message";
 import personInfo from "@/pages/Dashboard/personInfo";
 import pick from "@/pages/Dashboard/pick";
 import postExam from "@/pages/Dashboard/postExam";
-import homeworkList from "@/pages/Dashboard/teacherHomeworkList";
+import homeworkList from "@/pages/Dashboard/course/homeworkList";
 import todo from "@/pages/Dashboard/todo";
 import CertainExam from "@/pages/exams/CertainExam";
 import HomeIndex from "@/pages/Home/index";
@@ -41,9 +41,13 @@ import CommentSection from "@/pages/Test/CommentSection";
 import OthersInfo from "@/pages/Test/OthersInfo";
 import testHomeworkInfo from "@/pages/Test/testHomeworkInfo";
 import testHomeworkFeedback from "@/pages/Test/testHomeworkFeedback";
-import homeworkFeedback from "@/pages/Dashboard/homeworkFeedback";
+import homeworkFeedback from "@/pages/Dashboard/course/homeworkFeedback";
 import testLogin from "@/pages/Test/testLogin";
 import testCorrectPaper from "@/pages/Test/testCorrectPaper";
+import commentSection from "@/pages/Dashboard/commentSection";
+import homeworkListOfStudent from "@/pages/Dashboard/studentHomeworkList/homeworkListOfStudent";
+import studentList from "@/pages/Dashboard/course/studentList";
+import homeworkListOfStudentOfCourse from "@/pages/Dashboard/course/homeworkListOfStudentOfCourse";
 
 
 // 创建一个路由器 并暴露
@@ -79,6 +83,12 @@ const router = new VueRouter({
                 {
                     path: "/dashboard/message",
                     component: message
+                },
+                {
+                    name: "homeworkListOfStudent",
+                    path: "/dashboard/homeworkListOfStudent",
+                    component: homeworkListOfStudent,
+                    props: true
                 },
                 {
                     name: "addQuestion",
@@ -125,7 +135,6 @@ const router = new VueRouter({
                     props: true
                 },
                 {
-
                     name: 'studentExam',
                     path: '/dashboard/studentExam',
                     props: true,
@@ -141,6 +150,24 @@ const router = new VueRouter({
                     name: "homeworkFeedback",
                     path: '/dashboard/homeworkFeedback',
                     component: homeworkFeedback,
+                    props: true
+                },
+                {
+                    name: "commentSection",
+                    path: '/dashboard/commentSection',
+                    component: commentSection,
+                    props: true
+                },
+                {
+                    name: "studentList",
+                    path: '/dashboard/studentList',
+                    component: studentList,
+                    props: true
+                },
+                {
+                    name: "homeworkListOfStudentOfCourse",
+                    path: '/dashboard/homeworkListOfStudentOfCourse',
+                    component: homeworkListOfStudentOfCourse,
                     props: true
                 },
             ]
@@ -219,13 +246,13 @@ const router = new VueRouter({
                     path: "/test6",
                     component: test6
                 },
-                // {
-                //     path: "/testStudentList",
-                //     component: testStudentList,
-                //     props: {
-                //         courseId: 1000
-                //     }
-                // },
+                {
+                    path: "/testStudentList",
+                    component: testStudentList,
+                    props: {
+                        courseId: 1000
+                    }
+                },
                 // {
                 //     name: "testHomeWork",
                 //     path: "/testHomeWork",

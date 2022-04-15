@@ -7,28 +7,73 @@
         :breadcrumb-item="breadcrumbItem"
     ></page-title>
 
-    <my-list title="考试信息" :items="examList" :fields="fields">
+    <my-list title="作业信息" :items="examList" :fields="fields">
       <template slot-scope="row">
         <b-card class="mb-3 nav-justified" no-body>
           <b-tabs pills card>
-            <b-tab title="其他功能" active>
-              <b-button
-                  block
-                  class="mr-2 mb-2"
-                  variant="outline-info"
-                  @click="handleCorrect(row.row.item)"
-              >
-                批改试卷
-              </b-button>
-              <b-button
-                  block
-                  class="mr-2 mb-2"
-                  variant="outline-info"
-                  @click="handleCheckGrade(row.row.item)"
-              >
-                查看成绩
-              </b-button>
-            </b-tab>
+            <!--老师-->
+            <template v-if="accountType===0">
+              <b-tab title="其他功能" active>
+                <b-button
+                    block
+                    class="mr-2 mb-2"
+                    variant="outline-info"
+                    @click="handleCorrect(row.row.item)"
+                >
+                  批改试卷
+                </b-button>
+                <b-button
+                    block
+                    class="mr-2 mb-2"
+                    variant="outline-info"
+                    @click="handleCheckGrade(row.row.item)"
+                >
+                  管理学生
+                </b-button>
+                <b-button
+                    block
+                    class="mr-2 mb-2"
+                    variant="outline-info"
+                    @click="gotoCommentSection(row.row.item)"
+                >
+                  进入讨论区
+                </b-button>
+              </b-tab>
+            </template>
+
+            <!--学生-->
+            <template v-else>
+<!--              <b-tab title="作业信息"active>-->
+
+<!--              </b-tab>-->
+              <b-tab title="其他功能">
+
+                <b-button
+                    block
+                    class="mr-2 mb-2"
+                    variant="outline-info"
+                    @click="handleTakeHomework(row.row.item)"
+                >
+                  做作业
+                </b-button>
+                <b-button
+                    block
+                    class="mr-2 mb-2"
+                    variant="outline-info"
+                    @click="gotoHomeworkFeedback(row.row.item)"
+                >
+                  查看作业反馈
+                </b-button>
+                <b-button
+                    block
+                    class="mr-2 mb-2"
+                    variant="outline-info"
+                    @click="gotoCommentSection(row.row.item)"
+                >
+                  进入讨论区
+                </b-button>
+              </b-tab>
+            </template>
           </b-tabs>
         </b-card>
       </template>
@@ -62,7 +107,6 @@ export default {
               startTime.setHours(startTime.getHours() - 8)
               value._showDetails = false;
               value.isActive = false;
-              value.exam_id = value.id;
               value.end_time = endTime.format("yyyy-MM-dd hh:mm:ss")
               value.start_time = startTime.format("yyyy-MM-dd hh:mm:ss")
               this.examList.push(JSON.parse(JSON.stringify(value)));
@@ -81,6 +125,7 @@ export default {
   },
   data() {
     return {
+      accountType: this.$store.state.global.accountType,
       heading: "作业管理",
       subheading:
           "Wide selection of buttons that feature different styles for backgrounds, borders and hover options!",
@@ -99,14 +144,15 @@ export default {
 
       examList: [],
       fields: [
-        {label: "作业id", key: "exam_id"},
+        {label: "作业id", key: "id"},
         {
           label: "名称",
           key: "title",
         },
+        {label: "分数", key: "score"},
         {label: "开始时间", key: "start_time"},
         {label: "结束时间", key: "end_time"},
-      ],
+      ]
     };
   },
   methods: {
@@ -128,6 +174,26 @@ export default {
           // courseId: this.courseId,
           // examId: item.exam_id,
           homeworkId: item.exam_id
+        },
+      });
+    },
+    handleTakeHomework(item) {
+      console.log(item, this.courseId)
+    },
+    gotoHomeworkFeedback(item) {
+      this.$router.push({
+        name: "homeworkFeedback",
+        params: {
+          studentId: this.$store.state.global.id,
+          homeworkId: item.id,
+        },
+      });
+    },
+    gotoCommentSection(item) {
+      this.$router.push({
+        name: "commentSection",
+        params: {
+          homeworkId: item.id,
         },
       });
     }

@@ -23,7 +23,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.studentId, this.homeworkId);
     //获得题目信息
     getFeedback(this.studentId, this.homeworkId).then(res => {
       this.questionInfos = res.data;

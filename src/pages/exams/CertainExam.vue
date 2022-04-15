@@ -27,9 +27,8 @@
                 <b-tab title="其他功能">
                   <div class="widget-content-right">
                     <b-button
-                        block
                         type="button"
-                        class="btn btn-light md-2"
+                        class="btn btn-light md-2 mr-2"
                         @click="checkHomework(row.row.item)"
                     >
                       查看作业
@@ -61,17 +60,9 @@ export default {
   components: {MyList, PageTitle, Grade, Students, ExamTable},
   props: {
     homeworkId: Number,
-    // courseId: Number
   },
   mounted() {
-    console.log(this.homeworkId);
-    getAllStudents(this.homeworkId).then(res => {
-      res.data.forEach(value => {
-        value._showDetails = false;
-        value.isActive = false;
-        this.students.push(JSON.parse(JSON.stringify(value)))
-      })
-    })
+    this.init()
   },
   data() {
     return {
@@ -98,6 +89,15 @@ export default {
     }
   },
   methods: {
+    init(){
+      getAllStudents(this.homeworkId).then(res => {
+        res.data.forEach(value => {
+          value._showDetails = false;
+          value.isActive = false;
+          this.students.push(JSON.parse(JSON.stringify(value)))
+        })
+      })
+    },
     checkHomework(item) {
       if (!isNaN(item.studentId)) {
         this.$router.push({
@@ -110,7 +110,7 @@ export default {
       }else{
         this.$toast.error("错误")
       }
-    }
+    },
   }
 }
 </script>
