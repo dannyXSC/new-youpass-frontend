@@ -1,10 +1,10 @@
 <template>
   <div>
     <page-title
-      :heading="heading"
-      :subheading="subheading"
-      :icon="icon"
-      :breadcrumb-item="breadcrumbItem"
+        :heading="heading"
+        :subheading="subheading"
+        :icon="icon"
+        :breadcrumb-item="breadcrumbItem"
     ></page-title>
 
     <my-list title="课程信息" :items="items" :fields="fields">
@@ -13,16 +13,16 @@
           <b-tabs pills card>
             <b-tab title="其他功能" active>
               <b-button
-                class="mr-2 mb-2"
-                variant="primary"
-                @click="handleManualCorrect(row.row.item)"
+                  class="mr-2 mb-2"
+                  variant="primary"
+                  @click="handleManualCorrect(row.row.item)"
               >
                 手动批改
               </b-button>
               <b-button
-                class="mr-2 mb-2"
-                variant="info"
-                @click="handleAutoCorrect(row.row.item)"
+                  class="mr-2 mb-2"
+                  variant="info"
+                  @click="handleAutoCorrect(row.row.item)"
               >
                 自动批改
               </b-button>
@@ -37,7 +37,7 @@
 <script>
 import myList from "@/components/myList";
 import PageTitle from "@/layout/Components/PageTitle.vue";
-import { autoCorrect, getUnmarkedQuestion } from "@/api";
+import {autoCorrect, getUnmarkedQuestion} from "@/api";
 import router from "@/router";
 
 export default {
@@ -47,44 +47,40 @@ export default {
     PageTitle,
   },
   props: {
-    courseId: Number,
-    examId: Number,
+    homeworkId: {
+      type: Number,
+      require: true
+    }
   },
   mounted() {
     getUnmarkedQuestion({
-      courseId: this.courseId,
-      examId: this.examId,
-      // courseId: 1000,
-      // examId: 1
-    })
-      .then((res) => {
-        console.log(res);
-        if (res.code === 100) {
-          if (Array.isArray(res.data)) {
-            res.data.forEach((value, index) => {
-              value._showDetails = false;
-              value.isActive = false;
-              this.items.push(JSON.parse(JSON.stringify(value)));
-            });
-            console.log(this.items);
-          } else {
-            alert("已经批改完成");
-            router.push("/dashboard");
-          }
+      homeworkId: this.homeworkId
+    }).then((res) => {
+      if (res.code === 100) {
+        if (Array.isArray(res.data)) {
+          res.data.forEach((value, index) => {
+            value._showDetails = false;
+            value.isActive = false;
+            this.items.push(JSON.parse(JSON.stringify(value)));
+          });
         } else {
-          alert("error");
+          alert("已经批改完成");
           router.push("/dashboard");
         }
-      })
-      .catch((error) => {
-        alert(error);
-      });
+      } else {
+        alert("error");
+        router.push("/dashboard");
+      }
+    }).catch((error) => {
+      alert(error);
+      router.push("/dashboard");
+    });
   },
   data() {
     return {
       heading: "Standard Buttons",
       subheading:
-        "Wide selection of buttons that feature different styles for backgrounds, borders and hover options!",
+          "Wide selection of buttons that feature different styles for backgrounds, borders and hover options!",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
       breadcrumbItem: [
         {
@@ -101,8 +97,8 @@ export default {
         },
       ],
       fields: [
-        { label: "题目id", key: "questionId" },
-        { label: "题干", key: "description" },
+        {label: "题目id", key: "questionId"},
+        {label: "题干", key: "description"},
         {
           label: "未批改人数",
           key: "restNumber",
@@ -116,10 +112,7 @@ export default {
       this.$router.push({
         name: "correctPaper",
         params: {
-          courseId: this.courseId,
-          examId: this.examId,
-          // courseId:1000,
-          // examId:1,
+          homeworkId: this.homeworkId,
           questionId: item.questionId,
         },
       });
@@ -128,27 +121,25 @@ export default {
       autoCorrect({
         courseId: this.courseId,
         examId: this.examId,
-        // courseId:1000,
-        // examId:1,
         questionId: item.questionId,
       })
-        .then((res) => {
-          if (res.code === 100) {
-            alert("成功");
-            this.items = this.items.filter((value) => {
-              return value.questionId !== item.questionId;
-            });
-            if (this.items.length <= 0) {
-              alert("已经批改完成");
-              router.push("/dashboard");
+          .then((res) => {
+            if (res.code === 100) {
+              alert("成功");
+              this.items = this.items.filter((value) => {
+                return value.questionId !== item.questionId;
+              });
+              if (this.items.length <= 0) {
+                alert("已经批改完成");
+                router.push("/dashboard");
+              }
+            } else {
+              alert(res.msg);
             }
-          } else {
-            alert(res.msg);
-          }
-        })
-        .catch((error) => {
-          alert(error);
-        });
+          })
+          .catch((error) => {
+            alert(error);
+          });
     },
   },
 };

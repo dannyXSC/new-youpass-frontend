@@ -1,8 +1,32 @@
 <template>
   <div>
+    <!-- id与numInPaper有关的原因是会被批改的时候使用，
+         所以，这个时候questionId都相同，但是numInPaper不同
+
+       -->
+    <my-edit-modal
+        v-if="isEditing"
+        :init-content="questionInfo.textComment"
+        :id="'myModal'+this.questionInfo.numInPaper"
+        @onSubmit="handleSubmit"
+        @onCancel="handleCancel"
+    />
+
+    <!--
+    编辑图片的modal
+    -->
+    <my-image-editor
+        v-if="isEditing"
+        :path="initEditedImagePath"
+        :name="initEditedImageName"
+        :id="'myImageModal'+this.questionInfo.numInPaper"
+        @onSubmit="handleImageSubmit"
+        @onCancel="handleImageCancel"
+    />
+
     <div class="card-body">
       <div class="per-question">
-        <b-container>
+        <b-container fluid>
           <b-row>
             <b-col cols="1">
               <div class="left-question">
@@ -112,6 +136,12 @@
                           :strict="false"
                       />
                     </div>
+                  </div>
+                  <div
+                      v-for="picture in questionInfo.studentPictureAnswers" :key="picture"
+                      class="mb-3"
+                  >
+                    <b-img :src="picture" fluid></b-img>
                   </div>
                 </div>
               </div>
@@ -223,6 +253,15 @@
             <b-col>
               <hr/>
               <div class="input-group">
+                <b-button v-if="editable"
+                          block
+                          class="mr-2 mb-3"
+                          pill
+                          variant="outline-focus"
+                          size="sm"
+                          @click="handleEdit()"
+                >编辑
+                </b-button>
                 <div
                     class="card-shadow-focus border card card-body border-focus mb-3"
                 >
@@ -233,6 +272,15 @@
                   />
                 </div>
               </div>
+              <b-button v-if="editable"
+                        block
+                        class="mr-2 mb-3"
+                        pill
+                        variant="outline-focus"
+                        size="sm"
+                        @click="handleImageEdit()"
+              >编辑图片评论
+              </b-button>
               <div
                   v-for="picture in questionInfo.pictureComment" :key="picture"
                   class="mb-3"
@@ -249,14 +297,28 @@
 
 <script>
 import parse from "@/utils/parseLatex";
+import MyEditModal from "@/components/myEditModal.vue";
+import MyImageEditor from "@/components/myImageEditor";
 
 export default {
   name: "myFeedback",
   props: {
-    value: Object
+    value: Object,
+    editable: {
+      type: Boolean,
+      default: false
+    }
+  },
+  components: {
+    MyImageEditor,
+    MyEditModal,
   },
   data() {
     return {
+      //是否正在添加文本答案
+      isEditing: false,
+      initEditedImagePath:"",
+      initEditedImageName:"",
       num2type: ["单选", "多选", "填空", "大题"],
       questionInfo: this.value,
       /*
@@ -264,21 +326,21 @@ export default {
       * 公共
       * - type: 0 1 2 3 4 分别表示单选、多选、填空、大题
       * - questionId: 题目id(数据库中id)
-      * - numInPaper: 在试卷中的序号 应该等于Index+1
+      * - numInPaper: 每个题目的标号，从1开始（如果是批改，应该是学生的顺序号）
       * - description: 题目描述
       * - textComment: 老师的文字评论
       * - pictureComment: 老师图片评论
       *
       * 单选题 0
       * - options: 选项列表
-      *     - optionId: 选项id(A/B/C....)
+      *     - optionId: 选项id(0/1/2....)
       *     - description: 选项描述
       * - standardAnswer: 正确答案，数组, 但是里面只有一个数
       * - studentAnswer: 学生答案，数组，但是里面只有一个数
       *
       * 多选题 1
       * - options: 选项列表
-      *     - optionId: 选项id(A/B/C....)
+      *     - optionId: 选项id(0/1/2....)
       *     - description: 选项描述
       * - standardAnswer: 正确答案, 数组，对应optionId
       * - studentAnswer: 学生答案, 数组，对应optionId
@@ -315,7 +377,7 @@ export default {
         }
       }
     },
-    calStandardChoiceVariant(ans){
+    calStandardChoiceVariant(ans) {
       if (!this.questionInfo.standardAnswer) {
         return "outline-success";
       } else {
@@ -329,7 +391,45 @@ export default {
     transform(num) {
       return String.fromCharCode(num + 'A'.charCodeAt(0));
     },
-  }
+    handleSubmit(content) {
+      this.questionInfo.textComment = content;
+      this.handleInput();
+      this.isEditing = false;
+    },
+    handleCancel() {
+      this.isEditing = false;
+    },
+    handleEdit() {
+      this.isEditing = true;
+      this.$nextTick(_ => this.$bvModal.show(`myModal${this.questionInfo.numInPaper}`))
+    },
+
+    handleImageEdit() {
+      this.initEditedImagePath = this.calInitEditedImagePath()
+      this.initEditedImageName = this.calInitEditedImageName()
+      this.isEditing = true;
+      this.$nextTick(_ => this.$bvModal.show(`myImageModal${this.questionInfo.numInPaper}`))
+    },
+    handleImageSubmit(img) {
+      this.questionInfo.pictureComment = [img]
+      this.handleInput();
+      this.isEditing = false;
+    },
+    handleImageCancel() {
+      this.isEditing = false;
+    },
+
+    calInitEditedImagePath: function () {
+      if (this.questionInfo.type === 3 && this.questionInfo.studentPictureAnswers.length > 0)
+        return this.questionInfo.studentPictureAnswers[0];
+      else if (this.questionInfo.pictureComment.length > 0)
+        return this.questionInfo.pictureComment[0]
+      return "";
+    },
+    calInitEditedImageName: function () {
+      return this.questionInfo.questionId + "-" + this.questionInfo.numInPaper;
+    }
+  },
 }
 </script>
 
@@ -337,6 +437,7 @@ export default {
 .per-question {
   float: left;
   /*width: 1000px;*/
+  width: 100%;
   padding-bottom: 30px;
 }
 
@@ -349,7 +450,7 @@ export default {
   /*float: left;*/
   /*width: 600px;*/
   /*width: 90%;*/
-  width: 100%;
+  /*width: 100%;*/
 }
 
 .question-center {

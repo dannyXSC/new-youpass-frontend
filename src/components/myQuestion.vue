@@ -3,7 +3,7 @@
     <my-edit-modal
         v-if="isEditing"
         :init-content="questionInfo.studentAnswer"
-        :id="'modal'+this.questionInfo.questionId"
+        :id="'myModal'+this.questionInfo.questionId"
         @onSubmit="handleSubmit"
         @onCancel="handleCancel"
     />
@@ -195,13 +195,13 @@ export default {
       *
       * 单选题 0
       * - options: 选项列表
-      *     - optionId: 选项id(A/B/C....)
+      *     - optionId: 选项id(0/1/2....)
       *     - description: 选项描述
       * - studentAnswer: 学生答案，数组，但是里面只有一个数
       *
       * 多选题 1
       * - options: 选项列表
-      *     - optionId: 选项id(A/B/C....)
+      *     - optionId: 选项id(0/1/2....)
       *     - description: 选项描述
       * - studentAnswer: 学生答案, 数组，对应optionId
       *
@@ -252,7 +252,7 @@ export default {
     },
     handleEdit() {
       this.isEditing = true;
-      this.$nextTick(_ => this.$bvModal.show(`modal${this.questionInfo.questionId}`))
+      this.$nextTick(_ => this.$bvModal.show(`myModal${this.questionInfo.questionId}`))
     },
     handleSubmit(content) {
       this.questionInfo.studentAnswer = content;

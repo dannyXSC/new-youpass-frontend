@@ -88,7 +88,7 @@ export default {
           description: "第一题xxxx 1_321",
           pictureDescriptions: ["https://picsum.photos/1024/400/?image=41"],
           studentAnswer: "33333",
-          // studentPictureAnswers: ["https://picsum.photos/1024/400/?image=41"],
+          studentPictureAnswers: ["https://picsum.photos/1024/400/?image=41"],
           standardAnswer: "我爱你中国222",
           standardPictureAnswers: [
             "http://dannyxsc.xyz/img/%E6%88%AA%E5%B1%8F2022-02-25%20%E4%B8%8A%E5%8D%8811.18.30.png",

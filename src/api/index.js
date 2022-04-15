@@ -450,7 +450,187 @@ export const quit = () => {
 
 //获取老师需要批改的所有题目
 export const getCorrectedQuestion = (data) => {
-    return requests({url: '/question/getStu', method: 'post', data: data})
+    // return requests({url: '/question/getStu', method: 'post', data: data})
+    return new Promise((resolve, reject) => {
+        resolve({
+            "code": 100,
+            "msg": "成功",
+            "data": {
+                questionInfo: {
+                    /// 选择题
+                    type: 0,
+                    questionId: 1,
+                    description: "第一题xxxx 1_321",
+                    options: [
+                        {
+                            optionId: 1,
+                            description: "答案1",
+                        },
+                        {
+                            optionId: 2,
+                            description: "答案2",
+                        },
+                        {
+                            optionId: 3,
+                            description: "答案3",
+                        },
+                        {
+                            optionId: 4,
+                            description: "答案4",
+                        }
+                    ],
+                    standardAnswer: [2],
+                    value: 5,
+
+                    // /// 多选题
+                    // type: 1,
+                    // questionId: 1,
+                    // description: "第一题xxxx 1_321",
+                    // options: [
+                    //   {
+                    //     optionId: 1,
+                    //     description: "答案1",
+                    //   },
+                    //   {
+                    //     optionId: 2,
+                    //     description: "答案2",
+                    //   },
+                    //   {
+                    //     optionId: 3,
+                    //     description: "答案3",
+                    //   },
+                    //   {
+                    //     optionId: 4,
+                    //     description: "答案4",
+                    //   }
+                    // ],
+                    // standardAnswer: [2,3],
+                    // value: 5,
+
+                    // /// 填空题
+                    // type: 2,
+                    // questionId: 1,
+                    // description: "第一题xxxx 1_321",
+                    // standardAnswer: "我爱你中国",
+                    // value: 5,
+
+                    // /// 大题
+                    // type: 3,
+                    // questionId: 1,
+                    // description: "第一题xxxx 1_321",
+                    // pictureDescription: ["https://picsum.photos/1024/400/?image=41"],
+                    // standardAnswer: "我爱你中国",
+                    // standardPictureAnswers: [
+                    //   "http://dannyxsc.xyz/img/%E6%88%AA%E5%B1%8F2022-02-25%20%E4%B8%8A%E5%8D%8811.18.30.png",
+                    //   "http://dannyxsc.xyz/img/image-20220225222647576.png"
+                    // ],
+                    // value: 5,
+                },
+                studentList: [
+                    ///选择题
+                    {
+                        studentId: 1,
+                        answer: [0],
+                        mark: null,
+                        textComment: "",
+                        pictureComment: [""],
+                    },
+                    {
+                        studentId: 2,
+                        answer: [1],
+                        mark: null,
+                        textComment: "",
+                        pictureComment: [""],
+                    },
+                    {
+                        studentId: 3,
+                        answer: [2],
+                        mark: null,
+                        textComment: "",
+                        pictureComment: [""],
+                    },
+                    {
+                        studentId: 4,
+                        answer: [3],
+                        mark: null,
+                        textComment: "",
+                        pictureComment: [""],
+                    },
+                    {
+                        studentId: 5,
+                        answer: [3],
+                        mark: null,
+                        textComment: "",
+                        pictureComment: [""],
+                    },
+
+                    // ///填空题
+                    // {
+                    //   studentId: 1,
+                    //   answer: "123",
+                    //   mark: 5,
+                    //   textComment: "",
+                    //   pictureComment: [""],
+                    // },
+                    // {
+                    //   studentId: 2,
+                    //   answer: "1232",
+                    //   mark: 5,
+                    //   textComment: "",
+                    //   pictureComment: [""],
+                    // },
+                    // {
+                    //   studentId: 3,
+                    //   answer: "1233",
+                    //   mark: 5,
+                    //   textComment: "",
+                    //   pictureComment: [""],
+                    // },
+                    // {
+                    //   studentId: 4,
+                    //   answer: "1234",
+                    //   mark: 5,
+                    //   textComment: "",
+                    //   pictureComment: [""],
+                    // },
+
+                    // /// 大题
+                    // {
+                    //   studentId: 1,
+                    //   answer: "123",
+                    //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
+                    //   mark: 5,
+                    //   textComment: "",
+                    //   pictureComment: [],
+                    // },
+                    // {
+                    //   studentId: 2,
+                    //   answer: "1232",
+                    //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
+                    //   mark: 5,
+                    //   textComment: "",
+                    //   pictureComment: [],
+                    // },
+                    // {
+                    //   studentId: 3,
+                    //   answer: "1233",
+                    //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
+                    //   mark: 5,
+                    //   textComment: "",
+                    //   pictureComment: [],
+                    // },
+                    // {
+                    //   studentId: 4,
+                    //   answer: "1234",
+                    //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
+                    //   mark: 5,
+                    //   textComment: "",
+                    //   pictureComment: [],
+                    // },
+                ]
+            }
+        })
+    })
 }
 //老师批改完提交
 export const manualCorrect = (data) => {
@@ -470,7 +650,20 @@ export const getImage = () => {
 }
 //获得未批改的题目
 export const getUnmarkedQuestion = (data) => {
-    return requests({url: '/question/getUnmarkedQuestion', method: 'get', params: data})
+    // return requests({url: '/question/getUnmarkedQuestion', method: 'get', params: data})
+    return new Promise((resolve, reject) => {
+        resolve({
+            "code": 100,
+            "msg": "成功",
+            "data": [
+                {
+                    "questionId": 45,
+                    "description": "123",
+                    "restNumber": 7
+                }
+            ]
+        })
+    })
 }
 //老师发布考试
 export const postExam = (data) => {

@@ -11,7 +11,7 @@ import message from "@/pages/Dashboard/message";
 import personInfo from "@/pages/Dashboard/personInfo";
 import pick from "@/pages/Dashboard/pick";
 import postExam from "@/pages/Dashboard/postExam";
-import homeworkList from "@/pages/Dashboard/homeworkList";
+import homeworkList from "@/pages/Dashboard/teacherHomeworkList";
 import todo from "@/pages/Dashboard/todo";
 import CertainExam from "@/pages/exams/CertainExam";
 import HomeIndex from "@/pages/Home/index";
@@ -43,6 +43,7 @@ import testHomeworkInfo from "@/pages/Test/testHomeworkInfo";
 import testHomeworkFeedback from "@/pages/Test/testHomeworkFeedback";
 import homeworkFeedback from "@/pages/Dashboard/homeworkFeedback";
 import testLogin from "@/pages/Test/testLogin";
+import testCorrectPaper from "@/pages/Test/testCorrectPaper";
 
 
 // 创建一个路由器 并暴露
@@ -264,6 +265,10 @@ const router = new VueRouter({
                 {
                     path: "/OthersInfo",
                     component: OthersInfo
+                },
+                {
+                    path:"/testCorrectPaper",
+                    component: testCorrectPaper
                 },
             ]
         },

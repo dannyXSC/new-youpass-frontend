@@ -1,5 +1,5 @@
 <template>
-  <div v-if="info">
+  <div>
     <b-container>
       <b-row>
         <b-col cols="8">
@@ -95,20 +95,6 @@
     </b-container>
 
   </div>
-  <div v-else>
-    <content-loader
-        viewBox="0 0 476 124"
-        primaryColor="#f3f3f3"
-        secondaryColor="#cccccc"
-    >
-      <rect x="48" y="8" rx="3" ry="3" width="88" height="6"/>
-      <rect x="48" y="26" rx="3" ry="3" width="52" height="6"/>
-      <rect x="0" y="56" rx="3" ry="3" width="410" height="6"/>
-      <rect x="0" y="72" rx="3" ry="3" width="380" height="6"/>
-      <rect x="0" y="88" rx="3" ry="3" width="178" height="6"/>
-      <circle cx="20" cy="20" r="20"/>
-    </content-loader>
-  </div>
 </template>
 
 <script>
@@ -116,21 +102,188 @@ import MyFeedback from "@/components/myFeedback";
 import MyCountBar from "@/components/myCountBar";
 import MyCountBarNew from "@/components/myCountBarNew";
 import {Slide} from 'vue-burger-menu'
-import {ContentLoader} from 'vue-content-loader'
-import {getCorrectedQuestion} from "@/api";
 
 export default {
-  name: "correctPaper",
-  components: {MyCountBarNew, MyCountBar, MyFeedback, Slide, ContentLoader},
-  props: {
-    homeworkId: Number,
-    questionId: Number
-  },
+  name: "testCorrectPaper",
+  components: {MyCountBarNew, MyCountBar, MyFeedback, Slide},
   data() {
     return {
       onShowId: 0,
       questionInfos: [],
-      info: null
+      info: {
+        questionInfo: {
+          /// 选择题
+          type: 0,
+          questionId: 1,
+          description: "第一题xxxx 1_321",
+          options: [
+            {
+              optionId: 1,
+              description: "答案1",
+            },
+            {
+              optionId: 2,
+              description: "答案2",
+            },
+            {
+              optionId: 3,
+              description: "答案3",
+            },
+            {
+              optionId: 4,
+              description: "答案4",
+            }
+          ],
+          standardAnswer: [2],
+          value: 5,
+
+          // /// 多选题
+          // type: 1,
+          // questionId: 1,
+          // description: "第一题xxxx 1_321",
+          // options: [
+          //   {
+          //     optionId: 1,
+          //     description: "答案1",
+          //   },
+          //   {
+          //     optionId: 2,
+          //     description: "答案2",
+          //   },
+          //   {
+          //     optionId: 3,
+          //     description: "答案3",
+          //   },
+          //   {
+          //     optionId: 4,
+          //     description: "答案4",
+          //   }
+          // ],
+          // standardAnswer: [2,3],
+          // value: 5,
+
+          // /// 填空题
+          // type: 2,
+          // questionId: 1,
+          // description: "第一题xxxx 1_321",
+          // standardAnswer: "我爱你中国",
+          // value: 5,
+
+          // /// 大题
+          // type: 3,
+          // questionId: 1,
+          // description: "第一题xxxx 1_321",
+          // pictureDescription: ["https://picsum.photos/1024/400/?image=41"],
+          // standardAnswer: "我爱你中国",
+          // standardPictureAnswers: [
+          //   "http://dannyxsc.xyz/img/%E6%88%AA%E5%B1%8F2022-02-25%20%E4%B8%8A%E5%8D%8811.18.30.png",
+          //   "http://dannyxsc.xyz/img/image-20220225222647576.png"
+          // ],
+          // value: 5,
+        },
+        studentList: [
+          ///选择题
+          {
+            studentId: 1,
+            answer: [0],
+            mark: null,
+            textComment: "",
+            pictureComment: [""],
+          },
+          {
+            studentId: 2,
+            answer: [1],
+            mark: null,
+            textComment: "",
+            pictureComment: [""],
+          },
+          {
+            studentId: 3,
+            answer: [2],
+            mark: null,
+            textComment: "",
+            pictureComment: [""],
+          },
+          {
+            studentId: 4,
+            answer: [3],
+            mark: null,
+            textComment: "",
+            pictureComment: [""],
+          },
+          {
+            studentId: 5,
+            answer: [3],
+            mark: null,
+            textComment: "",
+            pictureComment: [""],
+          },
+
+          // ///填空题
+          // {
+          //   studentId: 1,
+          //   answer: "123",
+          //   mark: 5,
+          //   textComment: "",
+          //   pictureComment: [""],
+          // },
+          // {
+          //   studentId: 2,
+          //   answer: "1232",
+          //   mark: 5,
+          //   textComment: "",
+          //   pictureComment: [""],
+          // },
+          // {
+          //   studentId: 3,
+          //   answer: "1233",
+          //   mark: 5,
+          //   textComment: "",
+          //   pictureComment: [""],
+          // },
+          // {
+          //   studentId: 4,
+          //   answer: "1234",
+          //   mark: 5,
+          //   textComment: "",
+          //   pictureComment: [""],
+          // },
+
+          // /// 大题
+          // {
+          //   studentId: 1,
+          //   answer: "123",
+          //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
+          //   mark: 5,
+          //   textComment: "",
+          //   pictureComment: [],
+          // },
+          // {
+          //   studentId: 2,
+          //   answer: "1232",
+          //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
+          //   mark: 5,
+          //   textComment: "",
+          //   pictureComment: [],
+          // },
+          // {
+          //   studentId: 3,
+          //   answer: "1233",
+          //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
+          //   mark: 5,
+          //   textComment: "",
+          //   pictureComment: [],
+          // },
+          // {
+          //   studentId: 4,
+          //   answer: "1234",
+          //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
+          //   mark: 5,
+          //   textComment: "",
+          //   pictureComment: [],
+          // },
+        ]
+      }
       /**
        * info: 信息
        * questionInfo: 题目信息
@@ -176,37 +329,23 @@ export default {
     };
   },
   mounted() {
-    console.log(this.homeworkId,this.questionId)
-    getCorrectedQuestion({
-      homeworkId: this.homeworkId,
-      questionId: this.questionId
-    }).then(res => {
-      if (res.code === 100) {
-        this.info = res.data;
-        //维护questionInfo，用于展示作业
-        for (let i = 0; i < this.info.studentList.length; i++) {
-          let questionInfo = JSON.parse(JSON.stringify(this.info.questionInfo));
-          if (this.info.questionInfo.type === 3) {
-            //加入学生图片答案
-            questionInfo.studentPictureAnswers = this.info.studentList[i].studentPictureAnswers || []
-          }
-          //加入这道题是第几个学生的
-          questionInfo.numInPaper = i + 1;
-          //加入学生答案
-          questionInfo.studentAnswer = this.info.studentList[i].answer;
-          //questionInfo里不许要学生得分
-          //加入老师的文字评价
-          questionInfo.textComment = this.info.studentList[i].textComment
-          //加入老师的图片评价
-          questionInfo.pictureComment = this.info.studentList[i].pictureComment
-          this.questionInfos.push(questionInfo);
-        }
-      } else {
-        this.$toast.error(res.msg);
+    for (let i = 0; i < this.info.studentList.length; i++) {
+      let questionInfo = JSON.parse(JSON.stringify(this.info.questionInfo));
+      if (this.info.questionInfo.type === 3) {
+        //加入学生图片答案
+        questionInfo.studentPictureAnswers = this.info.studentList[i].studentPictureAnswers || []
       }
-    }).catch(err => {
-      this.$toast.error(err);
-    })
+      //加入这道题是第几个学生的
+      questionInfo.numInPaper = i + 1;
+      //加入学生答案
+      questionInfo.studentAnswer = this.info.studentList[i].answer;
+      //questionInfo里不许要学生得分
+      //加入老师的文字评价
+      questionInfo.textComment = this.info.studentList[i].textComment
+      //加入老师的图片评价
+      questionInfo.pictureComment = this.info.studentList[i].pictureComment
+      this.questionInfos.push(questionInfo);
+    }
   },
   watch: {
     questionInfos: {

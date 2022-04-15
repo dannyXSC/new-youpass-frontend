@@ -2,11 +2,11 @@
   <b-modal
       :id="id"
       size="xl"
-      title="Edit"
+      title="Edit Image"
       style="height: 80%"
       @hide="handleExit"
   >
-    <div style="height: 70vh" v-if="path.length">
+    <div style="height: 70vh">
       <tui-image-editor ref="tuiImageEditor" :include-ui="useDefaultUI" :options="options"></tui-image-editor>
     </div>
   </b-modal>
