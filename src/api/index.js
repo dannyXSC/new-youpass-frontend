@@ -106,6 +106,7 @@ export const getBasicInfo = (postData) => {
         }
     })
 }
+
 export const searchCourse1 = (courseId) => {
     return new Promise(function (resolve, reject) {
         resolve({
