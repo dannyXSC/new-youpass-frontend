@@ -15,6 +15,10 @@ import {getQuestions} from "@/api";
 export default {
   name: "homeworkTest",
   components: {MyQuestion},
+  props: {
+    studentId: Number,
+    homeworkId: Number,
+  },
   data() {
     return {
       //填空题

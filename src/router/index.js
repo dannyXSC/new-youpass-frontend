@@ -160,6 +160,12 @@ const router = new VueRouter({
                     props: true
                 },
                 {
+                    path: "/homeworkTest",
+                    name: "/dashboard/homeworkTest",
+                    component: homeworkTest,
+                    props: true
+                },
+                {
                     name: "studentList",
                     path: '/dashboard/studentList',
                     component: studentList,
@@ -304,11 +310,6 @@ const router = new VueRouter({
             path: "/examTest",
             name: "examTest",
             component: examTest,
-        },
-        {
-            path: "/homeworkTest",
-            name: "homeworkTest",
-            component: homeworkTest,
         },
         {
             name: "testLogin",
