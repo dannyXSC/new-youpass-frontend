@@ -235,7 +235,13 @@ export default {
       }
     },
     releaseAssignment(item) {
-
+      console.log(item.id)
+      this.$router.push({
+        name: "postExam",
+        params: {
+          courseId: item.id,
+        },
+      });
     },
     addQuestion(item) {
       this.$router.push({

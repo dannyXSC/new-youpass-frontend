@@ -118,6 +118,13 @@ export default {
   methods:{
     handleTakeHomework(item) {
       console.log(item, item.courseId)
+      this.$router.push({
+        name: "homeworkTest",
+        params: {
+          studentId: this.$store.state.global.id,
+          homeworkId: item.id,
+        },
+      });
     },
     gotoHomeworkFeedback(item) {
       this.$router.push({

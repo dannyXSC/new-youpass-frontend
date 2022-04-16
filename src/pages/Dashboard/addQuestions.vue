@@ -653,7 +653,7 @@ export default {
         }
       })
       if(cnt>0){
-        alert("你必须完成所题目信息的填写")
+        alert("你必须完成所有题目信息的填写")
       }else{
         //发送信息
         let postData = []
