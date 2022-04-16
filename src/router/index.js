@@ -30,7 +30,7 @@ import test6 from "@/pages/Test/test6";
 import test997 from "@/pages/Test/test997";
 import test998 from "@/pages/Test/test998";
 import test999 from "@/pages/Test/test999";
-import chooseQue from "@/pages/Test/chooseQue"
+import chooseQue from "@/pages/Dashboard/chooseQue"
 import BarChart from "@/pages/exams/BarChart"
 import VueRouter from "vue-router";
 import StudentExam from "@/pages/exams/StudentExam";
@@ -154,14 +154,20 @@ const router = new VueRouter({
                     props: true
                 },
                 {
+                    name: "chooseQue",
+                    path: '/dashboard/chooseQue',
+                    component: chooseQue,
+                    props: true
+                },
+                {
                     name: "commentSection",
                     path: '/dashboard/commentSection',
                     component: commentSection,
                     props: true
                 },
                 {
-                    path: "/dashboard/homeworkTest",
                     name: "homeworkTest",
+                    path: "/dashboard/homeworkTest",
                     component: homeworkTest,
                     props: true
                 },
