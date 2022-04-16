@@ -259,6 +259,7 @@ export default {
     },
   },
   mounted() {
+    
     this.$store.dispatch("global/getExamQuestion");
   },
   methods: {

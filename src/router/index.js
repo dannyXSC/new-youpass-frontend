@@ -6,6 +6,7 @@ import correctedQuestion from "@/pages/Dashboard/course/correctedQuestion";
 import correctPaper from "@/pages/Dashboard/course/correctPaper";
 import course from "@/pages/Dashboard/course/course";
 import examTest from "@/pages/Dashboard/examTest";
+import homeworkTest from "@/pages/Dashboard/homeworkTest";
 import dashboard from "@/pages/Dashboard/index";
 import message from "@/pages/Dashboard/message";
 import personInfo from "@/pages/Dashboard/personInfo";
@@ -303,6 +304,11 @@ const router = new VueRouter({
             path: "/examTest",
             name: "examTest",
             component: examTest,
+        },
+        {
+            path: "/homeworkTest",
+            name: "homeworkTest",
+            component: homeworkTest,
         },
         {
             name: "testLogin",

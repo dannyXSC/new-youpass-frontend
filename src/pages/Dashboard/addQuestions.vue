@@ -31,6 +31,7 @@
                     label-class="font-weight-bold pt-0"
                     class="mb-0"
                 >
+                  
                   <b-form-group
                       label="题目种类:"
                       label-cols-sm="3"
@@ -58,12 +59,13 @@
                       <b-form-select v-model="questionList[onShowId].isPrivate"
                                      :options="isPrivateOptions"></b-form-select>
                     </b-form-group>
-
-                    <b-form-group
-                        label="题干:"
+                    <template v-if="questionList[onShowId].type === 4">
+                      <b-form-group
+                        label="题目说明:"
                         label-cols-sm="3"
                         label-align-sm="right"
-                    >
+                        aria-placeholder="无"
+                      >
                       <b-button block
                                 class="mr-2 mb-3"
                                 pill
@@ -81,6 +83,59 @@
                         />
                       </div>
                     </b-form-group>
+                      <b-form-group
+                        label="题目:"
+                        label-cols-sm="3"
+                        label-align-sm="right"
+                    >
+                      <vue-dropzone
+                      ref="myVueDropzone"
+                      :id="'dropzoneQue'+onShowId"
+                      :options="dropzoneOptions"
+                      @vdropzone-removed-file='removeThisFile'
+                      @vdropzone-success='queUploadSuccess'
+                      ></vue-dropzone>
+                      </b-form-group>
+                      
+                      <b-form-group
+                        label="答案:"
+                        label-cols-sm="3"
+                        label-align-sm="right"
+                    >
+                      <vue-dropzone
+                      ref="myVueDropzone"
+                      :id="'dropzoneAns'+onShowId"
+                      :options="dropzoneOptions"
+                      @vdropzone-removed-file='removeThisFile'
+                      @vdropzone-success='ansUploadSuccess'
+                      ></vue-dropzone>
+                      </b-form-group>
+                    </template>
+
+                    <template v-if="questionList[onShowId].type != 4">
+                      <b-form-group
+                        label="题干:"
+                        label-cols-sm="3"
+                        label-align-sm="right"
+                      >
+                      <b-button block
+                                class="mr-2 mb-3"
+                                pill
+                                variant="outline-primary"
+                                size="sm"
+                                @click="handleEditDescription"
+                      >
+                        编辑
+                      </b-button>
+                      <div class="card-shadow-success border card card-body border-success">
+                        <katex-element
+                            :expression="parseLatex(questionList[onShowId].description)"
+                            :throw-on-error="false"
+                            :strict="false"
+                        />
+                      </div>
+                    </b-form-group>
+                    </template>
 
                     <template v-if="questionList[onShowId].type===1||questionList[onShowId].type===0">
                       <b-form-group
@@ -114,8 +169,7 @@
                       </b-form-group>
                     </template>
 
-
-                    <b-form-group
+                    <b-form-group v-if="questionList[onShowId].type != 4"
                         label="答案:"
                         label-cols-sm="3"
                         label-align-sm="right"
@@ -166,7 +220,7 @@
                         </template>
                       </template>
 
-                      <template v-else>
+                      <template v-else-if="questionList[onShowId].type===2||questionList[onShowId].type===3">
                         <b-button block class="mr-2 mb-3" pill variant="outline-primary" size="sm"
                                   @click="handleEditStandAnswer">编辑
                         </b-button>
@@ -237,13 +291,21 @@
 </template>
 
 <script>
+import $ from 'jquery'
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyEditModal from "@/components/myEditModal";
 import MyCountBar from "@/components/myCountBar";
-
+import vue2Dropzone from 'vue2-dropzone'
+import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+import {deleteImageByName} from "@/api";
+import {questionImageUpload} from "@/api"
 import parseLatex from "@/utils/parseLatex";
 import MySelect from "@/components/mySelect";
+import 'vue-croppa/dist/vue-croppa.css'
+import Vue from 'vue'
+import Croppa from 'vue-croppa'
 
+Vue.use(Croppa)  
 export default {
   name: "addQuestions",
   components: {MySelect, MyCountBar, MyEditModal, PageTitle,},
@@ -252,10 +314,15 @@ export default {
   },
   data() {
     return {
+      dropzoneOptions: {
+        url: '/api/testUploadImage',
+        thumbnailWidth: 150,
+        maxFilesize: 2,
+        addRemoveLinks: true,
+      },
       heading: '上传题目',
       subheading: '您可以在此页面上传题目',
       icon: 'pe-7s-plane icon-gradient bg-tempting-azure',
-
 
       breadcrumbItem: [
         {
@@ -279,17 +346,15 @@ export default {
       questionList: [],
 
       currentPage: 1,
-      expanded: false,
-      barStyle: {
-        backgroundColor: '#69aa8a'
-      },
 
+    
       typeOptions: [
         {value: null, text: 'Please select an option'},
         {value: 0, text: '单择题'},
         {value: 1, text: '多选题'},
         {value: 2, text: '填空题'},
-        {value: 3, text: '大题'}
+        {value: 3, text: '大题'},
+        {value: 4, text: '图片题'}
       ],
       isPrivateOptions: [
         {value: null, text: 'Please select an option'},
@@ -328,9 +393,26 @@ export default {
     //     pool: 0,
     //     courseId: 123
     //   })
+     //   this.questionList.push({
+    //     id: i,
+    //     type: 4,
+    //     description: "填空题f(x,y) = \\sqrt[n]{{x^2}{y^3}}",
+
+    //   })
     // }
   },
   methods: {
+    removeThisFile(file, error, xhr) {
+      deleteImageByName(file.name);
+    },
+    queUploadSuccess(file, response){
+      questionImageUpload(file.name)
+      this.questionList[this.onShowId].questionImage.push(file.name)
+    },
+    ansUploadSuccess(file, response){
+      questionImageUpload(file.name)
+      this.questionList[this.onShowId].answerImage.push(file.name)
+    },
     openEdit() {
       this.$bvModal.show('edit-modal')
     },
@@ -459,6 +541,7 @@ export default {
         this.questionList[this.onShowId].option[index].id = cnt;
         cnt += 1;
       });
+
     },
     handleSubmitOption(optionList) {
       console.log("submit")
@@ -479,11 +562,14 @@ export default {
         this.currentPage = Math.floor(this.questionList.length / this.per_page) + 1
         // console.log(this.questionList.length, Math.floor(this.questionList.length / this.per_page) + 1, this.currentPage)
       }
-      // console.log(this.currentPage)
+      console.log(this.currentPage)
       this.questionList.push({
+        uploadType: null,
         id: this.questionList.length,
         type: null,
         description: "",
+        questionImage:[],
+        answerImage:[],
         standAnswer: "",
         subject: "",
         createTime: "",
@@ -497,6 +583,7 @@ export default {
         this.questionList = this.questionList.filter((value) => {
           return value.id != this.onShowId
         })
+        console.log(this.questionList, this.onShowId)
         this.questionList = this.questionList.map((value) => {
           if (value.id >= this.onShowId) {
             value.id--
@@ -507,7 +594,7 @@ export default {
         })
         if (this.onShowId >= 1) {
           this.onShowId--
-          this.currentPage = Math.floor(this.onShowId / this.per_page)+1
+          this.currentPage = Math.floor((this.onShowId) / this.per_page) + 1
         } else {
           this.onShowId = 0
         }
@@ -526,7 +613,15 @@ export default {
     },
     judgeQuestionIsComplete(id) {
       if (id < this.questionList.length) {
-        if (this.questionList[id].type !== null
+        if(this.questionList[id].type === 4){
+            if(this.questionList[id].questionImage.length > 0 && this.questionList[id].answerImage.length >0){
+              return true
+            }
+            else{
+              return false
+            }
+          }
+        else if (this.questionList[id].type !== null
             && this.questionList[id].description !== ""
             && this.questionList[id].isPrivate !== null
             && this.questionList[id].subject !== "") {
@@ -557,9 +652,9 @@ export default {
           cnt += 1
         }
       })
-      if (cnt > 0) {
+      if(cnt>0){
         alert("你必须完成所题目信息的填写")
-      } else {
+      }else{
         //发送信息
         let postData = []
         let curTime = new Date()
@@ -570,6 +665,10 @@ export default {
           dataItem.description = value.description
           dataItem.type = value.type
           dataItem.standardAnswer = ""
+          if(value.type === 4){
+            dataItem.questionImage = value.questionImage
+            dataItem.answerImage = value.answerImage
+          }
           if (value.type === 0 || value.type === 1) {
             dataItem.optionInfoList = []
             value.option.forEach((value) => {
@@ -585,6 +684,14 @@ export default {
         })
         this.$store.dispatch("global/uploadQuestions", postData);
       }
+    },
+    test(){
+      //上传
+      file;
+      res = api;
+      if(res.state= gogod){
+
+      }
     }
   }
 }
@@ -593,6 +700,7 @@ export default {
 <style scoped>
 
 </style>
+
 
 
 <!--

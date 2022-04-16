@@ -13,7 +13,7 @@ import MyQuestion from "@/components/myQuestion";
 import {getQuestions} from "@/api";
 
 export default {
-  name: "testHomeworkInfo",
+  name: "homeworkTest",
   components: {MyQuestion},
   data() {
     return {
