@@ -235,11 +235,11 @@ export default {
       }
     },
     releaseAssignment(item) {
-      console.log(item.id)
+      console.log(item.ID)
       this.$router.push({
         name: "postExam",
         params: {
-          courseId: item.id,
+          courseId: item.ID,
         },
       });
     },
