@@ -238,7 +238,12 @@ export default {
 
     },
     addQuestion(item) {
-
+      this.$router.push({
+        name: "addQuestion",
+        params: {
+          courseId: item.id,
+        },
+      });
     },
     gotoHomeworkList(item) {
       this.$router.push({

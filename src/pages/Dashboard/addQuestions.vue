@@ -308,7 +308,7 @@ import Croppa from 'vue-croppa'
 Vue.use(Croppa)  
 export default {
   name: "addQuestions",
-  components: {MySelect, MyCountBar, MyEditModal, PageTitle,},
+  components: {MySelect, MyCountBar, MyEditModal, PageTitle,vueDropzone:vue2Dropzone,questionImageUpload},
   props: {
     courseId: Number
   },
