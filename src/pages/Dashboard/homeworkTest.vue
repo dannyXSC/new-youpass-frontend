@@ -13,8 +13,12 @@ import MyQuestion from "@/components/myQuestion";
 import {getQuestions} from "@/api";
 
 export default {
-  name: "testHomeworkInfo",
+  name: "homeworkTest",
   components: {MyQuestion},
+  props: {
+    studentId: Number,
+    homeworkId: Number,
+  },
   data() {
     return {
       //填空题

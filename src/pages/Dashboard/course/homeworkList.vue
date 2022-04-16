@@ -179,6 +179,13 @@ export default {
     },
     handleTakeHomework(item) {
       console.log(item, this.courseId)
+      this.$router.push({
+        name: "homeworkTest",
+        params: {
+          studentId: this.$store.state.global.id,
+          homeworkId: item.id,
+        },
+      });
     },
     gotoHomeworkFeedback(item) {
       this.$router.push({
