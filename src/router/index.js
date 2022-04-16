@@ -160,8 +160,8 @@ const router = new VueRouter({
                     props: true
                 },
                 {
-                    path: "/homeworkTest",
-                    name: "/dashboard/homeworkTest",
+                    path: "/dashboard/homeworkTest",
+                    name: "homeworkTest",
                     component: homeworkTest,
                     props: true
                 },
