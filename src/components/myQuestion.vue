@@ -144,6 +144,7 @@
                       :id="'dropzone'+questionInfo.questionId"
                       :options="dropzoneOptions"
                       @vdropzone-removed-file='removeThisFile'
+                      @vdropzone-success='ansUploadSuccess'
                   ></vue-dropzone>
                 </div>
               </div>
@@ -161,7 +162,7 @@ import MyEditModal from "@/components/myEditModal.vue";
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import {deleteImageByName} from "@/api";
-
+import {questionImageUpload} from "@/api"
 export default {
   name: "myQuestion",
   props: {
@@ -242,6 +243,11 @@ export default {
           return "outline-success";
         }
       }
+    },
+    ansUploadSuccess(file, response){
+      questionImageUpload(file.name)
+      this.questionInfo.standardPictureAnswers.push(file.name)
+      this.handleInput();
     },
     pickSingle(index) {
       this.questionInfo.studentAnswer = [index];

@@ -166,7 +166,10 @@ export default {
   },
   methods: {
     submitHomework(){
-
+        console.log(this.questionInfos)
+        alert("作业已提交！");
+      this.$store.state.global.isTesting = false;
+      window.location.href = "/#/dashboard/homeworkListOfStudent";
     },
     handleClick() {
       console.log(this.questionInfos)
