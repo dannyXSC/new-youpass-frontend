@@ -39,6 +39,12 @@ export default {
   name: 'my-component',
 
   components: {PageTitle,MyChooseModal,},
+  props:{
+    courseId: Number,
+    title: String,
+    start_time: String,
+    end_time: String,  
+  },
   created(){
       console.log(this.questionInfos)
       this.initRow();
@@ -198,8 +204,13 @@ breadcrumbItem: [
           })
     },
     handleSubmit(content){
+      content.title = this.title
+      content.start_time = this.start_time
+      content.end_time = this.end_time
+      content.courseId = this.courseId
         console.log(content)
-        this.$store.dispatch("global/uploadQuestions", content);
+        // this.$store.dispatch("global/uploadQuestions", content);
+        this.$store.dispatch("global/submitExam", content);
         this.isEditing = false
     },
     handleCancel(){

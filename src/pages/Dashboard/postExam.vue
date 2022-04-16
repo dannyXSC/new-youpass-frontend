@@ -90,159 +90,7 @@
                 ></b-form-input>
               </b-form-group>
             </b-form-group>
-
-            <b-form-group
-              label="单选题信息:"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-group
-                label="题目数量:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="selectNum"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.singleChoiceNum"
-                />
-              </b-form-group>
-              <b-form-group
-                label="题目分值:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="selectScore"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.singleChoiceValue"
-                />
-              </b-form-group>
-            </b-form-group>
-
-            <!--多选-->
-            <b-form-group
-              label="多选题信息:"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-group
-                label="题目数量:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="multiSelectNum"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.multiChoiceNum"
-                />
-              </b-form-group>
-              <b-form-group
-                label="题目分值:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="multiSelectScore"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.multiChoiceValue"
-                />
-              </b-form-group>
-            </b-form-group>
-
-            <!--填空-->
-            <b-form-group
-              label="填空信息:"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-group
-                label="题目数量:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="fillNum"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.fillingNum"
-                />
-              </b-form-group>
-              <b-form-group
-                label="题目分值:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="fillScore"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.fillingValue"
-                />
-              </b-form-group>
-            </b-form-group>
-
-            <!--大题-->
-            <b-form-group
-              label="大题信息:"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-group
-                label="题目数量:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="compilationNum"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.comprehensiveNum"
-                />
-              </b-form-group>
-              <b-form-group
-                label="题目分值:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="compilationScore"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.comprehensiveValue"
-                />
-              </b-form-group>
-            </b-form-group>
           </b-form-group>
-
           <b-row class="justify-content-end">
             <b-col cols="12" md="auto">
               <b-button pill variant="outline-danger" @click="submit"
@@ -265,8 +113,8 @@ export default {
   components: { PageTitle },
   data() {
     return {
-      heading: "发布考试",
-      subheading: "您可以在此页面发布一场考试",
+      heading: "发布作业",
+      subheading: "您可以在此页面发布一次作业",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
 
       breadcrumbItem: [
@@ -293,14 +141,6 @@ export default {
         startTime: null,
         endDate: null,
         endTime: null,
-        singleChoiceNum: null,
-        singleChoiceValue: null,
-        multiChoiceNum: null,
-        multiChoiceValue: null,
-        fillingNum: null,
-        fillingValue: null,
-        comprehensiveNum: null,
-        comprehensiveValue: null,
       },
       test: [{ id: 1 }, { id: 2 }],
     };
@@ -312,33 +152,19 @@ export default {
         "" == this.examInfo.examName ||
         null ==
           this.examInfo.startDate + " " + this.examInfo.startTime + ":13" ||
-        null == this.examInfo.endDate + " " + this.examInfo.endTime + ":13" ||
-        null == this.examInfo.singleChoiceNum ||
-        null == this.examInfo.singleChoiceValue ||
-        null == this.examInfo.multiChoiceNum ||
-        null == this.examInfo.multiChoiceValue ||
-        null == this.examInfo.fillingNum ||
-        null == this.examInfo.fillingValue ||
-        null == this.examInfo.comprehensiveNum ||
-        null == this.examInfo.comprehensiveValue
+        null == this.examInfo.endDate + " " + this.examInfo.endTime + ":13" 
       ) {
         alert("输入缺失");
       } else {
-        this.$store.dispatch("global/submitExam", {
+        this.$router.push({
+        name: "chooseQue",
+        params: {
           courseId: this.courseId,
           title: this.examInfo.examName,
-          start_time:
-            this.examInfo.startDate + " " + this.examInfo.startTime + ":13",
-          end_time: this.examInfo.endDate + " " + this.examInfo.endTime + ":13",
-          choice_num: this.examInfo.singleChoiceNum,
-          choice_value: this.examInfo.singleChoiceValue,
-          multi_choice_num: this.examInfo.multiChoiceNum,
-          multi_choice_value: this.examInfo.multiChoiceValue,
-          completion_num: this.examInfo.fillingNum,
-          completion_value: this.examInfo.fillingValue,
-          filled_num: this.examInfo.comprehensiveNum,
-          filled_value: this.examInfo.comprehensiveValue,
-        });
+          start_time: this.examInfo.startDate + " " + this.examInfo.startTime + ":13",
+          end_time: this.examInfo.endDate + " " + this.examInfo.endTime + ":13",  
+        },
+      });
       }
     },
   },

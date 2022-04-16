@@ -308,7 +308,7 @@ import Croppa from 'vue-croppa'
 Vue.use(Croppa)  
 export default {
   name: "addQuestions",
-  components: {MySelect, MyCountBar, MyEditModal, PageTitle,},
+  components: {MySelect, MyCountBar, MyEditModal, PageTitle,vueDropzone:vue2Dropzone,questionImageUpload},
   props: {
     courseId: Number
   },
@@ -653,7 +653,7 @@ export default {
         }
       })
       if(cnt>0){
-        alert("你必须完成所题目信息的填写")
+        alert("你必须完成所有题目信息的填写")
       }else{
         //发送信息
         let postData = []

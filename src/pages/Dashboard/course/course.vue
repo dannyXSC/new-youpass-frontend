@@ -235,10 +235,21 @@ export default {
       }
     },
     releaseAssignment(item) {
-
+      console.log(item.ID)
+      this.$router.push({
+        name: "postExam",
+        params: {
+          courseId: item.ID,
+        },
+      });
     },
     addQuestion(item) {
-
+      this.$router.push({
+        name: "addQuestion",
+        params: {
+          courseId: item.id,
+        },
+      });
     },
     gotoHomeworkList(item) {
       this.$router.push({
