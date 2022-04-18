@@ -435,7 +435,7 @@ export const getExams = (courseId) => {
     return requests({ url: "/exam/courseGetExam/" + courseId, method: 'get' })
 }
 export const quit = () => {
-    return requests({ url: '/account/quitAccount', method: 'delete' })
+    return requests({ url: '/account/quit', method: 'delete' })
 }
 
 /**

@@ -32,7 +32,6 @@ requests.interceptors.response.use((res) => {
     let data = res.data
     data.msg = res.data.message || "错误"
     data.code = res.data.code === 200 ? 100 : res.data.code
-    console.log(data)
     return res.data
 }, (error) => {
     //响应失败的回调函数
