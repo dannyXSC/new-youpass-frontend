@@ -18,7 +18,7 @@
             </b-col>
             <b-col cols="1">
             <span><b-button size="sm" variant="outline-white" v-b-toggle="'collapse'+comment.commentId"><b-icon
-                icon="chat-left"></b-icon></b-button>{{ comment.children.length }}</span>
+                icon="chat-left"></b-icon></b-button>{{ comment.commentNum }}</span>
             </b-col>
             <b-col cols="1">
               <span><b-button size="sm" variant="outline-white" v-b-toggle="'giveComment'+comment.commentId"><b-icon

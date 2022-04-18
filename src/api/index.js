@@ -849,80 +849,114 @@ export const getHisInfo = (UserId) => {
 }
 
 export const getCommentsByAssignmentId = (AssignmentId) => {
-    requests({ url: '/comment/getCommentByHomeworkId?homeworkId=1', method: 'get' }).then((res)=>{
-        console.log("wht")
-        console.log(res)
-    }).catch((e)=> {
+    let retdata = []
+    let ret = []
+    requests({url: '/comment/getCommentByHomeworkId?homeworkId=1', method: 'get'}).then((res) => {
+        retdata = res
+        for (let i = 0; i < retdata.data.length; i++) {
+            let children = []
+            requests({
+                url: '/comment/getCommentByCommentId?commentId=' + retdata.data[i].comment.id,
+                method: 'get'
+            }).then(childret => {
+                for (let j = 0; j < childret.data.length; j++) {
+                    children.push({
+                        userId: childret.data[j].comment.userId,
+                        userName: childret.data[j].name,
+                        userAvater: 'https://picsum.photos/250/250/?image=59',//childret.data[j].avater
+                        commentId: childret.data[i].comment.id,
+                        supportNum: childret.data[i].comment.likeNum,
+                        supported: false,
+                        content: childret.data[i].comment.content,
+                    })
+                }
+            })
+            ret.push({
+                userId: retdata.data[i].comment.userId,
+                userName: retdata.data[i].name,
+                userAvater: "https://picsum.photos/250/250/?image=59",//retdata.data[i].avater
+                commentId: retdata.data[i].comment.id,
+                commentNum: retdata.data[i].comment.commentNum,
+                supported: false,
+                content: retdata.data[i].comment.content,
+                supportNum: retdata.data[i].comment.likeNum,
+                myComment: '',
+                children: children
+            })
+        }
+    }).catch((e) => {
         console.log(e)
     })
-    console.log("test")
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         resolve({
             code: 100,
             data: [{
-                comments: [{
-                    userId: 1950000,
-                    userName: "student",
-                    userAvater: 'https://picsum.photos/250/250/?image=59',
-                    commentId: 1,
-                    supported: false,
-                    content: "第一条评论",
-                    supportNum: 1,
-                    myComment: '',
-                    children: [{
-                        userId: 1950002,
-                        userName: "张纪鹏",
-                        userAvater: 'https://picsum.photos/250/250/?image=59',
-                        commentId: 3,
-                        supportNum: 123,
-                        supported: false,
-                        content: "回复第一条评论",
-                    },
-                        {
-                            userId: 1950003,
-                            userName: "谢思程",
-                            userAvater: 'https://picsum.photos/250/250/?image=59',
-                            commentId: 4,
-                            supportNum: 123,
-                            supported: false,
-                            content: "回复第一条评论",
-                        },
-                    ],
-                },
-                    {
-                        userId: 1950001,
-                        userName: "student2",
-                        userAvater: 'https://picsum.photos/250/250/?image=59',
-                        commentId: 2,
-                        supportNum: 123,
-                        supported: false,
-                        content: "第二条评论",
-                        myComment: '',
-                        children: [{
-                            userId: 1950004,
-                            userName: "蒙俊杰",
-                            userAvater: 'https://picsum.photos/250/250/?image=59',
-                            commentId: 5,
-                            supportNum: 123,
-                            supported: false,
-                            content: "回复第一条评论",
-                        },
-                            {
-                                userId: 1950005,
-                                userName: "柳淯之",
-                                userAvater: 'https://picsum.photos/250/250/?image=59',
-                                commentId: 6,
-                                supportNum: 123,
-                                supported: false,
-                                content: "回复第一条评论",
-                            },
-                        ],
-                    },
-                ]
+                comments: ret
             }]
         })
     })
 }
+// [{
+//     comments: [{
+//         userId: 1950000,
+//         userName: "student",
+//         userAvater: 'https://picsum.photos/250/250/?image=59',
+//         commentId: 1,
+//         supported: false,
+//         content: "第一条评论",
+//         supportNum: 1,
+//         myComment: '',
+//         children: [{
+//             userId: 1950002,
+//             userName: "张纪鹏",
+//             userAvater: 'https://picsum.photos/250/250/?image=59',
+//             commentId: 3,
+//             supportNum: 123,
+//             supported: false,
+//             content: "回复第一条评论",
+//         },
+//             {
+//                 userId: 1950003,
+//                 userName: "谢思程",
+//                 userAvater: 'https://picsum.photos/250/250/?image=59',
+//                 commentId: 4,
+//                 supportNum: 123,
+//                 supported: false,
+//                 content: "回复第一条评论",
+//             },
+//         ],
+//     },
+//         {
+//             userId: 1950001,
+//             userName: "student2",
+//             userAvater: 'https://picsum.photos/250/250/?image=59',
+//             commentId: 2,
+//             supportNum: 123,
+//             supported: false,
+//             content: "第二条评论",
+//             myComment: '',
+//             children: [{
+//                 userId: 1950004,
+//                 userName: "蒙俊杰",
+//                 userAvater: 'https://picsum.photos/250/250/?image=59',
+//                 commentId: 5,
+//                 supportNum: 123,
+//                 supported: false,
+//                 content: "回复第一条评论",
+//             },
+//                 {
+//                     userId: 1950005,
+//                     userName: "柳淯之",
+//                     userAvater: 'https://picsum.photos/250/250/?image=59',
+//                     commentId: 6,
+//                     supportNum: 123,
+//                     supported: false,
+//                     content: "回复第一条评论",
+//                 },
+//             ],
+//         },
+//     ]
+// }]
 
 export const submitComment = (userId, targetCommentId, content) => {
     return new Promise(function (resolve, reject) {
@@ -1023,5 +1057,5 @@ export const getTeaCourses = () => {
 
 export const testPostImage = (file) => {
 
-    return requests({ url: "/testUploadImage", method: "post", data: file })
+    return requests({url: "/testUploadImage", method: "post", data: file})
 }
