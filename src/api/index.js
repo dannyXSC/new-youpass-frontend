@@ -849,7 +849,14 @@ export const getHisInfo = (UserId) => {
 }
 
 export const getCommentsByAssignmentId = (AssignmentId) => {
-    return new Promise(function (resolve, reject) {
+    requests({ url: '/comment/getCommentByHomeworkId?homeworkId=1', method: 'get' }).then((res)=>{
+        console.log("wht")
+        console.log(res)
+    }).catch((e)=> {
+        console.log(e)
+    })
+    console.log("test")
+    return new Promise(function(resolve, reject) {
         resolve({
             code: 100,
             data: [{
@@ -1016,5 +1023,5 @@ export const getTeaCourses = () => {
 
 export const testPostImage = (file) => {
 
-    return requests({url: "/testUploadImage", method: "post", data: file})
+    return requests({ url: "/testUploadImage", method: "post", data: file })
 }

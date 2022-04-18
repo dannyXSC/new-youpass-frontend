@@ -79,8 +79,7 @@ export default {
     homeworkId: Number
   },
   mounted() {
-    getCommentsByAssignmentId(this.homeworkId).then((res) => {
-      console.log(res)
+    getCommentsByAssignmentId(1).then((res) => {
       this.comments = res.data[0].comments
     })
   },
