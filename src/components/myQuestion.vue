@@ -3,7 +3,7 @@
     <my-edit-modal
         v-if="isEditing"
         :init-content="questionInfo.studentAnswer"
-        :id="'myModal'+this.questionInfo.questionId"
+        :id="'modal'+this.questionInfo.questionId"
         @onSubmit="handleSubmit"
         @onCancel="handleCancel"
     />
@@ -118,7 +118,7 @@
                   </div>
                 </div>
                 <!-- 大题 图片题-->
-                <div v-if="questionInfo.type === 3 " class="fillin">
+                <div v-if="questionInfo.type >= 3 " class="fillin">
                   <div class="input-group">
                     <b-button
                         block
@@ -144,8 +144,8 @@
                       :id="'dropzone'+questionInfo.questionId"
                       :options="dropzoneOptions"
                       @vdropzone-removed-file='removeThisFile'
+                      @vdropzone-success='ansUploadSuccess'
                   ></vue-dropzone>
-
                 </div>
               </div>
             </b-col>
@@ -162,12 +162,15 @@ import MyEditModal from "@/components/myEditModal.vue";
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 import {deleteImageByName} from "@/api";
-
-// 学生做题界面的组件，用于展示每一道题目的信息
+import {questionImageUpload} from "@/api"
 export default {
   name: "myQuestion",
   props: {
     value: Object,
+    isRead: {
+      default: false,
+      type: Boolean
+    },
   },
   components: {
     MyEditModal,
@@ -183,35 +186,42 @@ export default {
       },
       //是否正在添加文本答案
       isEditing: false,
-      num2type: ["单选", "多选", "填空", "大题"],
+      num2type: ["单选", "多选", "填空", "大题","图片题"],
       questionInfo: this.value
       /*
       *
       * 公共
-      * - type: 0 1 2 3 4 分别表示单选、多选、填空、大题
+      * - type: 0 1 2 3 4 分别表示单选、多选、填空、大题、图片题
       * - questionId: 题目id(数据库中id)
-      * - numInPaper: 在试卷中的序号 应该等于Index+1
+      * - numInPaper: 在试卷中的序号
       * - description: 题目描述
+      * - textComment: 老师的文字评论 (当isRead==true有效)
+      * - pictureComment: 老师图片评论 (当isRead==true有效)
       *
       * 单选题 0
       * - options: 选项列表
-      *     - optionId: 选项id(0/1/2....)
+      *     - optionId: 选项id(A/B/C....)
       *     - description: 选项描述
+      * - standardAnswer: 正确答案，数组, 但是里面只有一个数(当isRead==true有效)
       * - studentAnswer: 学生答案，数组，但是里面只有一个数
       *
       * 多选题 1
       * - options: 选项列表
-      *     - optionId: 选项id(0/1/2....)
+      *     - optionId: 选项id(A/B/C....)
       *     - description: 选项描述
+      * - standardAnswer: 正确答案, 数组，对应optionId (当isRead==true有效)
       * - studentAnswer: 学生答案, 数组，对应optionId
       *
       * 填空题 2
       * - studentAnswer: 学生答案，文本
+      * - standardAnswer: 正确答案，文本 (当isRead==true有效)
       *
       * 大题 3
       * - pictureDescription: 列表，每一项是一个图片的url
       * - studentAnswer: 学生答案，文本
-      * - studentPictureAnswers: 学生答案，图片 (弃用，可能不在这里存储了)
+      * - standardAnswer: 正确答案，文本 (当isRead)
+      * - studentPictureAnswers: 学生答案，图片
+      * - standardPictureAnswers: 正确答案，图片 (当isRead==true有效)
       *
       * */
     }
@@ -234,6 +244,11 @@ export default {
         }
       }
     },
+    ansUploadSuccess(file, response){
+      questionImageUpload(file.name)
+      this.questionInfo.standardPictureAnswers.push(file.name)
+      this.handleInput();
+    },
     pickSingle(index) {
       this.questionInfo.studentAnswer = [index];
       this.handleInput();
@@ -252,7 +267,7 @@ export default {
     },
     handleEdit() {
       this.isEditing = true;
-      this.$nextTick(_ => this.$bvModal.show(`myModal${this.questionInfo.questionId}`))
+      this.$nextTick(_ => this.$bvModal.show(`modal${this.questionInfo.questionId}`))
     },
     handleSubmit(content) {
       this.questionInfo.studentAnswer = content;

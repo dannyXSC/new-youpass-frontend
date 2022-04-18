@@ -1,6 +1,6 @@
 // 用于创建整个应用的路由器
 
-import {checkState, getExamQuestion} from "@/api";
+import { checkState, getExamQuestion } from "@/api";
 import addQuestions from "@/pages/Dashboard/addQuestions";
 import correctedQuestion from "@/pages/Dashboard/course/correctedQuestion";
 import correctPaper from "@/pages/Dashboard/course/correctPaper";
@@ -53,8 +53,7 @@ import chooseQue from "@/pages/Dashboard/chooseQue";
 
 // 创建一个路由器 并暴露
 const router = new VueRouter({
-    routes: [
-        {
+    routes: [{
             path: "/",
             name: "login",
             component: login,
@@ -74,9 +73,9 @@ const router = new VueRouter({
             name: "Dashboard",
             component: dashboard,
             children: [{
-                path: "/dashboard",
-                redirect: "/dashboard/todo"
-            },
+                    path: "/dashboard",
+                    redirect: "/dashboard/todo"
+                },
                 {
                     path: "/dashboard/pick",
                     component: pick
@@ -154,14 +153,20 @@ const router = new VueRouter({
                     props: true
                 },
                 {
+                    name: "chooseQue",
+                    path: '/dashboard/chooseQue',
+                    component: chooseQue,
+                    props: true
+                },
+                {
                     name: "commentSection",
                     path: '/dashboard/commentSection',
                     component: commentSection,
                     props: true
                 },
                 {
-                    path: "/dashboard/homeworkTest",
                     name: "homeworkTest",
+                    path: "/dashboard/homeworkTest",
                     component: homeworkTest,
                     props: true
                 },
@@ -307,7 +312,7 @@ const router = new VueRouter({
                     component: OthersInfo
                 },
                 {
-                    path:"/testCorrectPaper",
+                    path: "/testCorrectPaper",
                     component: testCorrectPaper
                 },
             ]
@@ -336,25 +341,25 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     //如果进入dashboard
     if (to.matched.filter(value => {
-        return value.name === "Dashboard"
-    }).length) {
+            return value.name === "Dashboard"
+        }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
                     next()
                 } else {
-                    next({name: "notFound"})
+                    next({ name: "notFound" })
                 }
             })
             .catch((err) => {
                 console.error(err)
-                next({name: "notFound"})
+                next({ name: "notFound" })
             })
     }
     //进入login
     else if (to.matched.filter(value => {
-        return value.name === "login"
-    }).length) {
+            return value.name === "login"
+        }).length) {
         checkState()
             .then((res) => {
                 if (res.code === 100) {
@@ -366,7 +371,7 @@ router.beforeEach((to, from, next) => {
             })
             .catch((err) => {
                 console.error(err)
-                next({name: "notFound"})
+                next({ name: "notFound" })
             })
     } else if (to.name === "examTest") {
         getExamQuestion().then((res) => {
@@ -376,7 +381,7 @@ router.beforeEach((to, from, next) => {
                 next("/notFound")
             }
         }).catch((err =>
-                next("/notFound")
+            next("/notFound")
         ))
     } else {
         next()

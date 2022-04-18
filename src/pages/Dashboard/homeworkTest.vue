@@ -1,9 +1,29 @@
 <template>
+<div>
+    <my-edit-modal
+      v-if="editOwner"
+      :init-content="editIntiContent"
+      @onSubmit="handleSubmit"
+      @onCancel="handleCancel"
+    />
+
+    <page-title
+      :heading="heading"
+      :subheading="subheading"
+      :icon="icon"
+      :breadcrumb-item="breadcrumbItem"
+    ></page-title>
   <div class="container">
     <div class="main-card mb-3 card" v-for="(questionInfo,index) in questionInfos">
       <my-question v-model:value="questionInfos[index]"/>
     </div>
   </div>
+  <div class="card-shadow-danger border card card-body">
+        <b-button variant="success" size="sl" @click="submitHomework"
+        >提交作业
+        </b-button>
+  </div>
+</div>
 
 
 </template>
@@ -11,16 +31,50 @@
 <script>
 import MyQuestion from "@/components/myQuestion";
 import {getQuestions} from "@/api";
+import PageTitle from "@/layout/Components/PageTitle.vue";
+import TestNavbar from "@/layout/Components/PageTitle3.vue";
+import MyCountBar from "@/components/myCountBar";
+import MyEditModal from "@/components/myEditModal.vue";
+import BootstrapToggle from 'vue-bootstrap-toggle'
+import parse from "@/utils/parseLatex";
 
 export default {
   name: "homeworkTest",
-  components: {MyQuestion},
+  components: {MyQuestion,PageTitle,
+    TestNavbar,
+    MyCountBar,
+    MyEditModal,
+    BootstrapToggle},
   props: {
     studentId: Number,
     homeworkId: Number,
   },
   data() {
     return {
+        per_page: 9,
+    checked: true,
+    testTitle1:
+      "在生产管理信息系统中，下列操抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客作步骤能正确将工单推进流程的是（）",
+    testTitle2:
+      "在营销系统中查询客户有无欠费、余额及抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客户时应做到哪些最基本的礼仪？",
+    testTitle3: "以下属于南方电网员工职业操守中明文规定的有（）",
+    heading: "JavaEE 期中作业",
+    subheading: "2021/12/24",
+    icon: "pe-7s-drawer icon-gradient bg-tempting-azure",
+    breadcrumbItem: [
+      {
+        text: "Java 期中作业",
+        href: "#",
+      },
+    ],
+    currentPage: 1,
+    expanded: false,
+    barStyle: {
+      backgroundColor: "#69aa8a",
+    },
+    edit: true,
+    editOwner: null,
+    editIntiContent: "",
       //填空题
       questionInfos: [],
       // questionInfos: [
@@ -111,8 +165,14 @@ export default {
     }
   },
   methods: {
+    submitHomework(){
+        console.log(this.questionInfos)
+        alert("作业已提交！");
+      this.$store.state.global.isTesting = false;
+      window.location.href = "/#/dashboard/homeworkListOfStudent";
+    },
     handleClick() {
-      console.log(this.questionInfo)
+      console.log(this.questionInfos)
     }
   }
 }
