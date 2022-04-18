@@ -92,8 +92,8 @@
                     id="isTeacher"
                     v-model="type"
                     class="mb-3"
-                    :value="1"
-                    :unchecked-value="0"
+                    :value="0"
+                    :unchecked-value="1"
                 >
                   IsTeacher
                 </b-form-checkbox>
