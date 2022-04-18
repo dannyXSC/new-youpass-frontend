@@ -288,11 +288,7 @@ export default {
     handleCancelCreate() {
     },
     handleCreate(content) {
-      createCourse({
-        title: content.title,
-        password: content.password,
-        url: content.url
-      }).then(res => {
+      createCourse(content.title, content.password).then(res => {
         if (res.code === 100) {
           this.$toast.success("成功")
           this.init()
