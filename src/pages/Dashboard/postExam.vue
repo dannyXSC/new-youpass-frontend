@@ -148,8 +148,8 @@ export default {
   methods: {
     submit() {
       if (
-        this.courseId == null ||
-        "" == this.examInfo.examName ||
+        // this.courseId == null ||
+        "" === this.examInfo.examName ||
         null ==
           this.examInfo.startDate + " " + this.examInfo.startTime + ":13" ||
         null == this.examInfo.endDate + " " + this.examInfo.endTime + ":13" 

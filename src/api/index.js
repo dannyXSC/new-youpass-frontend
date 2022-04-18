@@ -111,8 +111,8 @@ export const getBasicInfo = (postData) => {
             msg: "成功",
             data: {
                 name: "danny",
-                id: 1950000,
-                type: 1
+                id: 10500,
+                type: 0
             }
         })
     })

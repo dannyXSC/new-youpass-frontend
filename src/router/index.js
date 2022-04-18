@@ -30,7 +30,6 @@ import test6 from "@/pages/Test/test6";
 import test997 from "@/pages/Test/test997";
 import test998 from "@/pages/Test/test998";
 import test999 from "@/pages/Test/test999";
-import chooseQue from "@/pages/Test/chooseQue"
 import BarChart from "@/pages/exams/BarChart"
 import VueRouter from "vue-router";
 import StudentExam from "@/pages/exams/StudentExam";
@@ -49,6 +48,7 @@ import commentSection from "@/pages/Dashboard/commentSection";
 import homeworkListOfStudent from "@/pages/Dashboard/studentHomeworkList/homeworkListOfStudent";
 import studentList from "@/pages/Dashboard/course/studentList";
 import homeworkListOfStudentOfCourse from "@/pages/Dashboard/course/homeworkListOfStudentOfCourse";
+import chooseQue from "@/pages/Dashboard/chooseQue";
 
 
 // 创建一个路由器 并暴露
@@ -177,6 +177,12 @@ const router = new VueRouter({
                     component: homeworkListOfStudentOfCourse,
                     props: true
                 },
+                {
+                    name: "chooseQue",
+                    path: '/dashboard/chooseQue',
+                    component: chooseQue,
+                    props: true
+                }
             ]
         },
         {
@@ -184,10 +190,10 @@ const router = new VueRouter({
             name: "Test",
             component: Test,
             children: [
-                {
-                    path: "/chooseQue",
-                    component: chooseQue
-                },
+                // {
+                //     path: "/chooseQue",
+                //     // component: chooseQue
+                // },
                 {
                     path: "/test2",
                     component: test2
