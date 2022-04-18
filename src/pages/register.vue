@@ -89,7 +89,7 @@
 
                 <b-form-checkbox
                     name="check"
-                    id="exampleCheck"
+                    id="isTeacher"
                     v-model="type"
                     class="mb-3"
                     :value="1"

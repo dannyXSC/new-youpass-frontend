@@ -68,16 +68,16 @@ export const login = (postData) => {
      * }
      */
 export const checkState = () => {
-        return requests({ url: '/account/checkState', method: 'get' }).then(res => {
-                return res
-            })
-            // return new Promise(function (resolve, reject) {
-            //     resolve({
-            //         code: 100,
-            //         msg: "成功",
-            //         data: null
-            //     })
-            // })
+        return requests({url: '/account/checkState', method: 'get'}).then(res => {
+            return res
+        })
+        // return new Promise(function (resolve, reject) {
+        //     resolve({
+        //         code: 101,
+        //         msg: "成功",
+        //         data: null
+        //     })
+        // })
     }
     /**
      * 获得基本信息
@@ -94,17 +94,18 @@ export const checkState = () => {
      * }
      */
 export const getBasicInfo = (postData) => {
-    return requests({ url: '/account/getAllInfo', method: 'get', data: postData }).then(res => {
-        return {
-            code: 100,
-            msg: "成功",
-            data: {
-                name: "danny",
-                id: 10500,
-                type: 0
-            }
-        }
-    })
+    return requests({ url: '/account/getAllInfo', method: 'get', data: postData })
+    //     .then(res => {
+    //     return {
+    //         code: 100,
+    //         msg: "成功",
+    //         data: {
+    //             name: "danny",
+    //             id: 10500,
+    //             type: 0
+    //         }
+    //     }
+    // })
 }
 
 export const searchCourse1 = (courseId) => {
