@@ -831,6 +831,13 @@ export const getHisInfo = (UserId) => {
 }
 
 export const getCommentsByAssignmentId = (AssignmentId) => {
+    requests({ url: '/comment/getCommentByHomeworkId?homeworkId=1', method: 'get' }).then((res)=>{
+        console.log("wht")
+        console.log(res)
+    }).catch((e)=> {
+        console.log(e)
+    })
+    console.log("test")
     return new Promise(function(resolve, reject) {
         resolve({
             code: 100,
