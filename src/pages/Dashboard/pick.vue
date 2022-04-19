@@ -90,6 +90,7 @@
                                 <button
                                   type="button"
                                   class="btn btn-light"
+                                  v-b-modal.PasswordIn
                                   @click="attendCourse(row.row.item.courseId)"
                                 >
                                   加入课程
@@ -138,16 +139,6 @@
                                 </b-row>
                               </b-container>
                             </li>
-                            <li class="list-group-item">
-                              <b-container>
-                                <b-row>
-                                  <b-col cols="8">
-                                    <h5>密码</h5>
-                                  </b-col>
-                                  <b-col cols="4"> <h6>{{ row.row.item.password }}</h6></b-col>
-                                </b-row>
-                              </b-container>
-                            </li>
                           </ul>
                         </div>
                       </b-tab>
@@ -160,6 +151,12 @@
         </div>
       </div>
     </div>
+    <b-modal id="PasswordIn" >
+      <b-form>
+        <b-form-input placeholder="请输入密码" v-model="attendCoursePassword">
+        </b-form-input>
+      </b-form>
+    </b-modal>
   </div>
 </template>
 
@@ -173,6 +170,8 @@ export default {
   components: { MyList, PageTitle },
   data() {
     return {
+      attendCourseId:0,
+      attendCoursePassword:'',
       heading: "搜索课程",
       subheading:
         "Select courses!",
@@ -272,7 +271,10 @@ export default {
       }
     },
     attendCourse(courseId){
-      attendCourse(courseId)
+      this.attendCourseId=courseId
+    },
+    submitAttend(){
+      attendCourse(this.attendCourseId,this.attendCoursePassword)
     }
   },
   mounted() {},

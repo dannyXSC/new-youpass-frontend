@@ -103,16 +103,14 @@ export default {
     }
   },
   mounted() {
-    getHisInfo(this.$store.state.global.id).then((res)=>{
-      if(res.code===100){
-        this.personInfo.name=this.updateInfo.name=res.data[0].name
-        this.personInfo.id=this.updateInfo.id=res.data[0].id
-        this.personInfo.sex=this.updateInfo.sex=res.data[0].sex
-        this.personInfo.email=this.updateInfo.email=res.data[0].email
-        this.personInfo.tel=this.updateInfo.tel=res.data[0].tel
-        this.personInfo.school=this.updateInfo.school=res.data[0].school
-        this.personInfo.avater=this.updateInfo.avater=res.data[0].avater
-      }
+    getHisInfo(assignmentId).then((res)=>{
+        this.personInfo.name=this.updateInfo.name=res.data.name
+        this.personInfo.id=this.updateInfo.id=res.data.id
+        this.personInfo.sex=this.updateInfo.sex=res.data.sex
+        this.personInfo.email=this.updateInfo.email=res.data.email
+        this.personInfo.tel=this.updateInfo.tel=res.data.tel
+        this.personInfo.school=this.updateInfo.school=res.data.school
+        this.personInfo.avater=this.updateInfo.avater=res.data.avater
     })
   },
   computed: {

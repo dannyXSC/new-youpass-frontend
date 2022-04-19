@@ -109,102 +109,80 @@ export const getBasicInfo = (postData) => {
 }
 
 export const searchCourse1 = (courseId) => {
+    let result = []
+    requests({
+        url: '/course/SearchCourse',
+        params: {courseId: courseId, name: '', teacherName: ''},
+        method: 'post'
+    }).then(res => {
+        for (let i = 0; i < res.data.length; i++) {
+            result.push({
+                courseId: res.data[i].id,
+                name: res.data[i].name,
+                password: res.data[i].password,
+                teacherId: res.data[i].teacherId,
+                teacherName: res.data[i].teacherName,
+                url: res.data[i].url,
+                courseTime: res.data[i].courseTime
+            })
+        }
+    })
     return new Promise(function (resolve, reject) {
         resolve({
             code: 100,
-            data: [{
-                courseId: 1,
-                name: '数学',
-                password: '123456',
-                teacherId: '12345',
-                teacherName: '谢思程',
-                url: 'www.abc.com',
-                courseTime: '周一一二,周三一二'
-            },
-                {
-                    courseId: 2,
-                    name: '语文',
-                    password: '988776',
-                    teacherId: '345265',
-                    teacherName: '金伟祖',
-                    url: 'www.bnnmm.com',
-                    courseTime: '周五五六'
-                },
-            ]
+            data: result
         })
     })
 }
 export const searchCourse2 = (courseName) => {
-    return requests({url: "/course/SearchCourseName?name=" + courseName, method: "post"}).then(res => {
-        console.log(res)
-        let data = {
-            code: res.code || 400,
-            msg: res.msg || "查询失败",
-            data: []
-        }
-        if (Array.isArray(res.data)) {
-            res.data.forEach(value => {
-                data.data.push({
-                    courseId: value.id,
-                    name: value.name,
-                    password: value.password,
-                    teacherId: value.teacherId,
-                    teacherName: value.teacherName || "尚无",
-                    url: value.url || "尚无",
-                    courseTime: value.courseTime || "尚无"
-                })
+    let result = []
+    requests({
+        url: '/course/SearchCourse',
+        params: {courseId: '', name: courseName, teacherName: ''},
+        method: 'post'
+    }).then(res => {
+        for (let i = 0; i < res.data.length; i++) {
+            result.push({
+                courseId: res.data[i].id,
+                name: res.data[i].name,
+                password: res.data[i].password,
+                teacherId: res.data[i].teacherId,
+                teacherName: res.data[i].teacherName,
+                url: res.data[i].url,
+                courseTime: res.data[i].courseTime
             })
         }
-        return data
     })
-    // return new Promise(function (resolve, reject) {
-    //     resolve({
-    //         code: 100,
-    //         data: [{
-    //             courseId: 1,
-    //             name: '数学',
-    //             password: '123456',
-    //             teacherId: '12345',
-    //             teacherName: '谢思程',
-    //             url: 'www.abc.com',
-    //             courseTime: '周一一二,周三一二'
-    //         },
-    //             {
-    //                 courseId: 2,
-    //                 name: '语文',
-    //                 password: '988776',
-    //                 teacherId: '345265',
-    //                 teacherName: '金伟祖',
-    //                 url: 'www.bnnmm.com',
-    //                 courseTime: '周五五六'
-    //             },
-    //         ]
-    //     })
-    // })
-}
-export const searchCourse3 = (teacherName) => {
     return new Promise(function (resolve, reject) {
         resolve({
             code: 100,
-            data: [{
-                courseId: 1,
-                name: '数学',
-                password: '123456',
-                teacherId: '12345',
-                teacherName: '谢思程',
-                url: 'www.abc.com',
-                courseTime: '周一一二,周三一二'
-            },
-                {
-                    courseId: 2,
-                    name: '语文',
-                    password: '988776',
-                    teacherId: '345265',
-                    teacherName: '金伟祖',
-                    url: 'www.bnnmm.com',
-                    courseTime: '周五五六'
-                },
-            ]
+            data: result
+        })
+    })
+}
+export const searchCourse3 = (teacherName) => {
+    let result = []
+    requests({
+        url: '/course/SearchCourse',
+        params: {courseId: '', name: '', teacherName: teacherName},
+        method: 'post'
+    }).then(res => {
+        for (let i = 0; i < res.data.length; i++) {
+            result.push({
+                courseId: res.data[i].id,
+                name: res.data[i].name,
+                password: res.data[i].password,
+                teacherId: res.data[i].teacherId,
+                teacherName: res.data[i].teacherName,
+                url: res.data[i].url,
+                courseTime: res.data[i].courseTime
+            })
+        }
+    })
+    return new Promise(function (resolve, reject) {
+        resolve({
+            code: 100,
+            data: result
         })
     })
 }
@@ -831,19 +809,35 @@ export const deleteImageByName = (name) => {
     console.log(name)
 }
 
-export const getHisInfo = (UserId) => {
+export const getHisInfo = (assignmentId) => {
+    let result={
+        id: 0,
+        name: "",
+        email: "",
+        school: "",
+        sex: "",
+        tel: "",
+        avater: ""
+    }
+    let obj2=null
+    requests({url: "/account/info", method: "get"}).then(res => {
+        result.id=res.data.id
+        result.name=res.data.name
+        result.email=res.data.email
+        result.school=res.data.school
+        result.sex=res.data.sex
+        result.tel=res.data.phone
+        obj2 = Object.assign({}, result);
+        // requests({url: "/account/getImage", method: "get"}).then(res => {
+        //     result.avater=res.data
+        // })
+    })
+    console.log(result)
     return new Promise(function (resolve, reject) {
+
         resolve({
             code: 100,
-            data: [{
-                id: 1953694,
-                name: '张纪鹏',
-                email: '914856774@qq.com',
-                school: '同济大学',
-                sex: '男',
-                tel: '186****4795',
-                avater: 'https://picsum.photos/250/250/?image=59'
-            }]
+            data: result
         })
     })
 }
@@ -958,10 +952,20 @@ export const getCommentsByAssignmentId = (AssignmentId) => {
 //     ]
 // }]
 
-export const submitComment = (userId,targetAssignmentId, targetCommentId,identity, content) => {
-    requests({url: '/comment/postComment',params:{ userId:userId, pHomeworkId:targetAssignmentId,pCommentId:targetCommentId,identity:identity,content:content}, method: 'post'}).then(res=>{
+export const submitComment = (userId, targetAssignmentId, targetCommentId, identity, content) => {
+    requests({
+        url: '/comment/postComment',
+        params: {
+            userId: userId,
+            pHomeworkId: targetAssignmentId,
+            pCommentId: targetCommentId,
+            identity: identity,
+            content: content
+        },
+        method: 'post'
+    }).then(res => {
         console.log("评论成功")
-    }).catch(e=>{
+    }).catch(e => {
         console.log(e)
     })
     return new Promise(function (resolve, reject) {
