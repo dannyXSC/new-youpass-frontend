@@ -103,7 +103,7 @@ export default {
     }
   },
   mounted() {
-    getHisInfo(assignmentId).then((res)=>{
+    getHisInfo(1).then((res)=>{
         this.personInfo.name=this.updateInfo.name=res.data.name
         this.personInfo.id=this.updateInfo.id=res.data.id
         this.personInfo.sex=this.updateInfo.sex=res.data.sex
