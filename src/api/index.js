@@ -958,13 +958,13 @@ export const getCommentsByAssignmentId = (AssignmentId) => {
 //     ]
 // }]
 
-export const submitComment = (userId, targetCommentId, content) => {
+export const submitComment = (userId,targetAssignmentId, targetCommentId,identity, content) => {
+    requests({url: '/comment/postComment',params:{ userId:userId, pHomeworkId:targetAssignmentId,pCommentId:targetCommentId,identity:identity,content:content}, method: 'post'}).then(res=>{
+        console.log("评论成功")
+    }).catch(e=>{
+        console.log(e)
+    })
     return new Promise(function (resolve, reject) {
-        console.log({
-            userId: userId,
-            targetCommentId: targetCommentId,
-            content: content
-        });
         resolve({
             code: 100,
         })

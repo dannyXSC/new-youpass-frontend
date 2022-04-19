@@ -18,7 +18,7 @@
             </b-col>
             <b-col cols="1">
             <span><b-button size="sm" variant="outline-white" v-b-toggle="'collapse'+comment.commentId"><b-icon
-                icon="chat-left"></b-icon></b-button>{{ comment.commentNum }}</span>
+                icon="chat-left"></b-icon></b-button>{{ comment.children.length }}</span>
             </b-col>
             <b-col cols="1">
               <span><b-button size="sm" variant="outline-white" v-b-toggle="'giveComment'+comment.commentId"><b-icon
@@ -83,6 +83,9 @@ export default {
       this.comments = res.data[0].comments
     })
   },
+  init(){
+
+  },
   methods: {
     thesubmitComment(targetId) {
       let submitContent = ''
@@ -92,7 +95,7 @@ export default {
           break
         }
       }
-      submitComment(this.$store.state.global.id, targetId, submitContent).then((res) => {
+      submitComment(this.$store.state.global.id,-1, targetId,this.$store.state.global.type, submitContent).then((res) => {
         if (res.code === 100) {
           this.clearComment(targetId)
         }
