@@ -1029,12 +1029,8 @@ export const getStuCourses = (studentId) => {
     })
 }
 
-export const attendCourse = (courseId) => {
-    return new Promise(function (resolve, reject) {
-        resolve({
-            code: 100,
-        })
-    })
+export const attendCourse = (courseId,password,id) => {
+    return requests({url:"/course/joinCourse",params:{courseId:courseId,password:password},method:"post"})
 }
 export const getTeaCourses = () => {
     return new Promise(function (resolve, reject) {

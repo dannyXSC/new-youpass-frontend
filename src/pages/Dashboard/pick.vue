@@ -151,7 +151,7 @@
         </div>
       </div>
     </div>
-    <b-modal id="PasswordIn" >
+    <b-modal id="PasswordIn" @ok="submitAttend">
       <b-form>
         <b-form-input placeholder="请输入密码" v-model="attendCoursePassword">
         </b-form-input>
@@ -200,6 +200,7 @@ export default {
           课程名称: this.searchedCourse[i].name,
           courseName:this.searchedCourse[i].name,
           ID: this.searchedCourse[i].courseId,
+          courseId:this.searchedCourse[i].courseId,
           password:this.searchedCourse[i].password,
           teacher_id:
             this.searchedCourse[i].teacherId,
@@ -274,7 +275,9 @@ export default {
       this.attendCourseId=courseId
     },
     submitAttend(){
-      attendCourse(this.attendCourseId,this.attendCoursePassword)
+      console.log(this.attendCourseId)
+      console.log(this.attendCoursePassword)
+      attendCourse(this.attendCourseId,this.attendCoursePassword,this.$store.state.global.id)
     }
   },
   mounted() {},
