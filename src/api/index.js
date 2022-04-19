@@ -864,10 +864,10 @@ export const getCommentsByAssignmentId = (AssignmentId) => {
                         userId: childret.data[j].comment.userId,
                         userName: childret.data[j].name,
                         userAvater: 'https://picsum.photos/250/250/?image=59',//childret.data[j].avater
-                        commentId: childret.data[i].comment.id,
-                        supportNum: childret.data[i].comment.likeNum,
+                        commentId: childret.data[j].comment.id,
+                        supportNum: childret.data[j].comment.likeNum,
                         supported: false,
-                        content: childret.data[i].comment.content,
+                        content: childret.data[j].comment.content,
                     })
                 }
             })
