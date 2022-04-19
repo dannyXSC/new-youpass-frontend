@@ -14,7 +14,7 @@
             <b-row>
               <b-col>
                 <b-card-text style="font-size: 1.5em">性别:{{personInfo.sex}}</b-card-text>
-                <b-card-text style="font-size: 1.5em">联系电话:{{personInfo.tel}}</b-card-text>
+                <b-card-text style="font-size: 1.5em">联系电话:{{personInfo.phone}}</b-card-text>
               </b-col>
               <b-col>
                 <b-card-text style="font-size: 1.5em">邮箱:{{ personInfo.email }}</b-card-text>
@@ -35,7 +35,7 @@
                   </b-form-select>
                 </b-form-group>
                 <b-form-group label="联系电话">
-                  <b-form-input placeholder="id" v-model="updateInfo.tel" :state="telInvalid">
+                  <b-form-input placeholder="id" v-model="updateInfo.phone" :state="phoneInvalid">
                   </b-form-input>
                 </b-form-group>
                 <b-form-group label="邮箱">
@@ -83,7 +83,7 @@ export default {
         email:'',
         school:'',
         sex:'',
-        tel:'',
+        phone:'',
         avater:''
       },
       updateInfo: {
@@ -92,7 +92,7 @@ export default {
         email:'',
         school:'',
         sex:'',
-        tel:'',
+        phone:'',
         avater:''
       },
       sexOptions:[
@@ -103,12 +103,13 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$store.state.global.type)
     getHisInfo().then((res)=>{
       if(res.data.name!=null) this.personInfo.name=this.updateInfo.name=res.data.name
       if(res.data.id!=null)  this.personInfo.id=this.updateInfo.id=res.data.id
       if(res.data.sex!=null)  this.personInfo.sex=this.updateInfo.sex=res.data.sex
       if(res.data.email!=null)  this.personInfo.email=this.updateInfo.email=res.data.email
-      if(res.data.tel!=null)  this.personInfo.tel=this.updateInfo.tel=res.data.tel
+      if(res.data.phone!=null)  this.personInfo.phone=this.updateInfo.phone=res.data.phone
       if(res.data.school!=null)  this.personInfo.school=this.updateInfo.school=res.data.school
     })
     getHisImage().then(res=>{
@@ -119,8 +120,8 @@ export default {
     nameInvalid() {
       return this.updateInfo.name.length > 0
     },
-    telInvalid() {
-      return this.updateInfo.tel.length > 0
+    phoneInvalid() {
+      return this.updateInfo.phone.length > 0
     },
     emailInvalid(){
       return this.updateInfo.email.length > 0
@@ -129,7 +130,7 @@ export default {
       return this.updateInfo.school.length > 0
     },
     ifInfoProper() {
-      return !(this.updateInfo.name.length > 0 && this.updateInfo.tel.length > 0 && this.updateInfo.email.length > 0 && this.updateInfo.school.length > 0)
+      return !(this.updateInfo.name.length > 0 && this.updateInfo.phone.length > 0 && this.updateInfo.email.length > 0 && this.updateInfo.school.length > 0)
     }
   },
   methods: {
