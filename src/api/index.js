@@ -809,38 +809,29 @@ export const deleteImageByName = (name) => {
     console.log(name)
 }
 
-export const getHisInfo = (assignmentId) => {
-    let result={
-        id: 0,
-        name: "",
-        email: "",
-        school: "",
-        sex: "",
-        tel: "",
-        avater: ""
-    }
-    let obj2=null
-    requests({url: "/account/info", method: "get"}).then(res => {
-        result.id=res.data.id
-        result.name=res.data.name
-        result.email=res.data.email
-        result.school=res.data.school
-        result.sex=res.data.sex
-        result.tel=res.data.phone
-        obj2 = Object.assign({}, result);
-        // requests({url: "/account/getImage", method: "get"}).then(res => {
-        //     result.avater=res.data
-        // })
-    })
-    console.log(result)
-    return new Promise(function (resolve, reject) {
-
-        resolve({
-            code: 100,
-            data: result
-        })
-    })
+export const getHisInfo = () => {
+    return requests({url:"account/info",method:"get"})
 }
+export const getHisImage =()=>{
+    return requests({url:"account/getImage",method:"get"})
+}
+// {
+//     id: 0,
+//         name: "",
+//     email: "",
+//     school: "",
+//     sex: "",
+//     tel: "",
+//     avater: ""
+// }
+// {
+//     result.id=res.data.id
+//     result.name=res.data.name
+//     result.email=res.data.email
+//     result.school=res.data.school
+//     result.sex=res.data.sex
+//     result.tel=res.data.phone
+// }
 
 export const getCommentsByAssignmentId = (AssignmentId) => {
     let retdata = []

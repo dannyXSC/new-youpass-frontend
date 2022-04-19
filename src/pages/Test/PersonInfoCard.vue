@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import {getHisInfo ,updateInfo, updateAvater} from "@/api";
+import {getHisInfo ,updateInfo, updateAvater, getHisImage} from "@/api";
 
 export default {
   name: "PersonInfoCard",
@@ -103,14 +103,16 @@ export default {
     }
   },
   mounted() {
-    getHisInfo(1).then((res)=>{
-        this.personInfo.name=this.updateInfo.name=res.data.name
-        this.personInfo.id=this.updateInfo.id=res.data.id
-        this.personInfo.sex=this.updateInfo.sex=res.data.sex
-        this.personInfo.email=this.updateInfo.email=res.data.email
-        this.personInfo.tel=this.updateInfo.tel=res.data.tel
-        this.personInfo.school=this.updateInfo.school=res.data.school
-        this.personInfo.avater=this.updateInfo.avater=res.data.avater
+    getHisInfo().then((res)=>{
+      if(res.data.name!=null) this.personInfo.name=this.updateInfo.name=res.data.name
+      if(res.data.id!=null)  this.personInfo.id=this.updateInfo.id=res.data.id
+      if(res.data.sex!=null)  this.personInfo.sex=this.updateInfo.sex=res.data.sex
+      if(res.data.email!=null)  this.personInfo.email=this.updateInfo.email=res.data.email
+      if(res.data.tel!=null)  this.personInfo.tel=this.updateInfo.tel=res.data.tel
+      if(res.data.school!=null)  this.personInfo.school=this.updateInfo.school=res.data.school
+    })
+    getHisImage().then(res=>{
+      this.personInfo.avater=this.updateInfo.avater=res.data
     })
   },
   computed: {
