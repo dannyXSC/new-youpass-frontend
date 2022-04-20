@@ -87,6 +87,7 @@ export default {
       console.log(this.homeworkId)
       submitComment(this.$store.state.global.id,this.homeworkId,-1,1,this.myComment).then(res=>{
         this.myComment=""
+        this.$parent.init()
       })
     }
   }
