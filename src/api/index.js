@@ -967,19 +967,7 @@ export const submitComment = (userId, targetAssignmentId, targetCommentId, ident
 }
 
 export const updateInfo = (updateInfo) => {
-    return new Promise(function (resolve, reject) {
-        console.log({
-            id: updateInfo.id,
-            name: updateInfo.name,
-            email: updateInfo.email,
-            school: updateInfo.school,
-            sex: updateInfo.sex,
-            tel: updateInfo.tel,
-        });
-        resolve({
-            code: 100,
-        })
-    })
+    return requests({url:"/account/update",method:"put",data:updateInfo})
 }
 
 

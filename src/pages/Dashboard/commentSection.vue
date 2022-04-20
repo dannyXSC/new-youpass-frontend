@@ -74,19 +74,19 @@ import {getCommentsByAssignmentId, submitComment, addLike} from "@/api";
 
 export default {
   name: "commentSection",
-  components: {OthersInfo},
+  components: { OthersInfo},
   props: {
     homeworkId: Number
   },
   mounted() {
-    getCommentsByAssignmentId(1).then((res) => {
-      this.comments = res.data[0].comments
-    })
-  },
-  init(){
-
+    this.init()
   },
   methods: {
+    init(){
+      getCommentsByAssignmentId(1).then((res) => {
+        this.comments = res.data[0].comments
+      })
+    },
     thesubmitComment(targetId) {
       let submitContent = ''
       for (var i = 0; i < this.comments.length; i++) {
@@ -100,6 +100,7 @@ export default {
           this.clearComment(targetId)
         }
       })
+      this.init()
     },
     clearComment(targetId) {
       for (var i = 0; i < this.comments.length; i++) {

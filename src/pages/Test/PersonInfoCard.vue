@@ -35,15 +35,11 @@
                   </b-form-select>
                 </b-form-group>
                 <b-form-group label="联系电话">
-                  <b-form-input placeholder="id" v-model="updateInfo.phone" :state="phoneInvalid">
-                  </b-form-input>
-                </b-form-group>
-                <b-form-group label="邮箱">
-                  <b-form-input placeholder="email" v-model="updateInfo.email" :state="emailInvalid">
+                  <b-form-input placeholder="phone" v-model="updateInfo.phone" :state="phoneInvalid">
                   </b-form-input>
                 </b-form-group>
                 <b-form-group label="学校">
-                  <b-form-input placeholder="id" v-model="updateInfo.school" :state="schoolInvalid">
+                  <b-form-input placeholder="school" v-model="updateInfo.school" :state="schoolInvalid">
                   </b-form-input>
                 </b-form-group>
                 <b-button variant="success" :disabled="ifInfoProper" @click="submitInfo">提交</b-button>
@@ -87,9 +83,7 @@ export default {
         avater:''
       },
       updateInfo: {
-        id:0,
         name:'',
-        email:'',
         school:'',
         sex:'',
         phone:'',
@@ -103,18 +97,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store.state.global.type)
-    getHisInfo().then((res)=>{
-      if(res.data.name!=null) this.personInfo.name=this.updateInfo.name=res.data.name
-      if(res.data.id!=null)  this.personInfo.id=this.updateInfo.id=res.data.id
-      if(res.data.sex!=null)  this.personInfo.sex=this.updateInfo.sex=res.data.sex
-      if(res.data.email!=null)  this.personInfo.email=this.updateInfo.email=res.data.email
-      if(res.data.phone!=null)  this.personInfo.phone=this.updateInfo.phone=res.data.phone
-      if(res.data.school!=null)  this.personInfo.school=this.updateInfo.school=res.data.school
-    })
-    getHisImage().then(res=>{
-      this.personInfo.avater=this.updateInfo.avater=res.data
-    })
+    this.init()
   },
   computed: {
     nameInvalid() {
@@ -123,17 +106,27 @@ export default {
     phoneInvalid() {
       return this.updateInfo.phone.length > 0
     },
-    emailInvalid(){
-      return this.updateInfo.email.length > 0
-    },
     schoolInvalid(){
       return this.updateInfo.school.length > 0
     },
     ifInfoProper() {
-      return !(this.updateInfo.name.length > 0 && this.updateInfo.phone.length > 0 && this.updateInfo.email.length > 0 && this.updateInfo.school.length > 0)
+      return !(this.updateInfo.name.length > 0 && this.updateInfo.phone.length > 0 && this.updateInfo.school.length > 0)
     }
   },
   methods: {
+    init(){
+      getHisInfo().then((res)=>{
+        if(res.data.name!=null) this.personInfo.name=this.updateInfo.name=res.data.name
+        if(res.data.id!=null)  this.personInfo.id=res.data.id
+        if(res.data.sex!=null)  this.personInfo.sex=this.updateInfo.sex=res.data.sex
+        if(res.data.email!=null)  this.personInfo.email=res.data.email
+        if(res.data.phone!=null)  this.personInfo.phone=this.updateInfo.phone=res.data.phone
+        if(res.data.school!=null)  this.personInfo.school=this.updateInfo.school=res.data.school
+      })
+      getHisImage().then(res=>{
+        this.personInfo.avater=this.updateInfo.avater=res.data
+      })
+    },
     submitInfo() {
       updateInfo(this.updateInfo).then((res)=>{
         if(res.code===100){
@@ -147,6 +140,7 @@ export default {
             autoHideDelay: 2000
           });
         }
+        this.init()
       })
     },
     submitAvater() {
