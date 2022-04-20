@@ -92,6 +92,7 @@
                                   class="btn btn-light"
                                   v-b-modal.PasswordIn
                                   @click="attendCourse(row.row.item.courseId)"
+                                  :disabled="row.row.item.exist"
                                 >
                                   加入课程
                                 </button>
@@ -206,7 +207,8 @@ export default {
             this.searchedCourse[i].teacherId,
           teacher_name: this.searchedCourse[i].teacherName,
           url:this.searchedCourse[i].url,
-          courseTime:this.searchedCourse[i].courseTime
+          courseTime:this.searchedCourse[i].courseTime,
+          exist:this.searchedCourse[i].exist
         });
       }
       return return_item;
@@ -283,6 +285,7 @@ export default {
           autoHideDelay: 2000
         });
       })
+      this.searchedCourse=[]
     }
   },
   mounted() {},
