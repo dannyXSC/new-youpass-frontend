@@ -84,9 +84,9 @@ export default {
       this.myComment=""
     },
     submit(){
-      submitComment(this.$store.state.global.id,this.homeworkId,-1,this.$store.state.global.accountType,this.myComment).then(res=>{
+      console.log(this.homeworkId)
+      submitComment(this.$store.state.global.id,this.homeworkId,-1,1,this.myComment).then(res=>{
         this.myComment=""
-        console.log(res)
       })
     }
   }

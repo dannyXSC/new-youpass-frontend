@@ -81,6 +81,7 @@ export default {
     homeworkId: Number
   },
   mounted() {
+    console.log(this.homeworkId)
     this.init()
   },
   methods: {
