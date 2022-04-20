@@ -275,9 +275,14 @@ export default {
       this.attendCourseId=courseId
     },
     submitAttend(){
-      console.log(this.attendCourseId)
-      console.log(this.attendCoursePassword)
-      attendCourse(this.attendCourseId,this.attendCoursePassword,this.$store.state.global.id)
+      attendCourse(this.attendCourseId,this.attendCoursePassword,this.$store.state.global.id).then(res=>{
+        this.$bvToast.toast(res.data, {
+          title: "提示",
+          variant: "success",
+          solid: true,
+          autoHideDelay: 2000
+        });
+      })
     }
   },
   mounted() {},
