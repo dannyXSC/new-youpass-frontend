@@ -1,5 +1,6 @@
 <template>
   <div>
+    <homework-info-card style="margin-bottom: 2em" :homework-id="homeworkId"></homework-info-card>
     <b-card>
       <b-list-group>
         <b-list-group-item v-for="comment in comments" style="margin-bottom: 1.5em">
@@ -71,10 +72,11 @@
 <script>
 import OthersInfo from "@/pages/Test/OthersInfo";
 import {getCommentsByAssignmentId, submitComment, addLike} from "@/api";
+import HomeworkInfoCard from "@/components/homeworkInfoCard";
 
 export default {
   name: "commentSection",
-  components: { OthersInfo},
+  components: {HomeworkInfoCard, OthersInfo},
   props: {
     homeworkId: Number
   },
@@ -83,7 +85,7 @@ export default {
   },
   methods: {
     init(){
-      getCommentsByAssignmentId(1).then((res) => {
+      getCommentsByAssignmentId(this.homeworkId).then((res) => {
         this.comments = res.data[0].comments
       })
     },

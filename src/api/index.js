@@ -1020,6 +1020,24 @@ export const getStuCourses = (studentId) => {
 export const attendCourse = (courseId,password,id) => {
     return requests({url:"/course/joinCourse",params:{courseId:courseId,password:password},method:"post"})
 }
+export const getHomeworkInfo=(homeworkId)=>{
+    return new Promise(function (resolve, reject){
+        resolve({
+            code:100,
+            data:{
+                title:"第一次作业",
+                courseName:"课程一",
+                teacherName:"danny",
+                startTime:"2022-04-10 05:36:54",
+                endTime:"2022-04-11 05:36:54"
+            }
+        })
+    })
+}
+
+export const sendHomeworkComment=(userId,homeworkId,identity,content)=>{
+    return requests({url:"/comment/postComment",method:"post",params:{userId:userId,pHomeworkId:homeworkId,pCommentId:-1,identity:identity,content:content}})
+}
 export const getTeaCourses = () => {
     return new Promise(function (resolve, reject) {
         resolve({
