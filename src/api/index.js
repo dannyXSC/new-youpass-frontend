@@ -836,7 +836,7 @@ export const getHisImage =()=>{
 export const getCommentsByAssignmentId = (AssignmentId) => {
     let retdata = []
     let ret = []
-    requests({url: '/comment/getCommentByHomeworkId?homeworkId=1', method: 'get'}).then((res) => {
+    requests({url: '/comment/getCommentByHomeworkId?homeworkId='+AssignmentId, method: 'get'}).then((res) => {
         retdata = res
         for (let i = 0; i < retdata.data.length; i++) {
             let children = []
