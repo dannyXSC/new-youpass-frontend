@@ -138,7 +138,7 @@ export default {
       this.$router.push({
         name: "commentSection",
         params: {
-          homeworkId: item.id,
+          homeworkId: item.homeworkId,
         },
       });
     }

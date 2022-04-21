@@ -109,102 +109,86 @@ export const getBasicInfo = (postData) => {
 }
 
 export const searchCourse1 = (courseId) => {
+    let result = []
+    requests({
+        url: '/course/SearchCourse',
+        params: {courseId: courseId, name: '', teacherName: ''},
+        method: 'post'
+    }).then(res => {
+        console.log(res)
+        for (let i = 0; i < res.data.length; i++) {
+            let exist=false
+            if(res.data[i].exist===1){
+                exist=true
+            }
+            result.push({
+                courseId: res.data[i].id,
+                name: res.data[i].name,
+                password: res.data[i].password,
+                teacherId: res.data[i].teacherId,
+                teacherName: res.data[i].teacherName,
+                url: res.data[i].url,
+                courseTime: res.data[i].courseTime,
+                exist:exist
+            })
+        }
+    })
     return new Promise(function (resolve, reject) {
         resolve({
             code: 100,
-            data: [{
-                courseId: 1,
-                name: '数学',
-                password: '123456',
-                teacherId: '12345',
-                teacherName: '谢思程',
-                url: 'www.abc.com',
-                courseTime: '周一一二,周三一二'
-            },
-                {
-                    courseId: 2,
-                    name: '语文',
-                    password: '988776',
-                    teacherId: '345265',
-                    teacherName: '金伟祖',
-                    url: 'www.bnnmm.com',
-                    courseTime: '周五五六'
-                },
-            ]
+            data: result
         })
     })
 }
 export const searchCourse2 = (courseName) => {
-    return requests({url: "/course/SearchCourseName?name=" + courseName, method: "post"}).then(res => {
-        console.log(res)
-        let data = {
-            code: res.code || 400,
-            msg: res.msg || "查询失败",
-            data: []
-        }
-        if (Array.isArray(res.data)) {
-            res.data.forEach(value => {
-                data.data.push({
-                    courseId: value.id,
-                    name: value.name,
-                    password: value.password,
-                    teacherId: value.teacherId,
-                    teacherName: value.teacherName || "尚无",
-                    url: value.url || "尚无",
-                    courseTime: value.courseTime || "尚无"
-                })
+    let result = []
+    requests({
+        url: '/course/SearchCourse',
+        params: {courseId: '', name: courseName, teacherName: ''},
+        method: 'post'
+    }).then(res => {
+        for (let i = 0; i < res.data.length; i++) {
+            result.push({
+                courseId: res.data[i].id,
+                name: res.data[i].name,
+                password: res.data[i].password,
+                teacherId: res.data[i].teacherId,
+                teacherName: res.data[i].teacherName,
+                url: res.data[i].url,
+                courseTime: res.data[i].courseTime
             })
         }
-        return data
     })
-    // return new Promise(function (resolve, reject) {
-    //     resolve({
-    //         code: 100,
-    //         data: [{
-    //             courseId: 1,
-    //             name: '数学',
-    //             password: '123456',
-    //             teacherId: '12345',
-    //             teacherName: '谢思程',
-    //             url: 'www.abc.com',
-    //             courseTime: '周一一二,周三一二'
-    //         },
-    //             {
-    //                 courseId: 2,
-    //                 name: '语文',
-    //                 password: '988776',
-    //                 teacherId: '345265',
-    //                 teacherName: '金伟祖',
-    //                 url: 'www.bnnmm.com',
-    //                 courseTime: '周五五六'
-    //             },
-    //         ]
-    //     })
-    // })
-}
-export const searchCourse3 = (teacherName) => {
     return new Promise(function (resolve, reject) {
         resolve({
             code: 100,
-            data: [{
-                courseId: 1,
-                name: '数学',
-                password: '123456',
-                teacherId: '12345',
-                teacherName: '谢思程',
-                url: 'www.abc.com',
-                courseTime: '周一一二,周三一二'
-            },
-                {
-                    courseId: 2,
-                    name: '语文',
-                    password: '988776',
-                    teacherId: '345265',
-                    teacherName: '金伟祖',
-                    url: 'www.bnnmm.com',
-                    courseTime: '周五五六'
-                },
-            ]
+            data: result
+        })
+    })
+}
+export const searchCourse3 = (teacherName) => {
+    let result = []
+    requests({
+        url: '/course/SearchCourse',
+        params: {courseId: '', name: '', teacherName: teacherName},
+        method: 'post'
+    }).then(res => {
+        for (let i = 0; i < res.data.length; i++) {
+            result.push({
+                courseId: res.data[i].id,
+                name: res.data[i].name,
+                password: res.data[i].password,
+                teacherId: res.data[i].teacherId,
+                teacherName: res.data[i].teacherName,
+                url: res.data[i].url,
+                courseTime: res.data[i].courseTime
+            })
+        }
+    })
+    return new Promise(function (resolve, reject) {
+        resolve({
+            code: 100,
+            data: result
         })
     })
 }
@@ -831,106 +815,157 @@ export const deleteImageByName = (name) => {
     console.log(name)
 }
 
-export const getHisInfo = (UserId) => {
-    return new Promise(function (resolve, reject) {
-        resolve({
-            code: 100,
-            data: [{
-                id: 1953694,
-                name: '张纪鹏',
-                email: '914856774@qq.com',
-                school: '同济大学',
-                sex: '男',
-                tel: '186****4795',
-                avater: 'https://picsum.photos/250/250/?image=59'
-            }]
-        })
-    })
+export const getHisInfo = () => {
+    return requests({url:"account/info",method:"get"})
 }
+export const getHisImage =()=>{
+    return requests({url:"account/getImage",method:"get"})
+}
+// {
+//     id: 0,
+//         name: "",
+//     email: "",
+//     school: "",
+//     sex: "",
+//     tel: "",
+//     avater: ""
+// }
+// {
+//     result.id=res.data.id
+//     result.name=res.data.name
+//     result.email=res.data.email
+//     result.school=res.data.school
+//     result.sex=res.data.sex
+//     result.tel=res.data.phone
+// }
 
 export const getCommentsByAssignmentId = (AssignmentId) => {
-    requests({ url: '/comment/getCommentByHomeworkId?homeworkId=1', method: 'get' }).then(res=>{
-        console.log("wht")
-        console.log(res)
-    }).catch((e)=> {
-        console.log("error",e)
+    let retdata = []
+    let ret = []
+    requests({url: '/comment/getCommentByHomeworkId?homeworkId='+AssignmentId, method: 'get'}).then((res) => {
+        retdata = res
+        for (let i = 0; i < retdata.data.length; i++) {
+            let children = []
+            requests({
+                url: '/comment/getCommentByCommentId?commentId=' + retdata.data[i].comment.id,
+                method: 'get'
+            }).then(childret => {
+                for (let j = 0; j < childret.data.length; j++) {
+                    children.push({
+                        userId: childret.data[j].comment.userId,
+                        userName: childret.data[j].name,
+                        userAvater: 'https://picsum.photos/250/250/?image=59',//childret.data[j].avater
+                        commentId: childret.data[j].comment.id,
+                        supportNum: childret.data[j].comment.likeNum,
+                        supported: false,
+                        content: childret.data[j].comment.content,
+                    })
+                }
+            })
+            ret.push({
+                userId: retdata.data[i].comment.userId,
+                userName: retdata.data[i].name,
+                userAvater: "https://picsum.photos/250/250/?image=59",//retdata.data[i].avater
+                commentId: retdata.data[i].comment.id,
+                commentNum: retdata.data[i].comment.commentNum,
+                supported: false,
+                content: retdata.data[i].comment.content,
+                supportNum: retdata.data[i].comment.likeNum,
+                myComment: '',
+                children: children
+            })
+        }
+    }).catch((e) => {
+        console.log(e)
     })
-    console.log("test")
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
         resolve({
             code: 100,
             data: [{
-                comments: [{
-                    userId: 1950000,
-                    userName: "student",
-                    userAvater: 'https://picsum.photos/250/250/?image=59',
-                    commentId: 1,
-                    supported: false,
-                    content: "第一条评论",
-                    supportNum: 1,
-                    myComment: '',
-                    children: [{
-                        userId: 1950002,
-                        userName: "张纪鹏",
-                        userAvater: 'https://picsum.photos/250/250/?image=59',
-                        commentId: 3,
-                        supportNum: 123,
-                        supported: false,
-                        content: "回复第一条评论",
-                    },
-                        {
-                            userId: 1950003,
-                            userName: "谢思程",
-                            userAvater: 'https://picsum.photos/250/250/?image=59',
-                            commentId: 4,
-                            supportNum: 123,
-                            supported: false,
-                            content: "回复第一条评论",
-                        },
-                    ],
-                },
-                    {
-                        userId: 1950001,
-                        userName: "student2",
-                        userAvater: 'https://picsum.photos/250/250/?image=59',
-                        commentId: 2,
-                        supportNum: 123,
-                        supported: false,
-                        content: "第二条评论",
-                        myComment: '',
-                        children: [{
-                            userId: 1950004,
-                            userName: "蒙俊杰",
-                            userAvater: 'https://picsum.photos/250/250/?image=59',
-                            commentId: 5,
-                            supportNum: 123,
-                            supported: false,
-                            content: "回复第一条评论",
-                        },
-                            {
-                                userId: 1950005,
-                                userName: "柳淯之",
-                                userAvater: 'https://picsum.photos/250/250/?image=59',
-                                commentId: 6,
-                                supportNum: 123,
-                                supported: false,
-                                content: "回复第一条评论",
-                            },
-                        ],
-                    },
-                ]
+                comments: ret
             }]
         })
     })
 }
+// [{
+//     comments: [{
+//         userId: 1950000,
+//         userName: "student",
+//         userAvater: 'https://picsum.photos/250/250/?image=59',
+//         commentId: 1,
+//         supported: false,
+//         content: "第一条评论",
+//         supportNum: 1,
+//         myComment: '',
+//         children: [{
+//             userId: 1950002,
+//             userName: "张纪鹏",
+//             userAvater: 'https://picsum.photos/250/250/?image=59',
+//             commentId: 3,
+//             supportNum: 123,
+//             supported: false,
+//             content: "回复第一条评论",
+//         },
+//             {
+//                 userId: 1950003,
+//                 userName: "谢思程",
+//                 userAvater: 'https://picsum.photos/250/250/?image=59',
+//                 commentId: 4,
+//                 supportNum: 123,
+//                 supported: false,
+//                 content: "回复第一条评论",
+//             },
+//         ],
+//     },
+//         {
+//             userId: 1950001,
+//             userName: "student2",
+//             userAvater: 'https://picsum.photos/250/250/?image=59',
+//             commentId: 2,
+//             supportNum: 123,
+//             supported: false,
+//             content: "第二条评论",
+//             myComment: '',
+//             children: [{
+//                 userId: 1950004,
+//                 userName: "蒙俊杰",
+//                 userAvater: 'https://picsum.photos/250/250/?image=59',
+//                 commentId: 5,
+//                 supportNum: 123,
+//                 supported: false,
+//                 content: "回复第一条评论",
+//             },
+//                 {
+//                     userId: 1950005,
+//                     userName: "柳淯之",
+//                     userAvater: 'https://picsum.photos/250/250/?image=59',
+//                     commentId: 6,
+//                     supportNum: 123,
+//                     supported: false,
+//                     content: "回复第一条评论",
+//                 },
+//             ],
+//         },
+//     ]
+// }]
 
-export const submitComment = (userId, targetCommentId, content) => {
-    return new Promise(function (resolve, reject) {
-        console.log({
+export const submitComment = (userId, targetAssignmentId, targetCommentId, identity, content) => {
+    requests({
+        url: '/comment/postComment',
+        params: {
             userId: userId,
-            targetCommentId: targetCommentId,
+            pHomeworkId: targetAssignmentId,
+            pCommentId: targetCommentId,
+            identity: identity,
             content: content
-        });
+        },
+        method: 'post'
+    }).then(res => {
+        console.log("评论成功")
+    }).catch(e => {
+        console.log(e)
+    })
+    return new Promise(function (resolve, reject) {
         resolve({
             code: 100,
         })
@@ -938,19 +973,7 @@ export const submitComment = (userId, targetCommentId, content) => {
 }
 
 export const updateInfo = (updateInfo) => {
-    return new Promise(function (resolve, reject) {
-        console.log({
-            id: updateInfo.id,
-            name: updateInfo.name,
-            email: updateInfo.email,
-            school: updateInfo.school,
-            sex: updateInfo.sex,
-            tel: updateInfo.tel,
-        });
-        resolve({
-            code: 100,
-        })
-    })
+    return requests({url:"/account/update",method:"put",data:updateInfo})
 }
 
 
@@ -1000,12 +1023,26 @@ export const getStuCourses = (studentId) => {
     })
 }
 
-export const attendCourse = (courseId) => {
-    return new Promise(function (resolve, reject) {
+export const attendCourse = (courseId,password,id) => {
+    return requests({url:"/course/joinCourse",params:{courseId:courseId,password:password},method:"post"})
+}
+export const getHomeworkInfo=(homeworkId)=>{
+    return new Promise(function (resolve, reject){
         resolve({
-            code: 100,
+            code:100,
+            data:{
+                title:"第一次作业",
+                courseName:"课程一",
+                teacherName:"danny",
+                startTime:"2022-04-10 05:36:54",
+                endTime:"2022-04-11 05:36:54"
+            }
         })
     })
+}
+
+export const sendHomeworkComment=(userId,homeworkId,identity,content)=>{
+    return requests({url:"/comment/postComment",method:"post",params:{userId:userId,pHomeworkId:homeworkId,pCommentId:-1,identity:identity,content:content}})
 }
 export const getTeaCourses = () => {
     return new Promise(function (resolve, reject) {
@@ -1023,5 +1060,5 @@ export const getTeaCourses = () => {
 
 export const testPostImage = (file) => {
 
-    return requests({ url: "/testUploadImage", method: "post", data: file })
+    return requests({url: "/testUploadImage", method: "post", data: file})
 }

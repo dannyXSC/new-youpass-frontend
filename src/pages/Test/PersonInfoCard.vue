@@ -14,7 +14,7 @@
             <b-row>
               <b-col>
                 <b-card-text style="font-size: 1.5em">性别:{{personInfo.sex}}</b-card-text>
-                <b-card-text style="font-size: 1.5em">联系电话:{{personInfo.tel}}</b-card-text>
+                <b-card-text style="font-size: 1.5em">联系电话:{{personInfo.phone}}</b-card-text>
               </b-col>
               <b-col>
                 <b-card-text style="font-size: 1.5em">邮箱:{{ personInfo.email }}</b-card-text>
@@ -35,15 +35,11 @@
                   </b-form-select>
                 </b-form-group>
                 <b-form-group label="联系电话">
-                  <b-form-input placeholder="id" v-model="updateInfo.tel" :state="telInvalid">
-                  </b-form-input>
-                </b-form-group>
-                <b-form-group label="邮箱">
-                  <b-form-input placeholder="email" v-model="updateInfo.email" :state="emailInvalid">
+                  <b-form-input placeholder="phone" v-model="updateInfo.phone" :state="phoneInvalid">
                   </b-form-input>
                 </b-form-group>
                 <b-form-group label="学校">
-                  <b-form-input placeholder="id" v-model="updateInfo.school" :state="schoolInvalid">
+                  <b-form-input placeholder="school" v-model="updateInfo.school" :state="schoolInvalid">
                   </b-form-input>
                 </b-form-group>
                 <b-button variant="success" :disabled="ifInfoProper" @click="submitInfo">提交</b-button>
@@ -71,7 +67,7 @@
 </template>
 
 <script>
-import {getHisInfo ,updateInfo, updateAvater} from "@/api";
+import {getHisInfo ,updateInfo, updateAvater, getHisImage} from "@/api";
 
 export default {
   name: "PersonInfoCard",
@@ -83,16 +79,14 @@ export default {
         email:'',
         school:'',
         sex:'',
-        tel:'',
+        phone:'',
         avater:''
       },
       updateInfo: {
-        id:0,
         name:'',
-        email:'',
         school:'',
         sex:'',
-        tel:'',
+        phone:'',
         avater:''
       },
       sexOptions:[
@@ -103,36 +97,36 @@ export default {
     }
   },
   mounted() {
-    getHisInfo(this.$store.state.global.id).then((res)=>{
-      if(res.code===100){
-        this.personInfo.name=this.updateInfo.name=res.data[0].name
-        this.personInfo.id=this.updateInfo.id=res.data[0].id
-        this.personInfo.sex=this.updateInfo.sex=res.data[0].sex
-        this.personInfo.email=this.updateInfo.email=res.data[0].email
-        this.personInfo.tel=this.updateInfo.tel=res.data[0].tel
-        this.personInfo.school=this.updateInfo.school=res.data[0].school
-        this.personInfo.avater=this.updateInfo.avater=res.data[0].avater
-      }
-    })
+    this.init()
   },
   computed: {
     nameInvalid() {
       return this.updateInfo.name.length > 0
     },
-    telInvalid() {
-      return this.updateInfo.tel.length > 0
-    },
-    emailInvalid(){
-      return this.updateInfo.email.length > 0
+    phoneInvalid() {
+      return this.updateInfo.phone.length > 0
     },
     schoolInvalid(){
       return this.updateInfo.school.length > 0
     },
     ifInfoProper() {
-      return !(this.updateInfo.name.length > 0 && this.updateInfo.tel.length > 0 && this.updateInfo.email.length > 0 && this.updateInfo.school.length > 0)
+      return !(this.updateInfo.name.length > 0 && this.updateInfo.phone.length > 0 && this.updateInfo.school.length > 0)
     }
   },
   methods: {
+    init(){
+      getHisInfo().then((res)=>{
+        if(res.data.name!=null) this.personInfo.name=this.updateInfo.name=res.data.name
+        if(res.data.id!=null)  this.personInfo.id=res.data.id
+        if(res.data.sex!=null)  this.personInfo.sex=this.updateInfo.sex=res.data.sex
+        if(res.data.email!=null)  this.personInfo.email=res.data.email
+        if(res.data.phone!=null)  this.personInfo.phone=this.updateInfo.phone=res.data.phone
+        if(res.data.school!=null)  this.personInfo.school=this.updateInfo.school=res.data.school
+      })
+      getHisImage().then(res=>{
+        this.personInfo.avater=this.updateInfo.avater=res.data
+      })
+    },
     submitInfo() {
       updateInfo(this.updateInfo).then((res)=>{
         if(res.code===100){
@@ -146,6 +140,7 @@ export default {
             autoHideDelay: 2000
           });
         }
+        this.init()
       })
     },
     submitAvater() {

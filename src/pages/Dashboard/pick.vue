@@ -90,7 +90,9 @@
                                 <button
                                   type="button"
                                   class="btn btn-light"
+                                  v-b-modal.PasswordIn
                                   @click="attendCourse(row.row.item.courseId)"
+                                  :disabled="row.row.item.exist"
                                 >
                                   加入课程
                                 </button>
@@ -138,16 +140,6 @@
                                 </b-row>
                               </b-container>
                             </li>
-                            <li class="list-group-item">
-                              <b-container>
-                                <b-row>
-                                  <b-col cols="8">
-                                    <h5>密码</h5>
-                                  </b-col>
-                                  <b-col cols="4"> <h6>{{ row.row.item.password }}</h6></b-col>
-                                </b-row>
-                              </b-container>
-                            </li>
                           </ul>
                         </div>
                       </b-tab>
@@ -160,6 +152,12 @@
         </div>
       </div>
     </div>
+    <b-modal id="PasswordIn" @ok="submitAttend">
+      <b-form>
+        <b-form-input placeholder="请输入密码" v-model="attendCoursePassword">
+        </b-form-input>
+      </b-form>
+    </b-modal>
   </div>
 </template>
 
@@ -173,6 +171,8 @@ export default {
   components: { MyList, PageTitle },
   data() {
     return {
+      attendCourseId:0,
+      attendCoursePassword:'',
       heading: "搜索课程",
       subheading:
         "Select courses!",
@@ -201,12 +201,14 @@ export default {
           课程名称: this.searchedCourse[i].name,
           courseName:this.searchedCourse[i].name,
           ID: this.searchedCourse[i].courseId,
+          courseId:this.searchedCourse[i].courseId,
           password:this.searchedCourse[i].password,
           teacher_id:
             this.searchedCourse[i].teacherId,
           teacher_name: this.searchedCourse[i].teacherName,
           url:this.searchedCourse[i].url,
-          courseTime:this.searchedCourse[i].courseTime
+          courseTime:this.searchedCourse[i].courseTime,
+          exist:this.searchedCourse[i].exist
         });
       }
       return return_item;
@@ -272,7 +274,18 @@ export default {
       }
     },
     attendCourse(courseId){
-      attendCourse(courseId)
+      this.attendCourseId=courseId
+    },
+    submitAttend(){
+      attendCourse(this.attendCourseId,this.attendCoursePassword,this.$store.state.global.id).then(res=>{
+        this.$bvToast.toast(res.data, {
+          title: "提示",
+          variant: "success",
+          solid: true,
+          autoHideDelay: 2000
+        });
+      })
+      this.searchedCourse=[]
     }
   },
   mounted() {},

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <homework-info-card style="margin-bottom: 2em" :homework-id="homeworkId"></homework-info-card>
     <b-card>
       <b-list-group>
         <b-list-group-item v-for="comment in comments" style="margin-bottom: 1.5em">
@@ -71,19 +72,23 @@
 <script>
 import OthersInfo from "@/pages/Test/OthersInfo";
 import {getCommentsByAssignmentId, submitComment, addLike} from "@/api";
+import HomeworkInfoCard from "@/components/homeworkInfoCard";
 
 export default {
   name: "commentSection",
-  components: {OthersInfo},
+  components: {HomeworkInfoCard, OthersInfo},
   props: {
     homeworkId: Number
   },
   mounted() {
-    getCommentsByAssignmentId(1).then((res) => {
-      this.comments = res.data[0].comments
-    })
+    this.init()
   },
   methods: {
+    init(){
+      getCommentsByAssignmentId(this.homeworkId).then((res) => {
+        this.comments = res.data[0].comments
+      })
+    },
     thesubmitComment(targetId) {
       let submitContent = ''
       for (var i = 0; i < this.comments.length; i++) {
@@ -92,11 +97,12 @@ export default {
           break
         }
       }
-      submitComment(this.$store.state.global.id, targetId, submitContent).then((res) => {
+      submitComment(this.$store.state.global.id,-1, targetId,this.$store.state.global.type, submitContent).then((res) => {
         if (res.code === 100) {
           this.clearComment(targetId)
         }
       })
+      this.init()
     },
     clearComment(targetId) {
       for (var i = 0; i < this.comments.length; i++) {

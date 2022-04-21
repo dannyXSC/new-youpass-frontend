@@ -5,7 +5,7 @@
         <div class="col-md-12">
           <div class="main-card mb-3 card">
             <div class="card-header">
-              <h3 class="card-title">Coming Exams</h3>
+              <h3 class="card-title">Coming Homework</h3>
               <hr/>
               <div
                   class="
