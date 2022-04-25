@@ -31,9 +31,26 @@
                         授课教师：{{ row.row.item.teacherName }}
                       </div>
                     </div>
-                    <div class="widget-content-right">
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="widget-content p-0">
+                  <div class="widget-content-wrapper">
+                    <div class="widget-content-left">
                       <div class="widget-heading">
-                        编号： {{ row.row.item.teacherId }}
+                        课程编号： {{ row.row.item.teacherId }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="widget-content p-0">
+                  <div class="widget-content-wrapper">
+                    <div class="widget-content-left">
+                      <div class="widget-heading">
+                        课程密码： {{ row.row.item.password }}
                       </div>
                     </div>
                   </div>
@@ -45,11 +62,6 @@
                     <div class="widget-content-left">
                       <div class="widget-heading">
                         网课网址：{{ row.row.item.url }}
-                      </div>
-                    </div>
-                    <div class="widget-content-right">
-                      <div class="widget-heading">
-                        密码： {{ row.row.item.password }}
                       </div>
                     </div>
                   </div>
@@ -207,7 +219,7 @@ export default {
   methods: {
     init() {
       if (this.$store.state.global.accountType === 1) {
-        getStuCourses(this.$store.state.global.id).then((res) => {
+        getStuCourses().then((res) => {
           if (res.code === 100) {
             this.courseListStu = res.data
           } else {
@@ -309,10 +321,9 @@ export default {
           isActive: true,
           课程名称: this.courseListStu[i].name,
           name: this.courseListStu[i].name,
-          ID: this.courseListStu[i].courseId,
+          ID: this.courseListStu[i].id,
           teacherId: this.courseListStu[i].teacherId,
           teacherName: this.courseListStu[i].teacherName,
-          assignments: this.courseListStu[i].assignments,
           url: this.courseListStu[i].url,
           courseTime: this.courseListStu[i].courseTime,
           password: this.courseListStu[i].password
@@ -328,8 +339,6 @@ export default {
           isActive: true,
           课程名称: this.courseListTea[i].title,
           ID: this.courseListTea[i].courseId,
-          examListTea:
-          this.courseListTea[i].assignments,
         });
       }
       return return_item;
