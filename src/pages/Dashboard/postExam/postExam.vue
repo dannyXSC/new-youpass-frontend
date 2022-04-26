@@ -131,7 +131,7 @@ import PageTitle from "@/layout/Components/PageTitle.vue";
 import {number} from "echarts";
 import MyDraggableTable from "@/components/myDraggableTable";
 import MySelectQuestionModal from "@/components/mySelectQuestionModal";
-import {getQuestionsOfTeacher} from "@/api";
+import {getQuestionsOfTeacher, teacherPublishExam} from "@/api";
 
 export default {
   name: "postExam",
@@ -160,7 +160,7 @@ export default {
           active: true,
         },
       ],
-      typeOptions: ['单择题', '多选题', '填空题','大题'],
+      typeOptions: ['单择题', '多选题', '填空题', '大题'],
       examInfo: {
         examName: "",
         startDate: null,
@@ -209,7 +209,18 @@ export default {
       ) {
         alert("输入缺失");
       } else {
-        //TODO
+        teacherPublishExam(this.examInfo, this.teacherId,this.courseId).then(res => {
+          if (res.code === 100) {
+            this.$router.push({
+              name: "todo",
+            });
+            this.$toast.success("成功")
+          }else{
+            this.$toast.error(res.msg)
+          }
+        }).catch(error => {
+          this.$toast.error(error.message)
+        })
       }
     },
     handleSelectQuestion() {

@@ -6,28 +6,33 @@ import requests from "@/utils/requests";
  * @param id
  */
 export const getImageUrl = (id) => {
-    return new Promise((resolve, reject) => {
-        resolve({
-            code: 100,
-            msg: '成功',
-            data: "http://dannyxsc.xyz/img/image-20220225222647576.png"
-        })
-    })
+    return requests({url: "/api/file/" + id, method: "get"})
+    //
+    // return new Promise((resolve, reject) => {
+    //     resolve({
+    //         code: 100,
+    //         msg: '成功',
+    //         data: "http://dannyxsc.xyz/img/image-20220225222647576.png"
+    //     })
+    // })
 }
+
 /**
  * 通过id删除图片
  * @param id
  * @returns {Promise<unknown>}
  */
 export const removeImage = (id) => {
-    return new Promise((resolve, reject) => {
-        resolve({
-            code: 100,
-            msg: '成功',
-            data: null
-        })
-    })
+    return requests({url: "/api/file/" + id, method: "DELETE"})
+    // return new Promise((resolve, reject) => {
+    //     resolve({
+    //         code: 100,
+    //         msg: '成功',
+    //         data: null
+    //     })
+    // })
 }
+
 /**
  * @description: 上传图片的接口url
  * @type {string}
@@ -40,7 +45,7 @@ export const removeImage = (id) => {
  *     }
  * }
  */
-export const imagePostURL = "/api/testUploadImage"
+export const imagePostURL = "/api/file"
 
 
 /**
@@ -111,6 +116,7 @@ export const login = (postData) => {
  */
 export const checkState = () => {
     return requests({url: '/account/checkState', method: 'get'}).then(res => {
+        console.log(res)
         return res
     })
     // return new Promise(function (resolve, reject) {
@@ -439,92 +445,135 @@ export const getQuestions = (studentId, homeworkId) => {
     })
 }
 
+export const teacherPublishExam = (postData, teacherId, courseId) => {
+    let questions = []
+    postData.questionList.forEach(value => {
+        questions.push({
+            questionId: value.id,
+            value:5
+        })
+    })
+
+    let data = {
+        courseId: courseId,
+        homework: {
+            endTime: postData.startDate + "T" + postData.endTime + ":00",
+            startTime: postData.startDate + "T" + postData.startTime + ":00",
+            teacherId: teacherId,
+            questions: questions
+        }
+    }
+    console.log(data)
+    return requests({url: "/homework/teacher/publish", method: "post", data: data})
+}
+
 /**
  * 获得老师的所有题目
  */
 export const getQuestionsOfTeacher = () => {
-    return new Promise((resolve, reject) => {
-        resolve({
-            code: 100,
-            msg: "成功",
-            data: [
-                {
-                    type: 0,
-                    id: 1,
-                    numInPaper: 1,
-                    questionScore: 4,
-                    createdAt: '2011-10-31',
-                    description: "第一题xxxx 1_321",
-                    options: [
-                        {
-                            optionId: 1,
-                            description: "答案1",
-                        },
-                        {
-                            optionId: 2,
-                            description: "答案2",
-                        },
-                        {
-                            optionId: 3,
-                            description: "答案3",
-                        },
-                        {
-                            optionId: 4,
-                            description: "答案4",
-                        }
-                    ],
-                    studentAnswer: []
-                },
-                {
-                    type: 1,
-                    id: 2,
-                    numInPaper: 2,
-                    questionScore: 4,
-                    createdAt: '2011-10-31',
-                    description: "第一题xxxx 1_321",
-                    options: [
-                        {
-                            optionId: 1,
-                            description: "答案1",
-                        },
-                        {
-                            optionId: 2,
-                            description: "答案2",
-                        },
-                        {
-                            optionId: 3,
-                            description: "答案3",
-                        },
-                        {
-                            optionId: 4,
-                            description: "答案4",
-                        }
-                    ],
-                    studentAnswer: []
-                },
-                {
-                    type: 2,
-                    id: 3,
-                    numInPaper: 3,
-                    questionScore: 4,
-                    createdAt: '2011-10-31',
-                    description: "第一题xxxx 1_321",
-                    studentAnswer: ""
-                },
-                {
-                    type: 3,
-                    id: 4,
-                    numInPaper: 4,
-                    questionScore: 4,
-                    createdAt: '2011-10-31',
-                    description: "第一题xxxx 1_321",
-                    pictureDescriptions: ["https://picsum.photos/1024/400/?image=41"],
-                    studentAnswer: "",
-                    studentPictureAnswers: ["https://picsum.photos/1024/400/?image=41"]
-                }
-            ]
+    return requests({url: "/question", method: "get"}).then(res => {
+        let data = []
+        res.data.forEach(value => {
+            let obj = {}
+            obj.id = value.questionId
+            obj.description = value.description
+            if (value.questionType === "SINGLE") {
+                obj.type = 0
+            } else if (value.questionType === "MULTIPLE") {
+                obj.type = 1
+            } else if (value.questionType === "FILL_IN_BLANK") {
+                obj.type = 2
+            } else if (value.questionType === "COMPREHENSIVE") {
+                obj.type = 3
+            }
+            obj.createdAt = value.createTime
+            data.push(obj)
         })
+        res.data = data
+        return res
     })
+    // return new Promise((resolve, reject) => {
+    //     resolve({
+    //         code: 100,
+    //         msg: "成功",
+    //         data: [
+    //             {
+    //                 type: 0,
+    //                 id: 1,
+    //                 numInPaper: 1,
+    //                 questionScore: 4,
+    //                 createdAt: '2011-10-31',
+    //                 description: "第一题xxxx 1_321",
+    //                 options: [
+    //                     {
+    //                         optionId: 1,
+    //                         description: "答案1",
+    //                     },
+    //                     {
+    //                         optionId: 2,
+    //                         description: "答案2",
+    //                     },
+    //                     {
+    //                         optionId: 3,
+    //                         description: "答案3",
+    //                     },
+    //                     {
+    //                         optionId: 4,
+    //                         description: "答案4",
+    //                     }
+    //                 ],
+    //                 studentAnswer: []
+    //             },
+    //             {
+    //                 type: 1,
+    //                 id: 2,
+    //                 numInPaper: 2,
+    //                 questionScore: 4,
+    //                 createdAt: '2011-10-31',
+    //                 description: "第一题xxxx 1_321",
+    //                 options: [
+    //                     {
+    //                         optionId: 1,
+    //                         description: "答案1",
+    //                     },
+    //                     {
+    //                         optionId: 2,
+    //                         description: "答案2",
+    //                     },
+    //                     {
+    //                         optionId: 3,
+    //                         description: "答案3",
+    //                     },
+    //                     {
+    //                         optionId: 4,
+    //                         description: "答案4",
+    //                     }
+    //                 ],
+    //                 studentAnswer: []
+    //             },
+    //             {
+    //                 type: 2,
+    //                 id: 3,
+    //                 numInPaper: 3,
+    //                 questionScore: 4,
+    //                 createdAt: '2011-10-31',
+    //                 description: "第一题xxxx 1_321",
+    //                 studentAnswer: ""
+    //             },
+    //             {
+    //                 type: 3,
+    //                 id: 4,
+    //                 numInPaper: 4,
+    //                 questionScore: 4,
+    //                 createdAt: '2011-10-31',
+    //                 description: "第一题xxxx 1_321",
+    //                 pictureDescriptions: ["https://picsum.photos/1024/400/?image=41"],
+    //                 studentAnswer: "",
+    //                 studentPictureAnswers: ["https://picsum.photos/1024/400/?image=41"]
+    //             }
+    //         ]
+    //     })
+    // })
 }
 
 
@@ -589,6 +638,10 @@ export const studentQuitCourse = (courseId) => {
             data: null
         })
     })
+}
+
+export const deleteCourseByCourseId = (courseId) => {
+    return requests({url: "/course/teacherDeleteCourse?courseId=" + courseId, method: "post"})
 }
 
 export const createCourse = (name, password) => {
@@ -785,15 +838,49 @@ export const manualCorrect = (data) => {
     return requests({url: '/score/manualCorrect', method: 'post', data: data})
 }
 //老师添加题目
-export const addQuestions = (postData) => {
-    // return requests({url: '/question/update', method: 'post', data: postData})
-    return new Promise((resolve, reject) => {
-        resolve({
-            code: 100,
-            msg: "成功",
-            data: null
-        })
+export const addQuestions = (postData, teacherId) => {
+    let data = []
+    postData.forEach(value => {
+        let obj = {}
+        obj.description = value.description
+        // obj.questionId = value.id
+        switch (value.type) {
+            case 0:
+                obj.questionType = "SINGLE"
+                break;
+            case 1:
+                obj.questionType = "MULTIPLE"
+                break;
+            case 2:
+                obj.questionType = "FILL_IN_BLANK"
+                break;
+            case 3:
+                obj.questionType = "COMPREHENSIVE"
+        }
+        obj.standardAnswer = value.standardAnswer
+        obj.questionFileId = value.imageDescription
+        obj.answerFileId = value.imageStandardAnswer
+        obj.options = []
+        if (Array.isArray(value.option)) {
+            value.option.forEach(item => {
+                obj.options.push({
+                    optionId: item.id,
+                    description: item.description
+                })
+            })
+        }
+        obj.teacherId = teacherId
+        console.log(obj)
+        data.push(obj)
     })
+    return requests({url: '/question/teacher/batch', method: 'post', data: data})
+    // return new Promise((resolve, reject) => {
+    //     resolve({
+    //         code: 100,
+    //         msg: "成功",
+    //         data: null
+    //     })
+    // })
 }
 
 export const getMessage = (data) => {
@@ -907,28 +994,30 @@ export const getStuCourseExamScore = (courseId) => {
 
 //通过课程id获得所有学生的信息
 export const getStudentListByCourseId = (courseId) => {
-    return new Promise(function (resolve, reject) {
-        resolve({
-            code: 100,
-            data: [{
-                id: 1950000,
-                name: "张三",
-                //头像url之类的
-            },
-                {
-                    id: 1950001,
-                    name: "李四"
-                }
-            ]
-        })
-    })
+    return requests({url: "/course/getCourseAllStudent?courseId=" + courseId, method: "get"})
+    // return new Promise(function (resolve, reject) {
+    //     resolve({
+    //         code: 100,
+    //         data: [{
+    //             id: 1950000,
+    //             name: "张三",
+    //             //头像url之类的
+    //         },
+    //             {
+    //                 id: 1950001,
+    //                 name: "李四"
+    //             }
+    //         ]
+    //     })
+    // })
 }
 
 //通过课程id和学生id踢出学生
 export const kickStudentByIdAndCourseId = (id, courseId) => {
-    return new Promise(function (resolve, reject) {
-        resolve({code: 100});
-    })
+    return requests({url: "/course/deleteStudentFromTake?studentId=" + id + "&courseId=" + courseId, method: "post"})
+    // return new Promise(function (resolve, reject) {
+    //     resolve({code: 100});
+    // })
 }
 
 //通过学生id和课程id获得学生的所有作业
@@ -1135,7 +1224,7 @@ export const addLike = (id, targetId, identity) => {
     return requests({url:"/comment/like",method:"post",params:{commentId:targetId,userId:id,identity:identity}})
 }
 export const getStuCourses = () => {
-    return requests({url:"/course/getMyCourses",method:"get"})
+    return requests({url: "/course/getMyCourses", method: "get"})
 }
 
 export const attendCourse = (courseId, password, id) => {
@@ -1164,16 +1253,17 @@ export const sendHomeworkComment = (userId, homeworkId, identity, content) => {
     })
 }
 export const getTeaCourses = () => {
-    return new Promise(function (resolve, reject) {
-        resolve({
-            code: 100,
-            data: [{
-                title: '数学',
-                courseId: 1,
-                assignments: []
-            }]
-        })
-    })
+    return requests({url: "/course/getMyCourses", method: "get"})
+    // return new Promise(function (resolve, reject) {
+    //     resolve({
+    //         code: 100,
+    //         data: [{
+    //             title: '数学',
+    //             courseId: 1,
+    //             assignments: []
+    //         }]
+    //     })
+    // })
 }
 
 

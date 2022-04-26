@@ -9,9 +9,9 @@ export default class RoleEnum {
 
     static getInstance(roleSymbol){
         switch (roleSymbol) {
-            case 0:
-                return RoleEnum.Student
             case 1:
+                return RoleEnum.Student
+            case 0:
                 return RoleEnum.Teacher
             default:
                 return RoleEnum.Nobody

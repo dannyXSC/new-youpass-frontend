@@ -55,9 +55,9 @@ export default {
         {
           label: '创建时间',
           field: 'createdAt',
-          type: 'date',
-          dateInputFormat: 'yyyy-MM-dd',
-          dateOutputFormat: 'yyyy-MM-dd',
+          // type: 'date',
+          // dateInputFormat: 'yyyy-MM-dd',
+          // dateOutputFormat: 'yyyy-MM-dd',
         },
       ],
       questionList: this.allQuestionInfo,

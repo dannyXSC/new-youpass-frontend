@@ -200,7 +200,8 @@ export default {
         this.$toast.error("你必须完成所有题目的填写！")
         return
       }
-      addQuestions(this.questionInfos).then(res => {
+      console.log(this.questionInfos)
+      addQuestions(this.questionInfos,this.$store.state.global.id).then(res => {
         if (res.code === 100) {
           this.$toast.success("添加成功！")
           this.$router.push({name: "Dashboard"})

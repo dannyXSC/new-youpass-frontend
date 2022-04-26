@@ -66,7 +66,7 @@ export default {
       this.$emit('input', this.imageIdList)
     },
     onSuccess(file, response) {
-      if (response.code === 100) {
+      if (response.code === 200) {
         let id = response.data.id
         this.$refs[this.myRef].dropzone.files.forEach((value, index) => {
           if (value === file) {
@@ -77,7 +77,7 @@ export default {
         this.$toast.success("上传成功")
       } else {
         this.$refs[this.myRef].removeFile(file);
-        this.$toast.error(response.msg);
+        this.$toast.error(response.messagae);
       }
       this.handleInput()
     },
