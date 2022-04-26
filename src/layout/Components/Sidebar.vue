@@ -1,17 +1,17 @@
 <template>
   <div
-    class="app-sidebar sidebar-shadow"
-    @mouseover="toggleSidebarHover('add', 'closed-sidebar-open')"
-    @mouseleave="toggleSidebarHover('remove', 'closed-sidebar-open')"
+      class="app-sidebar sidebar-shadow"
+      @mouseover="toggleSidebarHover('add', 'closed-sidebar-open')"
+      @mouseleave="toggleSidebarHover('remove', 'closed-sidebar-open')"
   >
     <div class="app-header__logo">
-      <div class="logo-src" />
+      <div class="logo-src"/>
       <div class="header__pane ml-auto">
         <button
-          type="button"
-          class="hamburger close-sidebar-btn hamburger--elastic"
-          v-bind:class="{ 'is-active': isOpen }"
-          @click="toggleBodyClass('closed-sidebar')"
+            type="button"
+            class="hamburger close-sidebar-btn hamburger--elastic"
+            v-bind:class="{ 'is-active': isOpen }"
+            @click="toggleBodyClass('closed-sidebar')"
         >
           <span class="hamburger-box">
             <span class="hamburger-inner"></span>
@@ -20,27 +20,26 @@
       </div>
     </div>
     <div
-      class="app-sidebar-content"
-      v-if="this.$store.state.global.accountType == 1"
+        class="app-sidebar-content"
+        v-if="this.$store.state.global.accountType == 1"
     >
       <VuePerfectScrollbar class="app-sidebar-scroll" v-once>
-        <sidebar-menu showOneChild :menu="StudentMenu" />
+        <sidebar-menu showOneChild :menu="StudentMenu"/>
       </VuePerfectScrollbar>
     </div>
-
     <div
-      class="app-sidebar-content"
-      v-if="this.$store.state.global.accountType == 0"
+        class="app-sidebar-content"
+        v-else
     >
       <VuePerfectScrollbar class="app-sidebar-scroll" v-once>
-        <sidebar-menu showOneChild :menu="TeacherMenu" />
+        <sidebar-menu showOneChild :menu="TeacherMenu"/>
       </VuePerfectScrollbar>
     </div>
   </div>
 </template>
 
 <script>
-import { SidebarMenu } from "vue-sidebar-menu";
+import {SidebarMenu} from "vue-sidebar-menu";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
 export default {
@@ -259,6 +258,10 @@ export default {
               href: "/dashboard/course",
               title: "查看我的课程",
             },
+            {
+              href: "/dashboard/addQuestion",
+              title: "上传题目"
+            }
           ],
         },
       ],

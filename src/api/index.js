@@ -2,6 +2,48 @@
 import requests from "@/utils/requests";
 
 /**
+ * 获得图片id对应的url
+ * @param id
+ */
+export const getImageUrl = (id) => {
+    return new Promise((resolve, reject) => {
+        resolve({
+            code: 100,
+            msg: '成功',
+            data: "http://dannyxsc.xyz/img/image-20220225222647576.png"
+        })
+    })
+}
+/**
+ * 通过id删除图片
+ * @param id
+ * @returns {Promise<unknown>}
+ */
+export const removeImage = (id) => {
+    return new Promise((resolve, reject) => {
+        resolve({
+            code: 100,
+            msg: '成功',
+            data: null
+        })
+    })
+}
+/**
+ * @description: 上传图片的接口url
+ * @type {string}
+ * @returns {AxiosPromise}
+ * {
+ *     code:100,
+ *     msg:'成功',
+ *     data:{
+ *         id:5
+ *     }
+ * }
+ */
+export const imagePostURL = "/api/testUploadImage"
+
+
+/**
  *
  * @param data
  * {
@@ -117,9 +159,9 @@ export const searchCourse1 = (courseId) => {
     }).then(res => {
         console.log(res)
         for (let i = 0; i < res.data.length; i++) {
-            let exist=false
-            if(res.data[i].exist===1){
-                exist=true
+            let exist = false
+            if (res.data[i].exist === 1) {
+                exist = true
             }
             result.push({
                 courseId: res.data[i].id,
@@ -129,7 +171,7 @@ export const searchCourse1 = (courseId) => {
                 teacherName: res.data[i].teacherName,
                 url: res.data[i].url,
                 courseTime: res.data[i].courseTime,
-                exist:exist
+                exist: exist
             })
         }
     })
@@ -396,6 +438,96 @@ export const getQuestions = (studentId, homeworkId) => {
         })
     })
 }
+
+/**
+ * 获得老师的所有题目
+ */
+export const getQuestionsOfTeacher = () => {
+    return new Promise((resolve, reject) => {
+        resolve({
+            code: 100,
+            msg: "成功",
+            data: [
+                {
+                    type: 0,
+                    id: 1,
+                    numInPaper: 1,
+                    questionScore: 4,
+                    createdAt: '2011-10-31',
+                    description: "第一题xxxx 1_321",
+                    options: [
+                        {
+                            optionId: 1,
+                            description: "答案1",
+                        },
+                        {
+                            optionId: 2,
+                            description: "答案2",
+                        },
+                        {
+                            optionId: 3,
+                            description: "答案3",
+                        },
+                        {
+                            optionId: 4,
+                            description: "答案4",
+                        }
+                    ],
+                    studentAnswer: []
+                },
+                {
+                    type: 1,
+                    id: 2,
+                    numInPaper: 2,
+                    questionScore: 4,
+                    createdAt: '2011-10-31',
+                    description: "第一题xxxx 1_321",
+                    options: [
+                        {
+                            optionId: 1,
+                            description: "答案1",
+                        },
+                        {
+                            optionId: 2,
+                            description: "答案2",
+                        },
+                        {
+                            optionId: 3,
+                            description: "答案3",
+                        },
+                        {
+                            optionId: 4,
+                            description: "答案4",
+                        }
+                    ],
+                    studentAnswer: []
+                },
+                {
+                    type: 2,
+                    id: 3,
+                    numInPaper: 3,
+                    questionScore: 4,
+                    createdAt: '2011-10-31',
+                    description: "第一题xxxx 1_321",
+                    studentAnswer: ""
+                },
+                {
+                    type: 3,
+                    id: 4,
+                    numInPaper: 4,
+                    questionScore: 4,
+                    createdAt: '2011-10-31',
+                    description: "第一题xxxx 1_321",
+                    pictureDescriptions: ["https://picsum.photos/1024/400/?image=41"],
+                    studentAnswer: "",
+                    studentPictureAnswers: ["https://picsum.photos/1024/400/?image=41"]
+                }
+            ]
+        })
+    })
+}
+
+
 /**
  * 获得所有notice
  * @returns {AxiosPromise}
@@ -654,7 +786,14 @@ export const manualCorrect = (data) => {
 }
 //老师添加题目
 export const addQuestions = (postData) => {
-    return requests({url: '/question/update', method: 'post', data: postData})
+    // return requests({url: '/question/update', method: 'post', data: postData})
+    return new Promise((resolve, reject) => {
+        resolve({
+            code: 100,
+            msg: "成功",
+            data: null
+        })
+    })
 }
 
 export const getMessage = (data) => {
@@ -816,10 +955,10 @@ export const deleteImageByName = (name) => {
 }
 
 export const getHisInfo = () => {
-    return requests({url:"account/info",method:"get"})
+    return requests({url: "account/info", method: "get"})
 }
-export const getHisImage =()=>{
-    return requests({url:"account/getImage",method:"get"})
+export const getHisImage = () => {
+    return requests({url: "account/getImage", method: "get"})
 }
 // {
 //     id: 0,
@@ -842,7 +981,7 @@ export const getHisImage =()=>{
 export const getCommentsByAssignmentId = (AssignmentId) => {
     let retdata = []
     let ret = []
-    requests({url: '/comment/getCommentByHomeworkId?homeworkId='+AssignmentId, method: 'get'}).then((res) => {
+    requests({url: '/comment/getCommentByHomeworkId?homeworkId=' + AssignmentId, method: 'get'}).then((res) => {
         retdata = res
         console.log(res)
         for (let i = 0; i < retdata.data.length; i++) {
@@ -974,7 +1113,7 @@ export const submitComment = (userId, targetAssignmentId, targetCommentId, ident
 }
 
 export const updateInfo = (updateInfo) => {
-    return requests({url:"/account/update",method:"put",data:updateInfo})
+    return requests({url: "/account/update", method: "put", data: updateInfo})
 }
 
 
@@ -996,26 +1135,30 @@ export const getStuCourses = () => {
     return requests({url:"/course/getMyCourses",method:"get"})
 }
 
-export const attendCourse = (courseId,password,id) => {
-    return requests({url:"/course/joinCourse",params:{courseId:courseId,password:password},method:"post"})
+export const attendCourse = (courseId, password, id) => {
+    return requests({url: "/course/joinCourse", params: {courseId: courseId, password: password}, method: "post"})
 }
-export const getHomeworkInfo=(homeworkId)=>{
-    return new Promise(function (resolve, reject){
+export const getHomeworkInfo = (homeworkId) => {
+    return new Promise(function (resolve, reject) {
         resolve({
-            code:100,
-            data:{
-                title:"第一次作业",
-                courseName:"课程一",
-                teacherName:"danny",
-                startTime:"2022-04-10 05:36:54",
-                endTime:"2022-04-11 05:36:54"
+            code: 100,
+            data: {
+                title: "第一次作业",
+                courseName: "课程一",
+                teacherName: "danny",
+                startTime: "2022-04-10 05:36:54",
+                endTime: "2022-04-11 05:36:54"
             }
         })
     })
 }
 
-export const sendHomeworkComment=(userId,homeworkId,identity,content)=>{
-    return requests({url:"/comment/postComment",method:"post",params:{userId:userId,pHomeworkId:homeworkId,pCommentId:-1,identity:identity,content:content}})
+export const sendHomeworkComment = (userId, homeworkId, identity, content) => {
+    return requests({
+        url: "/comment/postComment",
+        method: "post",
+        params: {userId: userId, pHomeworkId: homeworkId, pCommentId: -1, identity: identity, content: content}
+    })
 }
 export const getTeaCourses = () => {
     return new Promise(function (resolve, reject) {

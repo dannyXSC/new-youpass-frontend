@@ -1,7 +1,7 @@
 // 用于创建整个应用的路由器
 
 import { checkState, getExamQuestion } from "@/api";
-import addQuestions from "@/pages/Dashboard/addQuestions";
+import addQuestions from "@/pages/Dashboard/addQuestion/addQuestions";
 import correctedQuestion from "@/pages/Dashboard/course/correctedQuestion";
 import correctPaper from "@/pages/Dashboard/course/correctPaper";
 import course from "@/pages/Dashboard/course/course";
@@ -11,7 +11,7 @@ import dashboard from "@/pages/Dashboard/index";
 import message from "@/pages/Dashboard/message";
 import personInfo from "@/pages/Dashboard/personInfo";
 import pick from "@/pages/Dashboard/pick";
-import postExam from "@/pages/Dashboard/postExam";
+import postExam from "@/pages/Dashboard/postExam/postExam";
 import homeworkList from "@/pages/Dashboard/course/homeworkList";
 import todo from "@/pages/Dashboard/todo";
 import CertainExam from "@/pages/exams/CertainExam";
@@ -48,7 +48,7 @@ import commentSection from "@/pages/Dashboard/commentSection";
 import homeworkListOfStudent from "@/pages/Dashboard/studentHomeworkList/homeworkListOfStudent";
 import studentList from "@/pages/Dashboard/course/studentList";
 import homeworkListOfStudentOfCourse from "@/pages/Dashboard/course/homeworkListOfStudentOfCourse";
-import chooseQue from "@/pages/Dashboard/chooseQue";
+import testAddQuestion from "@/pages/Test/testAddQuestion";
 
 
 // 创建一个路由器 并暴露
@@ -153,12 +153,6 @@ const router = new VueRouter({
                     props: true
                 },
                 {
-                    name: "chooseQue",
-                    path: '/dashboard/chooseQue',
-                    component: chooseQue,
-                    props: true
-                },
-                {
                     name: "commentSection",
                     path: '/dashboard/commentSection',
                     component: commentSection,
@@ -182,12 +176,6 @@ const router = new VueRouter({
                     component: homeworkListOfStudentOfCourse,
                     props: true
                 },
-                {
-                    name: "chooseQue",
-                    path: '/dashboard/chooseQue',
-                    component: chooseQue,
-                    props: true
-                }
             ]
         },
         {
@@ -315,6 +303,10 @@ const router = new VueRouter({
                     path: "/testCorrectPaper",
                     component: testCorrectPaper
                 },
+                {
+                    path:"/testAddQuestion",
+                    component: testAddQuestion
+                }
             ]
         },
         {

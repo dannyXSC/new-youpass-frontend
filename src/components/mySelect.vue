@@ -32,17 +32,22 @@ export default {
     initOptionList: {
       type: Array,
     },
+    initAnswerList:{
+      default: () => [],
+      type: Array,
+    },
     onShowAnswer: Number,
   },
   data() {
     return {
-      optionList: JSON.parse(JSON.stringify(this.initOptionList))
+      optionList: JSON.parse(JSON.stringify(this.initOptionList)),
+      answerList: JSON.parse(JSON.stringify(this.initAnswerList))
     }
   },
   methods: {
     handleExit(trigger) {
-      if (trigger.trigger == "ok") {
-        this.$emit("onSubmit", this.optionList)
+      if (trigger.trigger === "ok") {
+        this.$emit("onSubmit", this.answerList)
       } else {
         this.$emit("onCancel")
       }
@@ -51,31 +56,20 @@ export default {
       return parse(content)
     },
     handleSelect(id) {
-      if (this.onShowAnswer == 1) {
+      if (this.onShowAnswer === 1) {
         //单选
-        this.optionList.forEach((value, index) => {
-          if (value.id === id) {
-            this.optionList[index].isAnswer = !this.optionList[index].isAnswer
-            if (this.optionList[index].isAnswer == true) {
-              this.optionList.forEach((value, index) => {
-                if (value.id !== id) {
-                  this.optionList[index].isAnswer = false
-                }
-              })
-            }
-          }
-        })
-      }else{
-        this.optionList.forEach((value, index) => {
-          if (value.id === id) {
-            this.optionList[index].isAnswer = !this.optionList[index].isAnswer
-          }
-        })
+        this.answerList = [id]
+      } else {
+        if(this.answerList.includes(id)) {
+          this.answerList.splice(this.answerList.indexOf(id), 1)
+        } else {
+          this.answerList.push(id)
+        }
       }
 
     },
     calVariant(option) {
-      if (option.isAnswer) {
+      if (this.answerList.includes(option.id)) {
         return 'primary'
       } else {
         return 'outline-primary'

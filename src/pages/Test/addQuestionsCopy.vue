@@ -31,7 +31,7 @@
                     label-class="font-weight-bold pt-0"
                     class="mb-0"
                 >
-                  
+
                   <b-form-group
                       label="题目种类:"
                       label-cols-sm="3"
@@ -61,80 +61,80 @@
                     </b-form-group>
                     <template v-if="questionList[onShowId].type === 4">
                       <b-form-group
-                        label="题目说明:"
-                        label-cols-sm="3"
-                        label-align-sm="right"
-                        aria-placeholder="无"
+                          label="题目说明:"
+                          label-cols-sm="3"
+                          label-align-sm="right"
+                          aria-placeholder="无"
                       >
-                      <b-button block
-                                class="mr-2 mb-3"
-                                pill
-                                variant="outline-primary"
-                                size="sm"
-                                @click="handleEditDescription"
-                      >
-                        编辑
-                      </b-button>
-                      <div class="card-shadow-success border card card-body border-success">
-                        <katex-element
-                            :expression="parseLatex(questionList[onShowId].description)"
-                            :throw-on-error="false"
-                            :strict="false"
-                        />
-                      </div>
-                    </b-form-group>
-                      <b-form-group
-                        label="题目:"
-                        label-cols-sm="3"
-                        label-align-sm="right"
-                    >
-                      <vue-dropzone
-                      ref="myVueDropzone"
-                      :id="'dropzoneQue'+onShowId"
-                      :options="dropzoneOptions"
-                      @vdropzone-removed-file='removeThisFile'
-                      @vdropzone-success='queUploadSuccess'
-                      ></vue-dropzone>
+                        <b-button block
+                                  class="mr-2 mb-3"
+                                  pill
+                                  variant="outline-primary"
+                                  size="sm"
+                                  @click="handleEditDescription"
+                        >
+                          编辑
+                        </b-button>
+                        <div class="card-shadow-success border card card-body border-success">
+                          <katex-element
+                              :expression="parseLatex(questionList[onShowId].description)"
+                              :throw-on-error="false"
+                              :strict="false"
+                          />
+                        </div>
                       </b-form-group>
-                      
                       <b-form-group
-                        label="答案:"
-                        label-cols-sm="3"
-                        label-align-sm="right"
-                    >
-                      <vue-dropzone
-                      ref="myVueDropzone"
-                      :id="'dropzoneAns'+onShowId"
-                      :options="dropzoneOptions"
-                      @vdropzone-removed-file='removeThisFile'
-                      @vdropzone-success='ansUploadSuccess'
-                      ></vue-dropzone>
+                          label="题目:"
+                          label-cols-sm="3"
+                          label-align-sm="right"
+                      >
+                        <vue-dropzone
+                            ref="myVueDropzone"
+                            :id="'dropzoneQue'+onShowId"
+                            :options="dropzoneOptions"
+                            @vdropzone-removed-file='removeThisFile'
+                            @vdropzone-success='queUploadSuccess'
+                        ></vue-dropzone>
+                      </b-form-group>
+
+                      <b-form-group
+                          label="答案:"
+                          label-cols-sm="3"
+                          label-align-sm="right"
+                      >
+                        <vue-dropzone
+                            ref="myVueDropzone"
+                            :id="'dropzoneAns'+onShowId"
+                            :options="dropzoneOptions"
+                            @vdropzone-removed-file='removeThisFile'
+                            @vdropzone-success='ansUploadSuccess'
+                        ></vue-dropzone>
                       </b-form-group>
                     </template>
 
                     <template v-if="questionList[onShowId].type != 4">
                       <b-form-group
-                        label="题干:"
-                        label-cols-sm="3"
-                        label-align-sm="right"
+                          label="题干:"
+                          label-cols-sm="3"
+                          label-align-sm="right"
                       >
-                      <b-button block
-                                class="mr-2 mb-3"
-                                pill
-                                variant="outline-primary"
-                                size="sm"
-                                @click="handleEditDescription"
-                      >
-                        编辑
-                      </b-button>
-                      <div class="card-shadow-success border card card-body border-success">
-                        <katex-element
-                            :expression="parseLatex(questionList[onShowId].description)"
-                            :throw-on-error="false"
-                            :strict="false"
-                        />
-                      </div>
-                    </b-form-group>
+                        <b-button block
+                                  class="mr-2 mb-3"
+                                  pill
+                                  variant="outline-primary"
+                                  size="sm"
+                                  @click="handleEditDescription"
+                        >
+                          编辑
+                        </b-button>
+                        <div class="card-shadow-success border card card-body border-success">
+                          <katex-element
+                              :expression="parseLatex(questionList[onShowId].description)"
+                              :throw-on-error="false"
+                              :strict="false"
+                          />
+                        </div>
+                      </b-form-group>
                     </template>
 
                     <template v-if="questionList[onShowId].type===1||questionList[onShowId].type===0">
@@ -170,9 +170,9 @@
                     </template>
 
                     <b-form-group v-if="questionList[onShowId].type != 4"
-                        label="答案:"
-                        label-cols-sm="3"
-                        label-align-sm="right"
+                                  label="答案:"
+                                  label-cols-sm="3"
+                                  label-align-sm="right"
                     >
                       <template v-if="questionList[onShowId].type===0">
                         <b-button block
@@ -305,7 +305,7 @@ import 'vue-croppa/dist/vue-croppa.css'
 import Vue from 'vue'
 import Croppa from 'vue-croppa'
 
-Vue.use(Croppa)  
+Vue.use(Croppa)
 export default {
   name: "addQuestions",
   components: {MySelect, MyCountBar, MyEditModal, PageTitle,vueDropzone:vue2Dropzone,questionImageUpload},
@@ -347,7 +347,7 @@ export default {
 
       currentPage: 1,
 
-    
+
       typeOptions: [
         {value: null, text: 'Please select an option'},
         {value: 0, text: '单择题'},
@@ -363,7 +363,6 @@ export default {
       ],
       selected: null,
       text: "",
-
 
       per_page: 9,
       onShowId: 0,
@@ -393,7 +392,7 @@ export default {
     //     pool: 0,
     //     courseId: 123
     //   })
-     //   this.questionList.push({
+    //   this.questionList.push({
     //     id: i,
     //     type: 4,
     //     description: "填空题f(x,y) = \\sqrt[n]{{x^2}{y^3}}",
@@ -614,13 +613,13 @@ export default {
     judgeQuestionIsComplete(id) {
       if (id < this.questionList.length) {
         if(this.questionList[id].type === 4){
-            if(this.questionList[id].questionImage.length > 0 && this.questionList[id].answerImage.length >0){
-              return true
-            }
-            else{
-              return false
-            }
+          if(this.questionList[id].questionImage.length > 0 && this.questionList[id].answerImage.length >0){
+            return true
           }
+          else{
+            return false
+          }
+        }
         else if (this.questionList[id].type !== null
             && this.questionList[id].description !== ""
             && this.questionList[id].isPrivate !== null

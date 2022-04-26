@@ -188,7 +188,7 @@ export default {
       isEditing: false,
       num2type: ["单选", "多选", "填空", "大题","图片题"],
       questionInfo: this.value
-      /*
+      /**
       *
       * 公共
       * - type: 0 1 2 3 4 分别表示单选、多选、填空、大题、图片题
@@ -259,7 +259,6 @@ export default {
       } else {
         this.questionInfo.studentAnswer.push(index);
       }
-      console.log(index);
       this.handleInput();
     },
     transform(num) {

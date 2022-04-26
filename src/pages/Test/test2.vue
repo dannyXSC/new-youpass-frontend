@@ -1,355 +1,90 @@
 <template>
   <div>
-    <page-title
-      :heading="heading"
-      :subheading="subheading"
-      :icon="icon"
-      :breadcrumb-item="breadcrumbItem"
-    ></page-title>
-
-    <div class="main-card mb-3 card">
-      <div class="card-body">
-        <b-form>
-          <b-form-group
-            label-cols-lg="3"
-            label="发布考试"
-            label-size="lg"
-            label-class="font-weight-bold pt-0"
-            class="mb-0"
-          >
-            <b-form-group
-              label="考试名称:"
-              label-for="examTitle"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-input
-                id="examTitle"
-                v-model="examInfo.examName"
-              ></b-form-input>
-            </b-form-group>
-
-            <b-form-group
-              label="考试开始时间:"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-group
-                label="date:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="startDate"
-                  type="date"
-                  class="text-center"
-                  v-model="examInfo.startDate"
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="time:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="startTime"
-                  type="time"
-                  class="text-center"
-                  v-model="examInfo.startTime"
-                ></b-form-input>
-              </b-form-group>
-            </b-form-group>
-
-            <b-form-group
-              label="考试结束时间:"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-group
-                label="date:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="startDate"
-                  type="date"
-                  class="text-center"
-                  v-model="examInfo.endDate"
-                ></b-form-input>
-              </b-form-group>
-              <b-form-group
-                label="time:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-input
-                  id="startTime"
-                  type="time"
-                  class="text-center"
-                  v-model="examInfo.endTime"
-                ></b-form-input>
-              </b-form-group>
-            </b-form-group>
-
-            <b-form-group
-              label="单选题信息:"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-group
-                label="题目数量:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="selectNum"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.singleChoiceNum"
-                />
-              </b-form-group>
-              <b-form-group
-                label="题目分值:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="selectScore"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.singleChoiceValue"
-                />
-              </b-form-group>
-            </b-form-group>
-
-            <!--多选-->
-            <b-form-group
-              label="多选题信息:"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-group
-                label="题目数量:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="multiSelectNum"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.multiChoiceNum"
-                />
-              </b-form-group>
-              <b-form-group
-                label="题目分值:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="multiSelectScore"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.multiChoiceValue"
-                />
-              </b-form-group>
-            </b-form-group>
-
-            <!--填空-->
-            <b-form-group
-              label="填空信息:"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-group
-                label="题目数量:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="fillNum"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.fillingNum"
-                />
-              </b-form-group>
-              <b-form-group
-                label="题目分值:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="fillScore"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.fillingValue"
-                />
-              </b-form-group>
-            </b-form-group>
-
-            <!--大题-->
-            <b-form-group
-              label="大题信息:"
-              label-cols-sm="3"
-              label-align-sm="right"
-            >
-              <b-form-group
-                label="题目数量:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="compilationNum"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.comprehensiveNum"
-                />
-              </b-form-group>
-              <b-form-group
-                label="题目分值:"
-                label-cols-sm="3"
-                label-align-sm="right"
-              >
-                <b-form-spinbutton
-                  id="compilationScore"
-                  placeholder="--"
-                  wrap
-                  min="1"
-                  max="25"
-                  class="text-center"
-                  v-model="examInfo.comprehensiveValue"
-                />
-              </b-form-group>
-            </b-form-group>
-          </b-form-group>
-
-          <b-row class="justify-content-end">
-            <b-col cols="12" md="auto">
-              <b-button pill variant="outline-danger" @click="submit"
-                >提交</b-button
-              >
-            </b-col>
-          </b-row>
-        </b-form>
-      </div>
-    </div>
+    <vue-dropzone
+        ref="myVueDropzone"
+        id="dropzone"
+        :options="dropzoneOptions"
+        @vdropzone-success="onSuccess"
+        @vdropzone-removed-file="onRemovedFile"
+    ></vue-dropzone>
+    <button @click="test">click me</button>
   </div>
+
 </template>
 
 <script>
-import PageTitle from "@/layout/Components/PageTitle.vue";
-import { number } from "echarts";
+import vue2Dropzone from 'vue2-dropzone'
+import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+import axios from "axios";
 
 export default {
   name: "test2.vue",
-  components: { PageTitle },
+  components: {
+    vueDropzone: vue2Dropzone
+  },
   data() {
     return {
-      heading: "发布考试",
-      subheading: "您可以在此页面发布一场考试",
-      icon: "pe-7s-plane icon-gradient bg-tempting-azure",
-
-      breadcrumbItem: [
-        {
-          text: "Admin",
-          href: "#",
-        },
-        {
-          text: "Manage",
-          href: "#",
-        },
-        {
-          text: "Test1",
-          href: "#",
-        },
-        {
-          text: "Library",
-          active: true,
-        },
-      ],
-      examInfo: {
-        examName: "",
-        startDate: null,
-        startTime: null,
-        endDate: null,
-        endTime: null,
-        singleChoiceNum: null,
-        singleChoiceValue: null,
-        multiChoiceNum: null,
-        multiChoiceValue: null,
-        fillingNum: null,
-        fillingValue: null,
-        comprehensiveNum: null,
-        comprehensiveValue: null,
+      dropzoneOptions: {
+        url: "/api/testUploadImage",
+        methods: "post",
+        thumbnailWidth: 150,
+        maxFilesize: 1,
+        addRemoveLinks: true,
+        headers: {"My-Awesome-Header": "header value"},
+        init: function () {
+          // If the thumbnail is already in the right size on your server:
+          // callback and crossOrigin are optional
+          // let mockFile = { name: "Filename", size: 12345 };
+          // this.displayExistingFile(mockFile, 'https://image-url');
+          // this.files.push(mockFile);    // add to files array
+          // this.emit("addedfile", mockFile);
+          // this.emit("thumbnail", mockFile, 'http://dannyxsc.xyz/img/image-20220225222647576.png');
+          // this.emit("complete", mockFile);
+        }
       },
-      test: [{ id: 1 }, { id: 2 }],
+      dropzoneObject:null,
+    }
+  },
+  mounted() {
+    var mockFile = {
+      name: 'FileName',
+      size: '1000',
+      type: 'image/jpeg',
+      thumbnailWidth: 150,
+      accepted: true            // required if using 'MaxFiles' option
     };
+
+    this.$refs.myVueDropzone.manuallyAddFile(mockFile,'http://dannyxsc.xyz/img/image-20220225222647576.png');
+    this.dropzoneObject = this.$refs.myVueDropzone.dropzone;
+    // this.dropzoneObject.displayExistingFiles()
+    // this.$refs.myVueDropzone.dropzone.files.push(mockFile);
+    // this.$refs.myVueDropzone.dropzone.emit("addedfile", mockFile);
+    // this.$refs.myVueDropzone.dropzone.emit("thumbnail", mockFile, 'http://dannyxsc.xyz/img/image-20220225222647576.png');
+    // this.$refs.myVueDropzone.dropzone.emit("complete", mockFile);
+    // console.log(this.$refs.myVueDropzone.dropzone)
   },
   methods: {
-    submit() {
-      if (
-        this.courseId == null ||
-        "" == this.examInfo.examName ||
-        null ==
-          this.examInfo.startDate + " " + this.examInfo.startTime + ":13" ||
-        null == this.examInfo.endDate + " " + this.examInfo.endTime + ":13" ||
-        null == this.examInfo.singleChoiceNum ||
-        null == this.examInfo.singleChoiceValue ||
-        null == this.examInfo.multiChoiceNum ||
-        null == this.examInfo.multiChoiceValue ||
-        null == this.examInfo.fillingNum ||
-        null == this.examInfo.fillingValue ||
-        null == this.examInfo.comprehensiveNum ||
-        null == this.examInfo.comprehensiveValue
-      ) {
-        alert("输入缺失");
-      } else {
-        this.$store.dispatch("global/submitExam", {
-          courseId: this.courseId,
-          title: this.examInfo.examName,
-          start_time:
-            this.examInfo.startDate + " " + this.examInfo.startTime + ":13",
-          end_time: this.examInfo.endDate + " " + this.examInfo.endTime + ":13",
-          choice_num: this.examInfo.singleChoiceNum,
-          choice_value: this.examInfo.singleChoiceValue,
-          multi_choice_num: this.examInfo.multiChoiceNum,
-          multi_choice_value: this.examInfo.multiChoiceValue,
-          completion_num: this.examInfo.fillingNum,
-          completion_value: this.examInfo.fillingValue,
-          filled_num: this.examInfo.comprehensiveNum,
-          filled_value: this.examInfo.comprehensiveValue,
-        });
+    onSuccess(file, response) {
+      console.log("******************************")
+      console.log("1",file, response)
+      if (response.code === 100) {
+        // $(file.previewElement).remove();
+
+      }else{
+        console.log(123)
+        this.$refs.myVueDropzone.removeFile(file);
       }
     },
-  },
-  props: {
-    courseId: Number,
-  },
-  computed: {
-    teacherId() {
-      return this.$store.state.global.id;
+    onRemovedFile(file, error, xhr) {
+      console.log(file, error, xhr)
+      console.log(this.dropzoneObject)
     },
+    test() {
+      console.log(this.$refs.myVueDropzone.dropzone)
+    }
   },
+  props: {},
+  computed: {},
 };
 </script>
 
