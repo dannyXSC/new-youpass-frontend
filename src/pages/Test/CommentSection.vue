@@ -105,28 +105,28 @@ export default {
       this.$refs['HisInfo'].show();
     },
     giveLike(targetId){
-      addLike(this.$store.state.global.id,targetId).then((res)=>{
-        if(res.code===100){
-          for (let i=0;i<this.comments.length;i++){
-            if(this.comments[i].commentId===targetId) {
-              this.$set(this.comments[i],'supported',true)
-              break
-            }
-            for(let j=0;j<this.comments[i].children.length;j++){
-              this.$set(this.comments[i].children[j],'supported',true)
-              break
-            }
-          }
-        }
-        else{
-          this.$bvToast.toast("点赞失败", {
-            title: "提示",
-            variant: "danger",
-            solid: true,
-            autoHideDelay: 2000
-          });
-        }
-      })
+      // addLike(this.$store.state.global.id,targetId).then((res)=>{
+      //   if(res.code===100){
+      //     for (let i=0;i<this.comments.length;i++){
+      //       if(this.comments[i].commentId===targetId) {
+      //         this.$set(this.comments[i],'supported',true)
+      //         break
+      //       }
+      //       for(let j=0;j<this.comments[i].children.length;j++){
+      //         this.$set(this.comments[i].children[j],'supported',true)
+      //         break
+      //       }
+      //     }
+      //   }
+      //   else{
+      //     this.$bvToast.toast("点赞失败", {
+      //       title: "提示",
+      //       variant: "danger",
+      //       solid: true,
+      //       autoHideDelay: 2000
+      //     });
+      //   }
+      // })
     }
   },
   data() {

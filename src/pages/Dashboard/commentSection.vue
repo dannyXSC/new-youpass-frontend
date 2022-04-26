@@ -97,7 +97,7 @@ export default {
           break
         }
       }
-      submitComment(this.$store.state.global.id,-1, targetId,this.$store.state.global.type, submitContent).then((res) => {
+      submitComment(this.$store.state.global.id,-1, targetId,this.$store.state.global.accountType, submitContent).then((res) => {
         if (res.code === 100) {
           this.clearComment(targetId)
         }
@@ -116,15 +116,17 @@ export default {
       this.$refs['HisInfo'].show();
     },
     giveLike(targetId) {
-      addLike(this.$store.state.global.id, targetId).then((res) => {
+      addLike(this.$store.state.global.id, targetId,this.$store.state.global.accountType).then((res) => {
         if (res.code === 100) {
           for (let i = 0; i < this.comments.length; i++) {
             if (this.comments[i].commentId === targetId) {
               this.$set(this.comments[i], 'supported', true)
+              this.$set(this.comments[i],'supportNum',this.comments[i].supportNum+1)
               break
             }
             for (let j = 0; j < this.comments[i].children.length; j++) {
               this.$set(this.comments[i].children[j], 'supported', true)
+              this.$set(this.comments[i].children[j],'supportNum',this.comments[i].children[j].supportNum+1)
               break
             }
           }
