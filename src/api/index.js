@@ -977,43 +977,51 @@ export const getHisImage = () => {
 //     result.sex=res.data.sex
 //     result.tel=res.data.phone
 // }
-
+export const getIsLike=(commentId)=>{
+    return requests({url:'/comment/isLike',method:"get",params:{commentId:commentId}})
+}
 export const getCommentsByAssignmentId = (AssignmentId) => {
     let retdata = []
     let ret = []
     requests({url: '/comment/getCommentByHomeworkId?homeworkId=' + AssignmentId, method: 'get'}).then((res) => {
         retdata = res
-        console.log(res)
         for (let i = 0; i < retdata.data.length; i++) {
-            let children = []
-            requests({
-                url: '/comment/getCommentByCommentId?commentId=' + retdata.data[i].comment.id,
-                method: 'get'
-            }).then(childret => {
-                for (let j = 0; j < childret.data.length; j++) {
-                    children.push({
-                        userId: childret.data[j].comment.userId,
-                        userName: childret.data[j].name,
-                        userAvater: 'https://picsum.photos/250/250/?image=59',//childret.data[j].avater
-                        commentId: childret.data[j].comment.id,
-                        supportNum: childret.data[j].comment.likeNum,
-                        supported: false,
-                        content: childret.data[j].comment.content,
+            getIsLike(retdata.data[i].comment.id).then(p=>{
+                let children = []
+                requests({
+                    url: '/comment/getCommentByCommentId?commentId=' + retdata.data[i].comment.id,
+                    method: 'get'
+                }).then(childret => {
+                    for (let j = 0; j < childret.data.length; j++){
+                        getIsLike(childret.data[j].comment.id).then(k=>{
+                            children.push({
+                                userId: childret.data[j].comment.userId,
+                                userName: childret.data[j].name,
+                                userAvater:childret.data[j].avater,
+                                commentId: childret.data[j].comment.id,
+                                supportNum: childret.data[j].comment.likeNum,
+                                supported: k.data[0],
+                                createTime:childret.data[j].comment.createTime.slice(0,19).replace('T','  '),
+                                content: childret.data[j].comment.content,
+                            })
+                        })
+                    }
+                    ret.push({
+                        userId: retdata.data[i].comment.userId,
+                        userName: retdata.data[i].name,
+                        userAvater: retdata.data[i].avater,
+                        commentId: retdata.data[i].comment.id,
+                        commentNum: retdata.data[i].comment.commentNum,
+                        supported: p.data[0],
+                        content: retdata.data[i].comment.content,
+                        supportNum: retdata.data[i].comment.likeNum,
+                        createTime:retdata.data[i].comment.createTime.slice(0,19).replace('T','  '),
+                        myComment: '',
+                        children: children
                     })
-                }
+                })
             })
-            ret.push({
-                userId: retdata.data[i].comment.userId,
-                userName: retdata.data[i].name,
-                userAvater: "https://picsum.photos/250/250/?image=59",//retdata.data[i].avater
-                commentId: retdata.data[i].comment.id,
-                commentNum: retdata.data[i].comment.commentNum,
-                supported: false,
-                content: retdata.data[i].comment.content,
-                supportNum: retdata.data[i].comment.likeNum,
-                myComment: '',
-                children: children
-            })
+
         }
     }).catch((e) => {
         console.log(e)
@@ -1118,15 +1126,10 @@ export const updateInfo = (updateInfo) => {
 
 
 export const updateAvater = (avater) => {
-    return new Promise(function (resolve, reject) {
-        console.log({
-            id: id,
-            avater: avater
-        });
-        resolve({
-            code: 100,
-        })
-    })
+    return requests({url:"/file", method:"post",data:avater})
+}
+export const updateAvaterStage2 =(id)=>{
+    return requests({url:"/account/uploadImage/"+id.toString(),method:"post"})
 }
 export const addLike = (id, targetId, identity) => {
     return requests({url:"/comment/like",method:"post",params:{commentId:targetId,userId:id,identity:identity}})

@@ -11,18 +11,21 @@
           <p class="commentZone">
             {{ comment.content }}
           </p>
+          <p style="font-size: 0.5em">
+            {{ comment.createTime }}
+          </p>
           <b-row>
             <b-col cols="1">
-              <span><b-button size="sm" variant="outline-white" :disabled="comment.supported"
+              <span><b-button size="lg" variant="outline-white" :disabled="comment.supported"
                               @click="giveLike(comment.commentId)"><b-icon
                   icon="hand-thumbs-up"></b-icon></b-button>{{ comment.supportNum }}</span>
             </b-col>
             <b-col cols="1">
-            <span><b-button size="sm" variant="outline-white" v-b-toggle="'collapse'+comment.commentId"><b-icon
+            <span><b-button size="lg" variant="outline-white" v-b-toggle="'collapse'+comment.commentId"><b-icon
                 icon="chat-left"></b-icon></b-button>{{ comment.children.length }}</span>
             </b-col>
             <b-col cols="1">
-              <span><b-button size="sm" variant="outline-white" v-b-toggle="'giveComment'+comment.commentId"><b-icon
+              <span><b-button size="lg" variant="outline-white" v-b-toggle="'giveComment'+comment.commentId"><b-icon
                   icon="chat-right-text-fill"></b-icon> </b-button></span>
             </b-col>
           </b-row>
@@ -57,6 +60,12 @@
                 <p class="commentZone">
                   {{ child.content }}
                 </p>
+                <p style="font-size: 0.5em">
+                  {{ child.createTime }}
+                  <span><b-button size="sm" variant="outline-white" :disabled="child.supported"
+                                  @click="giveLike(child.commentId)"><b-icon
+                      icon="hand-thumbs-up"></b-icon></b-button>{{ child.supportNum }}</span>
+                </p>
               </b-list-group-item>
             </b-list-group>
           </b-collapse>
@@ -77,16 +86,23 @@ import HomeworkInfoCard from "@/components/homeworkInfoCard";
 export default {
   name: "commentSection",
   components: {HomeworkInfoCard, OthersInfo},
-  props: {
-    homeworkId: Number
-  },
   mounted() {
     this.init()
   },
   methods: {
-    init(){
+    init() {
+      this.homeworkId = this.$route.query.homeworkId
       getCommentsByAssignmentId(this.homeworkId).then((res) => {
         this.comments = res.data[0].comments
+        this.comments.sort((c, d) => {
+          console.log(c.supportNum.toString())
+          return d.supportNum - c.supportNum
+        })
+        for (let i = 0; i < this.comments.length; i++) {
+          this.comments[i].children.sort((a, b) => {
+            return b.supportNum - a.supportNum
+          })
+        }
       })
     },
     thesubmitComment(targetId) {
@@ -97,7 +113,7 @@ export default {
           break
         }
       }
-      submitComment(this.$store.state.global.id,-1, targetId,this.$store.state.global.accountType, submitContent).then((res) => {
+      submitComment(this.$store.state.global.id, -1, targetId, this.$store.state.global.accountType, submitContent).then((res) => {
         if (res.code === 100) {
           this.clearComment(targetId)
         }
@@ -116,18 +132,20 @@ export default {
       this.$refs['HisInfo'].show();
     },
     giveLike(targetId) {
-      addLike(this.$store.state.global.id, targetId,this.$store.state.global.accountType).then((res) => {
+      addLike(this.$store.state.global.id, targetId, this.$store.state.global.accountType).then((res) => {
         if (res.code === 100) {
           for (let i = 0; i < this.comments.length; i++) {
             if (this.comments[i].commentId === targetId) {
               this.$set(this.comments[i], 'supported', true)
-              this.$set(this.comments[i],'supportNum',this.comments[i].supportNum+1)
+              this.$set(this.comments[i], 'supportNum', this.comments[i].supportNum + 1)
               break
             }
             for (let j = 0; j < this.comments[i].children.length; j++) {
-              this.$set(this.comments[i].children[j], 'supported', true)
-              this.$set(this.comments[i].children[j],'supportNum',this.comments[i].children[j].supportNum+1)
-              break
+              if (this.comments[i].children[j].commentId === targetId) {
+                this.$set(this.comments[i].children[j], 'supported', true)
+                this.$set(this.comments[i].children[j], 'supportNum', this.comments[i].children[j].supportNum + 1)
+                break
+              }
             }
           }
         } else {
@@ -146,6 +164,7 @@ export default {
       comments: {},
       openHisChild: -1,
       checkHisInfo: -1,
+      homeworkId: '',
     }
   }
 }
