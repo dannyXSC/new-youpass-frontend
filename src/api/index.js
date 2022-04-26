@@ -844,6 +844,7 @@ export const getCommentsByAssignmentId = (AssignmentId) => {
     let ret = []
     requests({url: '/comment/getCommentByHomeworkId?homeworkId='+AssignmentId, method: 'get'}).then((res) => {
         retdata = res
+        console.log(res)
         for (let i = 0; i < retdata.data.length; i++) {
             let children = []
             requests({
@@ -977,7 +978,7 @@ export const updateInfo = (updateInfo) => {
 }
 
 
-export const updateAvater = (id, avater) => {
+export const updateAvater = (avater) => {
     return new Promise(function (resolve, reject) {
         console.log({
             id: id,
@@ -988,16 +989,8 @@ export const updateAvater = (id, avater) => {
         })
     })
 }
-export const addLike = (id, targetId) => {
-    return new Promise(function (resolve, reject) {
-        console.log({
-            id: id,
-            targetId: targetId
-        });
-        resolve({
-            code: 100,
-        })
-    })
+export const addLike = (id, targetId, identity) => {
+    return requests({url:"/comment/like",method:"post",params:{commentId:targetId,userId:id,identity:identity}})
 }
 export const getStuCourses = () => {
     return requests({url:"/course/getMyCourses",method:"get"})

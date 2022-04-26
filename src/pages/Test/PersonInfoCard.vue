@@ -144,10 +144,11 @@ export default {
       })
     },
     submitAvater() {
-      updateAvater(this.personInfo.id,this.avater).then((res)=>{
+      updateAvater(this.avater).then((res)=>{
         if(res.code===100){
           console.log('update success')
           this.$refs.updateAvater.hide()
+          this.init()
         }
         else{
           this.$bvToast.toast("上传头像失败", {
