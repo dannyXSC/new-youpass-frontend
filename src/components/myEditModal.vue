@@ -41,7 +41,6 @@ export default {
     id: {
       type: String,
       default: "edit-modal"
-
     }
   },
   data() {
@@ -61,6 +60,7 @@ export default {
       } else {
         this.$emit("onCancel")
       }
+      this.content = ""
     }
   }
 }

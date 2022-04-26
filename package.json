@@ -35,6 +35,7 @@
         "popper.js": "^1.15.0",
         "sass-loader": "^7.1.0",
         "typed.js": "^2.0.12",
+        "uuid": "^8.3.2",
         "vue": "^2.6.14",
         "vue-bootstrap-sidebar": "^1.0.9",
         "vue-bootstrap-toggle": "^1.1.4",

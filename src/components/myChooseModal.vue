@@ -7,13 +7,12 @@
       @hide="handleExit"
   >
     <b-container>
-    <draggable v-model="myArray">
+      <draggable v-model="myArray">
         <div v-for="element in myArray" :key="element.id">
-            {{element.questionId}}-----{{element.description}}
-            <hr>
+          {{ element.questionId }}-----{{ element.description }}
+          <hr>
         </div>
-        
-</draggable>
+      </draggable>
     </b-container>
   </b-modal>
 </template>
@@ -21,11 +20,12 @@
 <script>
 import parse from "@/utils/parseLatex";
 import draggable from 'vuedraggable'
+
 export default {
   name: "mychooseModal",
   components: {
-            draggable,
-        },
+    draggable,
+  },
   props: {
     initArray: Array,
     id: {
@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-        myArray:this.initArray,
+      myArray: this.initArray,
     }
   },
   computed: {

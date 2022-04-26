@@ -148,14 +148,6 @@
                 >
                   发布作业
                 </b-button>
-                <b-button
-                    block
-                    type="button"
-                    class="btn btn-light md-2"
-                    @click="addQuestion(row.row.item)"
-                >
-                  上传题目
-                </b-button>
               </div>
             </b-tab>
           </b-tabs>
@@ -240,14 +232,6 @@ export default {
         name: "postExam",
         params: {
           courseId: item.ID,
-        },
-      });
-    },
-    addQuestion(item) {
-      this.$router.push({
-        name: "addQuestion",
-        params: {
-          courseId: item.id,
         },
       });
     },
