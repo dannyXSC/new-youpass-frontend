@@ -160,6 +160,14 @@
                 >
                   发布作业
                 </b-button>
+                <b-button
+                    block
+                    type="button"
+                    class="btn btn-danger md-2"
+                    @click="deleteCourse(row.row.item)"
+                >
+                  删除课程
+                </b-button>
               </div>
             </b-tab>
           </b-tabs>
@@ -184,7 +192,7 @@
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
 
-import {createCourse, getStuCourses, getTeaCourses, studentQuitCourse} from "@/api";
+import {createCourse, deleteCourseByCourseId, getStuCourses, getTeaCourses, studentQuitCourse} from "@/api";
 import myCourseModal from "@/components/myCourseModal";
 
 export default {
@@ -294,6 +302,18 @@ export default {
       }).catch(error => {
         this.$toast.error(error.message);
       })
+    },
+    deleteCourse(id) {
+      deleteCourseByCourseId(id.ID).then(res => {
+        if(res.code===100){
+          this.init()
+          this.$toast.success("删除成功")
+        }else{
+          this.$toast.error(res.msg)
+        }
+      }).catch(error => {
+        this.$toast.error(error.message);
+      })
     }
   },
   computed: {
@@ -321,8 +341,14 @@ export default {
         return_item.unshift({
           _showDetails: false,
           isActive: true,
-          课程名称: this.courseListTea[i].title,
-          ID: this.courseListTea[i].courseId,
+          课程名称: this.courseListTea[i].name,
+          name: this.courseListTea[i].name,
+          ID: this.courseListTea[i].id,
+          teacherId: this.courseListTea[i].teacherId,
+          teacherName: this.courseListTea[i].teacherName,
+          url: this.courseListTea[i].url,
+          courseTime: this.courseListTea[i].courseTime,
+          password: this.courseListTea[i].password
         });
       }
       return return_item;

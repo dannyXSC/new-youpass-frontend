@@ -51,7 +51,6 @@ export default {
     getStudentListByCourseId(this.courseId).then(res => {
       if (res.code === 100) {
         this.studentList = res.data;
-        console.log(this.studentList, this.fields)
       } else {
         this.$bvToast.toast("获取学生列表失败", {
           title: "提示",
@@ -64,7 +63,6 @@ export default {
   },
   methods: {
     kickStudent(id) {
-      console.log(id)
       let name = this.studentList.find(element => element.id === id).name
       this.$bvModal.msgBoxConfirm(`您确定要踢出 ${id}-${name}`, {
         okTitle: "确定",
