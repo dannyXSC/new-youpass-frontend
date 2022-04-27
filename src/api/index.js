@@ -163,7 +163,6 @@ export const searchCourse1 = (courseId) => {
         params: {courseId: courseId, name: '', teacherName: ''},
         method: 'post'
     }).then(res => {
-        console.log(res)
         for (let i = 0; i < res.data.length; i++) {
             let exist = false
             if (res.data[i].exist === 1) {
@@ -196,6 +195,10 @@ export const searchCourse2 = (courseName) => {
         method: 'post'
     }).then(res => {
         for (let i = 0; i < res.data.length; i++) {
+            let exist = false
+            if (res.data[i].exist === 1) {
+                exist = true
+            }
             result.push({
                 courseId: res.data[i].id,
                 name: res.data[i].name,
@@ -203,7 +206,8 @@ export const searchCourse2 = (courseName) => {
                 teacherId: res.data[i].teacherId,
                 teacherName: res.data[i].teacherName,
                 url: res.data[i].url,
-                courseTime: res.data[i].courseTime
+                courseTime: res.data[i].courseTime,
+                exist: exist
             })
         }
     })
@@ -222,6 +226,10 @@ export const searchCourse3 = (teacherName) => {
         method: 'post'
     }).then(res => {
         for (let i = 0; i < res.data.length; i++) {
+            let exist = false
+            if (res.data[i].exist === 1) {
+                exist = true
+            }
             result.push({
                 courseId: res.data[i].id,
                 name: res.data[i].name,
@@ -229,7 +237,8 @@ export const searchCourse3 = (teacherName) => {
                 teacherId: res.data[i].teacherId,
                 teacherName: res.data[i].teacherName,
                 url: res.data[i].url,
-                courseTime: res.data[i].courseTime
+                courseTime: res.data[i].courseTime,
+                exist: exist
             })
         }
     })
