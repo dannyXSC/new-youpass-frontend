@@ -89,20 +89,24 @@ export default {
   mounted() {
     this.init()
   },
+  beforeUpdate() {
+    this.sort()
+  },
   methods: {
+    sort(){
+      this.comments.sort((c, d) => {
+        return d.supportNum - c.supportNum
+      })
+      for (let i = 0; i < this.comments.length; i++) {
+        this.comments[i].children.sort((a, b) => {
+          return b.supportNum - a.supportNum
+        })
+      }
+    },
     init() {
       this.homeworkId = this.$route.query.homeworkId
       getCommentsByAssignmentId(this.homeworkId).then((res) => {
         this.comments = res.data[0].comments
-        this.comments.sort((c, d) => {
-          console.log(c.supportNum.toString())
-          return d.supportNum - c.supportNum
-        })
-        for (let i = 0; i < this.comments.length; i++) {
-          this.comments[i].children.sort((a, b) => {
-            return b.supportNum - a.supportNum
-          })
-        }
       })
     },
     thesubmitComment(targetId) {
@@ -121,6 +125,7 @@ export default {
       this.init()
     },
     clearComment(targetId) {
+      console.log(this.comments)
       for (var i = 0; i < this.comments.length; i++) {
         if (this.comments[i].commentId === targetId) {
           this.comments[i].myComment = ''
@@ -166,7 +171,7 @@ export default {
       checkHisInfo: -1,
       homeworkId: '',
     }
-  }
+  },
 }
 </script>
 
