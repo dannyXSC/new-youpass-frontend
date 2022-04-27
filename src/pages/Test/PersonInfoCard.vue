@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import {getHisInfo ,updateInfo, updateAvater, getHisImage} from "@/api";
+import {getHisInfo ,updateInfo, updateAvater, getHisImage, updateAvaterStage2} from "@/api";
 
 export default {
   name: "PersonInfoCard",
@@ -144,20 +144,23 @@ export default {
       })
     },
     submitAvater() {
-      updateAvater(this.avater).then((res)=>{
-        if(res.code===100){
-          console.log('update success')
-          this.$refs.updateAvater.hide()
-          this.init()
-        }
-        else{
-          this.$bvToast.toast("上传头像失败", {
-            title: "提示",
-            variant: "danger",
-            solid: true,
-            autoHideDelay: 2000
-          });
-        }
+      let update=new FormData()
+      update.append('file',this.avater)
+      updateAvater(update).then((res2)=>{
+        updateAvaterStage2(res2.data.id).then(res=>{
+          if(res.code===100){
+            this.$refs.updateAvater.hide()
+            this.init()
+          }
+          else{
+            this.$bvToast.toast("上传头像失败", {
+              title: "提示",
+              variant: "danger",
+              solid: true,
+              autoHideDelay: 2000
+            });
+          }
+            })
       })
     }
   },
