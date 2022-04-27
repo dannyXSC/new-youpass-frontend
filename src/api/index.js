@@ -1082,6 +1082,7 @@ export const getCommentsByAssignmentId = (AssignmentId) => {
     let retdata = []
     let ret = []
     requests({url: '/comment/getCommentByHomeworkId?homeworkId=' + AssignmentId, method: 'get'}).then((res) => {
+        console.log(res)
         retdata = res
         for (let i = 0; i < retdata.data.length; i++) {
             getIsLike(retdata.data[i].comment.id).then(p=>{

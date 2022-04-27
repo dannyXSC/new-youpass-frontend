@@ -55,7 +55,7 @@ import {getHomeworkInfo, sendHomeworkComment, submitComment} from "@/api";
 export default {
   name: "homeworkInfoCard",
   props:{
-    homeworkId:Number
+    homeworkId:String
   },
   data(){
     return{
@@ -86,7 +86,7 @@ export default {
     submit(){
       submitComment(this.$store.state.global.id,this.homeworkId,-1,this.$store.state.global.accountType,this.myComment).then(res=>{
         this.myComment=""
-        this.$parent.init()
+        this.$emit("change")
       })
     }
   }

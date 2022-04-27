@@ -198,8 +198,8 @@ export default {
     },
     gotoCommentSection(item) {
       this.$router.push({
-        name: "commentSection",
-        params: {
+        path: "/dashboard/commentSection",
+        query: {
           homeworkId: item.id,
         },
       });

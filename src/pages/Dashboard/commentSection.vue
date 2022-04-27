@@ -1,9 +1,9 @@
 <template>
   <div>
-    <homework-info-card style="margin-bottom: 2em" :homework-id="homeworkId"></homework-info-card>
+    <homework-info-card style="margin-bottom: 2em" :homework-id="homeworkId" @change="init"></homework-info-card>
     <b-card>
       <b-list-group>
-        <b-list-group-item v-for="comment in comments" style="margin-bottom: 1.5em">
+        <b-list-group-item v-for="comment in comments" :key="comment.commentId" style="margin-bottom: 1.5em">
           <h5 class="mb-1">
             <b-avatar button class="mr-3" :src="comment.userAvater" @click="showHisInfo(comment.userId)"></b-avatar>
             <span class="mr-auto">{{ comment.userName }}</span>
@@ -53,7 +53,7 @@
           </b-collapse>
           <b-collapse :id="'collapse'+comment.commentId">
             <b-list-group>
-              <b-list-group-item v-for="child in comment.children">
+              <b-list-group-item v-for="child in comment.children" :key="child.commentId">
                 <b-avatar size="sm" class="mr-3" :src="child.userAvater" button
                           @click="showHisInfo(child.userId)"></b-avatar>
                 <span class="mr-auto">{{ child.userName }}</span>
@@ -105,7 +105,7 @@ export default {
     },
     init() {
       this.homeworkId = this.$route.query.homeworkId
-      getCommentsByAssignmentId(this.homeworkId).then((res) => {
+      getCommentsByAssignmentId(Number(this.homeworkId)).then((res) => {
         this.comments = res.data[0].comments
       })
     },
@@ -166,7 +166,7 @@ export default {
   },
   data() {
     return {
-      comments: {},
+      comments: [],
       openHisChild: -1,
       checkHisInfo: -1,
       homeworkId: '',
