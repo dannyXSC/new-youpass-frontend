@@ -1,7 +1,7 @@
 <template>
   <b-card border-variant="success">
     <div class="main-card mb-3 card">
-      <div class="card-header"><h3 class="card-title">Todos</h3></div>
+      <div class="card-header"><h3 class="card-title">待办事项</h3></div>
       <ul class="todo-list-wrapper list-group list-group-flush">
         <li class="list-group-item">
           <div class="todo-indicator bg-success"></div>
@@ -14,7 +14,7 @@
                       type="text"
                       name="text"
                       id="exampletext"
-                      placeholder="Add Todo..."
+                      placeholder="添加一条待办事项..."
                       @keyup.enter="addTodo"
                   />
                 </div>
@@ -26,7 +26,7 @@
                     class="dropdown-item"
                     @click="addTodo"
                 >
-                  Add
+                  添加
                 </button>
               </div>
             </div>
@@ -86,9 +86,9 @@ export default {
   },
   data: () => ({
     inputTodo: "",
-    heading: "List Groups",
+    heading: "任务清单",
     subheading:
-        "These can be used with other components and elements to create stunning and unique new elements for your UIs.",
+        "",
     icon: "pe-7s-paint icon-gradient bg-sunny-morning",
     breadcrumbItem: [
       {

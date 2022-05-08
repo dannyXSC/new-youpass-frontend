@@ -6,9 +6,10 @@
         <div class="con">
           <!--     Start  header Content  -->
           <header class="head-form">
-            <h2>Log In</h2>
+            <h2>登录</h2>
             <!--     A welcome message or an explanation of the login form -->
-            <p>login here using your username and password</p>
+            <br>
+            <p>通过用户账号和密码来登录！</p>
           </header>
           <!--     End  header Content  -->
           <br>
@@ -18,14 +19,14 @@
            <i class="fa fa-user-circle"></i>
          </span>
             <!--   user name Input-->
-            <input class="form-input" id="txt-input" type="text" placeholder="@UserName" v-model="userid" required>
+            <input class="form-input" id="txt-input" type="text" placeholder="用户账号" v-model="userid" required>
             <br>
             <!--   Password -->
             <span class="input-item">
         <i class="fa fa-key"></i>
        </span>
             <!--   Password Input-->
-            <input class="form-input" type="password" placeholder="Password" id="pwd" name="password" v-model="password"
+            <input class="form-input" type="password" placeholder="密码" id="pwd" name="password" v-model="password"
                    required>
             <!--      Show/hide password  -->
             <span>
@@ -34,17 +35,17 @@
             <br>
             <!--        buttons -->
             <!--      button LogIn -->
-            <button class="log-in" @click.prevent="handleLogin"> Log In</button>
+            <button class="log-in" @click.prevent="handleLogin"> 登录</button>
           </div>
           <!--   other buttons -->
           <div class="other">
             <!--      Forgot Password button-->
-            <button class="btn submits frgt-pass">Forgot Password</button>
+<!--            <button class="btn submits frgt-pass" >忘记密码</button>-->
             <!--     Sign Up button -->
-            <button class="btn submits sign-up" @click="handleSignUp">Sign Up
+            <b-button variant = "success" @click="handleSignUp">注册
               <!--         Sign Up font icon -->
               <i class="fa fa-user-plus" aria-hidden="true"></i>
-            </button>
+            </b-button>
             <!--      End Other the Division -->
           </div>
           <!--   End Conrainer  -->
@@ -177,7 +178,7 @@ export default {
         //发送请求
         this.$store.dispatch("global/login", {id: this.userid, password: this.password}).then(res => {
           if (res.code === 100) {
-            router.push({name: "todo"});
+            router.push({name: "personInfo"});
           } else {
             this.$toast.open({
               message: res.msg,

@@ -175,16 +175,16 @@ export default {
       attendCoursePassword:'',
       heading: "搜索课程",
       subheading:
-        "Select courses!",
+        "",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
 
-      fields: ["课程名称", "ID"],
+      fields: ["课程名称", "课程编号","授课教师"],
 
       searchMethod: 1,
       inputContent: "",
       breadcrumbItem: [
         {
-          text: "搜索课程",
+          text: "",
           active: true,
         },
       ],
@@ -200,12 +200,13 @@ export default {
           isActive: true,
           课程名称: this.searchedCourse[i].name,
           courseName:this.searchedCourse[i].name,
-          ID: this.searchedCourse[i].courseId,
+          课程编号: this.searchedCourse[i].courseId,
           courseId:this.searchedCourse[i].courseId,
           password:this.searchedCourse[i].password,
           teacher_id:
             this.searchedCourse[i].teacherId,
           teacher_name: this.searchedCourse[i].teacherName,
+          授课教师:this.searchedCourse[i].teacherName,
           url:this.searchedCourse[i].url,
           courseTime:this.searchedCourse[i].courseTime,
           exist:this.searchedCourse[i].exist
@@ -216,7 +217,7 @@ export default {
   },
   methods: {
     search(method) {
-      if (this.inputContent != "") {
+      if (this.inputContent !== "") {
         if (method === 1) {
           // 课号
           searchCourse1(this.inputContent).then((res)=>{

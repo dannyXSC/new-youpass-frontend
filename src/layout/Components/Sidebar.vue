@@ -55,7 +55,7 @@ export default {
       StudentMenu: [
         {
           header: true,
-          title: "Main Menu",
+          title: "导航栏",
         },
         {
           title: "基本功能栏",
@@ -240,7 +240,7 @@ export default {
       TeacherMenu: [
         {
           header: true,
-          title: "Main Menu",
+          title: "导航栏",
         },
         {
           title: "基本功能栏",
