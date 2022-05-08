@@ -939,30 +939,29 @@ export const postExam = (data) => {
  * ]
  */
 export const getHomeworkByCourseId = (courseId) => {
-    // return requests({url: "/exam/courseGetExam/" + courseId, method: "get"})
-    return new Promise(function (resolve, reject) {
-        resolve({
-            code: 100,
-            msg: "123",
-            data: [{
-                id: 1,
-                title: '作业1',
-                start_time: '2021-12-16T04:12:15.000+00:00',
-                end_time: '2021-12-23T15:48:01.437+00:00',
-                score: 5,
-            },
-                {
-                    id: 2,
-                    title: '作业2',
-                    start_time: '2021-12-15T04:12:15.000+00:00',
-                    end_time: '2021-12-23T15:48:01.437+00:00',
-                    score: 5,
-                },
-            ]
-        })
-    })
+     return requests({url: "/homework", method: "post", data:{courseId:courseId}})
 }
-
+// return new Promise(function (resolve, reject) {
+//     resolve({
+//         code: 100,
+//         msg: "123",
+//         data: [{
+//             id: 1,
+//             title: '作业1',
+//             start_time: '2021-12-16T04:12:15.000+00:00',
+//             end_time: '2021-12-23T15:48:01.437+00:00',
+//             score: 5,
+//         },
+//             {
+//                 id: 2,
+//                 title: '作业2',
+//                 start_time: '2021-12-15T04:12:15.000+00:00',
+//                 end_time: '2021-12-23T15:48:01.437+00:00',
+//                 score: 5,
+//             },
+//         ]
+//     })
+// })
 export const getHomeworkByStudent = (studentId) => {
     return requests({url:'/homework',method:"post",data:{studentId:studentId}})
 }
