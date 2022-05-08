@@ -26,21 +26,27 @@
                   <h4 class="timeline-title">
                     {{ item.time.slice(0, 10) }}, at
                     <span class="text-success"
-                    >{{ item.time.slice(11) }}PM</span
+                    >{{ item.time.slice(11) }} PM</span
                     >
                   </h4>
                   <div class="col-md-10">
                     <div
                         class="card-shadow-primary border mb-3 card card-body border-primary"
                     >
-                      <h5 class="card-title">
+                      <h5 class="card-title" style="font-size: 18px">
                         <span class="text-success"
-                        >Message From Course Id：</span
-                        >{{ item.courseId }}
+                        >发布该通知的课程编号：</span>{{ item.courseId }}
                       </h5>
-                      <h6>
-                        {{ item.content }}
-                      </h6>
+                      <h5 class="card-title" style="font-size: 15px">
+                        <span class="text-warning"
+                        >通知标题：</span
+                        >{{ item.title }}
+                      </h5>
+                      <h5 class="card-title" style="font-size: 13px">
+                        <span class="text-warning"
+                        >通知内容：</span
+                        >{{ item.content }}
+                      </h5>
                     </div>
                   </div>
                 </div>
@@ -122,9 +128,11 @@ export default {
         console.log(this.messageList[i].createTime)
         return_item.push({
           content: this.messageList[i].content,
+          title: this.messageList[i].title,
           time: new Date(this.messageList[i].createTime).format(
               "yyyy-MM-dd hh:mm:ss"
           ),
+          courseName:this.messageList[i].courseName,
           courseId: this.messageList[i].courseId,
           id: this.messageList[i].id
         });

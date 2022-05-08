@@ -591,25 +591,27 @@ export const getQuestionsOfTeacher = () => {
  * @returns {AxiosPromise}
  */
 export const getNotice = () => {
+    let result=[]
+    requests({url: "/course/getNotice/", method: 'get'}).then(res=>{
+        console.log(res.data)
+        for (let i = 0; i < res.data.length; i++) {
+
+            result.push({
+                id:res.data[i].id,
+                courseId: res.data[i].courseId,
+                content: res.data[i].content,
+                title: res.data[i].title,
+                updateTime: res.data[i].updateTime,
+                createTime: res.data[i].createTime,
+
+            })
+        }
+    })
     return new Promise((resolve, reject) => {
         resolve({
             code: 100,
             msg: "成功",
-            data: [{
-                id: 1,
-                courseId: 1000,
-                title: "xx开课信息",
-                content: "course1开课啦！",
-                createTime: "2021-12-23T16:02:10.036+00:00"
-            },
-                {
-                    id: 2,
-                    courseId: 1000,
-                    title: "xx开课信息",
-                    content: "course12开课啦！",
-                    createTime: "2021-12-23T16:02:09.041+00:00"
-                }
-            ]
+            data: result
         })
     })
 }
