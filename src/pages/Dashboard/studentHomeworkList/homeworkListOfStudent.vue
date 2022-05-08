@@ -63,7 +63,7 @@ export default {
       accountType: this.$store.state.global.accountType,
       heading: "作业管理",
       subheading:
-          "看看你都有什么作业吧",
+          "记得按时完成作业！",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
 
       breadcrumbItem: [

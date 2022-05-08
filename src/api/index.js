@@ -1047,9 +1047,9 @@ export const getStudentListByCourseId = (courseId) => {
 //通过课程id和学生id踢出学生
 export const kickStudentByIdAndCourseId = (id, courseId) => {
     return requests({url: "/course/deleteStudentFromTake?studentId=" + id + "&courseId=" + courseId, method: "post"})
-    // return new Promise(function (resolve, reject) {
-    //     resolve({code: 100});
-    // })
+    return new Promise(function (resolve, reject) {
+        resolve({code: 100});
+    })
 }
 
 //通过学生id和课程id获得学生的所有作业

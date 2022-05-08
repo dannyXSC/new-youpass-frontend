@@ -10,7 +10,7 @@
     <div class="col-md-12">
       <div class="main-card mb-3 card">
         <div class="card-body">
-          <h3 class="card-title">Message</h3>
+          <h3 class="card-title">消息</h3>
           <hr/>
           <div
               class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--animate vertical-timeline--one-column"
@@ -87,13 +87,13 @@ export default {
   components: {MyList, PageTitle},
   data() {
     return {
-      heading: "Always Check Your Message",
+      heading: "查看通知",
       subheading: "不要错过重要的通知哦！",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
 
       breadcrumbItem: [
         {
-          text: "消息",
+          text: "",
           active: true,
         },
       ],
@@ -123,7 +123,7 @@ export default {
         return_item.push({
           content: this.messageList[i].content,
           time: new Date(this.messageList[i].createTime).format(
-              "yyyy-MM-dd hh:mm::ss"
+              "yyyy-MM-dd hh:mm:ss"
           ),
           courseId: this.messageList[i].courseId,
           id: this.messageList[i].id

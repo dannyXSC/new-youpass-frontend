@@ -10,11 +10,12 @@
               <div class="modal-body">
                 <h5 class="modal-title">
                   <h4 class="mt-2">
-                    <div>Welcome,</div>
+                    <div>欢迎来到TJ-Cloud！</div>
+                    <br>
                     <span
-                    >It only takes a
-                      <span class="text-success">few seconds</span>
-                      to create your account</span
+                    >创建用户只需要花费
+                      <span class="text-success">几秒钟时间</span>
+                      </span
                     >
                   </h4>
                 </h5>
@@ -22,14 +23,14 @@
                 <b-form-group
                     id="exampleInputGroup1"
                     label-for="exampleInput1"
-                    description="We'll never share your email with anyone else."
+                    description="我们不会将您的邮箱泄露给任何其他人"
                 >
                   <b-form-input
                       v-model="email"
                       id="exampleInput1"
                       type="email"
                       required
-                      placeholder="Enter email..."
+                      placeholder="请输入您的邮箱..."
                   >
                   </b-form-input>
                 </b-form-group>
@@ -46,7 +47,7 @@
                       id="exampleInput12"
                       type="text"
                       required
-                      placeholder="Enter your name..."
+                      placeholder="请输入姓名"
                   >
                   </b-form-input>
                 </b-form-group>
@@ -61,7 +62,7 @@
                           id="exampleInput2"
                           type="password"
                           required
-                          placeholder="Enter password..."
+                          placeholder="输入密码..."
                       >
                       </b-form-input>
                     </b-form-group>
@@ -76,7 +77,7 @@
                           id="exampleInput3"
                           type="password"
                           required
-                          placeholder="Repeat password..."
+                          placeholder="请再次输入密码..."
                       >
                       </b-form-input>
                     </b-form-group>
@@ -95,20 +96,10 @@
                     :value="0"
                     :unchecked-value="1"
                 >
-                  IsTeacher
+                  您是否是老师
                 </b-form-checkbox>
 
-                <b-form-checkbox
-                    name="check"
-                    id="exampleCheck"
-                    v-model="isChecked"
-                >
-                  Accept our
-                  <a href="javascript:void(0);">Terms and Conditions</a>.
-                </b-form-checkbox>
-                <p v-if="isChecked === false" style="padding : 10px 0 0 0 ;margin: 0; color: red">
-                  请勾选此协议！
-                </p>
+
                 <!--                <div class="divider"/>-->
                 <!--                <h6 class="mb-0">-->
                 <!--                  Already have an account?-->
@@ -121,12 +112,12 @@
               <div class="modal-footer clearfix">
                 <div class="float-left">
                   <b-button variant="warning" size="sl" @click="back()"
-                  >Go To Login
+                  >前往登录
                   </b-button>
                 </div>
                 <div class="float-left">
                   <b-button variant="success" size="sl" @click="register()"
-                  >Create Account
+                  >创建账号
                   </b-button>
                 </div>
               </div>
@@ -150,9 +141,9 @@ export default {
   components: {BootstrapToggle},
   methods: {
     register() {
+      console.log(123231231)
       if (
           this.password1 === this.password2 &&
-          this.isChecked === true &&
           this.isFormated === true &&
           this.email !== ""
       ) {
@@ -163,6 +154,7 @@ export default {
           //TODO: 需要选择是老师还是学生
           type: this.type,
         }).then(res => {
+console.log(res)
           if (res.code === 100) {
             alert("注册成功！您的id为：" + res.data)
             router.push({name: "login"})
