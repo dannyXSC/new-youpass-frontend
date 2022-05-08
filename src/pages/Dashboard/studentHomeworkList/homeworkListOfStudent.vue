@@ -138,7 +138,7 @@ export default {
       this.$router.push({
         path: "/dashboard/commentSection",
         query: {
-          homeworkId: item.homeworkId,
+          homeworkId: item.id,
         },
       });
     }

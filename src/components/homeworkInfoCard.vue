@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import {getHomeworkInfo, sendHomeworkComment, submitComment} from "@/api";
+import {getHomeworkByStudent, getHomeworkInfo, sendHomeworkComment, submitComment} from "@/api";
 export default {
   name: "homeworkInfoCard",
   props:{
@@ -68,16 +68,35 @@ export default {
     }
   },
   mounted() {
-    this.getHomeworkInfo()
+    this.init()
   },
   methods:{
+    init(){
+      this.getHomeworkInfo()
+    },
     getHomeworkInfo(){
-      getHomeworkInfo(this.homeworkId).then(res=>{
-        this.title=res.data.title
-        this.courseName=res.data.courseName
-        this.teacherName=res.data.teacherName
-        this.startTime=res.data.startTime
-        this.endTime=res.data.endTime
+      getHomeworkByStudent(this.$store.state.global.id).then(res=>{
+        console.log(res)
+        res.data.forEach((value) => {
+          let endTime = new Date(value.endTime)
+          let startTime = new Date(value.startTime)
+          endTime.setHours(endTime.getHours() - 8)
+          startTime.setHours(startTime.getHours() - 8)
+          value.endTime = endTime.format("yyyy-MM-dd hh:mm:ss")
+          value.startTime = startTime.format("yyyy-MM-dd hh:mm:ss")
+        });
+        let target={}
+        for(let i=0;i<res.data.length;i++){
+          if(res.data[i].id.toString()===this.homeworkId){
+            target=res.data[i]
+            break
+          }
+        }
+        this.title=target.title
+        this.courseName=target.teacherId
+        this.teacherName=target.courseId
+        this.startTime=target.startTime
+        this.endTime=target.endTime
       })
     },
     clear(){

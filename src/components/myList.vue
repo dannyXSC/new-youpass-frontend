@@ -10,7 +10,7 @@
         <slot :row="row"></slot>
       </template>
       <template #empty="row">
-        <p style="text-align: center">现在没有作业哦，加入课程以获取作业</p>
+        <p style="text-align: center">无数据</p>
       </template>
     </b-table>
     <slot name="footer"></slot>
