@@ -9,6 +9,9 @@
       <template #row-details="row">
         <slot :row="row"></slot>
       </template>
+      <template #empty="row">
+        <p style="text-align: center">现在没有作业哦，加入课程以获取作业</p>
+      </template>
     </b-table>
     <slot name="footer"></slot>
   </b-card>
