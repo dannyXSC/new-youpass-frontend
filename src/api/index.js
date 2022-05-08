@@ -1123,6 +1123,9 @@ export const getCommentsByAssignmentId = (AssignmentId) => {
                                 supportNum: childret.data[j].comment.likeNum,
                                 supported: k.data[0],
                                 createTime:childret.data[j].comment.createTime.slice(0,19).replace('T','  '),
+                                myComment: '',
+                                pcommentId:childret.data[j].comment.pcommentId,
+                                fatherName:childret.data[j].fatherName,
                                 content: childret.data[j].comment.content,
                             })
                         })
@@ -1136,6 +1139,7 @@ export const getCommentsByAssignmentId = (AssignmentId) => {
                         supported: p.data[0],
                         content: retdata.data[i].comment.content,
                         supportNum: retdata.data[i].comment.likeNum,
+                        fatherName:retdata.data[i].fatherName,
                         createTime:retdata.data[i].comment.createTime.slice(0,19).replace('T','  '),
                         myComment: '',
                         children: children

@@ -56,15 +56,46 @@
               <b-list-group-item v-for="child in comment.children" :key="child.commentId">
                 <b-avatar size="sm" class="mr-3" :src="child.userAvater" button
                           @click="showHisInfo(child.userId)"></b-avatar>
-                <span class="mr-auto">{{ child.userName }}</span>
+                <span class="mr-auto">{{ child.userName }}</span><span v-if="child.pcommentId !== comment.commentId" style="margin-left: 1em">回复</span><span v-if="child.pcommentId !== comment.commentId" style="margin-left: 1em">{{child.fatherName}}</span>
                 <p class="commentZone">
                   {{ child.content }}
                 </p>
                 <p style="font-size: 0.5em">
-                  {{ child.createTime }}
-                  <span><b-button size="sm" variant="outline-white" :disabled="child.supported"
-                                  @click="giveLike(child.commentId)"><b-icon
-                      icon="hand-thumbs-up"></b-icon></b-button>{{ child.supportNum }}</span>
+                  <b-row>
+                      {{ child.createTime }}
+                    <b-col cols="1">
+                        <span><b-button size="sm" variant="outline-white" :disabled="child.supported"
+                                     @click="giveLike(child.commentId)"><b-icon
+                                          icon="hand-thumbs-up"></b-icon></b-button>{{ child.supportNum }}</span>
+                    </b-col>
+                    <b-col cols="1">
+                         <span><b-button size="sm" variant="outline-white" v-b-toggle="'giveComment'+child.commentId"><b-icon
+                             icon="chat-right-text-fill"></b-icon> </b-button></span>
+                    </b-col>
+                  </b-row>
+                  <b-collapse :id="'giveComment'+child.commentId" class="giveComment">
+                    <b-row>
+                      <b-col cols="10">
+                        <b-form-textarea
+                            v-model="child.myComment"
+                            placeholder="说点什么..."
+                            rows="3"
+                            max-rows="6"
+                        ></b-form-textarea>
+                      </b-col>
+                      <b-col cols="2">
+                        <b-button-group vertical size="lg">
+                          <b-button type="submit" style="height: 2em" variant="success"
+                                    @click="thesubmitComment(child.commentId)">提交
+                          </b-button>
+                          <b-button type="reset" style="height: 2em" variant="danger"
+                                    @click="clearComment(child.commentId)">
+                            清除
+                          </b-button>
+                        </b-button-group>
+                      </b-col>
+                    </b-row>
+                  </b-collapse>
                 </p>
               </b-list-group-item>
             </b-list-group>
@@ -93,7 +124,7 @@ export default {
     this.sort()
   },
   methods: {
-    sort(){
+    sort() {
       this.comments.sort((c, d) => {
         return d.supportNum - c.supportNum
       })
@@ -115,6 +146,12 @@ export default {
         if (this.comments[i].commentId === targetId) {
           submitContent = this.comments[i].myComment
           break
+        }
+        for(var j=0;j<this.comments[i].children.length;j++){
+          if (this.comments[i].children[j].commentId === targetId) {
+            submitContent = this.comments[i].children[j].myComment
+            break
+          }
         }
       }
       submitComment(this.$store.state.global.id, -1, targetId, this.$store.state.global.accountType, submitContent).then((res) => {
