@@ -9,6 +9,9 @@
       <template #row-details="row">
         <slot :row="row"></slot>
       </template>
+      <template #empty="row">
+        <p style="text-align: center">无数据</p>
+      </template>
     </b-table>
     <slot name="footer"></slot>
   </b-card>

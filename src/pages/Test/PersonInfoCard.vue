@@ -23,7 +23,7 @@
             </b-row>
           </b-col>
           <b-col>
-            <b-dropdown squared variant="success" style="float: right" dropleft text="修改个人信息" class="m-2">
+            <b-dropdown squared variant="success" ref="uploadInfo" style="float: right" dropleft text="修改个人信息" class="m-2">
               <b-dropdown-form>
                 <b-form-group label="姓名">
                   <b-form-input placeholder="nickname" v-model="updateInfo.name" :state="nameInvalid">
@@ -140,6 +140,7 @@ export default {
             autoHideDelay: 2000
           });
         }
+        this.$refs.uploadInfo.hide()
         this.init()
       })
     },
