@@ -33,16 +33,16 @@
                     <div
                         class="card-shadow-primary border mb-3 card card-body border-primary"
                     >
-                      <h5 class="card-title" style="font-size: 18px">
+                      <h5 class="card-title" style="font-size: 15px">
                         <span class="text-success"
-                        >发布该通知的课程编号：</span>{{ item.courseId }}
+                        >课程编号：</span>{{ item.courseId }}
                       </h5>
                       <h5 class="card-title" style="font-size: 15px">
                         <span class="text-warning"
                         >通知标题：</span
                         >{{ item.title }}
                       </h5>
-                      <h5 class="card-title" style="font-size: 13px">
+                      <h5 class="card-title" style="font-size: 15px">
                         <span class="text-warning"
                         >通知内容：</span
                         >{{ item.content }}
