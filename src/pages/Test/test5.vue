@@ -17,7 +17,6 @@
 import vue2Dropzone from "vue2-dropzone";
 import "vue2-dropzone/dist/vue2Dropzone.min.css";
 import MyEditModal from "@/components/myEditModal";
-import {deleteImageByName, testPostImage} from "@/api";
 import MyImageEditor from "@/components/myImageEditor";
 
 export default {

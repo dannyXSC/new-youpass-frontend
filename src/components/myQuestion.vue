@@ -37,7 +37,7 @@
                   <template v-if="questionInfo.type>=3">
                     <!-- 大题图片题有图片 -->
                     <div
-                        v-for="picture in questionInfo.pictureDescriptions" :key="picture"
+                        v-for="picture in pictureDescriptions" :key="picture"
                         class="mb-3"
                     >
                       <b-img :src="picture" fluid></b-img>
@@ -139,13 +139,10 @@
                       />
                     </div>
                   </div>
-                  <vue-dropzone
-                      ref="myVueDropzone"
-                      :id="'dropzone'+questionInfo.questionId"
-                      :options="dropzoneOptions"
-                      @vdropzone-removed-file='removeThisFile'
-                      @vdropzone-success='ansUploadSuccess'
-                  ></vue-dropzone>
+                  <my-dropzone
+                      :my-ref="'dropzone' + questionInfo.questionId"
+                      v-model:value="questionInfo.studentPictureAnswers"
+                  />
                 </div>
               </div>
             </b-col>
@@ -159,10 +156,10 @@
 <script>
 import parse from "@/utils/parseLatex";
 import MyEditModal from "@/components/myEditModal.vue";
-import vue2Dropzone from 'vue2-dropzone'
-import 'vue2-dropzone/dist/vue2Dropzone.min.css'
-import {deleteImageByName} from "@/api";
+import {deleteImageByName, getImageUrl} from "@/api";
 import {questionImageUpload} from "@/api"
+import MyDropzone from "@/components/myDropzone";
+
 export default {
   name: "myQuestion",
   props: {
@@ -173,57 +170,61 @@ export default {
     },
   },
   components: {
-    MyEditModal,
-    vueDropzone: vue2Dropzone
+    MyDropzone,
+    MyEditModal
   },
   data() {
     return {
-      dropzoneOptions: {
-        url: '/api/testUploadImage',
-        thumbnailWidth: 150,
-        maxFilesize: 2,
-        addRemoveLinks: true,
-      },
       //是否正在添加文本答案
       isEditing: false,
-      num2type: ["单选", "多选", "填空", "大题","图片题"],
+      num2type: ["单选", "多选", "填空", "大题", "图片题"],
+      pictureDescriptions:[],
       questionInfo: this.value
       /**
-      *
-      * 公共
-      * - type: 0 1 2 3 4 分别表示单选、多选、填空、大题、图片题
-      * - questionId: 题目id(数据库中id)
-      * - numInPaper: 在试卷中的序号
-      * - description: 题目描述
-      * - textComment: 老师的文字评论 (当isRead==true有效)
-      * - pictureComment: 老师图片评论 (当isRead==true有效)
-      *
-      * 单选题 0
-      * - options: 选项列表
-      *     - optionId: 选项id(A/B/C....)
-      *     - description: 选项描述
-      * - standardAnswer: 正确答案，数组, 但是里面只有一个数(当isRead==true有效)
-      * - studentAnswer: 学生答案，数组，但是里面只有一个数
-      *
-      * 多选题 1
-      * - options: 选项列表
-      *     - optionId: 选项id(A/B/C....)
-      *     - description: 选项描述
-      * - standardAnswer: 正确答案, 数组，对应optionId (当isRead==true有效)
-      * - studentAnswer: 学生答案, 数组，对应optionId
-      *
-      * 填空题 2
-      * - studentAnswer: 学生答案，文本
-      * - standardAnswer: 正确答案，文本 (当isRead==true有效)
-      *
-      * 大题 3
-      * - pictureDescription: 列表，每一项是一个图片的url
-      * - studentAnswer: 学生答案，文本
-      * - standardAnswer: 正确答案，文本 (当isRead)
-      * - studentPictureAnswers: 学生答案，图片
-      * - standardPictureAnswers: 正确答案，图片 (当isRead==true有效)
-      *
-      * */
+       *
+       * 公共
+       * - type: 0 1 2 3 4 分别表示单选、多选、填空、大题、图片题
+       * - questionId: 题目id(数据库中id)
+       * - numInPaper: 在试卷中的序号
+       * - description: 题目描述
+       * - textComment: 老师的文字评论 (当isRead==true有效)
+       * - pictureComment: 老师图片评论 (当isRead==true有效)
+       *
+       * 单选题 0
+       * - options: 选项列表
+       *     - optionId: 选项id(A/B/C....)
+       *     - description: 选项描述
+       * - standardAnswer: 正确答案，数组, 但是里面只有一个数(当isRead==true有效)
+       * - studentAnswer: 学生答案，数组，但是里面只有一个数
+       *
+       * 多选题 1
+       * - options: 选项列表
+       *     - optionId: 选项id(A/B/C....)
+       *     - description: 选项描述
+       * - standardAnswer: 正确答案, 数组，对应optionId (当isRead==true有效)
+       * - studentAnswer: 学生答案, 数组，对应optionId
+       *
+       * 填空题 2
+       * - studentAnswer: 学生答案，文本
+       * - standardAnswer: 正确答案，文本 (当isRead==true有效)
+       *
+       * 大题 3
+       * - pictureDescriptions: 列表，每一项是一个图片的url
+       * - studentAnswer: 学生答案，文本
+       * - standardAnswer: 正确答案，文本 (当isRead)
+       * - studentPictureAnswers: 学生答案，图片id数组
+       * - standardPictureAnswers: 正确答案，图片id数组 (当isRead==true有效)
+       *
+       * */
+    }
+  },
+  mounted() {
+    if(this.questionInfo.type===3){
+      this.questionInfo.pictureDescriptions.forEach((item,index) => {
+        getImageUrl(item).then(res => {
+          this.pictureDescriptions.push(res.data.url)
+        })
+      })
     }
   },
   methods: {
@@ -244,7 +245,7 @@ export default {
         }
       }
     },
-    ansUploadSuccess(file, response){
+    ansUploadSuccess(file, response) {
       questionImageUpload(file.name)
       this.questionInfo.standardPictureAnswers.push(file.name)
       this.handleInput();
@@ -279,7 +280,7 @@ export default {
     removeThisFile(file, error, xhr) {
       deleteImageByName(file.name);
     },
-  }
+  },
 }
 </script>
 

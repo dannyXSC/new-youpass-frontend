@@ -76,7 +76,7 @@
               </b-row>
               <b-row class="justify-content-between">
                 <b-col cols="4" offset="8">
-                  <b-button pill variant="warning">提交</b-button>
+                  <b-button pill variant="warning" @click="handleSubmit">提交</b-button>
                 </b-col>
               </b-row>
             </template>
@@ -117,15 +117,12 @@ import MyCountBar from "@/components/myCountBar";
 import MyCountBarNew from "@/components/myCountBarNew";
 import {Slide} from 'vue-burger-menu'
 import {ContentLoader} from 'vue-content-loader'
-import {getCorrectedQuestion} from "@/api";
+import {getCorrectedQuestion, getImageUrl, manualCorrect} from "@/api";
 
 export default {
   name: "correctPaper",
   components: {MyCountBarNew, MyCountBar, MyFeedback, Slide, ContentLoader},
-  props: {
-    homeworkId: Number,
-    questionId: Number
-  },
+  props: ['homeworkId', 'questionId'],
   data() {
     return {
       onShowId: 0,
@@ -176,11 +173,7 @@ export default {
     };
   },
   mounted() {
-    console.log(this.homeworkId,this.questionId)
-    getCorrectedQuestion({
-      homeworkId: this.homeworkId,
-      questionId: this.questionId
-    }).then(res => {
+    getCorrectedQuestion(this.homeworkId, this.questionId).then(res => {
       if (res.code === 100) {
         this.info = res.data;
         //维护questionInfo，用于展示作业
@@ -238,6 +231,24 @@ export default {
     },
     handleSelect(item) {
       this.onShowId = item
+    },
+    handleSubmit() {
+      //直接提交
+      manualCorrect(this.homeworkId,this.questionId,this.info.studentList).then(res=>{
+        if(res.code===100){
+          this.$toast.success("成功！")
+          this.$router.push({
+            name: "correctedQuestion",
+            params: {
+              homeworkId: this.homeworkId,
+            }
+          });
+        }else{
+          this.$toast.error(res.msg);
+        }
+      }).catch(err=>{
+        this.$toast.error(err);
+      })
     }
   },
   computed: {

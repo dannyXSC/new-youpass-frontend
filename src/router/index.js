@@ -98,19 +98,19 @@ const router = new VueRouter({
                 },
                 {
                     name: "correctPaper",
-                    path: "/dashboard/correctPaper",
+                    path: "/dashboard/correctPaper/:homeworkId/:questionId",
                     component: correctPaper,
                     props: true
                 },
                 {
                     name: "homeworkList",
-                    path: "/dashboard/homeworkList",
+                    path: "/dashboard/homeworkList/:courseId",
                     component: homeworkList,
                     props: true,
                 },
                 {
                     name: "correctedQuestion",
-                    path: "/dashboard/correctedQuestion",
+                    path: "/dashboard/correctedQuestion/:homeworkId",
                     component: correctedQuestion,
                     props: true
                 },
@@ -121,7 +121,8 @@ const router = new VueRouter({
                 },
                 {
                     path: "/dashboard/course",
-                    component: course
+                    component: course,
+                    name:"course"
                 },
                 {
                     path: "/dashboard/personinfo",
@@ -160,7 +161,7 @@ const router = new VueRouter({
                 },
                 {
                     name: "homeworkTest",
-                    path: "/dashboard/homeworkTest",
+                    path: "/dashboard/homeworkTest/:homeworkId",
                     component: homeworkTest,
                     props: true
                 },
@@ -300,8 +301,8 @@ const router = new VueRouter({
                     component: OthersInfo
                 },
                 {
-                    path: "/testCorrectPaper",
-                    component: testCorrectPaper
+                    path: "/testCorrectPaper/",
+                    component: testCorrectPaper,
                 },
                 {
                     path:"/testAddQuestion",

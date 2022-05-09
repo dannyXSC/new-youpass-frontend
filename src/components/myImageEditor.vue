@@ -18,6 +18,7 @@ import 'tui-image-editor/dist/tui-image-editor.css';
 import {ImageEditor} from '@toast-ui/vue-image-editor';
 import convertBase64UrlToImgFile from "@/utils/base64ToFile";
 import {testPostImage} from "@/api";
+import axios from "axios";
 
 export default {
   name: "myImageEditor",

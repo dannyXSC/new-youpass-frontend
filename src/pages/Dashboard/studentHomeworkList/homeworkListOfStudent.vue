@@ -115,13 +115,13 @@ export default {
           alert(error);
         });
   },
-  methods:{
+  methods: {
     handleTakeHomework(item) {
       this.$router.push({
         name: "homeworkTest",
         params: {
           studentId: this.$store.state.global.id,
-          homeworkId: item.id,
+          homeworkId: item.homeworkId,
         },
       });
     },
@@ -130,7 +130,7 @@ export default {
         name: "homeworkFeedback",
         params: {
           studentId: this.$store.state.global.id,
-          homeworkId: item.id,
+          homeworkId: item.homeworkId,
         },
       });
     },

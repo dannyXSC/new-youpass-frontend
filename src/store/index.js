@@ -3,9 +3,7 @@
 import {
     addQuestions,
     checkState,
-    courseGetExam,
     deleteSession,
-    getAllInfo,
     getBasicInfo,
     getExamQuestion,
     getImage,

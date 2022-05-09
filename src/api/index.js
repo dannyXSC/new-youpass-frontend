@@ -6,7 +6,7 @@ import requests from "@/utils/requests";
  * @param id
  */
 export const getImageUrl = (id) => {
-    return requests({url: "/api/file/" + id, method: "get"})
+    return requests({url: "/file/" + id, method: "get"})
     //
     // return new Promise((resolve, reject) => {
     //     resolve({
@@ -23,7 +23,7 @@ export const getImageUrl = (id) => {
  * @returns {Promise<unknown>}
  */
 export const removeImage = (id) => {
-    return requests({url: "/api/file/" + id, method: "DELETE"})
+    return requests({url: "/file/" + id, method: "DELETE"})
     // return new Promise((resolve, reject) => {
     //     resolve({
     //         code: 100,
@@ -46,6 +46,9 @@ export const removeImage = (id) => {
  * }
  */
 export const imagePostURL = "/api/file"
+export const uploadImage = (formData) => {
+    return requests({url: "/file", method: "post", data: formData})
+}
 
 
 /**
@@ -371,87 +374,150 @@ export const getFeedback = (studentId, homeworkId) => {
  *        homeworkId 作业id
  * @returns {AxiosPromise}
  */
-export const getQuestions = (studentId, homeworkId) => {
-    return new Promise((resolve, reject) => {
-        resolve({
-            code: 100,
-            msg: "成功",
-            data: [{
-                type: 0,
-                questionId: 1,
-                numInPaper: 1,
-                description: "第一题xxxx 1_321",
-                options: [{
-                    optionId: 1,
-                    description: "答案1",
-                },
-                    {
-                        optionId: 2,
-                        description: "答案2",
-                    },
-                    {
-                        optionId: 3,
-                        description: "答案3",
-                    },
-                    {
-                        optionId: 4,
-                        description: "答案4",
-                    }
-                ],
-                studentAnswer: []
-            },
-                {
-                    type: 1,
-                    questionId: 2,
-                    numInPaper: 2,
-                    description: "第一题xxxx 1_321",
-                    options: [{
-                        optionId: 1,
-                        description: "答案1",
-                    },
-                        {
-                            optionId: 2,
-                            description: "答案2",
-                        },
-                        {
-                            optionId: 3,
-                            description: "答案3",
-                        },
-                        {
-                            optionId: 4,
-                            description: "答案4",
-                        }
-                    ],
-                    studentAnswer: []
-                },
-                {
-                    type: 2,
-                    questionId: 3,
-                    numInPaper: 3,
-                    description: "第一题xxxx 1_321",
-                    studentAnswer: ""
-                },
-                {
-                    type: 3,
-                    questionId: 4,
-                    numInPaper: 4,
-                    description: "第一题xxxx 1_321",
-                    pictureDescriptions: ["https://picsum.photos/1024/400/?image=41"],
-                    studentAnswer: "",
-                    studentPictureAnswers: ["https://picsum.photos/1024/400/?image=41"]
-                }
-            ]
+export const getQuestions = (homeworkId) => {
+    return requests({url: '/homework/student/homeworkId/' + homeworkId, method: 'get'}).then(response => {
+        console.log("response", response)
+        let res = {}
+        res.code = response.code
+        res.msg = response.msg
+        res.data = []
+        response.data.stuAnswerQuestionList.forEach((item) => {
+            let type = 0
+            let studentAnswer = item.studentAnswer
+            let studentPictureAnswers = item.submitFileId
+            if (item.questionVo.questionType === "SINGLE") {
+                type = 0
+                studentAnswer = studentAnswer || []
+                studentAnswer.forEach((item, index) => {
+                    studentAnswer[index] = parseInt(item)
+                })
+            } else if (item.questionVo.questionType === "MULTIPLE") {
+                type = 1
+                studentAnswer = studentAnswer || []
+                studentAnswer.forEach((item, index) => {
+                    studentAnswer[index] = parseInt(item)
+                })
+            } else if (item.questionVo.questionType === "FILL_IN_BLANK") {
+                type = 2
+                studentAnswer = studentAnswer || ""
+            } else {
+                type = 3
+                studentAnswer = studentAnswer || ""
+                studentPictureAnswers = studentPictureAnswers || []
+            }
+
+            let options = []
+            if (type === 0 || type === 1) {
+                item.questionVo.options.forEach((option) => {
+                    options.push({
+                        optionId: option.questionId,
+                        description: option.description
+                    })
+                })
+            }
+
+            res.data.push({
+                type: type,
+                questionId: item.questionVo.questionId,
+                numInPaper: item.numInPaper + 1,
+                description: item.questionVo.description,
+                options: options,
+                studentAnswer: studentAnswer,
+                studentPictureAnswers: studentPictureAnswers,
+                pictureDescriptions: item.questionVo.questionFileId || [],
+            })
         })
+        return res
     })
+
+    // return new Promise((resolve, reject) => {
+    //     resolve({
+    //         code: 100,
+    //         msg: "成功",
+    //         data: [
+    //             {
+    //                 type: 0,
+    //                 questionId: 1,
+    //                 numInPaper: 1,
+    //                 description: "第一题xxxx 1_321",
+    //                 options: [{
+    //                     optionId: 1,
+    //                     description: "答案1",
+    //                 },
+    //                     {
+    //                         optionId: 2,
+    //                         description: "答案2",
+    //                     },
+    //                     {
+    //                         optionId: 3,
+    //                         description: "答案3",
+    //                     },
+    //                     {
+    //                         optionId: 4,
+    //                         description: "答案4",
+    //                     }
+    //                 ],
+    //                 studentAnswer: []
+    //             },
+    //             {
+    //                 type: 1,
+    //                 questionId: 2,
+    //                 numInPaper: 2,
+    //                 description: "第一题xxxx 1_321",
+    //                 options: [{
+    //                     optionId: 1,
+    //                     description: "答案1",
+    //                 },
+    //                     {
+    //                         optionId: 2,
+    //                         description: "答案2",
+    //                     },
+    //                     {
+    //                         optionId: 3,
+    //                         description: "答案3",
+    //                     },
+    //                     {
+    //                         optionId: 4,
+    //                         description: "答案4",
+    //                     }
+    //                 ],
+    //                 studentAnswer: []
+    //             },
+    //             {
+    //                 type: 2,
+    //                 questionId: 3,
+    //                 numInPaper: 3,
+    //                 description: "第一题xxxx 1_321",
+    //                 studentAnswer: ""
+    //             },
+    //             {
+    //                 type: 3,
+    //                 questionId: 4,
+    //                 numInPaper: 4,
+    //                 description: "第一题xxxx 1_321",
+    //                 pictureDescriptions: [10, 22],
+    //                 studentAnswer: "",
+    //                 studentPictureAnswers: [10]
+    //             }
+    //         ]
+    //     })
+    // })
 }
 
 export const teacherPublishExam = (postData, teacherId, courseId) => {
     let questions = []
     postData.questionList.forEach(value => {
-        questions.push({
-            questionId: value.id,
-            value:5
-        })
+        let obj = {questionId: value.id}
+        if (value.type === "单选题") {
+            obj.value = postData.singleScore
+        } else if (value.type === "多选题") {
+            obj.value = postData.multiScore
+        } else if (value.type === "填空题") {
+            obj.value = postData.fillScore
+        } else if (value.type === "大题") {
+            obj.value = postData.bigScore
+        }
+        questions.push(obj)
     })
 
     let data = {
@@ -460,7 +526,8 @@ export const teacherPublishExam = (postData, teacherId, courseId) => {
             endTime: postData.startDate + "T" + postData.endTime + ":00",
             startTime: postData.startDate + "T" + postData.startTime + ":00",
             teacherId: teacherId,
-            questions: questions
+            questions: questions,
+            title: postData.examName,
         }
     }
     console.log(data)
@@ -651,192 +718,282 @@ export const createCourse = (name, password) => {
 }
 
 //获取老师需要批改的所有题目
-export const getCorrectedQuestion = (data) => {
-    // return requests({url: '/question/getStu', method: 'post', data: data})
-    return new Promise((resolve, reject) => {
-        resolve({
-            "code": 100,
-            "msg": "成功",
-            "data": {
-                questionInfo: {
-                    /// 选择题
-                    type: 0,
-                    questionId: 1,
-                    description: "第一题xxxx 1_321",
-                    options: [{
-                        optionId: 1,
-                        description: "答案1",
-                    },
-                        {
-                            optionId: 2,
-                            description: "答案2",
-                        },
-                        {
-                            optionId: 3,
-                            description: "答案3",
-                        },
-                        {
-                            optionId: 4,
-                            description: "答案4",
-                        }
-                    ],
-                    standardAnswer: [2],
-                    value: 5,
+export const getCorrectedQuestion = (homeworkId, questionId) => {
+    return requests({
+        url: '/homework/homeworkId/' + homeworkId + '/questionId/' + questionId,
+        method: 'get'
+    }).then(response => {
+        console.log("response", response)
+        let res = {}
+        res.code = response.code
+        res.msg = response.msg
+        res.data = {questionInfo: {}, studentList: []}
+        if (response.data !== null && Array.isArray(response.data)) {
+            response.data.forEach((item) => {
+                res.data.questionInfo.description = item.questionVo.description
+                res.data.questionInfo.questionId = item.questionVo.questionId
+                res.data.questionInfo.value = item.questionVo.value
 
-                    // /// 多选题
-                    // type: 1,
-                    // questionId: 1,
-                    // description: "第一题xxxx 1_321",
-                    // options: [
-                    //   {
-                    //     optionId: 1,
-                    //     description: "答案1",
-                    //   },
-                    //   {
-                    //     optionId: 2,
-                    //     description: "答案2",
-                    //   },
-                    //   {
-                    //     optionId: 3,
-                    //     description: "答案3",
-                    //   },
-                    //   {
-                    //     optionId: 4,
-                    //     description: "答案4",
-                    //   }
-                    // ],
-                    // standardAnswer: [2,3],
-                    // value: 5,
+                let studentAnswer = null
 
-                    // /// 填空题
-                    // type: 2,
-                    // questionId: 1,
-                    // description: "第一题xxxx 1_321",
-                    // standardAnswer: "我爱你中国",
-                    // value: 5,
+                if (item.questionVo.questionType === "SINGLE") {
+                    res.data.questionInfo.type = 0
+                    res.data.questionInfo.options = []
+                    res.data.questionInfo.standardAnswer = []
+                    item.questionVo.options.forEach((option) => {
+                        res.data.questionInfo.options.push({
+                            optionId: parseInt(option.optionId),
+                            description: option.description
+                        })
+                    })
+                    item.questionVo.standardAnswer.forEach((answer) => {
+                        res.data.questionInfo.standardAnswer.push(parseInt(answer))
+                    })
 
-                    // /// 大题
-                    // type: 3,
-                    // questionId: 1,
-                    // description: "第一题xxxx 1_321",
-                    // pictureDescription: ["https://picsum.photos/1024/400/?image=41"],
-                    // standardAnswer: "我爱你中国",
-                    // standardPictureAnswers: [
-                    //   "http://dannyxsc.xyz/img/%E6%88%AA%E5%B1%8F2022-02-25%20%E4%B8%8A%E5%8D%8811.18.30.png",
-                    //   "http://dannyxsc.xyz/img/image-20220225222647576.png"
-                    // ],
-                    // value: 5,
-                },
-                studentList: [
-                    ///选择题
-                    {
-                        studentId: 1,
-                        answer: [0],
-                        mark: null,
-                        textComment: "",
-                        pictureComment: [""],
-                    },
-                    {
-                        studentId: 2,
-                        answer: [1],
-                        mark: null,
-                        textComment: "",
-                        pictureComment: [""],
-                    },
-                    {
-                        studentId: 3,
-                        answer: [2],
-                        mark: null,
-                        textComment: "",
-                        pictureComment: [""],
-                    },
-                    {
-                        studentId: 4,
-                        answer: [3],
-                        mark: null,
-                        textComment: "",
-                        pictureComment: [""],
-                    },
-                    {
-                        studentId: 5,
-                        answer: [3],
-                        mark: null,
-                        textComment: "",
-                        pictureComment: [""],
-                    },
+                    studentAnswer = []
+                    item.studentAnswer.forEach((answer) => {
+                        studentAnswer.push(parseInt(answer))
+                    })
 
-                    // ///填空题
-                    // {
-                    //   studentId: 1,
-                    //   answer: "123",
-                    //   mark: 5,
-                    //   textComment: "",
-                    //   pictureComment: [""],
-                    // },
-                    // {
-                    //   studentId: 2,
-                    //   answer: "1232",
-                    //   mark: 5,
-                    //   textComment: "",
-                    //   pictureComment: [""],
-                    // },
-                    // {
-                    //   studentId: 3,
-                    //   answer: "1233",
-                    //   mark: 5,
-                    //   textComment: "",
-                    //   pictureComment: [""],
-                    // },
-                    // {
-                    //   studentId: 4,
-                    //   answer: "1234",
-                    //   mark: 5,
-                    //   textComment: "",
-                    //   pictureComment: [""],
-                    // },
+                } else if (item.questionVo.questionType === "MULTIPLE") {
+                    res.data.questionInfo.type = 1
+                    res.data.questionInfo.options = []
+                    res.data.questionInfo.standardAnswer = []
+                    item.questionVo.options.forEach((option) => {
+                        res.data.questionInfo.options.push({
+                            optionId: parseInt(option.optionId),
+                            description: option.description
+                        })
+                    })
+                    item.questionVo.standardAnswer.forEach((answer) => {
+                        res.data.questionInfo.standardAnswer.push(parseInt(answer))
+                    })
+                    studentAnswer = []
+                    item.studentAnswer.forEach((answer) => {
+                        studentAnswer.push(parseInt(answer))
+                    })
+                } else if (item.questionVo.questionType === "FILL_IN_BLANK") {
+                    res.data.questionInfo.type = 2
+                    res.data.questionInfo.standardAnswer = item.questionVo.standardAnswer
+                    studentAnswer = item.studentAnswer
+                } else {
+                    res.data.questionInfo.type = 3
+                    res.data.questionInfo.standardAnswer = item.questionVo.standardAnswer
+                    res.data.questionInfo.pictureDescription = item.questionVo.questionFileId
+                    res.data.questionInfo.standardPictureAnswers = item.questionVo.answerFileId
+                    studentAnswer = item.studentAnswer
+                }
 
-                    // /// 大题
-                    // {
-                    //   studentId: 1,
-                    //   answer: "123",
-                    //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
-                    //   mark: 5,
-                    //   textComment: "",
-                    //   pictureComment: [],
-                    // },
-                    // {
-                    //   studentId: 2,
-                    //   answer: "1232",
-                    //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
-                    //   mark: 5,
-                    //   textComment: "",
-                    //   pictureComment: [],
-                    // },
-                    // {
-                    //   studentId: 3,
-                    //   answer: "1233",
-                    //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
-                    //   mark: 5,
-                    //   textComment: "",
-                    //   pictureComment: [],
-                    // },
-                    // {
-                    //   studentId: 4,
-                    //   answer: "1234",
-                    //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
-                    //   mark: 5,
-                    //   textComment: "",
-                    //   pictureComment: [],
-                    // },
-                ]
-            }
-        })
+                res.data.studentList.push({
+                    studentId: item.studentId,
+                    answer: studentAnswer,
+                    mark: item.mark,
+                    textComment: item.feedbackComment || "",
+                    pictureComment: item.feedbackFileId || [],
+                    studentPictureAnswers: item.submitFileId || [],
+                })
+            })
+        }
+        console.log(res)
+        return res
     })
+    // return new Promise((resolve, reject) => {
+    //     resolve({
+    //         "code": 100,
+    //         "msg": "成功",
+    //         "data": {
+    //             questionInfo: {
+    //                 /// 选择题
+    //                 type: 0,
+    //                 questionId: 1,
+    //                 description: "第一题xxxx 1_321",
+    //                 options: [{
+    //                     optionId: 1,
+    //                     description: "答案1",
+    //                 },
+    //                     {
+    //                         optionId: 2,
+    //                         description: "答案2",
+    //                     },
+    //                     {
+    //                         optionId: 3,
+    //                         description: "答案3",
+    //                     },
+    //                     {
+    //                         optionId: 4,
+    //                         description: "答案4",
+    //                     }
+    //                 ],
+    //                 standardAnswer: [2],
+    //                 value: 5,
+    //
+    //                 // /// 多选题
+    //                 // type: 1,
+    //                 // questionId: 1,
+    //                 // description: "第一题xxxx 1_321",
+    //                 // options: [
+    //                 //   {
+    //                 //     optionId: 1,
+    //                 //     description: "答案1",
+    //                 //   },
+    //                 //   {
+    //                 //     optionId: 2,
+    //                 //     description: "答案2",
+    //                 //   },
+    //                 //   {
+    //                 //     optionId: 3,
+    //                 //     description: "答案3",
+    //                 //   },
+    //                 //   {
+    //                 //     optionId: 4,
+    //                 //     description: "答案4",
+    //                 //   }
+    //                 // ],
+    //                 // standardAnswer: [2,3],
+    //                 // value: 5,
+    //
+    //                 // /// 填空题
+    //                 // type: 2,
+    //                 // questionId: 1,
+    //                 // description: "第一题xxxx 1_321",
+    //                 // standardAnswer: "我爱你中国",
+    //                 // value: 5,
+    //
+    //                 // /// 大题
+    //                 // type: 3,
+    //                 // questionId: 1,
+    //                 // description: "第一题xxxx 1_321",
+    //                 // pictureDescription: ["https://picsum.photos/1024/400/?image=41"],
+    //                 // standardAnswer: "我爱你中国",
+    //                 // standardPictureAnswers: [
+    //                 //   "http://dannyxsc.xyz/img/%E6%88%AA%E5%B1%8F2022-02-25%20%E4%B8%8A%E5%8D%8811.18.30.png",
+    //                 //   "http://dannyxsc.xyz/img/image-20220225222647576.png"
+    //                 // ],
+    //                 // value: 5,
+    //             },
+    //             studentList: [
+    //                 ///选择题
+    //                 {
+    //                     studentId: 1,
+    //                     answer: [0],
+    //                     mark: null,
+    //                     textComment: "",
+    //                     pictureComment: [""],
+    //                 },
+    //                 {
+    //                     studentId: 2,
+    //                     answer: [1],
+    //                     mark: null,
+    //                     textComment: "",
+    //                     pictureComment: [""],
+    //                 },
+    //                 {
+    //                     studentId: 3,
+    //                     answer: [2],
+    //                     mark: null,
+    //                     textComment: "",
+    //                     pictureComment: [""],
+    //                 },
+    //                 {
+    //                     studentId: 4,
+    //                     answer: [3],
+    //                     mark: null,
+    //                     textComment: "",
+    //                     pictureComment: [""],
+    //                 },
+    //                 {
+    //                     studentId: 5,
+    //                     answer: [3],
+    //                     mark: null,
+    //                     textComment: "",
+    //                     pictureComment: [""],
+    //                 },
+    //
+    //                 // ///填空题
+    //                 // {
+    //                 //   studentId: 1,
+    //                 //   answer: "123",
+    //                 //   mark: 5,
+    //                 //   textComment: "",
+    //                 //   pictureComment: [""],
+    //                 // },
+    //                 // {
+    //                 //   studentId: 2,
+    //                 //   answer: "1232",
+    //                 //   mark: 5,
+    //                 //   textComment: "",
+    //                 //   pictureComment: [""],
+    //                 // },
+    //                 // {
+    //                 //   studentId: 3,
+    //                 //   answer: "1233",
+    //                 //   mark: 5,
+    //                 //   textComment: "",
+    //                 //   pictureComment: [""],
+    //                 // },
+    //                 // {
+    //                 //   studentId: 4,
+    //                 //   answer: "1234",
+    //                 //   mark: 5,
+    //                 //   textComment: "",
+    //                 //   pictureComment: [""],
+    //                 // },
+    //
+    //                 // /// 大题
+    //                 // {
+    //                 //   studentId: 1,
+    //                 //   answer: "123",
+    //                 //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
+    //                 //   mark: 5,
+    //                 //   textComment: "",
+    //                 //   pictureComment: [],
+    //                 // },
+    //                 // {
+    //                 //   studentId: 2,
+    //                 //   answer: "1232",
+    //                 //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
+    //                 //   mark: 5,
+    //                 //   textComment: "",
+    //                 //   pictureComment: [],
+    //                 // },
+    //                 // {
+    //                 //   studentId: 3,
+    //                 //   answer: "1233",
+    //                 //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
+    //                 //   mark: 5,
+    //                 //   textComment: "",
+    //                 //   pictureComment: [],
+    //                 // },
+    //                 // {
+    //                 //   studentId: 4,
+    //                 //   answer: "1234",
+    //                 //   studentPictureAnswers: ["http://dannyxsc.xyz/img/image-20211204151552485.png"],
+    //                 //   mark: 5,
+    //                 //   textComment: "",
+    //                 //   pictureComment: [],
+    //                 // },
+    //             ]
+    //         }
+    //     })
+    // })
 }
 //老师批改完提交
-export const manualCorrect = (data) => {
-    return requests({url: '/score/manualCorrect', method: 'post', data: data})
+export const manualCorrect = (homeworkId, questionId, studentList) => {
+    let data = {}
+    data.homeworkId = homeworkId
+    data.questionId = questionId
+    data.teacherCorrectBos = []
+    studentList.forEach(item => {
+        let obj = {}
+        obj.studentId = item.studentId
+        obj.feedback = item.textComment
+        obj.mark = item.mark
+        obj.feedbackFileId = item.pictureComment
+        data.teacherCorrectBos.push(obj)
+    })
+    return requests({url: '/homework/teacher/correct', method: 'post', data: data})
 }
+
 //老师添加题目
 export const addQuestions = (postData, teacherId) => {
     let data = []
@@ -891,19 +1048,49 @@ export const getImage = () => {
     return requests({url: '/account/getImage', method: 'get'})
 }
 //获得未批改的题目
-export const getUnmarkedQuestion = (data) => {
-    // return requests({url: '/question/getUnmarkedQuestion', method: 'get', params: data})
-    return new Promise((resolve, reject) => {
-        resolve({
-            "code": 100,
-            "msg": "成功",
-            "data": [{
-                "questionId": 45,
-                "description": "123",
-                "restNumber": 7
-            }]
-        })
+export const getUnmarkedQuestion = (homeworkId) => {
+    return requests({
+        url: '/homework/teacher/beforeCorrect/homeworkId/' + homeworkId,
+        method: 'post'
+    }).then(response => {
+        let res = {}
+        res.code = response.code
+        res.msg = response.msg
+        res.data = []
+        if (response.data.correctNumBoList !== null && Array.isArray(response.data.correctNumBoList)) {
+            response.data.correctNumBoList.forEach((item) => {
+                let obj = {}
+                obj.restNumber = item.totalNum - item.correctNum
+                obj.totalNumber = item.totalNum
+                obj.questionId = item.questionVo.questionId
+                obj.description = item.questionVo.description
+                if (item.questionVo.questionType === "SINGLE") {
+                    obj.type = "单选题"
+                } else if (item.questionVo.questionType === "MULTIPLE") {
+                    obj.type = "多选题"
+                } else if (item.questionVo.questionType === "FILL_IN_BLANK") {
+                    obj.type = "填空题"
+                } else {
+                    obj.type = "大题"
+                }
+                res.data.push(obj)
+            })
+        }
+        return res
     })
+    // return new Promise((resolve, reject) => {
+    //     resolve({
+    //         "code": 100,
+    //         "msg": "成功",
+    //         "data": [{
+    //             "questionId": 45,
+    //             "description": "123",
+    //             "restNumber": 7,
+    //             "totalNumber": 20
+    //             "type": "选择题"
+    //         }]
+    //     })
+    // })
 }
 //老师发布考试
 export const postExam = (data) => {
@@ -930,28 +1117,43 @@ export const postExam = (data) => {
  * ]
  */
 export const getHomeworkByCourseId = (courseId) => {
-    // return requests({url: "/exam/courseGetExam/" + courseId, method: "get"})
-    return new Promise(function (resolve, reject) {
-        resolve({
-            code: 100,
-            msg: "123",
-            data: [{
-                id: 1,
-                title: '作业1',
-                start_time: '2021-12-16T04:12:15.000+00:00',
-                end_time: '2021-12-23T15:48:01.437+00:00',
-                score: 5,
-            },
-                {
-                    id: 2,
-                    title: '作业2',
-                    start_time: '2021-12-15T04:12:15.000+00:00',
-                    end_time: '2021-12-23T15:48:01.437+00:00',
-                    score: 5,
-                },
-            ]
+    return requests({url: "/homework/courseId/" + courseId, method: "get"}).then(response => {
+        console.log(response)
+        let res = {}
+        res.code = response.code
+        res.msg = response.msg
+        res.data = []
+        response.data.forEach(item => {
+            res.data.push({
+                id: item.homeworkId,
+                title: item.title,
+                start_time: item.startTime,
+                end_time: item.endTime,
+            })
         })
+        return res
     })
+    // return new Promise(function (resolve, reject) {
+    //     resolve({
+    //         code: 100,
+    //         msg: "123",
+    //         data: [{
+    //             id: 1,
+    //             title: '作业1',
+    //             start_time: '2021-12-16T04:12:15.000+00:00',
+    //             end_time: '2021-12-23T15:48:01.437+00:00',
+    //             score: 5,
+    //         },
+    //             {
+    //                 id: 2,
+    //                 title: '作业2',
+    //                 start_time: '2021-12-15T04:12:15.000+00:00',
+    //                 end_time: '2021-12-23T15:48:01.437+00:00',
+    //                 score: 5,
+    //             },
+    //         ]
+    //     })
+    // })
 }
 
 export const getHomeworkByStudent = () => {
@@ -1022,6 +1224,7 @@ export const kickStudentByIdAndCourseId = (id, courseId) => {
 
 //通过学生id和课程id获得学生的所有作业
 export const getStudentHomeworkByIdAndCourseId = (id, courseId) => {
+
     return new Promise(function (resolve, reject) {
         resolve({
             code: 100,
@@ -1066,8 +1269,8 @@ export const getHisImage = () => {
 //     result.sex=res.data.sex
 //     result.tel=res.data.phone
 // }
-export const getIsLike=(commentId)=>{
-    return requests({url:'/comment/isLike',method:"get",params:{commentId:commentId}})
+export const getIsLike = (commentId) => {
+    return requests({url: '/comment/isLike', method: "get", params: {commentId: commentId}})
 }
 export const getCommentsByAssignmentId = (AssignmentId) => {
     let retdata = []
@@ -1075,22 +1278,22 @@ export const getCommentsByAssignmentId = (AssignmentId) => {
     requests({url: '/comment/getCommentByHomeworkId?homeworkId=' + AssignmentId, method: 'get'}).then((res) => {
         retdata = res
         for (let i = 0; i < retdata.data.length; i++) {
-            getIsLike(retdata.data[i].comment.id).then(p=>{
+            getIsLike(retdata.data[i].comment.id).then(p => {
                 let children = []
                 requests({
                     url: '/comment/getCommentByCommentId?commentId=' + retdata.data[i].comment.id,
                     method: 'get'
                 }).then(childret => {
-                    for (let j = 0; j < childret.data.length; j++){
-                        getIsLike(childret.data[j].comment.id).then(k=>{
+                    for (let j = 0; j < childret.data.length; j++) {
+                        getIsLike(childret.data[j].comment.id).then(k => {
                             children.push({
                                 userId: childret.data[j].comment.userId,
                                 userName: childret.data[j].name,
-                                userAvater:childret.data[j].avater,
+                                userAvater: childret.data[j].avater,
                                 commentId: childret.data[j].comment.id,
                                 supportNum: childret.data[j].comment.likeNum,
                                 supported: k.data[0],
-                                createTime:childret.data[j].comment.createTime.slice(0,19).replace('T','  '),
+                                createTime: childret.data[j].comment.createTime.slice(0, 19).replace('T', '  '),
                                 content: childret.data[j].comment.content,
                             })
                         })
@@ -1104,7 +1307,7 @@ export const getCommentsByAssignmentId = (AssignmentId) => {
                         supported: p.data[0],
                         content: retdata.data[i].comment.content,
                         supportNum: retdata.data[i].comment.likeNum,
-                        createTime:retdata.data[i].comment.createTime.slice(0,19).replace('T','  '),
+                        createTime: retdata.data[i].comment.createTime.slice(0, 19).replace('T', '  '),
                         myComment: '',
                         children: children
                     })
@@ -1215,13 +1418,17 @@ export const updateInfo = (updateInfo) => {
 
 
 export const updateAvater = (avater) => {
-    return requests({url:"/file", method:"post",data:avater})
+    return requests({url: "/file", method: "post", data: avater})
 }
-export const updateAvaterStage2 =(id)=>{
-    return requests({url:"/account/uploadImage/"+id.toString(),method:"post"})
+export const updateAvaterStage2 = (id) => {
+    return requests({url: "/account/uploadImage/" + id.toString(), method: "post"})
 }
 export const addLike = (id, targetId, identity) => {
-    return requests({url:"/comment/like",method:"post",params:{commentId:targetId,userId:id,identity:identity}})
+    return requests({
+        url: "/comment/like",
+        method: "post",
+        params: {commentId: targetId, userId: id, identity: identity}
+    })
 }
 export const getStuCourses = () => {
     return requests({url: "/course/getMyCourses", method: "get"})
@@ -1266,8 +1473,44 @@ export const getTeaCourses = () => {
     // })
 }
 
-
-export const testPostImage = (file) => {
-
-    return requests({url: "/testUploadImage", method: "post", data: file})
+export const submitHomework = (studentId, homeworkId, questionInfos) => {
+    let stuHomeworkVo = {}
+    stuHomeworkVo.studentId = studentId
+    stuHomeworkVo.homeworkId = homeworkId
+    stuHomeworkVo.stuAnswerQuestionList = []
+    questionInfos.forEach((value, index) => {
+        let obj = {
+            questionVo: {
+                questionId: value.questionId,
+            }
+        }
+        switch (value.type) {
+            case 0:
+                obj.questionVo.questionType = "SINGLE"
+                obj.studentAnswer = value.studentAnswer
+                break
+            case 1:
+                obj.questionVo.questionType = "MULTIPLE"
+                obj.studentAnswer = value.studentAnswer
+                break
+            case 2:
+                obj.questionVo.questionType = "FILL_IN_BLANK"
+                obj.studentAnswer = value.studentAnswer
+                break
+            case 3:
+                obj.questionVo.questionType = "COMPREHENSIVE"
+                obj.studentAnswer = value.studentAnswer
+                obj.submitFileId = value.studentPictureAnswers
+                break
+            default:
+                break
+        }
+        stuHomeworkVo.stuAnswerQuestionList.push(obj)
+    })
+    console.log("stuHomeworkVo", stuHomeworkVo)
+    return requests({
+        url: "/homework/student",
+        method: "post",
+        data: stuHomeworkVo
+    })
 }

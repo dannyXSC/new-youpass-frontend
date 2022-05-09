@@ -11,6 +11,10 @@
         @on-selected-rows-change="selectionChanged"
         :columns="columns"
         :rows="questionList"
+        :pagination-options="{
+          enabled: true,
+          mode: 'pages'
+        }"
         :select-options="{
             selectOnCheckboxOnly: true,
             enabled: true,
@@ -87,8 +91,8 @@ export default {
       return this.selectedQuestionList.map(value => value.id)
     }
   },
-  watch:{
-    initQuestionList:{
+  watch: {
+    initQuestionList: {
       handler(newVal, oldVal) {
         this.selectedQuestionList = JSON.parse(JSON.stringify(newVal))
       },

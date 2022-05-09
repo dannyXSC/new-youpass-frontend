@@ -98,6 +98,7 @@ export default {
   mounted() {
     getHomeworkByCourseId(this.courseId)
         .then((res) => {
+          console.log(res)
           if (res.code === 100) {
 
             res.data.forEach((value) => {
@@ -149,7 +150,6 @@ export default {
           label: "名称",
           key: "title",
         },
-        {label: "分数", key: "score"},
         {label: "开始时间", key: "start_time"},
         {label: "结束时间", key: "end_time"},
       ]
@@ -157,13 +157,11 @@ export default {
   },
   methods: {
     handleCorrect(item) {
-      // console.log(item)
+      console.log(item)
       this.$router.push({
         name: "correctedQuestion",
         params: {
-          courseId: this.courseId,
-          // courseId:1000,
-          examId: item.exam_id,
+          homeworkId: item.id
         },
       });
     },
@@ -173,7 +171,7 @@ export default {
         params: {
           // courseId: this.courseId,
           // examId: item.exam_id,
-          homeworkId: item.exam_id
+          homeworkId: item.id
         },
       });
     },
@@ -182,7 +180,6 @@ export default {
       this.$router.push({
         name: "homeworkTest",
         params: {
-          studentId: this.$store.state.global.id,
           homeworkId: item.id,
         },
       });

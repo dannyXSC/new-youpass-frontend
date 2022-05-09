@@ -46,16 +46,10 @@ export default {
     myList,
     PageTitle,
   },
-  props: {
-    homeworkId: {
-      type: Number,
-      require: true
-    }
-  },
+  props: ["homeworkId"],
   mounted() {
-    getUnmarkedQuestion({
-      homeworkId: this.homeworkId
-    }).then((res) => {
+    console.log(this.homeworkId)
+    getUnmarkedQuestion(this.homeworkId).then((res) => {
       if (res.code === 100) {
         if (Array.isArray(res.data)) {
           res.data.forEach((value, index) => {
@@ -98,11 +92,16 @@ export default {
       ],
       fields: [
         {label: "题目id", key: "questionId"},
+        {label: "类型", key: "type"},
         {label: "题干", key: "description"},
         {
           label: "未批改人数",
           key: "restNumber",
         },
+        {
+          label: "总人数",
+          key: "totalNumber"
+        }
       ],
       items: [],
     };

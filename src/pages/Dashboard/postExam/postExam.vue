@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="courseId">
     <my-select-question-modal
         v-if="onOpenModal"
         :id="modalId"
@@ -20,7 +20,7 @@
         <b-form>
           <b-form-group
               label-cols-lg="3"
-              label="发布作业"
+              label="作业信息"
               label-size="lg"
               label-class="font-weight-bold pt-0"
               class="mb-0"
@@ -100,17 +100,88 @@
             </b-form-group>
 
             <b-form-group
-                label="选择题目:"
+                label="分数:"
                 label-cols-sm="3"
                 label-align-sm="right"
             >
-              <b-button block class="mr-2 mb-3" pill variant="outline-primary" size="sm"
-                        @click="handleSelectQuestion">添加题目
-              </b-button>
-              <my-draggable-table :fields="fields"
-                                  v-model="examInfo.questionList"
-                                  v-if="examInfo.questionList.length>0"/>
+              <b-form-group
+                  label="单选题:"
+                  label-for="singleScore"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+              >
+                <b-form-spinbutton
+                    type="number"
+                    name="number"
+                    id="singleScore"
+                    placeholder="输入分数..."
+                    :min="0"
+                    v-model="examInfo.singleScore"
+                    class="mb-3"
+                />
+              </b-form-group>
+              <b-form-group
+                  label="多选题:"
+                  label-for="multiScore"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+              >
+                <b-form-spinbutton
+                    type="number"
+                    name="number"
+                    id="multiScore"
+                    placeholder="输入分数..."
+                    :min="0"
+                    v-model="examInfo.multiScore"
+                    class="mb-3"
+                />
+              </b-form-group>
+              <b-form-group
+                  label="填空题:"
+                  label-for="fillScore"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+              >
+                <b-form-spinbutton
+                    type="number"
+                    name="number"
+                    id="fillScore"
+                    placeholder="输入分数..."
+                    :min="0"
+                    v-model="examInfo.fillScore"
+                    class="mb-3"
+                />
+              </b-form-group>
+              <b-form-group
+                  label="大题:"
+                  label-for="bigScore"
+                  label-cols-sm="3"
+                  label-align-sm="right"
+              >
+                <b-form-spinbutton
+                    type="number"
+                    name="number"
+                    id="bigScore"
+                    placeholder="输入分数..."
+                    :min="0"
+                    v-model="examInfo.bigScore"
+                    class="mb-3"
+                />
+              </b-form-group>
             </b-form-group>
+          </b-form-group>
+          <b-form-group
+              label-cols-lg="2"
+              label="选择题目"
+              label-size="lg"
+              label-class="font-weight-bold pt-0"
+          >
+            <b-button block class="mr-2 mb-3" pill variant="outline-primary" size="sm"
+                      @click="handleSelectQuestion">添加题目
+            </b-button>
+            <my-draggable-table :fields="fields"
+                                v-model="examInfo.questionList"
+                                v-if="examInfo.questionList.length>0"/>
           </b-form-group>
           <b-row class="justify-content-end">
             <b-col cols="12" md="auto">
@@ -160,19 +231,27 @@ export default {
           active: true,
         },
       ],
-      typeOptions: ['单择题', '多选题', '填空题', '大题'],
+      typeOptions: ['单选题', '多选题', '填空题', '大题'],
       examInfo: {
         examName: "",
         startDate: null,
         startTime: null,
         endDate: null,
         endTime: null,
+        singleScore: null,
+        multiScore: null,
+        fillScore: null,
+        bigScore: null,
         questionList: []
       },
       fields: [
         {
           key: "id",
           value: "Id"
+        },
+        {
+          key: "type",
+          value: "题目类型"
         },
         {
           key: "description",
@@ -185,6 +264,9 @@ export default {
     };
   },
   mounted() {
+    if(this.courseId==null){
+      this.$router.push({name: 'course'});
+    }
     getQuestionsOfTeacher().then(res => {
       if (res.code === 100) {
         this.allQuestionInfo = res.data;
@@ -201,21 +283,25 @@ export default {
   methods: {
     submit() {
       if (
-          // this.courseId == null ||
+          this.courseId == null ||
           "" === this.examInfo.examName ||
           null ==
           this.examInfo.startDate + " " + this.examInfo.startTime + ":13" ||
-          null == this.examInfo.endDate + " " + this.examInfo.endTime + ":13"
+          null == this.examInfo.endDate + " " + this.examInfo.endTime + ":13" ||
+          this.examInfo.singleScore == null ||
+          this.examInfo.multiScore == null ||
+          this.examInfo.fillScore == null ||
+          this.examInfo.bigScore == null
       ) {
         alert("输入缺失");
       } else {
-        teacherPublishExam(this.examInfo, this.teacherId,this.courseId).then(res => {
+        teacherPublishExam(this.examInfo, this.teacherId, this.courseId).then(res => {
           if (res.code === 100) {
             this.$router.push({
               name: "todo",
             });
             this.$toast.success("成功")
-          }else{
+          } else {
             this.$toast.error(res.msg)
           }
         }).catch(error => {

@@ -56,7 +56,8 @@
                         v-for="picture in questionInfo.pictureDescriptions" :key="picture"
                         class="mb-3"
                     >
-                      <b-img :src="picture" fluid></b-img>
+                      <my-b-image :id="picture"/>
+                      <!--                      <b-img :src="picture" fluid></b-img>-->
                     </div>
                   </template>
                 </div>
@@ -141,7 +142,17 @@
                       v-for="picture in questionInfo.studentPictureAnswers" :key="picture"
                       class="mb-3"
                   >
-                    <b-img :src="picture" fluid></b-img>
+                    <b-button v-if="editable"
+                              block
+                              class="mr-2 mb-3"
+                              pill
+                              variant="outline-focus"
+                              size="sm"
+                              @click="handleImageEdit(picture)"
+                    >编辑图片评论
+                    </b-button>
+                    <my-b-image :id="picture"/>
+                    <!--                    <b-img :src="picture" fluid></b-img>-->
                   </div>
                 </div>
               </div>
@@ -236,7 +247,8 @@
                     v-for="picture in questionInfo.standardPictureAnswers" :key="picture"
                     class="mb-3"
                 >
-                  <b-img :src="picture" fluid></b-img>
+                  <my-b-image :id="picture"/>
+                  <!--                  <b-img :src="picture" fluid></b-img>-->
                 </div>
               </div>
             </b-col>
@@ -285,7 +297,8 @@
                   v-for="picture in questionInfo.pictureComment" :key="picture"
                   class="mb-3"
               >
-                <b-img :src="picture" fluid></b-img>
+                <my-b-image :id="picture"/>
+                <!--                <b-img :src="picture" fluid></b-img>-->
               </div>
             </b-col>
           </b-row>
@@ -299,6 +312,9 @@
 import parse from "@/utils/parseLatex";
 import MyEditModal from "@/components/myEditModal.vue";
 import MyImageEditor from "@/components/myImageEditor";
+import {getImageUrl, uploadImage} from "@/api";
+import MyBImage from "@/components/myBImage";
+import convertBase64UrlToImgFile from "@/utils/base64ToFile";
 
 export default {
   name: "myFeedback",
@@ -310,6 +326,7 @@ export default {
     }
   },
   components: {
+    MyBImage,
     MyImageEditor,
     MyEditModal,
   },
@@ -317,8 +334,8 @@ export default {
     return {
       //是否正在添加文本答案
       isEditing: false,
-      initEditedImagePath:"",
-      initEditedImageName:"",
+      initEditedImagePath: "",
+      initEditedImageName: "",
       num2type: ["单选", "多选", "填空", "大题"],
       questionInfo: this.value,
       /*
@@ -403,28 +420,36 @@ export default {
       this.isEditing = true;
       this.$nextTick(_ => this.$bvModal.show(`myModal${this.questionInfo.numInPaper}`))
     },
-
-    handleImageEdit() {
-      this.initEditedImagePath = this.calInitEditedImagePath()
+    async handleImageEdit(id) {
+      this.initEditedImagePath = await this.calInitEditedImagePath(id)
       this.initEditedImageName = this.calInitEditedImageName()
       this.isEditing = true;
       this.$nextTick(_ => this.$bvModal.show(`myImageModal${this.questionInfo.numInPaper}`))
     },
-    handleImageSubmit(img) {
-      this.questionInfo.pictureComment = [img]
-      this.handleInput();
+    async handleImageSubmit(img) {
+      let file = convertBase64UrlToImgFile(img)
+      let formData = new FormData()
+      formData.append('file', file)
+      let res = await uploadImage(formData)
+      if (res.code === 100) {
+        this.questionInfo.pictureComment.push(res.data.id)
+        this.handleInput();
+      }else{
+        this.$message.error(res.msg)
+      }
       this.isEditing = false;
     },
     handleImageCancel() {
       this.isEditing = false;
     },
 
-    calInitEditedImagePath: function () {
-      if (this.questionInfo.type === 3 && this.questionInfo.studentPictureAnswers.length > 0)
-        return this.questionInfo.studentPictureAnswers[0];
-      else if (this.questionInfo.pictureComment.length > 0)
-        return this.questionInfo.pictureComment[0]
-      return "";
+    calInitEditedImagePath: async function (id) {
+      if (id) {
+        let res = await getImageUrl(id);
+        return res.data.url
+      } else {
+        return ""
+      }
     },
     calInitEditedImageName: function () {
       return this.questionInfo.questionId + "-" + this.questionInfo.numInPaper;

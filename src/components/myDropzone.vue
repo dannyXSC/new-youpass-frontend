@@ -47,12 +47,12 @@ export default {
         if (res.code === 100) {
           let mockFile = {
             id: imageId,
-            name: 'FileName',
+            name: res.data.name,
             size: '1000',
             type: 'image/jpeg',
             accepted: true,
           }
-          this.$refs[this.myRef].manuallyAddFile(mockFile, res.data);
+          this.$refs[this.myRef].manuallyAddFile(mockFile, res.data.url);
         } else {
           this.$toast.error(res.msg);
         }
