@@ -1,13 +1,15 @@
 <template>
-  <b-card border-variant="success">
+  <b-card border-variant="warning">
     <div v-if="$store.state.global.accountType === 1" class="content">
       <div class="row">
         <div class="col-md-12">
           <div class="main-card mb-3 card">
             <div class="card-header">
-              <h3 class="card-title">Coming Homework</h3>
+              <h3 class="card-title">未完成的作业</h3>
               <hr/>
+              <div v-if="ifHomeWork" style="margin-bottom: 2em">没有作业哦</div>
               <div
+                  v-else
                   class="
                   vertical-time-simple
                   vertical-without-time
@@ -17,8 +19,8 @@
                 "
               >
                 <div
-                    v-for="(exam, index) in $store.state.global.examList"
-                    :key="index"
+                    v-for="exam in examList"
+                    :key="exam.id"
                     class="dot-primary vertical-timeline-element"
                 >
                   <div>
@@ -28,13 +30,13 @@
                     <div class="vertical-timeline-element-content bounce-in">
                       <h4 class="timeline-title">
                         {{
-                          new Date(exam.start_time)
+                          new Date(exam.startTime)
                               .format("yyyy-MM-dd hh:mm")
                               .slice(0, 10)
                         }}
                         , at
                         <span class="text-success">{{
-                            new Date(exam.start_time)
+                            new Date(exam.startTime)
                                 .format("yyyy-MM-dd hh:mm")
                                 .slice(11, 16)
                           }}</span>
@@ -61,6 +63,7 @@
 </template>
 
 <script>
+import {getHomeworkByStudent} from "@/api";
 //日期格式化
 Date.prototype.format = function (fmt) {
   let o = {
@@ -86,7 +89,27 @@ Date.prototype.format = function (fmt) {
   return fmt;
 };
 export default {
-  name: "HomeWorkList"
+  name: "HomeWorkList",
+  data(){
+    return{
+      examList: []
+    }
+  },
+  methods:{
+    init(){
+      getHomeworkByStudent(this.$store.state.global.id).then(res=>{
+        this.examList=res.data
+      })
+    },
+  },
+  computed:{
+    ifHomeWork(){
+      return this.examList.length === 0;
+    }
+  },
+  mounted() {
+    this.init()
+  }
 }
 </script>
 

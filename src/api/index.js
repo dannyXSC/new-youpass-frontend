@@ -166,7 +166,6 @@ export const searchCourse1 = (courseId) => {
         params: {courseId: courseId, name: '', teacherName: ''},
         method: 'post'
     }).then(res => {
-        console.log(res)
         for (let i = 0; i < res.data.length; i++) {
             let exist = false
             if (res.data[i].exist === 1) {
@@ -199,6 +198,10 @@ export const searchCourse2 = (courseName) => {
         method: 'post'
     }).then(res => {
         for (let i = 0; i < res.data.length; i++) {
+            let exist = false
+            if (res.data[i].exist === 1) {
+                exist = true
+            }
             result.push({
                 courseId: res.data[i].id,
                 name: res.data[i].name,
@@ -206,7 +209,8 @@ export const searchCourse2 = (courseName) => {
                 teacherId: res.data[i].teacherId,
                 teacherName: res.data[i].teacherName,
                 url: res.data[i].url,
-                courseTime: res.data[i].courseTime
+                courseTime: res.data[i].courseTime,
+                exist: exist
             })
         }
     })
@@ -225,6 +229,10 @@ export const searchCourse3 = (teacherName) => {
         method: 'post'
     }).then(res => {
         for (let i = 0; i < res.data.length; i++) {
+            let exist = false
+            if (res.data[i].exist === 1) {
+                exist = true
+            }
             result.push({
                 courseId: res.data[i].id,
                 name: res.data[i].name,
@@ -232,7 +240,8 @@ export const searchCourse3 = (teacherName) => {
                 teacherId: res.data[i].teacherId,
                 teacherName: res.data[i].teacherName,
                 url: res.data[i].url,
-                courseTime: res.data[i].courseTime
+                courseTime: res.data[i].courseTime,
+                exist: exist
             })
         }
     })
@@ -241,6 +250,28 @@ export const searchCourse3 = (teacherName) => {
             code: 100,
             data: result
         })
+    })
+}
+export const addTodo = (data)=>{
+
+   return requests({
+        url:'/account/addTodo',
+        data:{content:data},
+        method:'post'
+    })
+}
+
+export const getTodo = ()=>{
+    return requests({
+        url:'/account/getTodo',
+        data:{},
+        method:'get'
+    })
+}
+export const deleteTodo = (id)=>{
+    return requests({
+        url:'/account/deleteTodo/'+String(id),
+        method:'delete'
     })
 }
 /**
@@ -649,25 +680,27 @@ export const getQuestionsOfTeacher = () => {
  * @returns {AxiosPromise}
  */
 export const getNotice = () => {
+    let result=[]
+    requests({url: "/course/getNotice/", method: 'get'}).then(res=>{
+        console.log(res.data)
+        for (let i = 0; i < res.data.length; i++) {
+
+            result.push({
+                id:res.data[i].id,
+                courseId: res.data[i].courseId,
+                content: res.data[i].content,
+                title: res.data[i].title,
+                updateTime: res.data[i].updateTime,
+                createTime: res.data[i].createTime,
+
+            })
+        }
+    })
     return new Promise((resolve, reject) => {
         resolve({
             code: 100,
             msg: "成功",
-            data: [{
-                id: 1,
-                courseId: 1000,
-                title: "xx开课信息",
-                content: "course1开课啦！",
-                createTime: "2021-12-23T16:02:10.036+00:00"
-            },
-                {
-                    id: 2,
-                    courseId: 1000,
-                    title: "xx开课信息",
-                    content: "course12开课啦！",
-                    createTime: "2021-12-23T16:02:09.041+00:00"
-                }
-            ]
+            data: result
         })
     })
 }
@@ -1155,33 +1188,76 @@ export const getHomeworkByCourseId = (courseId) => {
     //     })
     // })
 }
-
-export const getHomeworkByStudent = () => {
-    return new Promise((resolve, reject) => {
-        resolve({
-            code: 100,
-            msg: "123",
-            data: [{
-                courseId: 1000,
-                homeworkId: 1,
-                title: '作业1',
-                start_time: '2021-12-16T04:12:15.000+00:00',
-                end_time: '2021-12-23T15:48:01.437+00:00',
-                score: 5,
-            },
-                {
-                    courseId: 1001,
-                    homeworkId: 2,
-                    title: '作业2',
-                    start_time: '2021-12-15T04:12:15.000+00:00',
-                    end_time: '2021-12-23T15:48:01.437+00:00',
-                    score: 5,
-                },
-            ]
-        })
-    })
+// return new Promise(function (resolve, reject) {
+//     resolve({
+//         code: 100,
+//         msg: "123",
+//         data: [{
+//             id: 1,
+//             title: '作业1',
+//             start_time: '2021-12-16T04:12:15.000+00:00',
+//             end_time: '2021-12-23T15:48:01.437+00:00',
+//             score: 5,
+//         },
+//             {
+//                 id: 2,
+//                 title: '作业2',
+//                 start_time: '2021-12-15T04:12:15.000+00:00',
+//                 end_time: '2021-12-23T15:48:01.437+00:00',
+//                 score: 5,
+//             },
+//         ]
+//     })
+// })
+export const getHomeworkByStudent = (studentId) => {
+    return requests({url:'/homework',method:"post",data:{studentId:studentId}})
 }
-
+// return new Promise((resolve, reject) => {
+//     resolve({
+//         code: 100,
+//         msg: "123",
+//         data: [{
+//             courseId: 1000,
+//             homeworkId: 1,
+//             title: '作业1',
+//             start_time: '2021-12-16T04:12:15.000+00:00',
+//             end_time: '2021-12-23T15:48:01.437+00:00',
+//             score: 5,
+//         },
+//             {
+//                 courseId: 1001,
+//                 homeworkId: 2,
+//                 title: '作业2',
+//                 start_time: '2021-12-15T04:12:15.000+00:00',
+//                 end_time: '2021-12-23T15:48:01.437+00:00',
+//                 score: 5,
+//             },
+//         ]
+//     })
+// })
+// return new Promise((resolve, reject) => {
+//     resolve({
+//         code: 100,
+//         msg: "123",
+//         data: [{
+//             courseId: 1000,
+//             homeworkId: 1,
+//             title: '作业1',
+//             start_time: '2021-12-16T04:12:15.000+00:00',
+//             end_time: '2021-12-23T15:48:01.437+00:00',
+//             score: 5,
+//         },
+//             {
+//                 courseId: 1001,
+//                 homeworkId: 2,
+//                 title: '作业2',
+//                 start_time: '2021-12-15T04:12:15.000+00:00',
+//                 end_time: '2021-12-23T15:48:01.437+00:00',
+//                 score: 5,
+//             },
+//         ]
+//     })
+// })
 //自动批改
 export const autoCorrect = (data) => {
     return requests({url: "/score/autoCorrect", method: "post", data: data})
@@ -1217,9 +1293,9 @@ export const getStudentListByCourseId = (courseId) => {
 //通过课程id和学生id踢出学生
 export const kickStudentByIdAndCourseId = (id, courseId) => {
     return requests({url: "/course/deleteStudentFromTake?studentId=" + id + "&courseId=" + courseId, method: "post"})
-    // return new Promise(function (resolve, reject) {
-    //     resolve({code: 100});
-    // })
+    return new Promise(function (resolve, reject) {
+        resolve({code: 100});
+    })
 }
 
 //通过学生id和课程id获得学生的所有作业
@@ -1276,6 +1352,7 @@ export const getCommentsByAssignmentId = (AssignmentId) => {
     let retdata = []
     let ret = []
     requests({url: '/comment/getCommentByHomeworkId?homeworkId=' + AssignmentId, method: 'get'}).then((res) => {
+        console.log(res)
         retdata = res
         for (let i = 0; i < retdata.data.length; i++) {
             getIsLike(retdata.data[i].comment.id).then(p => {
@@ -1293,7 +1370,10 @@ export const getCommentsByAssignmentId = (AssignmentId) => {
                                 commentId: childret.data[j].comment.id,
                                 supportNum: childret.data[j].comment.likeNum,
                                 supported: k.data[0],
-                                createTime: childret.data[j].comment.createTime.slice(0, 19).replace('T', '  '),
+                                createTime:childret.data[j].comment.createTime.slice(0,19).replace('T','  '),
+                                myComment: '',
+                                pcommentId:childret.data[j].comment.pcommentId,
+                                fatherName:childret.data[j].fatherName,
                                 content: childret.data[j].comment.content,
                             })
                         })
@@ -1307,7 +1387,8 @@ export const getCommentsByAssignmentId = (AssignmentId) => {
                         supported: p.data[0],
                         content: retdata.data[i].comment.content,
                         supportNum: retdata.data[i].comment.likeNum,
-                        createTime: retdata.data[i].comment.createTime.slice(0, 19).replace('T', '  '),
+                        fatherName:retdata.data[i].fatherName,
+                        createTime:retdata.data[i].comment.createTime.slice(0,19).replace('T','  '),
                         myComment: '',
                         children: children
                     })

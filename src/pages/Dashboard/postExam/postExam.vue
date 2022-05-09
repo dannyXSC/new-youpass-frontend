@@ -26,7 +26,7 @@
               class="mb-0"
           >
             <b-form-group
-                label="考试名称:"
+                label="作业名称:"
                 label-for="examTitle"
                 label-cols-sm="3"
                 label-align-sm="right"
@@ -38,7 +38,7 @@
             </b-form-group>
 
             <b-form-group
-                label="考试开始时间:"
+                label="作业开始时间:"
                 label-cols-sm="3"
                 label-align-sm="right"
             >
@@ -69,7 +69,7 @@
             </b-form-group>
 
             <b-form-group
-                label="考试结束时间:"
+                label="作业结束时间:"
                 label-cols-sm="3"
                 label-align-sm="right"
             >

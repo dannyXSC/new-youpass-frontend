@@ -63,7 +63,7 @@ export default {
       accountType: this.$store.state.global.accountType,
       heading: "作业管理",
       subheading:
-          "Wide selection of buttons that feature different styles for backgrounds, borders and hover options!",
+          "记得按时完成作业！",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
 
       breadcrumbItem: [
@@ -76,36 +76,36 @@ export default {
       examList: [],
       fields: [
         {label: "课程id", key: "courseId"},
-        {label: "作业id", key: "homeworkId"},
+        {label: "作业id", key: "id"},
         {
           label: "名称",
           key: "title",
         },
-        {label: "分数", key: "score"},
-        {label: "开始时间", key: "start_time"},
-        {label: "结束时间", key: "end_time"},
+        // {label: "分数", key: "score"},
+        {label: "开始时间", key: "startTime"},
+        {label: "结束时间", key: "endTime"},
       ]
     };
   },
   mounted() {
-    getHomeworkByStudent()
+    getHomeworkByStudent(this.$store.state.global.id)
         .then((res) => {
+          console.log(res)
           if (res.code === 100) {
-
             res.data.forEach((value) => {
-              let endTime = new Date(value.end_time)
-              let startTime = new Date(value.start_time)
+              let endTime = new Date(value.endTime)
+              let startTime = new Date(value.startTime)
               endTime.setHours(endTime.getHours() - 8)
               startTime.setHours(startTime.getHours() - 8)
               value._showDetails = false;
               value.isActive = false;
-              value.end_time = endTime.format("yyyy-MM-dd hh:mm:ss")
-              value.start_time = startTime.format("yyyy-MM-dd hh:mm:ss")
+              value.endTime = endTime.format("yyyy-MM-dd hh:mm:ss")
+              value.startTime = startTime.format("yyyy-MM-dd hh:mm:ss")
               this.examList.push(JSON.parse(JSON.stringify(value)));
             });
             //根据开始时间排序
             this.examList.sort((a, b) => {
-              return (new Date(a.start_time)) < (new Date(b.start_time)) ? -1 : 1;
+              return (new Date(a.startTime)) < (new Date(b.startTime)) ? -1 : 1;
             });
           } else {
             alert(res.msg);
@@ -138,7 +138,7 @@ export default {
       this.$router.push({
         path: "/dashboard/commentSection",
         query: {
-          homeworkId: item.homeworkId,
+          homeworkId: item.id,
         },
       });
     }

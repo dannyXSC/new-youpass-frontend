@@ -74,7 +74,7 @@ const router = new VueRouter({
             component: dashboard,
             children: [{
                     path: "/dashboard",
-                    redirect: "/dashboard/todo"
+                    redirect: "/dashboard/personinfo"
                 },
                 {
                     path: "/dashboard/pick",
@@ -336,6 +336,7 @@ router.beforeEach((to, from, next) => {
     if (to.matched.filter(value => {
             return value.name === "Dashboard"
         }).length) {
+        console.log("进入1")
         checkState()
             .then((res) => {
                 if (res.code === 100) {
@@ -353,11 +354,12 @@ router.beforeEach((to, from, next) => {
     else if (to.matched.filter(value => {
             return value.name === "login"
         }).length) {
+        console.log("进入2")
         checkState()
             .then((res) => {
                 if (res.code === 100) {
                     console.log("123")
-                    next("/dashboard/todo")
+                    next("/dashboard/personinfo")
                 } else {
                     next()
                 }
@@ -367,6 +369,7 @@ router.beforeEach((to, from, next) => {
                 next({ name: "notFound" })
             })
     } else if (to.name === "examTest") {
+        console.log("进入3")
         getExamQuestion().then((res) => {
             if (res.code === 100) {
                 next()

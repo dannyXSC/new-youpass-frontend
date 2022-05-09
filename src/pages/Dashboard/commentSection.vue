@@ -1,9 +1,9 @@
 <template>
   <div>
-    <homework-info-card style="margin-bottom: 2em" :homework-id="homeworkId"></homework-info-card>
+    <homework-info-card style="margin-bottom: 2em" :homework-id="homeworkId" @change="init"></homework-info-card>
     <b-card>
       <b-list-group>
-        <b-list-group-item v-for="comment in comments" style="margin-bottom: 1.5em">
+        <b-list-group-item v-for="comment in comments" :key="comment.commentId" style="margin-bottom: 1.5em">
           <h5 class="mb-1">
             <b-avatar button class="mr-3" :src="comment.userAvater" @click="showHisInfo(comment.userId)"></b-avatar>
             <span class="mr-auto">{{ comment.userName }}</span>
@@ -53,18 +53,49 @@
           </b-collapse>
           <b-collapse :id="'collapse'+comment.commentId">
             <b-list-group>
-              <b-list-group-item v-for="child in comment.children">
+              <b-list-group-item v-for="child in comment.children" :key="child.commentId">
                 <b-avatar size="sm" class="mr-3" :src="child.userAvater" button
                           @click="showHisInfo(child.userId)"></b-avatar>
-                <span class="mr-auto">{{ child.userName }}</span>
+                <span class="mr-auto">{{ child.userName }}</span><span v-if="child.pcommentId !== comment.commentId" style="margin-left: 1em">回复</span><span v-if="child.pcommentId !== comment.commentId" style="margin-left: 1em">{{child.fatherName}}</span>
                 <p class="commentZone">
                   {{ child.content }}
                 </p>
                 <p style="font-size: 0.5em">
-                  {{ child.createTime }}
-                  <span><b-button size="sm" variant="outline-white" :disabled="child.supported"
-                                  @click="giveLike(child.commentId)"><b-icon
-                      icon="hand-thumbs-up"></b-icon></b-button>{{ child.supportNum }}</span>
+                  <b-row>
+                      {{ child.createTime }}
+                    <b-col cols="1">
+                        <span><b-button size="sm" variant="outline-white" :disabled="child.supported"
+                                     @click="giveLike(child.commentId)"><b-icon
+                                          icon="hand-thumbs-up"></b-icon></b-button>{{ child.supportNum }}</span>
+                    </b-col>
+                    <b-col cols="1">
+                         <span><b-button size="sm" variant="outline-white" v-b-toggle="'giveComment'+child.commentId"><b-icon
+                             icon="chat-right-text-fill"></b-icon> </b-button></span>
+                    </b-col>
+                  </b-row>
+                  <b-collapse :id="'giveComment'+child.commentId" class="giveComment">
+                    <b-row>
+                      <b-col cols="10">
+                        <b-form-textarea
+                            v-model="child.myComment"
+                            placeholder="说点什么..."
+                            rows="3"
+                            max-rows="6"
+                        ></b-form-textarea>
+                      </b-col>
+                      <b-col cols="2">
+                        <b-button-group vertical size="lg">
+                          <b-button type="submit" style="height: 2em" variant="success"
+                                    @click="thesubmitComment(child.commentId)">提交
+                          </b-button>
+                          <b-button type="reset" style="height: 2em" variant="danger"
+                                    @click="clearComment(child.commentId)">
+                            清除
+                          </b-button>
+                        </b-button-group>
+                      </b-col>
+                    </b-row>
+                  </b-collapse>
                 </p>
               </b-list-group-item>
             </b-list-group>
@@ -89,20 +120,24 @@ export default {
   mounted() {
     this.init()
   },
+  beforeUpdate() {
+    this.sort()
+  },
   methods: {
+    sort() {
+      this.comments.sort((c, d) => {
+        return d.supportNum - c.supportNum
+      })
+      for (let i = 0; i < this.comments.length; i++) {
+        this.comments[i].children.sort((a, b) => {
+          return b.supportNum - a.supportNum
+        })
+      }
+    },
     init() {
       this.homeworkId = this.$route.query.homeworkId
-      getCommentsByAssignmentId(this.homeworkId).then((res) => {
+      getCommentsByAssignmentId(Number(this.homeworkId)).then((res) => {
         this.comments = res.data[0].comments
-        this.comments.sort((c, d) => {
-          console.log(c.supportNum.toString())
-          return d.supportNum - c.supportNum
-        })
-        for (let i = 0; i < this.comments.length; i++) {
-          this.comments[i].children.sort((a, b) => {
-            return b.supportNum - a.supportNum
-          })
-        }
       })
     },
     thesubmitComment(targetId) {
@@ -111,6 +146,12 @@ export default {
         if (this.comments[i].commentId === targetId) {
           submitContent = this.comments[i].myComment
           break
+        }
+        for(var j=0;j<this.comments[i].children.length;j++){
+          if (this.comments[i].children[j].commentId === targetId) {
+            submitContent = this.comments[i].children[j].myComment
+            break
+          }
         }
       }
       submitComment(this.$store.state.global.id, -1, targetId, this.$store.state.global.accountType, submitContent).then((res) => {
@@ -121,6 +162,7 @@ export default {
       this.init()
     },
     clearComment(targetId) {
+      console.log(this.comments)
       for (var i = 0; i < this.comments.length; i++) {
         if (this.comments[i].commentId === targetId) {
           this.comments[i].myComment = ''
@@ -161,12 +203,12 @@ export default {
   },
   data() {
     return {
-      comments: {},
+      comments: [],
       openHisChild: -1,
       checkHisInfo: -1,
       homeworkId: '',
     }
-  }
+  },
 }
 </script>
 

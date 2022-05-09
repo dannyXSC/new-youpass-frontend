@@ -7,7 +7,8 @@
         <HomeWorkList></HomeWorkList>
       </b-col>
       <b-col>
-        <Todo></Todo>
+        <b-card border-variant="warning">  <todo></todo> </b-card>
+
       </b-col>
     </b-row>
   </div>
@@ -17,10 +18,10 @@
 <script>
 import HomeWorkList from "@/pages/Test/HomeWorkList";
 import PersonInfoCard from "@/pages/Test/PersonInfoCard";
-import Todo from "@/pages/Test/Todo";
+import todo from "@/pages/Dashboard/todo";
 export default {
   name: "personInfo",
-  components: {PersonInfoCard, HomeWorkList, Todo},
+  components: {PersonInfoCard, HomeWorkList, todo},
 }
 </script>
 

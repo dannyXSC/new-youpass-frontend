@@ -1,12 +1,12 @@
 <template>
   <div>
     <b-card border-variant="success">
-      <b-card-header style="font-size: 2em">About Me</b-card-header>
+      <b-card-header style="font-size: 2em">个人信息</b-card-header>
       <b-card-body>
         <b-row>
           <b-col>
             <b-card-img-lazy left :src="personInfo.avater" height="200"
-                             width="200" role="button" v-b-modal.pictureModal></b-card-img-lazy>
+                             width="200" role="button" v-b-modal.pictureModal ></b-card-img-lazy>
           </b-col>
           <b-col cols="8">
             <b-card-text style="font-size: 2.5em;color: #0ba360">{{ personInfo.name }}</b-card-text>
@@ -23,7 +23,7 @@
             </b-row>
           </b-col>
           <b-col>
-            <b-dropdown squared variant="success" style="float: right" dropleft text="修改个人信息" class="m-2">
+            <b-dropdown squared variant="success" ref="uploadInfo" style="float: right" dropleft text="修改个人信息" class="m-2">
               <b-dropdown-form>
                 <b-form-group label="姓名">
                   <b-form-input placeholder="nickname" v-model="updateInfo.name" :state="nameInvalid">
@@ -49,7 +49,7 @@
         </b-row>
       </b-card-body>
     </b-card>
-    <b-modal id="pictureModal" size="lg" hide-header hide-footer>
+    <b-modal id="pictureModal" size="lg" hide-footer title="点击图片以更换头像" title-class="center">
       <b-img center :src="personInfo.avater" height="500"
              width="500" role="button" v-b-modal.updateAvater></b-img>
     </b-modal>
@@ -57,10 +57,10 @@
       <b-form-file
           v-model="avater"
           :state="Boolean(avater)"
-          placeholder="Choose a file or drop it here..."
-          drop-placeholder="Drop file here..."
+          placeholder="选择一个文件或拖入文件到此位置..."
+          drop-placeholder="拖入文件"
       ></b-form-file>
-      <div class="mt-3" style="margin-bottom: 1.5em">Selected file: {{ avater ? avater.name : '' }}</div>
+      <div class="mt-3" style="margin-bottom: 1.5em">请选择文件...: {{ avater ? avater.name : '' }}</div>
       <b-button style="float: right" variant="success" @click="submitAvater">提交</b-button>
     </b-modal>
   </div>
@@ -140,6 +140,7 @@ export default {
             autoHideDelay: 2000
           });
         }
+        this.$refs.uploadInfo.hide()
         this.init()
       })
     },
@@ -168,5 +169,8 @@ export default {
 </script>
 
 <style scoped>
-
+.center{
+  /*text-align: center;*/
+  align-items: center;
+}
 </style>
