@@ -249,6 +249,28 @@ export const searchCourse3 = (teacherName) => {
         })
     })
 }
+export const addTodo = (data)=>{
+
+   return requests({
+        url:'/account/addTodo',
+        data:{content:data},
+        method:'post'
+    })
+}
+
+export const getTodo = ()=>{
+    return requests({
+        url:'/account/getTodo',
+        data:{},
+        method:'get'
+    })
+}
+export const deleteTodo = (id)=>{
+    return requests({
+        url:'/account/deleteTodo/'+String(id),
+        method:'delete'
+    })
+}
 /**
  * 通过作业id获得所有学生的成绩
  * @param homeworkId

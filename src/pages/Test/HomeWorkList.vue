@@ -1,5 +1,5 @@
 <template>
-  <b-card border-variant="success">
+  <b-card border-variant="warning">
     <div v-if="$store.state.global.accountType === 1" class="content">
       <div class="row">
         <div class="col-md-12">

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="main-card mb-3 card">
-      <div class="card-header"><h3 class="card-title">Todos</h3></div>
+      <div class="card-header"><h3 class="card-title">待办事项</h3></div>
       <ul class="todo-list-wrapper list-group list-group-flush">
         <li class="list-group-item">
           <div class="todo-indicator bg-success"></div>
@@ -14,7 +14,7 @@
                     type="text"
                     name="text"
                     id="exampletext"
-                    placeholder="Add Todo..."
+                    placeholder="添加代办事项..."
                     @keyup.enter="addTodo"
                   />
                 </div>
@@ -26,96 +26,38 @@
                   class="dropdown-item"
                   @click="addTodo"
                 >
-                  Add
+                  添加
                 </button>
               </div>
             </div>
           </div>
         </li>
 
-        <li v-for="todo in todos" :key="todo" class="list-group-item">
+        <li v-for="todo in todos" :key="todo.id" class="list-group-item">
           <div class="todo-indicator bg-success"></div>
           <div class="widget-content p-0">
             <div class="widget-content-wrapper">
               <div class="widget-content-left flex2">
-                <div class="widget-heading">{{ todo }}</div>
+                <div class="widget-heading">{{ todo.content }}</div>
               </div>
               <div class="widget-content-right">
                 <button
                   class="border-0 btn-transition btn btn-outline-success"
-                  @click="deleteTodo(todo)"
+                  @click="deleteTodo(todo.id)"
                 >
                   <font-awesome-icon icon="check" />
                 </button>
-                <button
-                  class="border-0 btn-transition btn btn-outline-danger"
-                  @click="deleteTodo(todo)"
-                >
-                  <font-awesome-icon icon="trash-alt" />
-                </button>
+<!--                <button-->
+<!--                  class="border-0 btn-transition btn btn-outline-danger"-->
+<!--                  @click="deleteTodo(todo)"-->
+<!--                >-->
+<!--                  <font-awesome-icon icon="trash-alt" />-->
+<!--                </button>-->
               </div>
             </div>
           </div>
         </li>
       </ul>
-    </div>
-
-    <div v-if="$store.state.global.accountType === 1" class="content">
-      <div class="row">
-        <div class="col-md-12">
-          <div class="main-card mb-3 card">
-            <div class="card-header">
-              <h3 class="card-title">Coming Homework</h3>
-              <hr />
-              <div
-                class="
-                  vertical-time-simple
-                  vertical-without-time
-                  vertical-timeline
-                  vertical-timeline--animate
-                  vertical-timeline--one-column
-                "
-              >
-                <div
-                  v-for="(exam, index) in $store.state.global.examList"
-                  :key="index"
-                  class="dot-primary vertical-timeline-element"
-                >
-                  <div>
-                    <span
-                      class="vertical-timeline-element-icon bounce-in"
-                    ></span>
-                    <div class="vertical-timeline-element-content bounce-in">
-                      <h4 class="timeline-title">
-                        {{
-                          new Date(exam.start_time)
-                            .format("yyyy-MM-dd hh:mm")
-                            .slice(0, 10)
-                        }}
-                        , at
-                        <span class="text-success">{{
-                          new Date(exam.start_time)
-                            .format("yyyy-MM-dd hh:mm")
-                            .slice(11, 16)
-                        }}</span>
-                      </h4>
-                      <div class="col-md-9">
-                        <div>
-                          <h5>
-                            <span class="text-secondary"
-                              >{{ exam.title }}
-                            </span>
-                          </h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -128,6 +70,7 @@ import PageTitle from "../../layout/Components/PageTitle.vue";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrashAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import {addTodo, getTodo,deleteTodo} from "@/api/index.js";
 
 //日期格式化
 Date.prototype.format = function (fmt) {
@@ -194,38 +137,73 @@ export default {
   }),
   methods: {
     deleteTodo(key) {
-      // console.log("删除了", key);
+       console.log("删除了", key);
+      deleteTodo(key).then(res=>{
+        if(res.code===100){
+          console.log("删除成功")
+        }
+      })
       for (let i = 0; i < this.todos.length; i++) {
-        if (this.todos[i] == key) {
+        if (this.todos[i].id === key) {
           if (i > -1) {
             this.todos.splice(i, 1);
           }
           break;
         }
       }
-      localStorage.setItem(
-        this.$store.state.global.id,
-        JSON.stringify(this.todos)
-      );
+      // localStorage.setItem(
+      //   this.$store.state.global.id,
+      //   JSON.stringify(this.todos)
+      // );
     },
     addTodo() {
-      if (this.inputTodo != "" && !this.todos.includes(this.inputTodo)) {
-        // console.log("添加Todo", this.inputTodo);
-        this.todos.unshift(this.inputTodo);
-        localStorage.setItem(
-          this.$store.state.global.id,
-          JSON.stringify(this.todos)
-        );
+      console.log(123123)
+      if (this.inputTodo !== "") {
+        // this.todos.unshift(this.inputTodo);
+        addTodo(this.inputTodo).then(res=>{
+          if(res.code===100){
+            console.log("添加成功")
+            getTodo().then(res=>{
+              console.log(res)
+              if(res.code===100){
+                this.todos=res.data
+                this.todos.reverse()
+              }
+              else{
+                console.log("在添加时出错")
+              }
+            })
+          }
+        })
+        // localStorage.setItem(
+        //   this.$store.state.global.id,
+        //   JSON.stringify(this.todos)
+        // );
         this.inputTodo = "";
       } else {
-        alert("无法添加ToDo!");
+        alert("待做事项不能为空");
       }
     },
   },
+  mounted() {
+    getTodo().then(res=>{
+      console.log(res)
+      if(res.code===100){
+        this.todos.length = 0
+        for(let i = 0 ;i<res.data.length;i++){
+          this.todos.unshift(res.data[i])
+        }
+      }
+      else{
+        console.log("在添加时出错")
+      }
+    })
+  },
   beforeUpdate() {
-    this.todos = JSON.parse(
-      localStorage.getItem(this.id) || JSON.stringify([])
-    );
+
+    // this.todos = JSON.parse(
+    //   localStorage.getItem(this.id) || JSON.stringify([])
+    // );
   },
 };
 </script>
