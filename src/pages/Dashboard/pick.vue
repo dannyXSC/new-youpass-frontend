@@ -30,7 +30,7 @@
                         <b-dropdown
                           no-flip
                           split
-                          text="Search"
+                          text="搜索"
                           class="mb-2 mr-2"
                           variant="primary"
                           @click="search(searchMethod)"

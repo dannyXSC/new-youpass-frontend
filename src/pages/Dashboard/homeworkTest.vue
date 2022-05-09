@@ -58,12 +58,12 @@ export default {
     testTitle2:
       "在营销系统中查询客户有无欠费、余额及抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客户时应做到哪些最基本的礼仪？",
     testTitle3: "以下属于南方电网员工职业操守中明文规定的有（）",
-    heading: "JavaEE 期中作业",
-    subheading: "2021/12/24",
+    heading: "数学第一次月考",
+    subheading: "2022/05/08",
     icon: "pe-7s-drawer icon-gradient bg-tempting-azure",
     breadcrumbItem: [
       {
-        text: "Java 期中作业",
+        text: "数学第一次月考",
         href: "#",
       },
     ],
