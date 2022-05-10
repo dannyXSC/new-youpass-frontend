@@ -70,14 +70,14 @@ export default {
     return {
       isMounted: false,
       typeOptions: [
-        {value: null, text: 'Please select an option'},
+        {value: null, text: '请选择其中一项'},
         {value: 0, text: '单择题'},
         {value: 1, text: '多选题'},
         {value: 2, text: '填空题'},
         {value: 3, text: '大题'}
       ],
       isPrivateOptions: [
-        {value: null, text: 'Please select an option'},
+        {value: null, text: '请选择其中一项'},
         {value: 1, text: '私有'},
         {value: 0, text: '公有'},
       ],

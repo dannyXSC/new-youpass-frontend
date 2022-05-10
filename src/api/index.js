@@ -730,23 +730,31 @@ export const quit = () => {
  * @param courseId
  * @returns {AxiosPromise}
  */
-export const studentQuitCourse = (courseId) => {
-    return new Promise((resolve, reject) => {
-        resolve({
-            code: 100,
-            msg: "成功",
-            data: null
-        })
-    })
+export const studentQuitCourse = (courseId,studentId) => {
+    return requests({url: "/course/deleteStudentFromTake?courseId=" + courseId+"&studentId="+studentId, method: "post"})
+    // return new Promise((resolve, reject) => {
+    //     resolve({
+    //         code: 100,
+    //         msg: "成功",
+    //         data: null
+    //     })
+    // })
 }
 
 export const deleteCourseByCourseId = (courseId) => {
     return requests({url: "/course/teacherDeleteCourse?courseId=" + courseId, method: "post"})
 }
 
-export const createCourse = (name, password) => {
+export const createCourse = (name, password,url,courseTime) => {
     return requests({
-        url: "/course/createCourse?name=" + name + "&password=" + password, method: "post"
+        url: "/course/createCourse",
+        data:{
+            name: name,
+            password:password,
+            url:url,
+            courseTime:courseTime
+        },
+        method: "post"
     })
 }
 

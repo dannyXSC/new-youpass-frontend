@@ -152,7 +152,7 @@
         </div>
       </div>
     </div>
-    <b-modal id="PasswordIn" @ok="submitAttend">
+    <b-modal ok-title="确认" cancel-title="取消" id="PasswordIn" @ok="submitAttend">
       <b-form>
         <b-form-input placeholder="请输入密码" v-model="attendCoursePassword">
         </b-form-input>
@@ -180,7 +180,7 @@ export default {
 
       fields: ["课程名称", "课程编号","授课教师"],
 
-      searchMethod: 1,
+      searchMethod: 2,
       inputContent: "",
       breadcrumbItem: [
         {

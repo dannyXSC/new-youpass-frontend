@@ -65,10 +65,10 @@ export default {
               href: "/dashboard/personInfo",
               title: "查看个人信息",
             },
-            {
-              href: "/dashboard",
-              title: "待办事项",
-            },
+            // {
+            //   href: "/dashboard",
+            //   title: "待办事项",
+            // },
             {
               href: "/dashboard/course",
               title: "查看我的课程",
@@ -250,10 +250,10 @@ export default {
               href: "/dashboard/personInfo",
               title: "查看个人信息",
             },
-            {
-              href: "/dashboard/todo",
-              title: "待办事项",
-            },
+            // {
+            //   href: "/dashboard/todo",
+            //   title: "待办事项",
+            // },
             {
               href: "/dashboard/course",
               title: "查看我的课程",

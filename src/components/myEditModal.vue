@@ -2,16 +2,18 @@
   <b-modal
       :id="id"
       size="xl"
-      title="Edit"
+      title="编辑"
       style="height: 80%"
       @hide="handleExit"
+      ok-title="确认"
+      cancel-title="取消"
   >
     <b-container>
       <b-row>
         <b-col cols="6">
           <b-form-textarea
               id="textarea-rows"
-              placeholder="Tall textarea"
+              placeholder="请输入内容..."
               rows="8"
               style="height: 50vh;"
               v-model="content"

@@ -72,21 +72,10 @@ export default {
       icon: 'pe-7s-plane icon-gradient bg-tempting-azure',
       breadcrumbItem: [
         {
-          text: 'Admin',
+          text: '上传题目',
           href: '#'
         },
-        {
-          text: 'Manage',
-          href: '#'
-        },
-        {
-          text: 'Test1',
-          href: '#'
-        },
-        {
-          text: 'Test2',
-          active: true
-        }
+
       ],
 
 

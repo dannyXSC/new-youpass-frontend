@@ -3,7 +3,7 @@
     <PersonInfoCard></PersonInfoCard>
     <br/>
     <b-row>
-      <b-col>
+      <b-col  v-if="getType">
         <HomeWorkList></HomeWorkList>
       </b-col>
       <b-col>
@@ -22,6 +22,11 @@ import todo from "@/pages/Dashboard/todo";
 export default {
   name: "personInfo",
   components: {PersonInfoCard, HomeWorkList, todo},
+  computed:{
+    getType(){
+      return this.$store.state.global.accountType === 1;
+    }
+  }
 }
 </script>
 
