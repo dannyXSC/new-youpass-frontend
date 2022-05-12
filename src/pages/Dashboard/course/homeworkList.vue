@@ -102,19 +102,19 @@ export default {
           if (res.code === 100) {
 
             res.data.forEach((value) => {
-              let endTime = new Date(value.endTime)
-              let startTime = new Date(value.startTime)
-              endTime.setHours(endTime.getHours() - 8)
-              startTime.setHours(startTime.getHours() - 8)
+              let end_time = new Date(value.end_time)
+              let start_time = new Date(value.start_time)
+              end_time.setHours(end_time.getHours() - 8)
+              start_time.setHours(start_time.getHours() - 8)
               value._showDetails = false;
               value.isActive = false;
-              value.endTime = endTime.format("yyyy-MM-dd hh:mm:ss")
-              value.startTime = startTime.format("yyyy-MM-dd hh:mm:ss")
+              value.end_time = end_time.format("yyyy-MM-dd hh:mm:ss")
+              value.start_time = start_time.format("yyyy-MM-dd hh:mm:ss")
               this.examList.push(JSON.parse(JSON.stringify(value)));
             });
             //根据开始时间排序
             this.examList.sort((a, b) => {
-              return (new Date(a.startTime)) < (new Date(b.startTime)) ? -1 : 1;
+              return (new Date(a.start_time)) < (new Date(b.start_time)) ? -1 : 1;
             });
           } else {
             alert(res.msg);

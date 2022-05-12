@@ -30,13 +30,13 @@
                     <div class="vertical-timeline-element-content bounce-in">
                       <h4 class="timeline-title">
                         {{
-                          new Date(exam.startTime)
+                          new Date(exam.endTime)
                               .format("yyyy-MM-dd hh:mm")
                               .slice(0, 10)
                         }}
                         , at
                         <span class="text-success">{{
-                            new Date(exam.startTime)
+                            new Date(exam.endTime)
                                 .format("yyyy-MM-dd hh:mm")
                                 .slice(11, 16)
                           }}</span>
@@ -96,6 +96,14 @@ export default {
     }
   },
   methods:{
+    sort() {
+      this.examList.sort((a,b) => {
+        let x=new Date(a.endTime.replace('T',' ')).getTime()
+        let y=new Date(b.endTime.replace('T',' ')).getTime()
+        return x-y
+      })
+      console.log(this.examList)
+    },
     init(){
       getHomeworkByStudent(this.$store.state.global.id).then(res=>{
         this.examList=res.data
@@ -109,6 +117,10 @@ export default {
   },
   mounted() {
     this.init()
+    console.log(this.examList)
+  },
+  beforeUpdate() {
+    this.sort()
   }
 }
 </script>

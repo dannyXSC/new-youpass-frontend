@@ -124,15 +124,29 @@ export default {
     this.sort()
   },
   methods: {
+    sleep1(numberMillis){
+      let now = new Date();
+      let exitTime = now.getTime() + numberMillis;
+      while (true) {
+        now = new Date();
+        if (now.getTime() > exitTime) return;
+      }
+    },
+
     sort() {
       this.comments.sort((c, d) => {
-        return d.supportNum - c.supportNum
+        let x=new Date(c.createTime).getTime()
+        let y=new Date(d.createTime).getTime()
+        return y-x
       })
       for (let i = 0; i < this.comments.length; i++) {
         this.comments[i].children.sort((a, b) => {
-          return b.supportNum - a.supportNum
+          let m=new Date(a.createTime).getTime()
+          let n=new Date(b.createTime).getTime()
+          return n-m
         })
       }
+      console.log(this.comments)
     },
     init() {
       this.homeworkId = this.$route.query.homeworkId
@@ -157,9 +171,10 @@ export default {
       submitComment(this.$store.state.global.id, -1, targetId, this.$store.state.global.accountType, submitContent).then((res) => {
         if (res.code === 100) {
           this.clearComment(targetId)
+          this.sleep1(100)
+          this.init()
         }
       })
-      this.init()
     },
     clearComment(targetId) {
       console.log(this.comments)

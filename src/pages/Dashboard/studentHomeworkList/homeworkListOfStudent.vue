@@ -121,7 +121,7 @@ export default {
         name: "homeworkTest",
         params: {
           studentId: this.$store.state.global.id,
-          homeworkId: item.homeworkId,
+          homeworkId: item.id,
         },
       });
     },
@@ -130,7 +130,7 @@ export default {
         name: "homeworkFeedback",
         params: {
           studentId: this.$store.state.global.id,
-          homeworkId: item.homeworkId,
+          homeworkId: item.id,
         },
       });
     },

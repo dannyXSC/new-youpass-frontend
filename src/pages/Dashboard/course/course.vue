@@ -120,13 +120,35 @@
                   <div class="widget-content-wrapper">
                     <div class="widget-content-left">
                       <div class="widget-heading">
-                        课程名称：<br/><br/>课程编号：
+                        课程名称：
+                        <br/>
+                        <br/>
+                        课程编号：
+                        <br/>
+                        <br/>
+                        课程时间：
+                        <br/>
+                        <br/>
+                        课程链接：
                       </div>
                     </div>
                     <div class="widget-content-right">
                       <div class="widget-heading">
-                        {{ row.row.item.课程名称 }}<br/><br/>{{
+                        {{ row.row.item.课程名称 }}
+                        <br/>
+                        <br/>
+                        {{
                           row.row.item.ID
+                        }}
+                        <br/>
+                        <br/>
+                        {{
+                          row.row.item.courseTime
+                        }}
+                        <br/>
+                        <br/>
+                        {{
+                          row.row.item.url
                         }}
                       </div>
                     </div>
@@ -264,7 +286,7 @@ export default {
       });
     },
     quitCourse(item) {
-      studentQuitCourse(item.ID).then((res) => {
+      studentQuitCourse(item.ID,this.$store.state.global.id).then((res) => {
         if (res.code === 100) {
           this.$toast.success("退出成功");
           this.init()
@@ -292,7 +314,7 @@ export default {
     handleCancelCreate() {
     },
     handleCreate(content) {
-      createCourse(content.title, content.password).then(res => {
+      createCourse(content.title, content.password,content.url,content.courseTime).then(res => {
         if (res.code === 100) {
           this.$toast.success("成功")
           this.init()
