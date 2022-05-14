@@ -1,55 +1,82 @@
 <template>
   <div v-if="questionInfos.length">
     <page-title
-      :heading="heading"
-      :subheading="subheading"
-      :icon="icon"
-      :breadcrumb-item="breadcrumbItem"
+        :heading="heading"
+        :subheading="subheading"
+        :icon="icon"
+        :breadcrumb-item="breadcrumbItem"
     ></page-title>
-    <div class="container">
-      <div
-        class="main-card mb-3 card"
-        v-for="(questionInfo, index) in questionInfos"
-      >
-        <my-question v-model:value="questionInfos[index]" />
-      </div>
-      <div class="card-shadow-danger border card card-body mb-5">
-        <b-button variant="success" size="sl" @click="submitHomework"
-          >提交作业
-        </b-button>
-      </div>
-    </div>
+    <b-container>
+      <b-row>
+        <b-col cols="8">
+          <div
+              class="main-card mb-3 card"
+              v-for="(questionInfo, index) in questionInfos"
+          >
+            <my-question v-model:value="questionInfos[index]"/>
+          </div>
+        </b-col>
+        <b-col cols="4">
+          <my-count-bar-new
+              :items="items"
+          >
+            <template v-slot:header>
+              相关信息
+            </template>
+
+            <template v-slot:footer>
+              <b-row class="justify-content-end">
+                    <b-button variant="danger" size="sl" @click="submitHomework"
+                    >提交作业
+                    </b-button>
+              </b-row>
+            </template>
+
+            <template v-slot:button="item">
+              <b-button pill
+                        :variant="calButtonVariant(item.item)"
+                        @click="handleSelect(item.item)"
+              >
+                {{ item.item + 1 }}
+              </b-button>
+            </template>
+          </my-count-bar-new>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
   <div v-else>
     <content-loader
-      viewBox="0 0 476 124"
-      primaryColor="#f3f3f3"
-      secondaryColor="#cccccc"
+        viewBox="0 0 476 124"
+        primaryColor="#f3f3f3"
+        secondaryColor="#cccccc"
     >
-      <rect x="48" y="8" rx="3" ry="3" width="88" height="6" />
-      <rect x="48" y="26" rx="3" ry="3" width="52" height="6" />
-      <rect x="0" y="56" rx="3" ry="3" width="410" height="6" />
-      <rect x="0" y="72" rx="3" ry="3" width="380" height="6" />
-      <rect x="0" y="88" rx="3" ry="3" width="178" height="6" />
-      <circle cx="20" cy="20" r="20" />
+      <rect x="48" y="8" rx="3" ry="3" width="88" height="6"/>
+      <rect x="48" y="26" rx="3" ry="3" width="52" height="6"/>
+      <rect x="0" y="56" rx="3" ry="3" width="410" height="6"/>
+      <rect x="0" y="72" rx="3" ry="3" width="380" height="6"/>
+      <rect x="0" y="88" rx="3" ry="3" width="178" height="6"/>
+      <circle cx="20" cy="20" r="20"/>
     </content-loader>
   </div>
 </template>
 
 <script>
 import MyQuestion from "@/components/myQuestion";
-import { getQuestions, submitHomework } from "@/api";
+import {getQuestions, submitHomework} from "@/api";
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import TestNavbar from "@/layout/Components/PageTitle3.vue";
 import MyCountBar from "@/components/myCountBar";
 import MyEditModal from "@/components/myEditModal.vue";
 import BootstrapToggle from "vue-bootstrap-toggle";
-import { ContentLoader } from "vue-content-loader";
+import {ContentLoader} from "vue-content-loader";
 import parse from "@/utils/parseLatex";
+import MyCountBarNew from "@/components/myCountBarNew";
 
 export default {
   name: "homeworkTest",
   components: {
+    MyCountBarNew,
     MyQuestion,
     PageTitle,
     TestNavbar,
@@ -64,9 +91,9 @@ export default {
       per_page: 9,
       checked: true,
       testTitle1:
-        "在生产管理信息系统中，下列操抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客作步骤能正确将工单推进流程的是（）",
+          "在生产管理信息系统中，下列操抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客作步骤能正确将工单推进流程的是（）",
       testTitle2:
-        "在营销系统中查询客户有无欠费、余额及抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客户时应做到哪些最基本的礼仪？",
+          "在营销系统中查询客户有无欠费、余额及抄表数据接待客余额及抄表数据接待客余额及抄表数据接待客户时应做到哪些最基本的礼仪？",
       testTitle3: "以下属于南方电网员工职业操守中明文规定的有（）",
       heading: "数学作业",
       subheading: "2022/05/08",
@@ -87,23 +114,24 @@ export default {
       editIntiContent: "",
       //填空题
       questionInfos: [],
+      onShowIndex: 0,
     };
   },
   mounted() {
     getQuestions(this.homeworkId)
-      .then((res) => {
-        if (res.code === 100) {
-          res.data.sort((a, b) => {
-            return a.numInPaper - b.numInPaper;
-          });
-          this.questionInfos = res.data;
-        } else {
-          this.$toast.error(res.msg);
-        }
-      })
-      .catch((err) => {
-        this.$toast.error(err);
-      });
+        .then((res) => {
+          if (res.code === 100) {
+            res.data.sort((a, b) => {
+              return a.numInPaper - b.numInPaper;
+            });
+            this.questionInfos = res.data;
+          } else {
+            this.$toast.error(res.msg);
+          }
+        })
+        .catch((err) => {
+          this.$toast.error(err);
+        });
   },
   watch: {
     questionInfos: {
@@ -116,22 +144,59 @@ export default {
   methods: {
     uploadQuestions() {
       submitHomework(
-        this.$store.state.global.id,
-        this.homeworkId,
-        this.questionInfos
+          this.$store.state.global.id,
+          this.homeworkId,
+          this.questionInfos
       )
-        .then((res) => {
-          if (res.code === 100) {
-          } else {
-            this.$toast.error(res.msg);
-          }
-        })
-        .catch((err) => {
-          this.$toast.error(err);
-        });
+          .then((res) => {
+            if (res.code === 100) {
+            } else {
+              this.$toast.error(res.msg);
+            }
+          })
+          .catch((err) => {
+            this.$toast.error(err);
+          });
     },
-    submitHomework() {},
+    submitHomework() {
+    },
+    judgeIsComplete(index) {
+      if ((this.questionInfos[index].type === 0 || this.questionInfos[index].type === 1)
+          && Array.isArray(this.questionInfos[index].studentAnswer)
+          && this.questionInfos[index].studentAnswer.length > 0) {
+        return true;
+      } else if (this.questionInfos[index].type === 2 && this.questionInfos[index].studentAnswer.length > 0) {
+        return true
+      } else if (this.questionInfos[index].type === 3
+          && (this.questionInfos[index].studentAnswer.length > 0 || this.questionInfos[index].studentAnswer.studentPictureAnswers.length > 0)) {
+        return true
+      }
+    },
+    calButtonVariant(index) {
+      if (this.onShowIndex === index) {
+        if (this.judgeIsComplete(index)) {
+          return 'outline-success'
+        } else {
+          return 'outline-secondary'
+        }
+      } else {
+        if (this.judgeIsComplete(index)) {
+          return 'success'
+        } else {
+          return 'secondary'
+        }
+      }
+    },
+    handleSelect(index) {
+    }
   },
+  computed: {
+    items: function () {
+      return this.questionInfos.map((value, index) => {
+        return index
+      })
+    }
+  }
 };
 </script>
 

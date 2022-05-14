@@ -41,120 +41,105 @@
               </div>
             </b-col>
             <b-col>
-              <div class="right-question">
-                <div class="question-title">
-                  <h5 class="card-title">
+
+              <div class="question-title">
+                <h5 class="card-title">
+                  <katex-element
+                      :expression="parseLatex(questionInfo.description)"
+                      :throw-on-error="false"
+                      :strict="false"
+                  />
+                </h5>
+                <template v-if="questionInfo.type>=3">
+                  <!-- 大题图片题有图片 -->
+                  <my-b-image :idList="questionInfo.pictureDescriptions">
+
+                  </my-b-image>
+                </template>
+              </div>
+              <hr/>
+              <div v-if="questionInfo.type < 2" class="choice">
+                <div
+                    v-for="(option, index) in questionInfo.options"
+                    :key="index"
+                    class="per-choice"
+                >
+                  <b-row>
+                    <b-col cols="1">
+                      <div class="option-tag">
+                        <h5>{{ transform(index) }}</h5>
+                      </div>
+                    </b-col>
+                    <b-col>
+                      <!-- 单选题 -->
+                      <div v-if="questionInfo.type === 0" class="option-button">
+                        <b-button
+                            block
+                            class="btn-md mr-2 mb-2 text-left"
+                            :variant="calChoiceVariant(index)"
+                            disabled
+                        >
+                          <katex-element
+                              :expression="parseLatex(option.description)"
+                              :throw-on-error="false"
+                              :strict="false"
+                          />
+                        </b-button>
+                      </div>
+
+                      <!-- 多选题 -->
+                      <div v-if="questionInfo.type === 1" class="option-button">
+                        <b-button
+                            block
+                            class="btn-md mr-2 mb-2 text-left"
+                            :variant="calChoiceVariant(index)"
+                            disabled
+                        >
+                          <katex-element
+                              :expression="parseLatex(option.description)"
+                              :throw-on-error="false"
+                              :strict="false"
+                          />
+                        </b-button>
+                      </div>
+                    </b-col>
+
+                  </b-row>
+                </div>
+              </div>
+              <div v-if="questionInfo.type === 2 " class="fillin">
+                <div class="input-group">
+                  <div
+                      class="card-shadow-dark border card card-body border-dark"
+                  >
                     <katex-element
-                        :expression="parseLatex(questionInfo.description)"
+                        :expression="parseLatex(questionInfo.studentAnswer)"
                         :throw-on-error="false"
                         :strict="false"
                     />
-                  </h5>
-                  <template v-if="questionInfo.type>=3">
-                    <!-- 大题图片题有图片 -->
-                    <div
-                        v-for="picture in questionInfo.pictureDescriptions" :key="picture"
-                        class="mb-3"
-                    >
-                      <my-b-image :id="picture"/>
-                      <!--                      <b-img :src="picture" fluid></b-img>-->
+                  </div>
+                </div>
+              </div>
+              <!-- 大题 图片题-->
+              <div v-if="questionInfo.type === 3 " class="fillin">
+                <div class="input-group">
+                  <div
+                      class="card-shadow-dark border card card-body border-dark mb-3"
+                  >
+                    <katex-element
+                        :expression="parseLatex(questionInfo.studentAnswer)"
+                        :throw-on-error="false"
+                        :strict="false"
+                    />
+                  </div>
+                </div>
+                <my-b-image :idList="questionInfo.studentPictureAnswers">
+                  <template slot-scope="src">
+                    <div style="position: absolute">
+                      <b-button size="sm" variant="primary" @click="handleImageEdit(src.src.id)">编辑</b-button>
                     </div>
                   </template>
-                </div>
-                <hr/>
-                <div v-if="questionInfo.type < 2" class="choice">
-                  <div
-                      v-for="(option, index) in questionInfo.options"
-                      :key="index"
-                      class="per-choice"
-                  >
-                    <b-row>
-                      <b-col cols="1">
-                        <div class="option-tag">
-                          <h5>{{ transform(index) }}</h5>
-                        </div>
-                      </b-col>
-                      <b-col>
-                        <!-- 单选题 -->
-                        <div v-if="questionInfo.type === 0" class="option-button">
-                          <b-button
-                              block
-                              class="btn-md mr-2 mb-2 text-left"
-                              :variant="calChoiceVariant(index)"
-                              disabled
-                          >
-                            <katex-element
-                                :expression="parseLatex(option.description)"
-                                :throw-on-error="false"
-                                :strict="false"
-                            />
-                          </b-button>
-
-                        </div>
-
-                        <!-- 多选题 -->
-                        <div v-if="questionInfo.type === 1" class="option-button">
-                          <b-button
-                              block
-                              class="btn-md mr-2 mb-2 text-left"
-                              :variant="calChoiceVariant(index)"
-                              disabled
-                          >
-                            <katex-element
-                                :expression="parseLatex(option.description)"
-                                :throw-on-error="false"
-                                :strict="false"
-                            />
-                          </b-button>
-                        </div>
-                      </b-col>
-
-                    </b-row>
-                  </div>
-                </div>
-                <div v-if="questionInfo.type === 2 " class="fillin">
-                  <div class="input-group">
-                    <div
-                        class="card-shadow-dark border card card-body border-dark"
-                    >
-                      <katex-element
-                          :expression="parseLatex(questionInfo.studentAnswer)"
-                          :throw-on-error="false"
-                          :strict="false"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <!-- 大题 图片题-->
-                <div v-if="questionInfo.type === 3 " class="fillin">
-                  <div class="input-group">
-                    <div
-                        class="card-shadow-dark border card card-body border-dark mb-3"
-                    >
-                      <katex-element
-                          :expression="parseLatex(questionInfo.studentAnswer)"
-                          :throw-on-error="false"
-                          :strict="false"
-                      />
-                    </div>
-                  </div>
-                  <div
-                      v-for="picture in questionInfo.studentPictureAnswers" :key="picture"
-                      class="mb-3"
-                  >
-                    <b-button v-if="editable"
-                              block
-                              class="mr-2 mb-3"
-                              pill
-                              variant="outline-focus"
-                              size="sm"
-                              @click="handleImageEdit(picture)"
-                    >编辑图片评论
-                    </b-button>
-                    <my-b-image :id="picture"/>
-                    <!--                    <b-img :src="picture" fluid></b-img>-->
-                  </div>
-                </div>
+                </my-b-image>
               </div>
             </b-col>
           </b-row>
@@ -243,13 +228,8 @@
                     />
                   </div>
                 </div>
-                <div
-                    v-for="picture in questionInfo.standardPictureAnswers" :key="picture"
-                    class="mb-3"
-                >
-                  <my-b-image :id="picture"/>
-                  <!--                  <b-img :src="picture" fluid></b-img>-->
-                </div>
+                <my-b-image :idList="questionInfo.standardPictureAnswers">
+                </my-b-image>
               </div>
             </b-col>
           </b-row>
@@ -293,13 +273,16 @@
                         @click="handleImageEdit()"
               >编辑图片评论
               </b-button>
-              <div
-                  v-for="picture in questionInfo.pictureComment" :key="picture"
-                  class="mb-3"
-              >
-                <my-b-image :id="picture"/>
-                <!--                <b-img :src="picture" fluid></b-img>-->
-              </div>
+              <my-b-image :idList="questionInfo.pictureComment">
+                <template slot-scope="src">
+                  <div style="position: absolute">
+                    <b-button size="sm" variant="primary" @click="handleImageEdit(src.src.id)">编辑</b-button>
+                  </div>
+                  <div style="position: absolute;right: 0">
+                    <b-button size="sm" variant="danger" @click="handleImageEdit(src.src.id)">删除</b-button>
+                  </div>
+                </template>
+              </my-b-image>
             </b-col>
           </b-row>
         </b-container>
@@ -315,6 +298,7 @@ import MyImageEditor from "@/components/myImageEditor";
 import {getImageUrl, uploadImage} from "@/api";
 import MyBImage from "@/components/myBImage";
 import convertBase64UrlToImgFile from "@/utils/base64ToFile";
+import requests from "@/utils/requests";
 
 export default {
   name: "myFeedback",
@@ -434,7 +418,7 @@ export default {
       if (res.code === 100) {
         this.questionInfo.pictureComment.push(res.data.id)
         this.handleInput();
-      }else{
+      } else {
         this.$message.error(res.msg)
       }
       this.isEditing = false;

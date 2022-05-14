@@ -234,8 +234,8 @@ export default {
     },
     handleSubmit() {
       //直接提交
-      manualCorrect(this.homeworkId,this.questionId,this.info.studentList).then(res=>{
-        if(res.code===100){
+      manualCorrect(this.homeworkId, this.questionId, this.info.studentList).then(res => {
+        if (res.code === 100) {
           this.$toast.success("成功！")
           this.$router.push({
             name: "correctedQuestion",
@@ -243,10 +243,10 @@ export default {
               homeworkId: this.homeworkId,
             }
           });
-        }else{
+        } else {
           this.$toast.error(res.msg);
         }
-      }).catch(err=>{
+      }).catch(err => {
         this.$toast.error(err);
       })
     }

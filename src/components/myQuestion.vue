@@ -24,8 +24,7 @@
                 </div>
               </div>
             </b-col>
-            <b-col>
-              <div class="right-question">
+            <b-col cols="11">
                 <div class="question-title">
                   <h5 class="card-title">
                     <katex-element
@@ -36,12 +35,7 @@
                   </h5>
                   <template v-if="questionInfo.type>=3">
                     <!-- 大题图片题有图片 -->
-                    <div
-                        v-for="picture in pictureDescriptions" :key="picture"
-                        class="mb-3"
-                    >
-                      <b-img :src="picture" fluid></b-img>
-                    </div>
+                    <my-b-image :id-list="questionInfo.pictureDescriptions"/>
                   </template>
 
                 </div>
@@ -144,7 +138,6 @@
                       v-model:value="questionInfo.studentPictureAnswers"
                   />
                 </div>
-              </div>
             </b-col>
           </b-row>
         </b-container>
@@ -159,6 +152,7 @@ import MyEditModal from "@/components/myEditModal.vue";
 import {deleteImageByName, getImageUrl} from "@/api";
 import {questionImageUpload} from "@/api"
 import MyDropzone from "@/components/myDropzone";
+import MyBImage from "@/components/myBImage";
 
 export default {
   name: "myQuestion",
@@ -170,6 +164,7 @@ export default {
     },
   },
   components: {
+    MyBImage,
     MyDropzone,
     MyEditModal
   },
@@ -178,7 +173,6 @@ export default {
       //是否正在添加文本答案
       isEditing: false,
       num2type: ["单选", "多选", "填空", "大题", "图片题"],
-      pictureDescriptions:[],
       questionInfo: this.value
       /**
        *
@@ -216,15 +210,6 @@ export default {
        * - standardPictureAnswers: 正确答案，图片id数组 (当isRead==true有效)
        *
        * */
-    }
-  },
-  mounted() {
-    if(this.questionInfo.type===3){
-      this.questionInfo.pictureDescriptions.forEach((item,index) => {
-        getImageUrl(item).then(res => {
-          this.pictureDescriptions.push(res.data.url)
-        })
-      })
     }
   },
   methods: {
@@ -287,6 +272,7 @@ export default {
 <style scoped>
 .per-question {
   float: left;
+  width: 100%;
   /*width: 1000px;*/
   padding-bottom: 30px;
 }

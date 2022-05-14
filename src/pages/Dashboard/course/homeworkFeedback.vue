@@ -1,8 +1,11 @@
 <template>
   <div>
-    <div class="main-card mb-3 card" v-for="(questionInfo,index) in questionInfos">
-      <my-feedback v-model:value="questionInfos[index]"/>
-    </div>
+    <b-container>
+      <div class="main-card mb-3 card" v-for="(questionInfo,index) in questionInfos">
+        <my-feedback v-model:value="questionInfos[index]"/>
+      </div>
+    </b-container>
+
   </div>
 </template>
 

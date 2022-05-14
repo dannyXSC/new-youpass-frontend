@@ -252,26 +252,26 @@ export const searchCourse3 = (teacherName) => {
         })
     })
 }
-export const addTodo = (data)=>{
+export const addTodo = (data) => {
 
-   return requests({
-        url:'/account/addTodo',
-        data:{content:data},
-        method:'post'
+    return requests({
+        url: '/account/addTodo',
+        data: {content: data},
+        method: 'post'
     })
 }
 
-export const getTodo = ()=>{
+export const getTodo = () => {
     return requests({
-        url:'/account/getTodo',
-        data:{},
-        method:'get'
+        url: '/account/getTodo',
+        data: {},
+        method: 'get'
     })
 }
-export const deleteTodo = (id)=>{
+export const deleteTodo = (id) => {
     return requests({
-        url:'/account/deleteTodo/'+String(id),
-        method:'delete'
+        url: '/account/deleteTodo/' + String(id),
+        method: 'delete'
     })
 }
 /**
@@ -340,7 +340,7 @@ export const getFeedback = (studentId, homeworkId) => {
                 studentAnswer: [1],
                 standardAnswer: [2],
                 textComment: "加油1",
-                pictureComment: ["http://dannyxsc.xyz/img/image-20220225233444664.png"],
+                pictureComment: ["20"],
             },
                 {
                     type: 1,
@@ -367,7 +367,7 @@ export const getFeedback = (studentId, homeworkId) => {
                     studentAnswer: [2, 1],
                     standardAnswer: [0, 1, 2, 3],
                     textComment: "加油2",
-                    pictureComment: ["http://dannyxsc.xyz/img/image-20220225233444664.png"],
+                    pictureComment:["20"],
                 },
                 {
                     type: 2,
@@ -377,23 +377,22 @@ export const getFeedback = (studentId, homeworkId) => {
                     studentAnswer: "321321_{qwer}",
                     standardAnswer: "我爱你中国",
                     textComment: "加油3",
-                    pictureComment: ["http://dannyxsc.xyz/img/image-20220225233444664.png"],
+                    pictureComment: ["20"],
                 },
                 {
                     type: 3,
                     questionId: 4,
                     numInPaper: 4,
                     description: "第一题xxxx 1_321",
-                    pictureDescriptions: ["https://picsum.photos/1024/400/?image=41"],
+                    pictureDescriptions: ["20"],
                     studentAnswer: "33333",
                     // studentPictureAnswers: ["https://picsum.photos/1024/400/?image=41"],
                     standardAnswer: "我爱你中国222",
                     standardPictureAnswers: [
-                        "http://dannyxsc.xyz/img/%E6%88%AA%E5%B1%8F2022-02-25%20%E4%B8%8A%E5%8D%8811.18.30.png",
-                        "http://dannyxsc.xyz/img/image-20220225222647576.png"
+                        "20","21"
                     ],
                     textComment: "加油4",
-                    pictureComment: ["http://dannyxsc.xyz/img/image-20220225233444664.png"],
+                    pictureComment: ["28"],
                 }
             ]
         })
@@ -419,15 +418,23 @@ export const getQuestions = (homeworkId) => {
             if (item.questionVo.questionType === "SINGLE") {
                 type = 0
                 studentAnswer = studentAnswer || []
+                let temp = []
                 studentAnswer.forEach((item, index) => {
-                    studentAnswer[index] = parseInt(item)
+                    if(isNaN(parseInt(item)) === false){
+                        temp.push(parseInt(item))
+                    }
                 })
+                studentAnswer = temp
             } else if (item.questionVo.questionType === "MULTIPLE") {
                 type = 1
                 studentAnswer = studentAnswer || []
+                let temp = []
                 studentAnswer.forEach((item, index) => {
-                    studentAnswer[index] = parseInt(item)
+                    if(isNaN(parseInt(item)) === false){
+                        temp.push(parseInt(item))
+                    }
                 })
+                studentAnswer = temp
             } else if (item.questionVo.questionType === "FILL_IN_BLANK") {
                 type = 2
                 studentAnswer = studentAnswer || ""
@@ -680,13 +687,13 @@ export const getQuestionsOfTeacher = () => {
  * @returns {AxiosPromise}
  */
 export const getNotice = () => {
-    let result=[]
-    requests({url: "/course/getNotice/", method: 'get'}).then(res=>{
+    let result = []
+    requests({url: "/course/getNotice/", method: 'get'}).then(res => {
         console.log(res.data)
         for (let i = 0; i < res.data.length; i++) {
 
             result.push({
-                id:res.data[i].id,
+                id: res.data[i].id,
                 courseId: res.data[i].courseId,
                 content: res.data[i].content,
                 title: res.data[i].title,
@@ -730,8 +737,11 @@ export const quit = () => {
  * @param courseId
  * @returns {AxiosPromise}
  */
-export const studentQuitCourse = (courseId,studentId) => {
-    return requests({url: "/course/deleteStudentFromTake?courseId=" + courseId+"&studentId="+studentId, method: "post"})
+export const studentQuitCourse = (courseId, studentId) => {
+    return requests({
+        url: "/course/deleteStudentFromTake?courseId=" + courseId + "&studentId=" + studentId,
+        method: "post"
+    })
     // return new Promise((resolve, reject) => {
     //     resolve({
     //         code: 100,
@@ -745,14 +755,14 @@ export const deleteCourseByCourseId = (courseId) => {
     return requests({url: "/course/teacherDeleteCourse?courseId=" + courseId, method: "post"})
 }
 
-export const createCourse = (name, password,url,courseTime) => {
+export const createCourse = (name, password, url, courseTime) => {
     return requests({
         url: "/course/createCourse",
-        data:{
+        data: {
             name: name,
-            password:password,
-            url:url,
-            courseTime:courseTime
+            password: password,
+            url: url,
+            courseTime: courseTime
         },
         method: "post"
     })
@@ -770,6 +780,7 @@ export const getCorrectedQuestion = (homeworkId, questionId) => {
         res.msg = response.msg
         res.data = {questionInfo: {}, studentList: []}
         if (response.data !== null && Array.isArray(response.data)) {
+            response.data = response.data || []
             response.data.forEach((item) => {
                 res.data.questionInfo.description = item.questionVo.description
                 res.data.questionInfo.questionId = item.questionVo.questionId
@@ -777,21 +788,26 @@ export const getCorrectedQuestion = (homeworkId, questionId) => {
 
                 let studentAnswer = null
 
+                console.log(item)
+
                 if (item.questionVo.questionType === "SINGLE") {
                     res.data.questionInfo.type = 0
                     res.data.questionInfo.options = []
                     res.data.questionInfo.standardAnswer = []
+                    item.questionVo.options = item.questionVo.options || []
                     item.questionVo.options.forEach((option) => {
                         res.data.questionInfo.options.push({
                             optionId: parseInt(option.optionId),
                             description: option.description
                         })
                     })
+                    item.questionVo.standardAnswer = item.questionVo.standardAnswer || []
                     item.questionVo.standardAnswer.forEach((answer) => {
                         res.data.questionInfo.standardAnswer.push(parseInt(answer))
                     })
 
                     studentAnswer = []
+                    item.studentAnswer = item.studentAnswer || []
                     item.studentAnswer.forEach((answer) => {
                         studentAnswer.push(parseInt(answer))
                     })
@@ -800,16 +816,19 @@ export const getCorrectedQuestion = (homeworkId, questionId) => {
                     res.data.questionInfo.type = 1
                     res.data.questionInfo.options = []
                     res.data.questionInfo.standardAnswer = []
+                    item.questionVo.options = item.questionVo.options || []
                     item.questionVo.options.forEach((option) => {
                         res.data.questionInfo.options.push({
                             optionId: parseInt(option.optionId),
                             description: option.description
                         })
                     })
+                    item.questionVo.standardAnswer = item.questionVo.standardAnswer || []
                     item.questionVo.standardAnswer.forEach((answer) => {
                         res.data.questionInfo.standardAnswer.push(parseInt(answer))
                     })
                     studentAnswer = []
+                    item.studentAnswer = item.studentAnswer || []
                     item.studentAnswer.forEach((answer) => {
                         studentAnswer.push(parseInt(answer))
                     })
@@ -1218,7 +1237,7 @@ export const getHomeworkByCourseId = (courseId) => {
 //     })
 // })
 export const getHomeworkByStudent = (studentId) => {
-    return requests({url:'/homework',method:"post",data:{studentId:studentId}})
+    return requests({url: '/homework', method: "post", data: {studentId: studentId}})
 }
 // return new Promise((resolve, reject) => {
 //     resolve({
@@ -1378,10 +1397,10 @@ export const getCommentsByAssignmentId = (AssignmentId) => {
                                 commentId: childret.data[j].comment.id,
                                 supportNum: childret.data[j].comment.likeNum,
                                 supported: k.data[0],
-                                createTime:childret.data[j].comment.createTime.slice(0,19).replace('T','  '),
+                                createTime: childret.data[j].comment.createTime.slice(0, 19).replace('T', '  '),
                                 myComment: '',
-                                pcommentId:childret.data[j].comment.pcommentId,
-                                fatherName:childret.data[j].fatherName,
+                                pcommentId: childret.data[j].comment.pcommentId,
+                                fatherName: childret.data[j].fatherName,
                                 content: childret.data[j].comment.content,
                             })
                         })
@@ -1395,8 +1414,8 @@ export const getCommentsByAssignmentId = (AssignmentId) => {
                         supported: p.data[0],
                         content: retdata.data[i].comment.content,
                         supportNum: retdata.data[i].comment.likeNum,
-                        fatherName:retdata.data[i].fatherName,
-                        createTime:retdata.data[i].comment.createTime.slice(0,19).replace('T','  '),
+                        fatherName: retdata.data[i].fatherName,
+                        createTime: retdata.data[i].comment.createTime.slice(0, 19).replace('T', '  '),
                         myComment: '',
                         children: children
                     })

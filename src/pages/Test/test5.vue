@@ -1,47 +1,48 @@
 <template>
   <div>
-    <my-image-editor
-        :path="path"
-        :name="name"
-        :id="id"
-        @onSubmit="handleSubmit"
-        @onCancel="handleCancel"
-    />
-    <button @click="handleClick">click me</button>
-    <b-img :src="image" fluid alt="Responsive image"></b-img>
+    <!-- directive -->
+    <div class="images" v-viewer>
+      <b-row>
+        <b-col cols="4" v-for="src in images" :key="src">
+          <img  :src="src">
+        </b-col>
+      </b-row>
+    </div>
+    <!-- component -->
+    <viewer :images="images">
+      <b-row>
+        <b-col cols="4" v-for="src in images" :key="src" class="mb-5">
+            <img  :src="src" width="100%" height="100%">
+        </b-col>
+      </b-row>
+    </viewer>
+    <!-- api -->
+    <button type="button" @click="show">Click to show</button>
   </div>
-
 </template>
 
 <script>
-import vue2Dropzone from "vue2-dropzone";
-import "vue2-dropzone/dist/vue2Dropzone.min.css";
-import MyEditModal from "@/components/myEditModal";
-import MyImageEditor from "@/components/myImageEditor";
-
+import 'viewerjs/dist/viewer.css'
+import VueViewer from 'v-viewer'
+import Vue from 'vue'
+Vue.use(VueViewer)
 export default {
-  name: "test5",
-  components: {MyImageEditor},
   data() {
     return {
-      path: "http://dannyxsc.xyz/img/image-20220225233444664.png",
-      name: "123",
-      id: "image-editor",
-      image: "",
+      images: [
+        "https://picsum.photos/200/200",
+        "https://picsum.photos/300/200",
+        "https://picsum.photos/250/200",
+        "https://picsum.photos/252/200"
+      ]
     };
   },
   methods: {
-    handleSubmit(img) {
-      console.log(img)
-      this.image = img;
+    show() {
+      this.$viewerApi({
+        images: this.images,
+      })
     },
-    handleCancel() {
-    },
-    handleClick() {
-      this.$nextTick(_ => this.$bvModal.show(this.id))
-    }
-  }
-};
+  },
+}
 </script>
-
-<style scoped></style>
