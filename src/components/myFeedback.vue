@@ -134,10 +134,12 @@
                   </div>
                 </div>
                 <my-b-image :idList="questionInfo.studentPictureAnswers">
-                  <template slot-scope="src">
-                    <div style="position: absolute">
-                      <b-button size="sm" variant="primary" @click="handleImageEdit(src.src.id)">编辑</b-button>
-                    </div>
+                  <template v-if="editable">
+                    <template slot-scope="src">
+                      <div style="position: absolute">
+                        <b-button size="sm" variant="primary" @click="handleImageEdit(src.src.id)">编辑</b-button>
+                      </div>
+                    </template>
                   </template>
                 </my-b-image>
               </div>
@@ -271,17 +273,20 @@
                         variant="outline-focus"
                         size="sm"
                         @click="handleImageEdit()"
-              >编辑图片评论
+              >添加图片评论
               </b-button>
               <my-b-image :idList="questionInfo.pictureComment">
-                <template slot-scope="src">
-                  <div style="position: absolute">
-                    <b-button size="sm" variant="primary" @click="handleImageEdit(src.src.id)">编辑</b-button>
-                  </div>
-                  <div style="position: absolute;right: 0">
-                    <b-button size="sm" variant="danger" @click="handleImageEdit(src.src.id)">删除</b-button>
-                  </div>
+                <template v-if="editable">
+                  <template slot-scope="src" >
+                    <div style="position: absolute">
+                      <b-button size="sm" variant="primary" @click="handleImageEdit(src.src.id)">编辑</b-button>
+                    </div>
+                    <div style="position: absolute;right: 0">
+                      <b-button size="sm" variant="danger" @click="handleImageRemove(src.src.id)">删除</b-button>
+                    </div>
+                  </template>
                 </template>
+
               </my-b-image>
             </b-col>
           </b-row>
@@ -351,11 +356,11 @@ export default {
       * - standardAnswer: 正确答案，文本
       *
       * 大题 3
-      * - pictureDescription: 列表，每一项是一个图片的url
+      * - pictureDescription: 列表，每一项是一个图片的id
       * - studentAnswer: 学生答案，文本
       * - standardAnswer: 正确答案，文本
-      * - studentPictureAnswers: 学生答案，图片
-      * - standardPictureAnswers: 正确答案，图片
+      * - studentPictureAnswers: 学生答案，图片id的数组
+      * - standardPictureAnswers: 正确答案，图片id的数组
       *
       * */
     }
@@ -423,10 +428,12 @@ export default {
       }
       this.isEditing = false;
     },
+    handleImageRemove(id) {
+      this.questionInfo.pictureComment.splice(this.questionInfo.pictureComment.indexOf(id), 1)
+    },
     handleImageCancel() {
       this.isEditing = false;
     },
-
     calInitEditedImagePath: async function (id) {
       if (id) {
         let res = await getImageUrl(id);
@@ -437,7 +444,7 @@ export default {
     },
     calInitEditedImageName: function () {
       return this.questionInfo.questionId + "-" + this.questionInfo.numInPaper;
-    }
+    },
   },
 }
 </script>
