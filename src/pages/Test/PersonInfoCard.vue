@@ -59,8 +59,9 @@
           :state="Boolean(avater)"
           placeholder="选择一个文件或拖入文件到此位置..."
           drop-placeholder="拖入文件"
+          langType="ch"
       ></b-form-file>
-      <div class="mt-3" style="margin-bottom: 1.5em">请选择文件...: {{ avater ? avater.name : '' }}</div>
+      <div class="mt-3" style="margin-bottom: 1.5em">请选择文件... {{ avater ? avater.name : '' }}</div>
       <b-button style="float: right" variant="success" @click="submitAvater">提交</b-button>
     </b-modal>
   </div>
