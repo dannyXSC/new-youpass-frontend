@@ -10,10 +10,12 @@
       <b-row>
         <b-col cols="8">
           <div
-              class="main-card mb-3 card"
+              class="main-card card"
               v-for="(questionInfo, index) in questionInfos"
           >
-            <my-question v-model:value="questionInfos[index]"/>
+            <div v-show="onShowIndex=== index">
+              <my-question v-model:value="questionInfos[index]"/>
+            </div>
           </div>
         </b-col>
         <b-col cols="4">
@@ -26,9 +28,9 @@
 
             <template v-slot:footer>
               <b-row class="justify-content-end">
-                    <b-button variant="danger" size="sl" @click="submitHomework"
-                    >提交作业
-                    </b-button>
+                <b-button variant="danger" size="sl" @click="submitHomework"
+                >提交作业
+                </b-button>
               </b-row>
             </template>
 
@@ -188,6 +190,7 @@ export default {
       }
     },
     handleSelect(index) {
+      this.onShowIndex = index;
     }
   },
   computed: {
