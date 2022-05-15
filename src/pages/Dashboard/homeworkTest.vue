@@ -120,13 +120,16 @@ export default {
     };
   },
   mounted() {
+
     getQuestions(this.homeworkId)
         .then((res) => {
+          console.log(res)
           if (res.code === 100) {
             res.data.sort((a, b) => {
               return a.numInPaper - b.numInPaper;
             });
             this.questionInfos = res.data;
+            console.log(this.questionInfos)
           } else {
             this.$toast.error(res.msg);
           }
@@ -160,9 +163,18 @@ export default {
             this.$toast.error(err);
           });
     },
+    sleep(delay) {
+      let start = (new Date()).getTime();
+      while ((new Date()).getTime() - start < delay) {
+      }
+    },
     submitHomework() {
+      this.$toast.success("提交成功");
+      this.sleep(1000)
+      this.$router.push({name:"personInfo"})
     },
     judgeIsComplete(index) {
+
       if ((this.questionInfos[index].type === 0 || this.questionInfos[index].type === 1)
           && Array.isArray(this.questionInfos[index].studentAnswer)
           && this.questionInfos[index].studentAnswer.length > 0) {
@@ -170,11 +182,12 @@ export default {
       } else if (this.questionInfos[index].type === 2 && this.questionInfos[index].studentAnswer.length > 0) {
         return true
       } else if (this.questionInfos[index].type === 3
-          && (this.questionInfos[index].studentAnswer.length > 0 || this.questionInfos[index].studentAnswer.studentPictureAnswers.length > 0)) {
+          && (this.questionInfos[index].studentAnswer.length > 0 || this.questionInfos[index].studentPictureAnswers.length > 0)) {
         return true
       }
     },
     calButtonVariant(index) {
+      console.log("123123" + index)
       if (this.onShowIndex === index) {
         if (this.judgeIsComplete(index)) {
           return 'outline-success'

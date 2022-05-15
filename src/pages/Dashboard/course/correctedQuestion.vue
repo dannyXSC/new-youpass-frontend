@@ -51,6 +51,7 @@ export default {
     console.log(this.homeworkId)
     getUnmarkedQuestion(this.homeworkId).then((res) => {
       if (res.code === 100) {
+        console.log(res.data)
         if (Array.isArray(res.data)) {
           res.data.forEach((value, index) => {
             value._showDetails = false;

@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <b-breadcrumb :items="breadcrumbItem"></b-breadcrumb>
+    <b-breadcrumb v-if="noBar" :items="breadcrumbItem"></b-breadcrumb>
   </div>
 </template>
 
@@ -37,6 +37,17 @@ export default {
     heading: String,
     subheading: String,
     breadcrumbItem: Array,
+    NoBar:Boolean
   },
+  data(){
+    return{
+      noBar:true
+    }
+  },
+  mounted() {
+    if(this.NoBar===true){
+      this.noBar=false
+    }
+  }
 };
 </script>

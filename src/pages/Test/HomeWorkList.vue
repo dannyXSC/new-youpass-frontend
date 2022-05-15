@@ -5,7 +5,7 @@
         <div class="col-md-12">
           <div class="main-card mb-3 card">
             <div class="card-header">
-              <h3 class="card-title">未完成的作业</h3>
+              <h3 class="card-title">还没有截止的作业</h3>
               <hr/>
               <div v-if="ifHomeWork" style="margin-bottom: 2em">没有作业哦</div>
               <div
@@ -20,6 +20,7 @@
               >
                 <div
                     v-for="exam in examList"
+                    v-if="exam.ifShow"
                     :key="exam.id"
                     class="dot-primary vertical-timeline-element"
                 >
@@ -92,7 +93,8 @@ export default {
   name: "HomeWorkList",
   data(){
     return{
-      examList: []
+      examList: [],
+      ifHaveNotPassed:false
     }
   },
   methods:{
@@ -107,11 +109,25 @@ export default {
     init(){
       getHomeworkByStudent(this.$store.state.global.id).then(res=>{
         this.examList=res.data
+        this.examList.forEach(item=>{
+          let x=new Date(item.endTime.replace('T',' ')).getTime()
+          let y=new Date().getTime()
+          if(x-y){
+            item.ifShow=true
+            this.ifHaveNotPassed=true
+          }
+          else {
+            item.ifShow=false
+          }
+        })
       })
     },
   },
   computed:{
     ifHomeWork(){
+      if(this.ifHaveNotPassed===false){
+        return true
+      }
       return this.examList.length === 0;
     }
   },
