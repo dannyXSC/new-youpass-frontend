@@ -1,8 +1,8 @@
 <template>
   <div v-if="questionInfos.length">
     <page-title
-        :heading="heading"
-        :subheading="subheading"
+        :heading="this.title"
+        :subheading="this.starttime"
         :icon="icon"
         :breadcrumb-item="breadcrumbItem"
     ></page-title>
@@ -87,7 +87,7 @@ export default {
     BootstrapToggle,
     ContentLoader,
   },
-  props: ["homeworkId"],
+  props: ["homeworkId","courseId","title","starttime"],
   data() {
     return {
       per_page: 9,
@@ -102,8 +102,16 @@ export default {
       icon: "pe-7s-drawer icon-gradient bg-tempting-azure",
       breadcrumbItem: [
         {
-          text: "",
-          href: "#",
+          text: "课程信息",
+          href: "#/dashboard/course",
+        },
+        {
+          text: "作业管理",
+          href: "#/dashboard/homeworkList/"+this.courseId,
+        },
+        {
+          text: this.title,
+          active: true,
         },
       ],
       currentPage: 1,

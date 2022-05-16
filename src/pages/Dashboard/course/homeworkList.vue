@@ -161,17 +161,22 @@ export default {
       this.$router.push({
         name: "correctedQuestion",
         params: {
-          homeworkId: item.id
+          courseId: this.courseId,
+          homeworkId: item.id,
+          title: item.title,
+          starttime: item.start_time
         },
       });
     },
     handleCheckGrade(item) {
+      console.log(item)
       this.$router.push({
         name: "CertainExam",
         params: {
-          // courseId: this.courseId,
-          // examId: item.exam_id,
-          homeworkId: item.id
+          courseId: this.courseId,
+          homeworkId: item.id,
+          title: item.title,
+          starttime: item.start_time
         },
       });
     },
@@ -180,7 +185,10 @@ export default {
       this.$router.push({
         name: "homeworkTest",
         params: {
+          courseId: this.courseId,
           homeworkId: item.id,
+          title: item.title,
+          starttime: item.start_time
         },
       });
     },
@@ -190,6 +198,8 @@ export default {
         params: {
           studentId: this.$store.state.global.id,
           homeworkId: item.id,
+          title: item.title,
+          starttime: item.start_time
         },
       });
     },
@@ -198,6 +208,7 @@ export default {
         path: "/dashboard/commentSection",
         query: {
           homeworkId: item.id,
+          title: item.title
         },
       });
     }

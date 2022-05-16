@@ -215,19 +215,11 @@ export default {
 
       breadcrumbItem: [
         {
-          text: "Admin",
-          href: "#",
+          text: "课程信息",
+          href: "#/dashboard/course",
         },
         {
-          text: "Manage",
-          href: "#",
-        },
-        {
-          text: "Test1",
-          href: "#",
-        },
-        {
-          text: "Library",
+          text: "发布作业",
           active: true,
         },
       ],

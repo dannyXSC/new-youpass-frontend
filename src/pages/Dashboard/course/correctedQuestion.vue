@@ -1,8 +1,8 @@
 <template>
   <div>
     <page-title
-        :heading="heading"
-        :subheading="subheading"
+        :heading="this.title"
+        :subheading="this.starttime"
         :icon="icon"
         :breadcrumb-item="breadcrumbItem"
     ></page-title>
@@ -46,7 +46,7 @@ export default {
     myList,
     PageTitle,
   },
-  props: ["homeworkId"],
+  props: ["homeworkId","courseId","title","starttime"],
   mounted() {
     this.init();
   },
@@ -58,15 +58,15 @@ export default {
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
       breadcrumbItem: [
         {
-          text: "Admin",
-          href: "#",
+          text: "课程信息",
+          href: "#/dashboard/course",
         },
         {
-          text: "Manage",
-          href: "#",
+          text: "作业管理",
+          href: "#/dashboard/homeworkList/"+this.courseId,
         },
         {
-          text: "Library",
+          text: this.title,
           active: true,
         },
       ],

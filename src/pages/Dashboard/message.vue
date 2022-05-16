@@ -99,7 +99,7 @@ export default {
 
       breadcrumbItem: [
         {
-          text: "",
+          text: "查看通知",
           active: true,
         },
       ],

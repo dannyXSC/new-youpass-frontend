@@ -68,7 +68,7 @@ export default {
 
       breadcrumbItem: [
         {
-          text: "作业信息",
+          text: "作业管理",
           active: true,
         },
       ],
@@ -131,6 +131,8 @@ export default {
         params: {
           studentId: this.$store.state.global.id,
           homeworkId: item.id,
+          title: item.title,
+          starttime: item.start_time
         },
       });
     },
@@ -139,6 +141,7 @@ export default {
         path: "/dashboard/commentSection",
         query: {
           homeworkId: item.id,
+          title: item.title
         },
       });
     }

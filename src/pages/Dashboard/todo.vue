@@ -115,24 +115,6 @@ export default {
     subheading:
       "These can be used with other components and elements to create stunning and unique new elements for your UIs.",
     icon: "pe-7s-paint icon-gradient bg-sunny-morning",
-    breadcrumbItem: [
-      {
-        text: "Admin",
-        href: "#",
-      },
-      {
-        text: "Manage",
-        href: "#",
-      },
-      {
-        text: "Test1",
-        href: "#",
-      },
-      {
-        text: "Library",
-        active: true,
-      },
-    ],
     todos: [],
   }),
   methods: {

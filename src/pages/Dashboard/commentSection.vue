@@ -1,5 +1,11 @@
 <template>
   <div>
+    <page-title
+        :heading="this.title+heading"
+        :subheading="subheading"
+        :icon="icon"
+        :breadcrumb-item="breadcrumbItem"
+    ></page-title>
     <homework-info-card style="margin-bottom: 2em" :homework-id="homeworkId" @change="init"></homework-info-card>
     <b-card>
       <b-list-group>
@@ -110,13 +116,14 @@
 </template>
 
 <script>
+import PageTitle from "@/layout/Components/PageTitle.vue";
 import OthersInfo from "@/pages/Test/OthersInfo";
 import {getCommentsByAssignmentId, submitComment, addLike} from "@/api";
 import HomeworkInfoCard from "@/components/homeworkInfoCard";
 
 export default {
   name: "commentSection",
-  components: {HomeworkInfoCard, OthersInfo},
+  components: {HomeworkInfoCard, OthersInfo,PageTitle},
   mounted() {
     this.init()
   },
@@ -150,6 +157,8 @@ export default {
     },
     init() {
       this.homeworkId = this.$route.query.homeworkId
+      this.title = this.$route.query.title
+      console.log(this.title)
       getCommentsByAssignmentId(Number(this.homeworkId)).then((res) => {
         this.comments = res.data[0].comments
       })
@@ -218,10 +227,30 @@ export default {
   },
   data() {
     return {
+      heading: "讨论区",
+      subheading:
+          "在这里与其他同学讨论作业",
+      icon: "pe-7s-plane icon-gradient bg-tempting-azure",
+
+      breadcrumbItem: [
+        {
+          text: "课程信息",
+          href: "#/dashboard/course",
+        },
+        {
+          text: "作业管理",
+          href: "#/dashboard/homeworkListOfStudent",
+        },
+        {
+          text: this.$route.query.title,
+          active: true,
+        },
+      ],
       comments: [],
       openHisChild: -1,
       checkHisInfo: -1,
       homeworkId: '',
+      title: ''
     }
   },
 }

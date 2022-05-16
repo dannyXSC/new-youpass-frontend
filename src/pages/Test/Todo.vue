@@ -90,24 +90,6 @@ export default {
     subheading:
         "",
     icon: "pe-7s-paint icon-gradient bg-sunny-morning",
-    breadcrumbItem: [
-      {
-        text: "Admin",
-        href: "#",
-      },
-      {
-        text: "Manage",
-        href: "#",
-      },
-      {
-        text: "Test1",
-        href: "#",
-      },
-      {
-        text: "Library",
-        active: true,
-      },
-    ],
     todos: [],
   }),
   methods: {

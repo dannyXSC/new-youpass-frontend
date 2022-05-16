@@ -58,9 +58,7 @@ import {getAllStudents} from '@/api';
 export default {
   name: 'CertainExam',
   components: {MyList, PageTitle, Grade, Students, ExamTable},
-  props: {
-    homeworkId: Number,
-  },
+  props: ["homeworkId","courseId","title","starttime"],
   mounted() {
     this.init()
   },
@@ -74,15 +72,13 @@ export default {
         {
           text: "课程信息",
           href: "#/dashboard/course",
-          // active: true,
         },
         {
-          text: "作业列表",
-          href: "#/dashboard/homeworkList"
-          // active: true,
+          text: "作业管理",
+          href: "#/dashboard/homeworkList/"+this.courseId,
         },
         {
-          text: "作业详情",
+          text: this.title + "成绩分析",
           active: true,
         },
       ],

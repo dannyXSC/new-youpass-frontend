@@ -184,7 +184,7 @@ export default {
       inputContent: "",
       breadcrumbItem: [
         {
-          text: "",
+          text: "搜索课程",
           active: true,
         },
       ],
