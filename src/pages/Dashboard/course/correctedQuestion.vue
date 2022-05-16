@@ -48,27 +48,7 @@ export default {
   },
   props: ["homeworkId"],
   mounted() {
-    console.log(this.homeworkId)
-    getUnmarkedQuestion(this.homeworkId).then((res) => {
-      if (res.code === 100) {
-        if (Array.isArray(res.data)) {
-          res.data.forEach((value, index) => {
-            value._showDetails = false;
-            value.isActive = false;
-            this.items.push(JSON.parse(JSON.stringify(value)));
-          });
-        } else {
-          alert("已经批改完成");
-          router.push("/dashboard");
-        }
-      } else {
-        alert("error");
-        router.push("/dashboard");
-      }
-    }).catch((error) => {
-      alert(error);
-      router.push("/dashboard");
-    });
+    this.init();
   },
   data() {
     return {
@@ -107,6 +87,29 @@ export default {
     };
   },
   methods: {
+    init(){
+      getUnmarkedQuestion(this.homeworkId).then((res) => {
+        if (res.code === 100) {
+          if (Array.isArray(res.data)) {
+            this.items = []
+            res.data.forEach((value, index) => {
+              value._showDetails = false;
+              value.isActive = false;
+              this.items.push(JSON.parse(JSON.stringify(value)));
+            });
+          } else {
+            alert("已经批改完成");
+            router.push("/dashboard");
+          }
+        } else {
+          alert("error");
+          router.push("/dashboard");
+        }
+      }).catch((error) => {
+        alert(error);
+        router.push("/dashboard");
+      });
+    },
     handleManualCorrect(item) {
       this.$router.push({
         name: "correctPaper",
@@ -117,21 +120,10 @@ export default {
       });
     },
     handleAutoCorrect(item) {
-      autoCorrect({
-        courseId: this.courseId,
-        examId: this.examId,
-        questionId: item.questionId,
-      })
+      autoCorrect(this.homeworkId,item.questionId,)
           .then((res) => {
             if (res.code === 100) {
-              alert("成功");
-              this.items = this.items.filter((value) => {
-                return value.questionId !== item.questionId;
-              });
-              if (this.items.length <= 0) {
-                alert("已经批改完成");
-                router.push("/dashboard");
-              }
+              this.init()
             } else {
               alert(res.msg);
             }

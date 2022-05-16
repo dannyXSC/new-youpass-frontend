@@ -367,7 +367,7 @@ export const getFeedback = (studentId, homeworkId) => {
                     studentAnswer: [2, 1],
                     standardAnswer: [0, 1, 2, 3],
                     textComment: "加油2",
-                    pictureComment:["20"],
+                    pictureComment: ["20"],
                 },
                 {
                     type: 2,
@@ -389,7 +389,7 @@ export const getFeedback = (studentId, homeworkId) => {
                     // studentPictureAnswers: ["https://picsum.photos/1024/400/?image=41"],
                     standardAnswer: "我爱你中国222",
                     standardPictureAnswers: [
-                        "20","21"
+                        "20", "21"
                     ],
                     textComment: "加油4",
                     pictureComment: ["28"],
@@ -420,7 +420,7 @@ export const getQuestions = (homeworkId) => {
                 studentAnswer = studentAnswer || []
                 let temp = []
                 studentAnswer.forEach((item, index) => {
-                    if(isNaN(parseInt(item)) === false){
+                    if (isNaN(parseInt(item)) === false) {
                         temp.push(parseInt(item))
                     }
                 })
@@ -430,7 +430,7 @@ export const getQuestions = (homeworkId) => {
                 studentAnswer = studentAnswer || []
                 let temp = []
                 studentAnswer.forEach((item, index) => {
-                    if(isNaN(parseInt(item)) === false){
+                    if (isNaN(parseInt(item)) === false) {
                         temp.push(parseInt(item))
                     }
                 })
@@ -1286,8 +1286,9 @@ export const getHomeworkByStudent = (studentId) => {
 //     })
 // })
 //自动批改
-export const autoCorrect = (data) => {
-    return requests({url: "/score/autoCorrect", method: "post", data: data})
+export const autoCorrect = (homeworkId, questionId) => {
+    return requests({url: "/homework/teacher/autoCorrect?homeworkId=" + homeworkId + "&questionId=" + questionId, method: "post"})
+
 }
 
 
