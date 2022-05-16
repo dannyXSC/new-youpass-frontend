@@ -76,7 +76,7 @@ export default {
     },
     getHomeworkInfo(){
       getHomeworkByStudent(this.$store.state.global.id).then(res=>{
-        console.log(res)
+        console.log(this.$store.state.global.id)
         res.data.forEach((value) => {
           let endTime = new Date(value.endTime)
           let startTime = new Date(value.startTime)
