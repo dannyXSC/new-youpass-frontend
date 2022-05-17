@@ -1290,8 +1290,15 @@ export const autoCorrect = (homeworkId, questionId) => {
     return requests({url: "/homework/teacher/autoCorrect?homeworkId=" + homeworkId + "&questionId=" + questionId, method: "post"})
 
 }
+//查看该生某次作业是否已经提交
+export const getSubmitByStudent = (studentId,homeworkId) => {
+    return requests({url: '/homework/studentHomework', method: "post", data: {studentId: studentId,homeworkId:homeworkId}})
+}
 
-
+//修改提交结果
+export const updateSubmit = (data) => {
+    return requests({url: '/homework/updateSubmit', method: "post", data: {studentId: data.studentId,homeworkId:data.homeworkId}})
+}
 //获取考生所有考试成绩
 export const getStuCourseExamScore = (courseId) => {
     return requests({url: "/score/getStuScore/" + courseId, method: "get"})

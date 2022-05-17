@@ -69,8 +69,8 @@ import {getHomeworkByStudent} from "@/api";
 Date.prototype.format = function (fmt) {
   let o = {
     "M+": this.getMonth() + 1, //月份
-    "d+": this.getDate(), //日
-    "h+": this.getHours(), //小时
+    "d+": this.getHours()-8<=0?this.getDate()-1:this.getDate(), //日
+    "h+": this.getHours()-8<=0?this.getHours()-16:this.getHours()-8,//小时
     "m+": this.getMinutes(), //分
     "s+": this.getSeconds(), //秒
     "q+": Math.floor((this.getMonth() + 3) / 3), //季度

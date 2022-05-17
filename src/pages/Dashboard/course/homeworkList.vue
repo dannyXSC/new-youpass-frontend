@@ -84,7 +84,7 @@
 <script>
 import myList from "@/components/myList";
 import PageTitle from "@/layout/Components/PageTitle.vue";
-import {getHomeworkByCourseId} from "@/api";
+import {getHomeworkByCourseId, getSubmitByStudent} from "@/api";
 
 export default {
   name: "homeworkList",
@@ -100,17 +100,32 @@ export default {
         .then((res) => {
           console.log(res)
           if (res.code === 100) {
-
             res.data.forEach((value) => {
-              let end_time = new Date(value.end_time)
-              let start_time = new Date(value.start_time)
-              end_time.setHours(end_time.getHours() - 8)
-              start_time.setHours(start_time.getHours() - 8)
-              value._showDetails = false;
-              value.isActive = false;
-              value.end_time = end_time.format("yyyy-MM-dd hh:mm:ss")
-              value.start_time = start_time.format("yyyy-MM-dd hh:mm:ss")
-              this.examList.push(JSON.parse(JSON.stringify(value)));
+              getSubmitByStudent(this.$store.state.global.id,value.id).then((response)=>{
+                if(response.code===100){
+                  response.data.forEach((item)=>{
+                    console.log(item.submit===1)
+                    if(item.submit===0){
+                      this.submit = "未提交";
+                    }
+                    else{
+                      this.submit = "已提交";
+                      console.log(this.submit)
+                    }
+                    let end_time = new Date(value.end_time)
+                    let start_time = new Date(value.start_time)
+                    end_time.setHours(end_time.getHours() - 8)
+                    start_time.setHours(start_time.getHours() - 8)
+                    value._showDetails = false;
+                    value.isActive = false;
+                    value.end_time = end_time.format("yyyy-MM-dd hh:mm:ss")
+                    value.start_time = start_time.format("yyyy-MM-dd hh:mm:ss")
+                    value.submit = this.submit
+
+                    this.examList.push(JSON.parse(JSON.stringify(value)));
+                  })
+                }
+              })
             });
             //根据开始时间排序
             this.examList.sort((a, b) => {
@@ -142,7 +157,7 @@ export default {
           active: true,
         },
       ],
-
+      submit:"未提交",
       examList: [],
       fields: [
         {label: "作业id", key: "id"},
@@ -152,6 +167,7 @@ export default {
         },
         {label: "开始时间", key: "start_time"},
         {label: "结束时间", key: "end_time"},
+        {label: "是否完成", key: "submit"}
       ]
     };
   },
@@ -181,27 +197,47 @@ export default {
       });
     },
     handleTakeHomework(item) {
-      console.log(item, this.courseId)
-      this.$router.push({
-        name: "homeworkTest",
-        params: {
-          courseId: this.courseId,
-          homeworkId: item.id,
-          title: item.title,
-          starttime: item.start_time
-        },
-      });
+      if(new Date().format("yyyy-MM-dd hh:mm:ss")>item.end_time){
+        this.$toast.warning("作业截止时间已过！不能再提交作业！")
+      }else{
+        this.$router.push({
+          name: "homeworkTest",
+          params: {
+            courseId: this.courseId,
+            homeworkId: item.id,
+            title: item.title,
+            starttime: item.start_time
+          },
+        });
+      }
+
     },
     gotoHomeworkFeedback(item) {
-      this.$router.push({
-        name: "homeworkFeedback",
-        params: {
-          studentId: this.$store.state.global.id,
-          homeworkId: item.id,
-          title: item.title,
-          starttime: item.start_time
-        },
-      });
+      if(new Date().format("yyyy-MM-dd hh:mm:ss")>item.end_time){
+        this.$router.push({
+          name: "homeworkFeedback",
+          params: {
+            studentId: this.$store.state.global.id,
+            homeworkId: item.id,
+            title: item.title,
+            starttime: item.start_time
+          }});
+      }
+      else if(item.submit==="未提交"){
+        this.$toast.warning("当前作业尚未提交，无法查看反馈")
+      }
+      else{
+        this.$router.push({
+              name: "homeworkFeedback",
+              params: {
+                studentId: this.$store.state.global.id,
+                homeworkId: item.id,
+                title: item.title,
+                starttime: item.start_time
+              }});
+      }
+
+
     },
     gotoCommentSection(item) {
       this.$router.push({

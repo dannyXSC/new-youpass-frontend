@@ -28,7 +28,7 @@
 
             <template v-slot:footer>
               <b-row class="justify-content-end">
-                <b-button variant="danger" size="sl" @click="submitHomework"
+                <b-button variant="danger" size="sl" @click="submitHomework(homeworkId)"
                 >提交作业
                 </b-button>
               </b-row>
@@ -65,7 +65,7 @@
 
 <script>
 import MyQuestion from "@/components/myQuestion";
-import {getQuestions, submitHomework} from "@/api";
+import {getQuestions, submitHomework, updateSubmit} from "@/api";
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import TestNavbar from "@/layout/Components/PageTitle3.vue";
 import MyCountBar from "@/components/myCountBar";
@@ -176,10 +176,23 @@ export default {
       while ((new Date()).getTime() - start < delay) {
       }
     },
-    submitHomework() {
+    submitHomework(homeworkId) {
       this.$toast.success("提交成功");
-      this.sleep(1000)
-      this.$router.push({name:"personInfo"})
+      let data={
+        studentId:this.$store.state.global.id,
+        homeworkId:homeworkId
+      }
+      updateSubmit(data).then(res=>{
+        console.log(res)
+        if(res.code===100){
+          this.sleep(1000)
+          this.$router.push({name:"personInfo"})
+        }
+        else{ this.$toast.success("修改结果失败");}
+
+      })
+
+      // this.$router.push({name:"personInfo"})
     },
     judgeIsComplete(index) {
 
