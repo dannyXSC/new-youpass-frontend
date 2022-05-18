@@ -50,7 +50,7 @@ export default {
   },
   mounted() {
     //获得题目信息
-    getFeedback(this.studentId, this.homeworkId).then(res => {
+    getFeedback(this.homeworkId).then(res => {
       this.questionInfos = res.data;
     })
   }

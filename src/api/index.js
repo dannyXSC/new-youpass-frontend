@@ -308,41 +308,105 @@ export const getAllStudents = (homeworkId) => {
  * 通过作业id和学生id获得学生的题目情况（已经做完，有反馈）
  * @param studentId 学生id
  *        homeworkId 作业id
+ * @param homeworkId
  * @returns {AxiosPromise}
  */
-export const getFeedback = (studentId, homeworkId) => {
+export const getFeedback = (homeworkId) => {
+    let data = []
+
+    requests({url: 'homework/student/homeworkId/' + homeworkId, method: 'get'}).then(res => {
+        console.log(res)
+        res.data.stuAnswerQuestionList.forEach(value => {
+            let question = {}
+            if (value.questionVo.questionType === "SINGLE") {
+                question.type = 0;
+            } else if (value.questionVo.questionType === "MULTIPLE") {
+                question.type = 1;
+            } else if (value.questionVo.questionType === "FILL_IN_BLANK") {
+                question.type = 2;
+            } else {
+                question.type = 3;
+            }
+            question.questionId = value.questionVo.questionId;
+            question.numInPaper = value.numInPaper;
+            question.description = value.questionVo.description;
+            if(question.type===0||question.type ===1){
+                question.studentAnswer=[]
+                question.standardAnswer=[]
+            }
+           else{
+                question.studentAnswer=""
+                question.standardAnswer=""
+            }
+
+            if(question.type===0||question.type===1){
+                question.options = value.questionVo.options;
+            }
+            if(question.type===0||question.type ===1) {
+
+                value.questionVo.standardAnswer.forEach(temp => {
+                    console.log("temp",temp.replace(' ',''))
+                    question.standardAnswer.push(parseInt(temp.replace(' ','')))
+                })
+                value.studentAnswer.forEach(temp=>{
+                    console.log("temp",temp.replace(' ',''))
+                    question.studentAnswer.push(parseInt(temp.replace(' ','')))
+                })
+            }else {
+                question.standardAnswer=value.questionVo.standardAnswer;
+                question.studentAnswer = value.studentAnswer;
+            }
+
+            question.textComment = value.feedbackComment
+            if(question.textComment===""||question.textComment===null){
+                question.textComment="老师尚未点评该题目！"
+            }
+            question.pictureComment = value.feedbackFileId
+            if(question.pictureComment===null){
+                question.pictureComment=[]
+            }
+            data.push(question)
+        })
+        console.log(11111,data)
+    })
     return new Promise((resolve, reject) => {
+        console.log(1233456+data)
         resolve({
             code: 100,
             msg: "成功",
-            data: [{
-                type: 0,
-                questionId: 1,
-                numInPaper: 1,
-                description: "第一题xxxx 1_321",
-                options: [{
-                    optionId: 1,
-                    description: "答案1",
-                },
-                    {
+            data: data
+        })
+    })
+}
+/**
+ * [{
+ type: 0,
+ questionId: 1,
+ numInPaper: 1,
+ description: "第一题xxxx 1_321",
+ options: [{
+ optionId: 1,
+ description: "答案1",
+ },
+ {
                         optionId: 2,
                         description: "答案2",
                     },
-                    {
+ {
                         optionId: 3,
                         description: "答案3",
                     },
-                    {
+ {
                         optionId: 4,
                         description: "答案4",
                     }
-                ],
-                studentAnswer: [1],
-                standardAnswer: [2],
-                textComment: "加油1",
-                pictureComment: ["20"],
-            },
-                {
+ ],
+ studentAnswer: [1],
+ standardAnswer: [2],
+ textComment: "加油1",
+ pictureComment: ["20"],
+ },
+ {
                     type: 1,
                     questionId: 2,
                     numInPaper: 2,
@@ -369,7 +433,7 @@ export const getFeedback = (studentId, homeworkId) => {
                     textComment: "加油2",
                     pictureComment: ["20"],
                 },
-                {
+ {
                     type: 2,
                     questionId: 3,
                     numInPaper: 3,
@@ -379,7 +443,7 @@ export const getFeedback = (studentId, homeworkId) => {
                     textComment: "加油3",
                     pictureComment: ["20"],
                 },
-                {
+ {
                     type: 3,
                     questionId: 4,
                     numInPaper: 4,
@@ -394,10 +458,8 @@ export const getFeedback = (studentId, homeworkId) => {
                     textComment: "加油4",
                     pictureComment: ["28"],
                 }
-            ]
-        })
-    })
-}
+ ]
+ */
 /**
  * 通过作业id和学生id获得学生的题目（未做完，正在做）
  * @param studentId 学生id
@@ -1287,17 +1349,28 @@ export const getHomeworkByStudent = (studentId) => {
 // })
 //自动批改
 export const autoCorrect = (homeworkId, questionId) => {
-    return requests({url: "/homework/teacher/autoCorrect?homeworkId=" + homeworkId + "&questionId=" + questionId, method: "post"})
+    return requests({
+        url: "/homework/teacher/autoCorrect?homeworkId=" + homeworkId + "&questionId=" + questionId,
+        method: "post"
+    })
 
 }
 //查看该生某次作业是否已经提交
-export const getSubmitByStudent = (studentId,homeworkId) => {
-    return requests({url: '/homework/studentHomework', method: "post", data: {studentId: studentId,homeworkId:homeworkId}})
+export const getSubmitByStudent = (studentId, homeworkId) => {
+    return requests({
+        url: '/homework/studentHomework',
+        method: "post",
+        data: {studentId: studentId, homeworkId: homeworkId}
+    })
 }
 
 //修改提交结果
 export const updateSubmit = (data) => {
-    return requests({url: '/homework/updateSubmit', method: "post", data: {studentId: data.studentId,homeworkId:data.homeworkId}})
+    return requests({
+        url: '/homework/updateSubmit',
+        method: "post",
+        data: {studentId: data.studentId, homeworkId: data.homeworkId}
+    })
 }
 //获取考生所有考试成绩
 export const getStuCourseExamScore = (courseId) => {
