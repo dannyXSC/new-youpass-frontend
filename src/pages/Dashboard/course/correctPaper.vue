@@ -191,7 +191,8 @@ export default {
           //加入老师的文字评价
           questionInfo.textComment = this.info.studentList[i].textComment
           //加入老师的图片评价
-          questionInfo.pictureComment = this.info.studentList[i].pictureComment
+          questionInfo.pictureComment = this.info.studentList[i].pictureComment || []
+
           this.questionInfos.push(questionInfo);
         }
       } else {

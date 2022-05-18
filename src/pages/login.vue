@@ -6,7 +6,7 @@
         <div class="con">
           <!--     Start  header Content  -->
           <header class="head-form">
-            <h2>登录</h2>
+            <h2>云课堂登录</h2>
             <!--     A welcome message or an explanation of the login form -->
             <br>
             <p>通过用户账号和密码来登录！</p>

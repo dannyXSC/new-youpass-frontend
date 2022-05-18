@@ -43,7 +43,7 @@
                 label-align-sm="right"
             >
               <b-form-group
-                  label="date:"
+                  label="日期"
                   label-cols-sm="3"
                   label-align-sm="right"
               >
@@ -55,12 +55,12 @@
                 ></b-form-input>
               </b-form-group>
               <b-form-group
-                  label="time:"
+                  label="时间"
                   label-cols-sm="3"
                   label-align-sm="right"
               >
                 <b-form-input
-                    id="startTime"
+                    id="开始时间"
                     type="time"
                     class="text-center"
                     v-model="examInfo.startTime"
@@ -74,24 +74,24 @@
                 label-align-sm="right"
             >
               <b-form-group
-                  label="date:"
+                  label="日期"
                   label-cols-sm="3"
                   label-align-sm="right"
               >
                 <b-form-input
-                    id="startDate"
+                    id="开始日期"
                     type="date"
                     class="text-center"
                     v-model="examInfo.endDate"
                 ></b-form-input>
               </b-form-group>
               <b-form-group
-                  label="time:"
+                  label="时间"
                   label-cols-sm="3"
                   label-align-sm="right"
               >
                 <b-form-input
-                    id="startTime"
+                    id="开始时间"
                     type="time"
                     class="text-center"
                     v-model="examInfo.endTime"
