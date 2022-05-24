@@ -5,9 +5,10 @@
         <div class="col-md-12">
           <div class="main-card mb-3 card">
             <div class="card-header">
-              <h3 class="card-title">还没有截止的作业</h3>
+              <h3 class="card-title">尚未截止的作业</h3>
               <hr/>
-              <div v-if="ifHomeWork" style="margin-bottom: 2em">没有作业哦</div>
+              <div v-if="ifHomeWork" style="margin-bottom: 2em">
+                <h5>当前没有作业哦！</h5></div>
               <div
                   v-else
                   class="
@@ -109,10 +110,12 @@ export default {
     init(){
       getHomeworkByStudent(this.$store.state.global.id).then(res=>{
         this.examList=res.data
+        console.log(res.data)
         this.examList.forEach(item=>{
+          //展示还没有截止并且尚未完成的作业
           let x=new Date(item.endTime.replace('T',' ')).getTime()
           let y=new Date().getTime()
-          if(x-y){
+          if(x-y>0 ){
             item.ifShow=true
             this.ifHaveNotPassed=true
           }

@@ -31,7 +31,7 @@
             <b-col cols="1">
               <div class="left-question">
                 <div>
-                  <i>{{ questionInfo.numInPaper }}</i>
+                  <i>{{ questionInfo.numInPaper+1 }}</i>
                 </div>
                 <div class="option-tag-position">
                   <div class="mb-2 mr-2 badge badge-dark">
@@ -290,6 +290,63 @@
               </my-b-image>
             </b-col>
           </b-row>
+
+          <!-- 得分 -->
+          <b-row v-if="isTeacher==false">
+            <b-col cols="1">
+              <div class="left-question">
+                <div class="mb-2 mr-2 badge badge-focus">
+                  得分
+                </div>
+              </div>
+            </b-col>
+            <b-col>
+              <hr/>
+              <div class="input-group">
+                <b-button v-if="editable"
+                          block
+                          class="mr-2 mb-3"
+                          pill
+                          variant="outline-focus"
+                          size="sm"
+                          @click="handleEdit()"
+                >编辑
+                </b-button>
+                <div
+                    class="card-shadow-focus border card card-body border-focus mb-3"
+                >
+                  {{ this.questionInfo.mark }}
+<!--                  <katex-element-->
+<!--                      :expression="parseLatex(this.questionInfo.mark)"-->
+<!--                      :throw-on-error="false"-->
+<!--                      :strict="false"-->
+<!--                  />-->
+                </div>
+              </div>
+              <b-button v-if="editable"
+                        block
+                        class="mr-2 mb-3"
+                        pill
+                        variant="outline-focus"
+                        size="sm"
+                        @click="handleImageEdit()"
+              >添加图片评论
+              </b-button>
+              <my-b-image :idList="questionInfo.pictureComment">
+                <template v-if="editable">
+                  <template slot-scope="src" >
+                    <div style="position: absolute">
+                      <b-button size="sm" variant="primary" @click="handleImageEdit(src.src.id)">编辑</b-button>
+                    </div>
+                    <div style="position: absolute;right: 0">
+                      <b-button size="sm" variant="danger" @click="handleImageRemove(src.src.id)">删除</b-button>
+                    </div>
+                  </template>
+                </template>
+
+              </my-b-image>
+            </b-col>
+          </b-row>
         </b-container>
       </div>
     </div>
@@ -327,6 +384,7 @@ export default {
       initEditedImageName: "",
       num2type: ["单选", "多选", "填空", "大题"],
       questionInfo: this.value,
+      isTeacher:true,
       /*
       *
       * 公共
@@ -365,7 +423,15 @@ export default {
       * */
     }
   },
+  mounted() {
+    this.handleShow()
+  },
   methods: {
+    handleShow(){
+      if(this.$store.state.global.accountType===1){
+      this.isTeacher=false;
+      console.log("isTeacher:",this.isTeacher)
+    }},
     handleInput() {
       this.$emit('input', this.questionInfo)
     },

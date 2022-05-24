@@ -17,7 +17,7 @@
 
 <script>
 import MyFeedback from "@/components/myFeedback";
-import {getFeedback} from "@/api";
+import {getFeedback, teacherGetFeedback} from "@/api";
 import PageTitle from "@/layout/Components/PageTitle.vue";
 
 export default {
@@ -50,9 +50,16 @@ export default {
   },
   mounted() {
     //获得题目信息
-    getFeedback(this.homeworkId).then(res => {
-      this.questionInfos = res.data;
-    })
+    if(this.$store.state.global.id===1){
+      getFeedback(this.homeworkId).then(res => {
+        this.questionInfos = res.data;
+      })
+    }else {
+      teacherGetFeedback(this.homeworkId,this.studentId).then(res => {
+        this.questionInfos = res.data;
+      })
+    }
+
   }
 }
 </script>

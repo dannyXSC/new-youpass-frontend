@@ -5,7 +5,7 @@
         <b-col lg="12">
           <b-form-group
               type="primary"
-              label="Filter"
+              label="筛选"
               label-for="filter-input"
               label-cols-sm="1"
               label-align-sm="center"
@@ -19,12 +19,12 @@
                   id="filter-input"
                   v-model="filter"
                   type="search"
-                  placeholder="Type to Search"
+                  placeholder="键入以搜索..."
                   class="ml-0"
               ></b-form-input>
 
               <b-input-group-append>
-                <b-button variant="warning" class="mr-3" :disabled="!filter" @click="filter = ''">Clear</b-button>
+                <b-button variant="warning" class="mr-3" :disabled="!filter" @click="filter = ''">清除</b-button>
               </b-input-group-append>
             </b-input-group>
           </b-form-group>

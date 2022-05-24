@@ -61,6 +61,7 @@ export default {
   props: ["homeworkId","courseId","title","starttime"],
   mounted() {
     this.init()
+    console.log(this.students)
   },
   data() {
     return {
@@ -87,9 +88,11 @@ export default {
   methods: {
     init(){
       getAllStudents(this.homeworkId).then(res => {
+        console.log("res",res.data)
         res.data.forEach(value => {
           value._showDetails = false;
           value.isActive = false;
+          console.log("value",value)
           this.students.push(JSON.parse(JSON.stringify(value)))
         })
       })

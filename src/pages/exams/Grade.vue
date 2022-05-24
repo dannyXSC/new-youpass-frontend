@@ -22,16 +22,16 @@ export default {
         countNums(){
             
             for(let i=0;i<this.students.length;i++){
-                if(this.students[i].score>=90){
+                if(this.students[i].score>=80){
                     this.option.series[0].data[0].value+=1;
                 }
-                else if(this.students[i].score>=80){
+                else if(this.students[i].score>=50){
                     this.option.series[0].data[1].value+=1;
                 }
-                else if(this.students[i].score>=70){
+                else if(this.students[i].score>=30){
                     this.option.series[0].data[2].value+=1;
                 }
-                else if(this.students[i].score>=60){
+                else if(this.students[i].score>=10){
                     this.option.series[0].data[3].value+=1;
                 }
                 else {
@@ -93,11 +93,11 @@ export default {
                             show: true
                         },
                          data: [
-                                { value: '', name: '90-100' },
-                                { value:'', name: '80-90' },
-                                { value: '', name: '70-80' },
-                                { value: '', name: '60-70' },
-                                { value: '', name: '0-60' }
+                                { value: '', name: '80-100' },
+                                { value:'', name: '50-80' },
+                                { value: '', name: '30-50' },
+                                { value: '', name: '10-30' },
+                                { value: '', name: '0-10' }
                             ]
                         
                         },

@@ -131,13 +131,13 @@ export default {
 
     getQuestions(this.homeworkId)
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           if (res.code === 100) {
             res.data.sort((a, b) => {
               return a.numInPaper - b.numInPaper;
             });
             this.questionInfos = res.data;
-            console.log(this.questionInfos)
+            // console.log(this.questionInfos)
           } else {
             this.$toast.error(res.msg);
           }
@@ -183,7 +183,7 @@ export default {
         homeworkId:homeworkId
       }
       updateSubmit(data).then(res=>{
-        console.log(res)
+        // console.log(res)
         if(res.code===100){
           this.sleep(1000)
           this.$router.push({name:"personInfo"})
@@ -208,7 +208,7 @@ export default {
       }
     },
     calButtonVariant(index) {
-      console.log("123123" + index)
+      // console.log("123123" + index)
       if (this.onShowIndex === index) {
         if (this.judgeIsComplete(index)) {
           return 'outline-success'

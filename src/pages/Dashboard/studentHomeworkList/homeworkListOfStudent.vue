@@ -51,6 +51,8 @@
 import myList from "@/components/myList";
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import {getHomeworkByCourseId, getHomeworkByStudent, getSubmitByStudent} from "@/api";
+import async from "async";
+import * as $axios from "@/api";
 
 export default {
   name: "homeworkListOfStudent",
@@ -88,16 +90,17 @@ export default {
       ]
     };
   },
-  mounted() {
-    getHomeworkByStudent(this.$store.state.global.id)
-        .then((res) => {
+  mounted: function () {
+
+     getHomeworkByStudent(this.$store.state.global.id)
+        .then( (res) => {
           // console.log(res)
           if (res.code === 100) {
             res.data.forEach((value) => {
-              getSubmitByStudent(this.$store.state.global.id, value.id).then((response) => {
+            getSubmitByStudent(this.$store.state.global.id, value.id).then( (response) => {
                 if (response.code === 100) {
                   response.data.forEach((item) => {
-                    console.log(item.submit === 1)
+                    // console.log(item.submit === 1)
                     if (item.submit === 0) {
                       this.submit = "未提交";
                     } else {
@@ -121,9 +124,12 @@ export default {
 
             });
             //根据开始时间排序
+
+            console.log(this.examList)
             this.examList.sort((a, b) => {
               return (new Date(a.startTime)) < (new Date(b.startTime)) ? -1 : 1;
             });
+            console.log(this.examList)
           } else {
             alert(res.msg);
           }

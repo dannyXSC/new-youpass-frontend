@@ -37,7 +37,7 @@
 <script>
 import myList from "@/components/myList";
 import PageTitle from "@/layout/Components/PageTitle.vue";
-import {autoCorrect, getUnmarkedQuestion} from "@/api";
+import {autoCorrect, getUnmarkedQuestion, updateGrade} from "@/api";
 import router from "@/router";
 
 export default {
@@ -120,7 +120,7 @@ export default {
       });
     },
     handleAutoCorrect(item) {
-      autoCorrect(this.homeworkId,item.questionId,)
+      autoCorrect(this.homeworkId,item.questionId)
           .then((res) => {
             if (res.code === 100) {
               this.init()
@@ -131,6 +131,11 @@ export default {
           .catch((error) => {
             alert(error);
           });
+      updateGrade().then(res=>{
+        if(res.code!==100){
+          this.$toast.error("成绩更新失败！")
+        }
+      })
     },
   },
 };
