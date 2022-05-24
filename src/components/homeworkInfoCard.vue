@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import {getHomeworkByStudent, getHomeworkInfo, sendHomeworkComment, submitComment} from "@/api";
+import {getHomeworkByStudent, getHomeworkInfo, sendHomeworkComment, submitComment, getHomeworkById} from "@/api";
 export default {
   name: "homeworkInfoCard",
   props:{
@@ -75,32 +75,44 @@ export default {
       this.getHomeworkInfo()
     },
     getHomeworkInfo(){
-      getHomeworkByStudent(this.$store.state.global.id).then(res=>{
-        console.log(this.$store.state.global.id)
-        res.data.forEach((value) => {
-          let endTime = new Date(value.endTime)
-          let startTime = new Date(value.startTime)
-          endTime.setHours(endTime.getHours() - 8)
-          startTime.setHours(startTime.getHours() - 8)
-          value.endTime = endTime.format("yyyy-MM-dd hh:mm:ss")
-          value.startTime = startTime.format("yyyy-MM-dd hh:mm:ss")
-        });
-        let target={}
-                    console.log(res.data.length)
-        for(let i=0;i<res.data.length;i++){
-          console.log(this.homeworkId)
-          console.log(res.data[i].id)
-          if(res.data[i].id===this.homeworkId){
-            target=res.data[i]
-            break
-          }
-        }
-        this.title=target.title
-        this.courseName=target.teacherId
-        this.teacherName=target.courseId
-        this.startTime=target.startTime
-        this.endTime=target.endTime
+      getHomeworkById(this.homeworkId).then(res=>{
+        console.log(res.data)
+        let endTime = new Date(res.data.endTime)
+        let startTime = new Date(res.data.startTime)
+        endTime.setHours(endTime.getHours() - 8)
+        startTime.setHours(startTime.getHours() - 8)
+        this.title=res.data.title
+        this.courseName=res.data.courseInfo.courseName
+        this.teacherName=res.data.courseInfo.teacherName
+        this.startTime=startTime.format("yyyy-MM-dd hh:mm:ss")
+        this.endTime=endTime.format("yyyy-MM-dd hh:mm:ss")
       })
+      // getHomeworkByStudent(this.$store.state.global.id).then(res=>{
+      //   console.log(this.$store.state.global.id)
+      //   res.data.forEach((value) => {
+      //     let endTime = new Date(value.endTime)
+      //     let startTime = new Date(value.startTime)
+      //     endTime.setHours(endTime.getHours() - 8)
+      //     startTime.setHours(startTime.getHours() - 8)
+      //     value.endTime = endTime.format("yyyy-MM-dd hh:mm:ss")
+      //     value.startTime = startTime.format("yyyy-MM-dd hh:mm:ss")
+      //   });
+      //   let target={}
+      //               console.log(res.data.length)
+      //   for(let i=0;i<res.data.length;i++){
+      //     console.log(this.homeworkId)
+      //     console.log(res.data[i].id)
+      //     if(res.data[i].id===this.homeworkId){
+      //       target=res.data[i]
+      //       break
+      //     }
+      //   }
+      //   this.title=target.title
+      //   this.courseName=target.teacherId
+      //   this.teacherName=target.courseId
+      //   this.startTime=target.startTime
+      //   this.endTime=target.endTime
+    //   })
     },
     clear(){
       this.myComment=""

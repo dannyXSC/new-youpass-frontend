@@ -1391,6 +1391,9 @@ export const getHomeworkByCourseId = (courseId) => {
 export const getHomeworkByStudent = (studentId) => {
     return requests({url: '/homework', method: "post", data: {studentId: studentId}})
 }
+export const getHomeworkById = (homeworkId) => {
+    return requests({url: '/homework/homeworkId/'+homeworkId, method: "get"})
+}
 // return new Promise((resolve, reject) => {
 //     resolve({
 //         code: 100,
