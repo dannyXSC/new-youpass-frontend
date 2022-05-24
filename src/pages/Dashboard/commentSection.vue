@@ -6,7 +6,7 @@
         :icon="icon"
         :breadcrumb-item="breadcrumbItem"
     ></page-title>
-    <homework-info-card style="margin-bottom: 2em" :homework-id="homeworkId" @change="init"></homework-info-card>
+    <homework-info-card style="margin-bottom: 2em" :homework-id="this.homeworkId" @change="init"></homework-info-card>
     <b-card>
       <b-list-group>
         <b-list-group-item v-for="comment in comments" :key="comment.commentId" style="margin-bottom: 1.5em">
@@ -124,6 +124,11 @@ import HomeworkInfoCard from "@/components/homeworkInfoCard";
 export default {
   name: "commentSection",
   components: {HomeworkInfoCard, OthersInfo,PageTitle},
+  props: {
+    courseId: Number,
+    homeworkId: Number,
+    title: String
+  },
   mounted() {
     this.init()
   },
@@ -156,10 +161,8 @@ export default {
       console.log(this.comments)
     },
     init() {
-      this.homeworkId = this.$route.query.homeworkId
-      this.title = this.$route.query.title
       console.log(this.title)
-      getCommentsByAssignmentId(Number(this.homeworkId)).then((res) => {
+      getCommentsByAssignmentId(String(this.homeworkId)).then((res) => {
         this.comments = res.data[0].comments
       })
     },
@@ -239,18 +242,17 @@ export default {
         },
         {
           text: "作业管理",
-          href: "#/dashboard/homeworkListOfStudent",
+          href: "#/dashboard/homeworkList/"+this.courseId,
         },
         {
-          text: this.$route.query.title,
+          text: this.title,
           active: true,
         },
       ],
       comments: [],
       openHisChild: -1,
       checkHisInfo: -1,
-      homeworkId: '',
-      title: ''
+
     }
   },
 }

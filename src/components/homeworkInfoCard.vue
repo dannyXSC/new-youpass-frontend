@@ -55,7 +55,7 @@ import {getHomeworkByStudent, getHomeworkInfo, sendHomeworkComment, submitCommen
 export default {
   name: "homeworkInfoCard",
   props:{
-    homeworkId:String
+    homeworkId:Number
   },
   data(){
     return{
@@ -86,8 +86,11 @@ export default {
           value.startTime = startTime.format("yyyy-MM-dd hh:mm:ss")
         });
         let target={}
+                    console.log(res.data.length)
         for(let i=0;i<res.data.length;i++){
-          if(res.data[i].id.toString()===this.homeworkId){
+          console.log(this.homeworkId)
+          console.log(res.data[i].id)
+          if(res.data[i].id===this.homeworkId){
             target=res.data[i]
             break
           }
