@@ -31,7 +31,7 @@
             <b-col cols="1">
               <div class="left-question">
                 <div>
-                  <i>{{ questionInfo.numInPaper+1 }}</i>
+                  <i>{{ questionInfo.numInPaper + 1 }}</i>
                 </div>
                 <div class="option-tag-position">
                   <div class="mb-2 mr-2 badge badge-dark">
@@ -277,7 +277,7 @@
               </b-button>
               <my-b-image :idList="questionInfo.pictureComment">
                 <template v-if="editable">
-                  <template slot-scope="src" >
+                  <template slot-scope="src">
                     <div style="position: absolute">
                       <b-button size="sm" variant="primary" @click="handleImageEdit(src.src.id)">编辑</b-button>
                     </div>
@@ -316,11 +316,11 @@
                     class="card-shadow-focus border card card-body border-focus mb-3"
                 >
                   {{ this.questionInfo.mark }}
-<!--                  <katex-element-->
-<!--                      :expression="parseLatex(this.questionInfo.mark)"-->
-<!--                      :throw-on-error="false"-->
-<!--                      :strict="false"-->
-<!--                  />-->
+                  <!--                  <katex-element-->
+                  <!--                      :expression="parseLatex(this.questionInfo.mark)"-->
+                  <!--                      :throw-on-error="false"-->
+                  <!--                      :strict="false"-->
+                  <!--                  />-->
                 </div>
               </div>
               <b-button v-if="editable"
@@ -334,7 +334,7 @@
               </b-button>
               <my-b-image :idList="questionInfo.pictureComment">
                 <template v-if="editable">
-                  <template slot-scope="src" >
+                  <template slot-scope="src">
                     <div style="position: absolute">
                       <b-button size="sm" variant="primary" @click="handleImageEdit(src.src.id)">编辑</b-button>
                     </div>
@@ -384,7 +384,7 @@ export default {
       initEditedImageName: "",
       num2type: ["单选", "多选", "填空", "大题"],
       questionInfo: this.value,
-      isTeacher:true,
+      isTeacher: true,
       /*
       *
       * 公共
@@ -427,11 +427,12 @@ export default {
     this.handleShow()
   },
   methods: {
-    handleShow(){
-      if(this.$store.state.global.accountType===1){
-      this.isTeacher=false;
-      console.log("isTeacher:",this.isTeacher)
-    }},
+    handleShow() {
+      if (this.$store.state.global.accountType === 1) {
+        this.isTeacher = false;
+        console.log("isTeacher:", this.isTeacher)
+      }
+    },
     handleInput() {
       this.$emit('input', this.questionInfo)
     },

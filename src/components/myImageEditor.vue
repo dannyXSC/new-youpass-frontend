@@ -2,9 +2,11 @@
   <b-modal
       :id="id"
       size="xl"
-      title="Edit Image"
+      title="编辑图片"
       style="height: 80%"
       @hide="handleExit"
+      ok-title="确认"
+      cancel-title="取消"
   >
     <div style="height: 70vh">
       <tui-image-editor ref="tuiImageEditor" :include-ui="useDefaultUI" :options="options"></tui-image-editor>
