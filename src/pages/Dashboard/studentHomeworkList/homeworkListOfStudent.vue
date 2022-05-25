@@ -109,14 +109,18 @@ export default {
                     }
                     let endTime = new Date(value.endTime)
                     let startTime = new Date(value.startTime)
-                    endTime.setHours(endTime.getHours() - 8)
-                    startTime.setHours(startTime.getHours() - 8)
+                    console.log(endTime)
+                    console.log(startTime)
+                    endTime.setHours(endTime.getHours()-8)
+                    startTime.setHours(startTime.getHours() -8)
                     value._showDetails = false;
                     value.isActive = false;
-                    value.endTime = endTime.format("yyyy-MM-dd hh:mm:ss")
-                    value.startTime = startTime.format("yyyy-MM-dd hh:mm:ss")
-                    value.submit = this.submit
+                    value.endTime = endTime.toLocaleDateString()+' '+endTime.toLocaleTimeString()
+                    value.startTime = startTime.toLocaleDateString()+' '+startTime.toLocaleTimeString()
 
+
+                    value.submit = this.submit
+                    console.log(value)
                     this.examList.push(JSON.parse(JSON.stringify(value)));
                   })
                 }
@@ -124,8 +128,7 @@ export default {
 
             });
             //根据开始时间排序
-
-            console.log(this.examList)
+            //TODO
             this.examList.sort((a, b) => {
               return (new Date(a.startTime)) < (new Date(b.startTime)) ? -1 : 1;
             });

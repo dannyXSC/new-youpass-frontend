@@ -330,7 +330,7 @@ export const getFeedback = async (homeworkId) => {
     let data = []
 
     await requests({url: 'homework/student/homeworkId/' + homeworkId, method: 'get'}).then(res => {
-        console.log(res)
+        console.log("res",res)
         res.data.stuAnswerQuestionList.forEach(value => {
             let question = {}
             if (value.questionVo.questionType === "SINGLE") {
@@ -370,11 +370,11 @@ export const getFeedback = async (homeworkId) => {
                 question.standardAnswer = value.questionVo.standardAnswer;
                 question.studentAnswer = value.studentAnswer;
             }
-
             question.textComment = value.feedbackComment
             if (question.textComment === "" || question.textComment === null) {
                 question.textComment = "老师尚未点评该题目！"
             }
+            question.
             question.mark = value.mark
             console.log("mark", question.mark)
             if (question.mark === "" || question.mark === null) {
@@ -441,7 +441,20 @@ export const teacherGetFeedback = async (homeworkId, studentId) => {
                 question.standardAnswer = value.questionVo.standardAnswer;
                 question.studentAnswer = value.studentAnswer;
             }
-
+            if(question.type === 3){
+                question.studentPictureAnswers=value.submitFileId
+                question.standardPictureAnswers=value.questionVo.answerFileId
+                question.pictureDescriptions=value.questionVo.questionFileId
+                if(question.studentPictureAnswers===null){
+                    question.studentPictureAnswers=[]
+                }
+                if(question.studentPictureAnswers===null){
+                    question.standardPictureAnswers=[]
+                }
+                if(question.pictureDescriptions===null){
+                    question.pictureDescriptions=[]
+                }
+            }
             question.textComment = value.feedbackComment
             if (question.textComment === "" || question.textComment === null) {
                 question.textComment = "老师尚未点评该题目！"

@@ -2,9 +2,11 @@
   <b-modal
       id="select-modal"
       size="xl"
-      title="Select"
+      title="选择"
       style="height: 80%"
       @hide="handleExit"
+      ok-title="确认"
+      cancel-title="取消"
   >
     <b-button v-for="option in optionList"
               :key="option.id"

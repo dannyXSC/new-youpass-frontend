@@ -39,7 +39,7 @@
                   <div class="widget-content-wrapper">
                     <div class="widget-content-left">
                       <div class="widget-heading">
-                        课程编号： {{ row.row.item.teacherId }}
+                        教师编号： {{ row.row.item.teacherId }}
                       </div>
                     </div>
                   </div>

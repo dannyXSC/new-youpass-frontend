@@ -31,16 +31,15 @@
                     ></span>
                     <div class="vertical-timeline-element-content bounce-in">
                       <h4 class="timeline-title">
-                        {{
-                          new Date(exam.endTime)
-                              .format("yyyy-MM-dd hh:mm")
-                              .slice(0, 10)
-                        }}
-                        , at
+<!--                        {{-->
+<!--                          new Date(exam.endTime).toUTCString()-->
+
+<!--                        }}-->
+<!--                        , -->
+                        at
                         <span class="text-success">{{
-                            new Date(exam.endTime)
-                                .format("yyyy-MM-dd hh:mm")
-                                .slice(11, 16)
+                            new Date(exam.endTime).toUTCString().slice(0,-4)
+
                           }}</span>
                       </h4>
                       <div class="col-md-9">
