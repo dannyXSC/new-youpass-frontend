@@ -7,7 +7,7 @@
         :breadcrumb-item="breadcrumbItem"
     ></page-title>
 
-    <my-list title="作业信息" :items="examList" :fields="fields">
+    <my-list v-if="ifTeacher" title="作业信息" :items="examList" :fields="fieldsTea">
       <template slot-scope="row">
         <b-card class="mb-3 nav-justified" no-body>
           <b-tabs pills card>
@@ -78,13 +78,84 @@
         </b-card>
       </template>
     </my-list>
+    <my-list v-else title="作业信息" :items="examList" :fields="fieldsStu">
+      <template slot-scope="row">
+        <b-card class="mb-3 nav-justified" no-body>
+          <b-tabs pills card>
+            <!--老师-->
+            <template v-if="accountType===0">
+              <b-tab title="其他功能" active>
+                <b-button
+                    block
+                    class="mr-2 mb-2"
+                    variant="outline-info"
+                    @click="handleCorrect(row.row.item)"
+                >
+                  批改试卷
+                </b-button>
+                <b-button
+                    block
+                    class="mr-2 mb-2"
+                    variant="outline-info"
+                    @click="handleCheckGrade(row.row.item)"
+                >
+                  管理学生
+                </b-button>
+                <b-button
+                    block
+                    class="mr-2 mb-2"
+                    variant="outline-info"
+                    @click="gotoCommentSection(row.row.item)"
+                >
+                  进入讨论区
+                </b-button>
+              </b-tab>
+            </template>
+
+            <!--学生-->
+            <template v-else>
+              <!--              <b-tab title="作业信息"active>-->
+
+              <!--              </b-tab>-->
+              <b-tab title="其他功能">
+
+                <b-button
+                    block
+                    class="mr-2 mb-2"
+                    variant="outline-info"
+                    @click="handleTakeHomework(row.row.item)"
+                >
+                  做作业
+                </b-button>
+                <b-button
+                    block
+                    class="mr-2 mb-2"
+                    variant="outline-info"
+                    @click="gotoHomeworkFeedback(row.row.item)"
+                >
+                  查看作业反馈
+                </b-button>
+                <b-button
+                    block
+                    class="mr-2 mb-2"
+                    variant="outline-info"
+                    @click="gotoCommentSection(row.row.item)"
+                >
+                  进入讨论区
+                </b-button>
+              </b-tab>
+            </template>
+          </b-tabs>
+        </b-card>
+      </template>
+    </my-list>
   </div>
 </template>
 
 <script>
 import myList from "@/components/myList";
 import PageTitle from "@/layout/Components/PageTitle.vue";
-import {getHomeworkByCourseId} from "@/api";
+import {getHomeworkByCourseId, getSubmitByStudent} from "@/api";
 
 export default {
   name: "homeworkList",
@@ -100,17 +171,50 @@ export default {
         .then((res) => {
           console.log(res)
           if (res.code === 100) {
-
             res.data.forEach((value) => {
-              let end_time = new Date(value.end_time)
-              let start_time = new Date(value.start_time)
-              end_time.setHours(end_time.getHours() - 8)
-              start_time.setHours(start_time.getHours() - 8)
-              value._showDetails = false;
-              value.isActive = false;
-              value.end_time = end_time.format("yyyy-MM-dd hh:mm:ss")
-              value.start_time = start_time.format("yyyy-MM-dd hh:mm:ss")
-              this.examList.push(JSON.parse(JSON.stringify(value)));
+              if(this.$store.state.global.accountType===1) {
+                getSubmitByStudent(this.$store.state.global.id, value.id).then((response) => {
+                  if (response.code === 100) {
+                    response.data.forEach((item) => {
+                      if (this.$store.state.global.accountType === 1) {
+                        console.log(item.submit === 1)
+                        if (item.submit === 0) {
+                          this.submit = "未提交";
+                        } else {
+                          this.submit = "已提交";
+                          console.log(this.submit)
+                        }
+                        value.submit = this.submit
+                      }
+
+                      let end_time = new Date(value.end_time)
+                      let start_time = new Date(value.start_time)
+                      end_time.setHours(end_time.getHours() - 8)
+                      start_time.setHours(start_time.getHours() - 8)
+                      value._showDetails = false;
+                      value.isActive = false;
+                      value.end_time = end_time.format("yyyy-MM-dd hh:mm:ss")
+                      value.start_time = start_time.format("yyyy-MM-dd hh:mm:ss")
+
+
+                      this.examList.push(JSON.parse(JSON.stringify(value)));
+                    })
+                  }
+                })
+              }
+              else{
+                let end_time = new Date(value.end_time)
+                let start_time = new Date(value.start_time)
+                end_time.setHours(end_time.getHours() - 8)
+                start_time.setHours(start_time.getHours() - 8)
+                value._showDetails = false;
+                value.isActive = false;
+                value.end_time = end_time.format("yyyy-MM-dd hh:mm:ss")
+                value.start_time = start_time.format("yyyy-MM-dd hh:mm:ss")
+
+
+                this.examList.push(JSON.parse(JSON.stringify(value)));
+              }
             });
             //根据开始时间排序
             this.examList.sort((a, b) => {
@@ -142,9 +246,19 @@ export default {
           active: true,
         },
       ],
-
+      submit:"未提交",
       examList: [],
-      fields: [
+      fieldsStu: [
+        {label: "作业id", key: "id"},
+        {
+          label: "名称",
+          key: "title",
+        },
+        {label: "开始时间", key: "start_time"},
+        {label: "结束时间", key: "end_time"},
+        {label: "是否完成", key: "submit"}
+      ],
+      fieldsTea: [
         {label: "作业id", key: "id"},
         {
           label: "名称",
@@ -156,49 +270,84 @@ export default {
     };
   },
   methods: {
+    ifTeacher(){
+      return this.$store.state.global.accountType === 0;
+    },
     handleCorrect(item) {
       console.log(item)
       this.$router.push({
         name: "correctedQuestion",
         params: {
-          homeworkId: item.id
+          courseId: this.courseId,
+          homeworkId: item.id,
+          title: item.title,
+          starttime: item.start_time
         },
       });
     },
     handleCheckGrade(item) {
+      console.log(item)
       this.$router.push({
         name: "CertainExam",
         params: {
-          // courseId: this.courseId,
-          // examId: item.exam_id,
-          homeworkId: item.id
+          courseId: this.courseId,
+          homeworkId: item.id,
+          title: item.title,
+          starttime: item.start_time
         },
       });
     },
     handleTakeHomework(item) {
-      console.log(item, this.courseId)
-      this.$router.push({
-        name: "homeworkTest",
-        params: {
-          homeworkId: item.id,
-        },
-      });
+      if(new Date().format("yyyy-MM-dd hh:mm:ss")>item.end_time){
+        this.$toast.warning("作业截止时间已过！不能再提交作业！")
+      }else{
+        this.$router.push({
+          name: "homeworkTest",
+          params: {
+            courseId: this.courseId,
+            homeworkId: item.id,
+            title: item.title,
+            starttime: item.start_time
+          },
+        });
+      }
+
     },
     gotoHomeworkFeedback(item) {
-      this.$router.push({
-        name: "homeworkFeedback",
-        params: {
-          studentId: this.$store.state.global.id,
-          homeworkId: item.id,
-        },
-      });
+      if(new Date().format("yyyy-MM-dd hh:mm:ss")>item.end_time){
+        this.$router.push({
+          name: "homeworkFeedback",
+          params: {
+            studentId: this.$store.state.global.id,
+            homeworkId: item.id,
+            title: item.title,
+            starttime: item.start_time
+          }});
+      }
+      else if(item.submit==="未提交"){
+        this.$toast.warning("当前作业尚未提交，无法查看反馈")
+      }
+      else{
+        this.$router.push({
+              name: "homeworkFeedback",
+              params: {
+                studentId: this.$store.state.global.id,
+                homeworkId: item.id,
+                title: item.title,
+                starttime: item.start_time
+              }});
+      }
+
+
     },
     gotoCommentSection(item) {
       this.$router.push({
-        path: "/dashboard/commentSection",
-        query: {
+        name: "commentSection",
+        params:{
+          courseId:this.courseId,
           homeworkId: item.id,
-        },
+          title: item.title
+        }
       });
     }
   },

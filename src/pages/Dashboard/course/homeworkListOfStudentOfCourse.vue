@@ -138,7 +138,8 @@ export default {
       fields: [
         {label: "ID", key: "id"},
         {label: "标题", key: "title"},
-        {label: "分数", key: "score"}
+        {label: "分数", key: "score"},
+        {label: "提交状态",key:"submit"},
       ]
     }
   },
@@ -146,7 +147,7 @@ export default {
     getStudentHomeworkByIdAndCourseId(this.studentId, this.courseId).then(res => {
       if (res.code === 100) {
         this.homeworkList = res.data;
-        console.log(this.homeworkList)
+        // console.log(123456,this.homeworkList)
       } else {
         this.$bvToast.toast("获取作业列表失败", {
           title: "提示",
@@ -161,12 +162,17 @@ export default {
     items() {
       let return_item = [];
       for (let i = 0; i < this.homeworkList.length; ++i) {
+        let mySubmit = "未提交"
+        if(this.homeworkList[i].submit===1){
+          mySubmit="已提交"
+        }
         return_item.push({
           _showDetails: false,
           isActive: true,
-          id: this.homeworkList[i].id,
+          id: this.homeworkList[i].homeworkId,
           title: this.homeworkList[i].title,
           score: this.homeworkList[i].score,
+          submit:mySubmit,
         });
       }
       return return_item;

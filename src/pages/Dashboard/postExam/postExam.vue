@@ -37,13 +37,13 @@
               ></b-form-input>
             </b-form-group>
 
-            <b-form-group
-                label="作业开始时间:"
-                label-cols-sm="3"
-                label-align-sm="right"
-            >
+<!--            <b-form-group-->
+<!--                label="作业开始时间:"-->
+<!--                label-cols-sm="3"-->
+<!--                label-align-sm="right"-->
+<!--            >-->
               <b-form-group
-                  label="date:"
+                  label="作业开始日期:"
                   label-cols-sm="3"
                   label-align-sm="right"
               >
@@ -55,43 +55,43 @@
                 ></b-form-input>
               </b-form-group>
               <b-form-group
-                  label="time:"
+                  label="作业开始时间:"
                   label-cols-sm="3"
                   label-align-sm="right"
               >
                 <b-form-input
-                    id="startTime"
+                    id="开始时间"
                     type="time"
                     class="text-center"
                     v-model="examInfo.startTime"
                 ></b-form-input>
               </b-form-group>
-            </b-form-group>
+<!--            </b-form-group>-->
 
-            <b-form-group
-                label="作业结束时间:"
-                label-cols-sm="3"
-                label-align-sm="right"
-            >
+<!--            <b-form-group-->
+<!--                label="作业结束时间:"-->
+<!--                label-cols-sm="3"-->
+<!--                label-align-sm="right"-->
+<!--            >-->
               <b-form-group
-                  label="date:"
+                  label="作业结束日期:"
                   label-cols-sm="3"
                   label-align-sm="right"
               >
                 <b-form-input
-                    id="startDate"
+                    id="开始日期"
                     type="date"
                     class="text-center"
                     v-model="examInfo.endDate"
                 ></b-form-input>
               </b-form-group>
               <b-form-group
-                  label="time:"
+                  label="作业结束时间:"
                   label-cols-sm="3"
                   label-align-sm="right"
               >
                 <b-form-input
-                    id="startTime"
+                    id="开始时间"
                     type="time"
                     class="text-center"
                     v-model="examInfo.endTime"
@@ -100,12 +100,12 @@
             </b-form-group>
 
             <b-form-group
-                label="分数:"
+                label=""
                 label-cols-sm="3"
                 label-align-sm="right"
             >
               <b-form-group
-                  label="单选题:"
+                  label="单选题分数:"
                   label-for="singleScore"
                   label-cols-sm="3"
                   label-align-sm="right"
@@ -121,7 +121,7 @@
                 />
               </b-form-group>
               <b-form-group
-                  label="多选题:"
+                  label="多选题分数:"
                   label-for="multiScore"
                   label-cols-sm="3"
                   label-align-sm="right"
@@ -137,7 +137,7 @@
                 />
               </b-form-group>
               <b-form-group
-                  label="填空题:"
+                  label="填空题分数:"
                   label-for="fillScore"
                   label-cols-sm="3"
                   label-align-sm="right"
@@ -153,7 +153,7 @@
                 />
               </b-form-group>
               <b-form-group
-                  label="大题:"
+                  label="大题分数:"
                   label-for="bigScore"
                   label-cols-sm="3"
                   label-align-sm="right"
@@ -168,13 +168,14 @@
                     class="mb-3"
                 />
               </b-form-group>
-            </b-form-group>
+<!--            </b-form-group>-->
           </b-form-group>
           <b-form-group
               label-cols-lg="2"
               label="选择题目"
               label-size="lg"
               label-class="font-weight-bold pt-0"
+
           >
             <b-button block class="mr-2 mb-3" pill variant="outline-primary" size="sm"
                       @click="handleSelectQuestion">添加题目
@@ -215,19 +216,11 @@ export default {
 
       breadcrumbItem: [
         {
-          text: "Admin",
-          href: "#",
+          text: "课程信息",
+          href: "#/dashboard/course",
         },
         {
-          text: "Manage",
-          href: "#",
-        },
-        {
-          text: "Test1",
-          href: "#",
-        },
-        {
-          text: "Library",
+          text: "发布作业",
           active: true,
         },
       ],

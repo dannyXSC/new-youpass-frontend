@@ -58,11 +58,10 @@ import {getAllStudents} from '@/api';
 export default {
   name: 'CertainExam',
   components: {MyList, PageTitle, Grade, Students, ExamTable},
-  props: {
-    homeworkId: Number,
-  },
+  props: ["homeworkId","courseId","title","starttime"],
   mounted() {
     this.init()
+    console.log(this.students)
   },
   data() {
     return {
@@ -74,15 +73,13 @@ export default {
         {
           text: "课程信息",
           href: "#/dashboard/course",
-          // active: true,
         },
         {
-          text: "作业列表",
-          href: "#/dashboard/homeworkList"
-          // active: true,
+          text: "作业管理",
+          href: "#/dashboard/homeworkList/"+this.courseId,
         },
         {
-          text: "作业详情",
+          text: this.title + "成绩分析",
           active: true,
         },
       ],
@@ -91,9 +88,11 @@ export default {
   methods: {
     init(){
       getAllStudents(this.homeworkId).then(res => {
+        console.log("res",res.data)
         res.data.forEach(value => {
           value._showDetails = false;
           value.isActive = false;
+          console.log("value",value)
           this.students.push(JSON.parse(JSON.stringify(value)))
         })
       })

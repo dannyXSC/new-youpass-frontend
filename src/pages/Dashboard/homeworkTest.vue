@@ -1,8 +1,8 @@
 <template>
   <div v-if="questionInfos.length">
     <page-title
-        :heading="heading"
-        :subheading="subheading"
+        :heading="this.title"
+        :subheading="this.starttime"
         :icon="icon"
         :breadcrumb-item="breadcrumbItem"
     ></page-title>
@@ -28,7 +28,7 @@
 
             <template v-slot:footer>
               <b-row class="justify-content-end">
-                <b-button variant="danger" size="sl" @click="submitHomework"
+                <b-button variant="danger" size="sl" @click="submitHomework(homeworkId)"
                 >提交作业
                 </b-button>
               </b-row>
@@ -65,7 +65,7 @@
 
 <script>
 import MyQuestion from "@/components/myQuestion";
-import {getQuestions, submitHomework} from "@/api";
+import {getQuestions, submitHomework, updateSubmit} from "@/api";
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import TestNavbar from "@/layout/Components/PageTitle3.vue";
 import MyCountBar from "@/components/myCountBar";
@@ -87,7 +87,7 @@ export default {
     BootstrapToggle,
     ContentLoader,
   },
-  props: ["homeworkId"],
+  props: ["homeworkId","courseId","title","starttime"],
   data() {
     return {
       per_page: 9,
@@ -102,8 +102,16 @@ export default {
       icon: "pe-7s-drawer icon-gradient bg-tempting-azure",
       breadcrumbItem: [
         {
-          text: "",
-          href: "#",
+          text: "课程信息",
+          href: "#/dashboard/course",
+        },
+        {
+          text: "作业管理",
+          href: "#/dashboard/homeworkList/"+this.courseId,
+        },
+        {
+          text: this.title,
+          active: true,
         },
       ],
       currentPage: 1,
@@ -123,13 +131,13 @@ export default {
 
     getQuestions(this.homeworkId)
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           if (res.code === 100) {
             res.data.sort((a, b) => {
               return a.numInPaper - b.numInPaper;
             });
             this.questionInfos = res.data;
-            console.log(this.questionInfos)
+            // console.log(this.questionInfos)
           } else {
             this.$toast.error(res.msg);
           }
@@ -168,10 +176,23 @@ export default {
       while ((new Date()).getTime() - start < delay) {
       }
     },
-    submitHomework() {
+    submitHomework(homeworkId) {
       this.$toast.success("提交成功");
-      this.sleep(1000)
-      this.$router.push({name:"personInfo"})
+      let data={
+        studentId:this.$store.state.global.id,
+        homeworkId:homeworkId
+      }
+      updateSubmit(data).then(res=>{
+        // console.log(res)
+        if(res.code===100){
+          this.sleep(1000)
+          this.$router.push({name:"personInfo"})
+        }
+        else{ this.$toast.success("修改结果失败");}
+
+      })
+
+      // this.$router.push({name:"personInfo"})
     },
     judgeIsComplete(index) {
 
@@ -187,7 +208,7 @@ export default {
       }
     },
     calButtonVariant(index) {
-      console.log("123123" + index)
+      // console.log("123123" + index)
       if (this.onShowIndex === index) {
         if (this.judgeIsComplete(index)) {
           return 'outline-success'

@@ -1,8 +1,8 @@
 <template>
   <div>
     <page-title
-        :heading="heading"
-        :subheading="subheading"
+        :heading="this.title"
+        :subheading="this.starttime"
         :icon="icon"
         :breadcrumb-item="breadcrumbItem"
     ></page-title>
@@ -37,7 +37,7 @@
 <script>
 import myList from "@/components/myList";
 import PageTitle from "@/layout/Components/PageTitle.vue";
-import {autoCorrect, getUnmarkedQuestion} from "@/api";
+import {autoCorrect, getUnmarkedQuestion, updateGrade} from "@/api";
 import router from "@/router";
 
 export default {
@@ -46,7 +46,7 @@ export default {
     myList,
     PageTitle,
   },
-  props: ["homeworkId"],
+  props: ["homeworkId","courseId","title","starttime"],
   mounted() {
     this.init();
   },
@@ -58,15 +58,15 @@ export default {
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
       breadcrumbItem: [
         {
-          text: "Admin",
-          href: "#",
+          text: "课程信息",
+          href: "#/dashboard/course",
         },
         {
-          text: "Manage",
-          href: "#",
+          text: "作业管理",
+          href: "#/dashboard/homeworkList/"+this.courseId,
         },
         {
-          text: "Library",
+          text: this.title,
           active: true,
         },
       ],
@@ -120,7 +120,7 @@ export default {
       });
     },
     handleAutoCorrect(item) {
-      autoCorrect(this.homeworkId,item.questionId,)
+      autoCorrect(this.homeworkId,item.questionId)
           .then((res) => {
             if (res.code === 100) {
               this.init()
@@ -131,6 +131,11 @@ export default {
           .catch((error) => {
             alert(error);
           });
+      updateGrade().then(res=>{
+        if(res.code!==100){
+          this.$toast.error("成绩更新失败！")
+        }
+      })
     },
   },
 };

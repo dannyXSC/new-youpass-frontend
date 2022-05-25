@@ -117,7 +117,7 @@ import MyCountBar from "@/components/myCountBar";
 import MyCountBarNew from "@/components/myCountBarNew";
 import {Slide} from 'vue-burger-menu'
 import {ContentLoader} from 'vue-content-loader'
-import {getCorrectedQuestion, getImageUrl, manualCorrect} from "@/api";
+import {getCorrectedQuestion, getImageUrl, manualCorrect, updateGrade} from "@/api";
 
 export default {
   name: "correctPaper",
@@ -191,7 +191,8 @@ export default {
           //加入老师的文字评价
           questionInfo.textComment = this.info.studentList[i].textComment
           //加入老师的图片评价
-          questionInfo.pictureComment = this.info.studentList[i].pictureComment
+          questionInfo.pictureComment = this.info.studentList[i].pictureComment || []
+
           this.questionInfos.push(questionInfo);
         }
       } else {
@@ -236,13 +237,19 @@ export default {
       //直接提交
       manualCorrect(this.homeworkId, this.questionId, this.info.studentList).then(res => {
         if (res.code === 100) {
-          this.$toast.success("成功！")
-          this.$router.push({
-            name: "correctedQuestion",
-            params: {
-              homeworkId: this.homeworkId,
+          updateGrade().then(response=>{
+            console.log(123,response)
+            if(response.code===100){
+              this.$toast.success("成功！")
+              this.$router.push({
+                name: "correctedQuestion",
+                params: {
+                  homeworkId: this.homeworkId,
+                }
+              });
             }
-          });
+          })
+
         } else {
           this.$toast.error(res.msg);
         }

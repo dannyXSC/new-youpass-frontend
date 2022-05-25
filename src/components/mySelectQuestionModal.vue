@@ -2,9 +2,12 @@
   <b-modal
       :id="id"
       size="xl"
-      title="Edit"
+      title="编辑"
       style="height: 80%"
       @hide="handleExit"
+      ok-title="确认"
+      cancel-title="取消"
+
   >
     <vue-good-table
         ref="my-table"
@@ -69,7 +72,10 @@ export default {
     }
   },
   mounted() {
+    console.log("list",this.questionList)
     this.questionList.forEach((value, index) => {
+      value.createdAt=new Date(value.createdAt).format("yyyy-MM-dd hh:mm:ss")
+      console.log(value.createdAt)
       if (this.selectedQuestionId.includes(value.id))
         this.$set(this.questionList[index], 'vgtSelected', true);
     })

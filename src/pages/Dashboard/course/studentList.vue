@@ -1,5 +1,11 @@
 <template>
   <div>
+        <page-title
+        :heading="heading"
+        :subheading="subheading"
+        :icon="icon"
+        :breadcrumb-item="breadcrumbItem"
+    ></page-title>
     <my-list
         title="学生管理"
         :items="items"
@@ -32,14 +38,30 @@
 </template>
 
 <script>
+import PageTitle from "@/layout/Components/PageTitle.vue";
 import {getStudentListByCourseId, kickStudentByIdAndCourseId} from "@/api";
 import myList from "@/components/myList";
 export default {
   name: "studentList",
-  components: {myList},
+  components: {myList,PageTitle},
   props: {courseId: Number},
   data() {
     return {
+      heading: "管理成员",
+      subheading:
+          "在这里查看指定学生信息",
+      icon: "pe-7s-plane icon-gradient bg-tempting-azure",
+
+      breadcrumbItem: [
+        {
+          text: "课程信息",
+          href: "#/dashboard/course",
+        },
+        {
+          text: "管理成员",
+          active: true,
+        },
+      ],
       studentList: [],
       fields: [
         {key: 'name', label: "姓名"},

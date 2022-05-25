@@ -50,7 +50,9 @@
 <script>
 import myList from "@/components/myList";
 import PageTitle from "@/layout/Components/PageTitle.vue";
-import {getHomeworkByCourseId, getHomeworkByStudent} from "@/api";
+import {getHomeworkByCourseId, getHomeworkByStudent, getSubmitByStudent} from "@/api";
+import async from "async";
+import * as $axios from "@/api";
 
 export default {
   name: "homeworkListOfStudent",
@@ -65,10 +67,10 @@ export default {
       subheading:
           "记得按时完成作业！",
       icon: "pe-7s-plane icon-gradient bg-tempting-azure",
-
+      submit: "未提交",
       breadcrumbItem: [
         {
-          text: "作业信息",
+          text: "作业管理",
           active: true,
         },
       ],
@@ -84,29 +86,50 @@ export default {
         // {label: "分数", key: "score"},
         {label: "开始时间", key: "startTime"},
         {label: "结束时间", key: "endTime"},
+        {label: "是否完成", key: "submit"}
       ]
     };
   },
-  mounted() {
-    getHomeworkByStudent(this.$store.state.global.id)
-        .then((res) => {
-          console.log(res)
+  mounted: function () {
+
+     getHomeworkByStudent(this.$store.state.global.id)
+        .then( (res) => {
+          // console.log(res)
           if (res.code === 100) {
             res.data.forEach((value) => {
-              let endTime = new Date(value.endTime)
-              let startTime = new Date(value.startTime)
-              endTime.setHours(endTime.getHours() - 8)
-              startTime.setHours(startTime.getHours() - 8)
-              value._showDetails = false;
-              value.isActive = false;
-              value.endTime = endTime.format("yyyy-MM-dd hh:mm:ss")
-              value.startTime = startTime.format("yyyy-MM-dd hh:mm:ss")
-              this.examList.push(JSON.parse(JSON.stringify(value)));
+            getSubmitByStudent(this.$store.state.global.id, value.id).then( (response) => {
+                if (response.code === 100) {
+                  response.data.forEach((item) => {
+                    // console.log(item.submit === 1)
+                    if (item.submit === 0) {
+                      this.submit = "未提交";
+                    } else {
+                      this.submit = "已提交";
+                      console.log(this.submit)
+                    }
+                    let endTime = new Date(value.endTime)
+                    let startTime = new Date(value.startTime)
+                    endTime.setHours(endTime.getHours() - 8)
+                    startTime.setHours(startTime.getHours() - 8)
+                    value._showDetails = false;
+                    value.isActive = false;
+                    value.endTime = endTime.format("yyyy-MM-dd hh:mm:ss")
+                    value.startTime = startTime.format("yyyy-MM-dd hh:mm:ss")
+                    value.submit = this.submit
+
+                    this.examList.push(JSON.parse(JSON.stringify(value)));
+                  })
+                }
+              })
+
             });
             //根据开始时间排序
+
+            console.log(this.examList)
             this.examList.sort((a, b) => {
               return (new Date(a.startTime)) < (new Date(b.startTime)) ? -1 : 1;
             });
+            console.log(this.examList)
           } else {
             alert(res.msg);
           }
@@ -117,29 +140,60 @@ export default {
   },
   methods: {
     handleTakeHomework(item) {
-      this.$router.push({
-        name: "homeworkTest",
-        params: {
-          studentId: this.$store.state.global.id,
-          homeworkId: item.id,
-        },
-      });
+      console.log("当前时间"+new Date().format("yyyy-MM-dd hh:mm:ss"))
+      console.log("截止时间"+item.endTime)
+      if(new Date().format("yyyy-MM-dd hh:mm:ss")>item.endTime){
+        this.$toast.warning("作业截止时间已过！不能再提交作业！")
+      }
+      else{
+        this.$router.push({
+          name: "homeworkTest",
+          params: {
+            studentId: this.$store.state.global.id,
+            homeworkId: item.id,
+            title: item.title,
+            starttime: item.startTime,
+            courseId: this.courseId,
+          },
+        });
+      }
+
     },
     gotoHomeworkFeedback(item) {
-      this.$router.push({
-        name: "homeworkFeedback",
-        params: {
-          studentId: this.$store.state.global.id,
-          homeworkId: item.id,
-        },
-      });
+      console.log(item)
+      if(new Date().format("yyyy-MM-dd hh:mm:ss")>item.endTime){
+        this.$router.push({
+          name: "homeworkFeedback",
+          params: {
+            studentId: this.$store.state.global.id,
+            homeworkId: item.id,
+            title: item.title,
+            starttime: item.startTime
+          }});
+      }
+      else if (item.submit === "未提交") {
+        this.$toast.warning("当前作业未提交，不能查看作业反馈！")
+      } else {
+        this.$router.push({
+          name: "homeworkFeedback",
+          params: {
+            studentId: this.$store.state.global.id,
+            homeworkId: item.id,
+            title: item.title,
+            starttime: item.startTime
+          },
+        });
+      }
     },
+
     gotoCommentSection(item) {
       this.$router.push({
-        path: "/dashboard/commentSection",
-        query: {
+        name: "commentSection",
+        params:{
+          courseId: item.courseId,
           homeworkId: item.id,
-        },
+          title: item.title
+        }
       });
     }
   }

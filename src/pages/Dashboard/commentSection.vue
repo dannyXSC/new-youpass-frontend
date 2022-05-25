@@ -1,7 +1,14 @@
 <template>
   <div>
-    <homework-info-card style="margin-bottom: 2em" :homework-id="homeworkId" @change="init"></homework-info-card>
+    <page-title
+        :heading="this.title+heading"
+        :subheading="subheading"
+        :icon="icon"
+        :breadcrumb-item="breadcrumbItem"
+    ></page-title>
+    <homework-info-card style="margin-bottom: 2em" :homework-id="this.homeworkId" @change="init"></homework-info-card>
     <b-card>
+      <b-img v-if="ifEmpty" center src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F01d29258cce264a801219c77ec3f60.png%402o.png&refer=http%3A%2F%2Fimg.zcool.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1655987460&t=cc85ebbf726f565a3a7111c662405ba9" height="480" width="480"></b-img>
       <b-list-group>
         <b-list-group-item v-for="comment in comments" :key="comment.commentId" style="margin-bottom: 1.5em">
           <h5 class="mb-1">
@@ -110,18 +117,29 @@
 </template>
 
 <script>
+import PageTitle from "@/layout/Components/PageTitle.vue";
 import OthersInfo from "@/pages/Test/OthersInfo";
 import {getCommentsByAssignmentId, submitComment, addLike} from "@/api";
 import HomeworkInfoCard from "@/components/homeworkInfoCard";
 
 export default {
   name: "commentSection",
-  components: {HomeworkInfoCard, OthersInfo},
+  components: {HomeworkInfoCard, OthersInfo,PageTitle},
+  props: {
+    courseId: Number,
+    homeworkId: Number,
+    title: String
+  },
   mounted() {
     this.init()
   },
   beforeUpdate() {
     this.sort()
+  },
+  computed: {
+    ifEmpty(){
+      return this.comments.length === 0;
+    }
   },
   methods: {
     sleep1(numberMillis){
@@ -149,8 +167,8 @@ export default {
       console.log(this.comments)
     },
     init() {
-      this.homeworkId = this.$route.query.homeworkId
-      getCommentsByAssignmentId(Number(this.homeworkId)).then((res) => {
+      console.log(this.title)
+      getCommentsByAssignmentId(String(this.homeworkId)).then((res) => {
         this.comments = res.data[0].comments
       })
     },
@@ -214,14 +232,33 @@ export default {
           });
         }
       })
-    }
+    },
   },
   data() {
     return {
+      heading: "讨论区",
+      subheading:
+          "在这里与其他同学讨论作业",
+      icon: "pe-7s-plane icon-gradient bg-tempting-azure",
+
+      breadcrumbItem: [
+        {
+          text: "课程信息",
+          href: "#/dashboard/course",
+        },
+        {
+          text: "作业管理",
+          href: "#/dashboard/homeworkList/"+this.courseId,
+        },
+        {
+          text: this.title,
+          active: true,
+        },
+      ],
       comments: [],
       openHisChild: -1,
       checkHisInfo: -1,
-      homeworkId: '',
+
     }
   },
 }
@@ -237,5 +274,8 @@ export default {
 .giveComment {
   margin-top: 1em;
   margin-bottom: 1em;
+}
+.noComment{
+  align-items: center;
 }
 </style>
