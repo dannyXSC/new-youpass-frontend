@@ -38,7 +38,7 @@
 <!--                        , -->
                         at
                         <span class="text-success">{{
-                            new Date(exam.endTime).toUTCString().slice(0,-4)
+                            exam.endTime
 
                           }}</span>
                       </h4>
@@ -111,9 +111,16 @@ export default {
         this.examList=res.data
         console.log(res.data)
         this.examList.forEach(item=>{
+          console.log("time"+new Date(item.endTime).getHours()-8)
+          let trueTime = new Date(item.endTime)
+          trueTime.setHours(trueTime.getHours()-8)
+          console.log(trueTime.toLocaleDateString()+' '+trueTime.toLocaleTimeString())
+          item.endTime =trueTime.toLocaleDateString()+' '+trueTime.toLocaleTimeString()
           //展示还没有截止并且尚未完成的作业
           let x=new Date(item.endTime.replace('T',' ')).getTime()
           let y=new Date().getTime()
+          console.log("x"+x)
+          console.log("y"+y)
           if(x-y>0 ){
             item.ifShow=true
             this.ifHaveNotPassed=true

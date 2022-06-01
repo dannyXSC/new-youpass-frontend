@@ -28,7 +28,7 @@
                     variant="outline-info"
                     @click="handleCheckGrade(row.row.item)"
                 >
-                  管理学生
+                  成绩统计
                 </b-button>
                 <b-button
                     block
@@ -298,6 +298,8 @@ export default {
       });
     },
     handleTakeHomework(item) {
+      let date=new Date()
+      let nowTime = date.toLocaleDateString()+' '+date.toLocaleTimeString()
       if(new Date().format("yyyy-MM-dd hh:mm:ss")>item.end_time){
         this.$toast.warning("作业截止时间已过！不能再提交作业！")
       }else{
@@ -314,6 +316,7 @@ export default {
 
     },
     gotoHomeworkFeedback(item) {
+      console.log("time"+item.end_time)
       if(new Date().format("yyyy-MM-dd hh:mm:ss")>item.end_time){
         this.$router.push({
           name: "homeworkFeedback",

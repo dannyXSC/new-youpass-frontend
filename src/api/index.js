@@ -447,6 +447,9 @@ export const teacherGetFeedback = async (homeworkId, studentId) => {
                     console.log("temp", temp.replace(' ', ''))
                     question.standardAnswer.push(parseInt(temp.replace(' ', '')))
                 })
+                if(value.studentAnswer===null){
+                    value.studentAnswer=[]
+                }
                 value.studentAnswer.forEach(temp => {
                     console.log("temp", temp.replace(' ', ''))
                     question.studentAnswer.push(parseInt(temp.replace(' ', '')))
@@ -1018,8 +1021,8 @@ export const getCorrectedQuestion = (homeworkId, questionId) => {
                 } else {
                     res.data.questionInfo.type = 3
                     res.data.questionInfo.standardAnswer = item.questionVo.standardAnswer
-                    res.data.questionInfo.pictureDescription = item.questionVo.questionFileId
-                    res.data.questionInfo.standardPictureAnswers = item.questionVo.answerFileId
+                    res.data.questionInfo.pictureDescription = item.questionVo.questionFileId || []
+                    res.data.questionInfo.standardPictureAnswers = item.questionVo.answerFileId || []
                     studentAnswer = item.studentAnswer
                 }
 

@@ -323,28 +323,28 @@
                   <!--                  />-->
                 </div>
               </div>
-              <b-button v-if="editable"
-                        block
-                        class="mr-2 mb-3"
-                        pill
-                        variant="outline-focus"
-                        size="sm"
-                        @click="handleImageEdit()"
-              >添加图片评论
-              </b-button>
-              <my-b-image :idList="questionInfo.pictureComment">
-                <template v-if="editable">
-                  <template slot-scope="src">
-                    <div style="position: absolute">
-                      <b-button size="sm" variant="primary" @click="handleImageEdit(src.src.id)">编辑</b-button>
-                    </div>
-                    <div style="position: absolute;right: 0">
-                      <b-button size="sm" variant="danger" @click="handleImageRemove(src.src.id)">删除</b-button>
-                    </div>
-                  </template>
-                </template>
+<!--              <b-button v-if="editable"-->
+<!--                        block-->
+<!--                        class="mr-2 mb-3"-->
+<!--                        pill-->
+<!--                        variant="outline-focus"-->
+<!--                        size="sm"-->
+<!--                        @click="handleImageEdit()"-->
+<!--              >添加图片评论-->
+<!--              </b-button>-->
+<!--              <my-b-image :idList="questionInfo.pictureComment">-->
+<!--                <template v-if="editable">-->
+<!--                  <template slot-scope="src">-->
+<!--                    <div style="position: absolute">-->
+<!--                      <b-button size="sm" variant="primary" @click="handleImageEdit(src.src.id)">编辑</b-button>-->
+<!--                    </div>-->
+<!--                    <div style="position: absolute;right: 0">-->
+<!--                      <b-button size="sm" variant="danger" @click="handleImageRemove(src.src.id)">删除</b-button>-->
+<!--                    </div>-->
+<!--                  </template>-->
+<!--                </template>-->
 
-              </my-b-image>
+<!--              </my-b-image>-->
             </b-col>
           </b-row>
         </b-container>

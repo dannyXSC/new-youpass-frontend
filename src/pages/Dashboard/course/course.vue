@@ -61,7 +61,7 @@
                   <div class="widget-content-wrapper">
                     <div class="widget-content-left">
                       <div class="widget-heading">
-                        网课网址：{{ row.row.item.url }}
+                        网课网址：<a href="https://meeting.tencent.com/dm/WhKjCc9JNpzc" target="_blank">{{ row.row.item.url }}</a>
                       </div>
                     </div>
                   </div>

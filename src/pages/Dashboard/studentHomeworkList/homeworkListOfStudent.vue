@@ -144,8 +144,9 @@ export default {
   methods: {
     handleTakeHomework(item) {
       console.log("当前时间"+new Date().format("yyyy/MM/dd hh:mm:ss"))
-      console.log("截止时间"+item.endTime)
-      if(new Date().format("yyyy-MM-dd hh:mm:ss")>new Date(item.endTime).format("yyyy-MM-dd hh:mm:ss")){
+      let date=new Date()
+      let nowTime = date.toLocaleDateString()+' '+date.toLocaleTimeString()
+      if(nowTime>item.endTime){
         this.$toast.warning("作业截止时间已过！不能再提交作业！")
       }
       else{
@@ -164,7 +165,9 @@ export default {
     },
     gotoHomeworkFeedback(item) {
       console.log(item)
-      if(new Date().format("yyyy-MM-dd hh:mm:ss")>item.endTime){
+      let date=new Date()
+      let nowTime = date.toLocaleDateString()+' '+date.toLocaleTimeString()
+      if(nowTime>item.endTime){
         this.$router.push({
           name: "homeworkFeedback",
           params: {
