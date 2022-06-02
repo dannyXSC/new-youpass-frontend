@@ -743,7 +743,7 @@ export const teacherPublishExam = (postData, teacherId, courseId) => {
     let data = {
         courseId: courseId,
         homework: {
-            endTime: postData.startDate + "T" + postData.endTime + ":00",
+            endTime: postData.endDate + "T" + postData.endTime + ":00",
             startTime: postData.startDate + "T" + postData.startTime + ":00",
             teacherId: teacherId,
             questions: questions,
