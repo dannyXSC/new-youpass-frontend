@@ -261,6 +261,15 @@ export const addTodo = (data) => {
     })
 }
 
+export const associativeSearch = (key) => {
+
+    return requests({
+        url: '/course/associativeSearch',
+        params: {keyword: key},
+        method: 'get'
+    })
+}
+
 export const getTodo = () => {
     return requests({
         url: '/account/getTodo',

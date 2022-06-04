@@ -18,12 +18,17 @@
                   <b-container>
                     <b-row>
                       <b-col cols="8">
-                        <b-form-input
-                          type="text"
-                          placeholder="在此搜索课程..."
-                          v-model="inputContent"
-                          @keyup.enter="search(searchMethod)"
-                        />
+                        <div>
+                          <b-form-input
+                              type="text"
+                              placeholder="在此搜索课程..."
+                              v-model="inputContent"
+                              @keyup.enter="search(searchMethod)"
+                          />
+<!--                          <b-datalist id="courseList">-->
+<!--                            <option v-for="result in associativeSearchResults">{{result.name}}</option>-->
+<!--                          </b-datalist>-->
+                        </div>
                       </b-col>
 
                       <b-col cols="4">
@@ -164,13 +169,14 @@
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
-import {searchCourse1, searchCourse2, searchCourse3 ,attendCourse} from "@/api";
+import {searchCourse1, searchCourse2, searchCourse3, attendCourse, associativeSearch} from "@/api";
 
 export default {
   name: "pick",
   components: { MyList, PageTitle },
   data() {
     return {
+      associativeSearchResults:[],
       attendCourseId:0,
       attendCoursePassword:'',
       heading: "搜索课程",
@@ -216,6 +222,14 @@ export default {
     },
   },
   methods: {
+    associativeSearch(key){
+      associativeSearch(key).then(res=>{
+        this.associativeSearchResults=res.data
+      })
+    },
+    doAssociativeSearch(key){
+
+    },
     search(method) {
       if (this.inputContent !== "") {
         if (method === 1) {
