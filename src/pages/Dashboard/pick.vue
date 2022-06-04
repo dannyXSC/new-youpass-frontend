@@ -9,29 +9,28 @@
     <b-col cols="8"> </b-col>
 
     <div class="main-card mb-3 card">
-      <div class="card-body">
+      <div class="card-body ">
         <div class="modal-body">
           <div>
             <Form>
               <b-col md="12">
                 <b-form-group>
                   <b-container>
+                    <b-card>
                     <b-row>
-                      <b-col cols="8">
-                        <div>
+                      <b-col cols="10">
                           <b-form-input
                               type="text"
                               placeholder="在此搜索课程..."
                               v-model="inputContent"
                               @keyup.enter="search(searchMethod)"
+                              @input="getAssociativeSearch"
+                              debounce="200"
                           />
-<!--                          <b-datalist id="courseList">-->
-<!--                            <option v-for="result in associativeSearchResults">{{result.name}}</option>-->
-<!--                          </b-datalist>-->
-                        </div>
+                          <div class="mt-2" v-for="result in associativeSearchResults" @click="giveContent(result.name)" role="button">{{result.name}}</div>
                       </b-col>
 
-                      <b-col cols="4">
+                      <b-col cols="">
                         <b-dropdown
                           no-flip
                           split
@@ -67,6 +66,7 @@
                         </b-dropdown>
                       </b-col>
                     </b-row>
+                    </b-card>
                   </b-container>
                 </b-form-group>
               </b-col>
@@ -170,6 +170,7 @@
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
 import {searchCourse1, searchCourse2, searchCourse3, attendCourse, associativeSearch} from "@/api";
+//import lodash from "lodash/function"
 
 export default {
   name: "pick",
@@ -222,14 +223,19 @@ export default {
     },
   },
   methods: {
-    associativeSearch(key){
+    getAssociativeSearch(key){
+      console.log("key")
       associativeSearch(key).then(res=>{
+        console.log(res.data)
         this.associativeSearchResults=res.data
       })
+      // lodash.debounce(function (){
+      //
+      //   console.log("deb")
+      // },200);
     },
-    doAssociativeSearch(key){
 
-    },
+
     search(method) {
       if (this.inputContent !== "") {
         if (method === 1) {
@@ -291,6 +297,10 @@ export default {
     attendCourse(courseId){
       this.attendCourseId=courseId
     },
+    giveContent(content){
+      this.inputContent=content
+      this.associativeSearchResults=[]
+    },
     submitAttend(){
       attendCourse(this.attendCourseId,this.attendCoursePassword,this.$store.state.global.id).then(res=>{
         this.$bvToast.toast(res.data, {
@@ -309,4 +319,7 @@ export default {
 </script>
 
 <style scoped>
+.dropdown1{
+  margin-top: 1.5em;
+}
 </style>
