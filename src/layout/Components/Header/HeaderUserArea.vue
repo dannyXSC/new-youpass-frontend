@@ -126,7 +126,7 @@ export default {
       this.$store.dispatch("global/logout");
     },
     checkPersonalInfo() {
-      router.push("/personInfo");
+      router.push("/dashboard/personInfo");
     },
 
     update: function () {
