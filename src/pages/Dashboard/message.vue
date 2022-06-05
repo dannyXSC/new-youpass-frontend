@@ -113,7 +113,7 @@ export default {
         this.messageList.sort((a, b) => {
           return (new Date(b.createTime) < new Date(a.createTime)) ? 1 : -1;
         });
-        console.log(this.messageList);
+        // console.log(this.messageList);
       } else {
         this.$toast.error("something wrong");
       }

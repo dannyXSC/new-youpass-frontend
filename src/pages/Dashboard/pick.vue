@@ -169,7 +169,7 @@
 <script>
 import PageTitle from "@/layout/Components/PageTitle.vue";
 import MyList from "@/components/myList";
-import {searchCourse1, searchCourse2, searchCourse3, attendCourse, associativeSearch} from "@/api";
+import {searchCourse1, searchCourse2, searchCourse3, attendCourse, associativeSearch, getAllLessons} from "@/api";
 //import lodash from "lodash/function"
 
 export default {
@@ -197,6 +197,16 @@ export default {
       ],
       searchedCourse:[]
     };
+  },
+  mounted() {
+    getAllLessons().then(res => {
+      console.log(res)
+      if(res.code===100){
+        this.searchedCourse=res.data
+        this.inputContent = "";
+        this.searchMethod = 2 ;
+      }
+    })
   },
   computed: {
     items() {
@@ -258,6 +268,7 @@ export default {
         } else if (method === 2) {
           // 课程名
           searchCourse2(this.inputContent).then((res)=>{
+            console.log(res.data)
             if(res.code===100){
               this.searchedCourse=res.data
               this.inputContent = "";
@@ -313,7 +324,6 @@ export default {
       this.searchedCourse=[]
     }
   },
-  mounted() {},
   beforeDestroy() {},
 };
 </script>

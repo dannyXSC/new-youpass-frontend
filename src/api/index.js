@@ -146,19 +146,37 @@ export const checkState = () => {
  */
 export const getBasicInfo = (postData) => {
     return requests({url: '/account/getAllInfo', method: 'get', data: postData})
-    //     .then(res => {
-    //     return {
-    //         code: 100,
-    //         msg: "成功",
-    //         data: {
-    //             name: "danny",
-    //             id: 10500,
-    //             type: 0
-    //         }
-    //     }
-    // })
+
 }
 
+export const getAllLessons = async () => {
+    let result = []
+       await requests({url: '/course/getAllLessons', method: 'get'}).then(res=>{
+           for (let i = 0; i < res.data.length; i++) {
+               let exist = false
+               if (res.data[i].exist === 1) {
+                   exist = true
+               }
+               result.push({
+                   courseId: res.data[i].id,
+                   name: res.data[i].name,
+                   password: res.data[i].password,
+                   teacherId: res.data[i].teacherId,
+                   teacherName: res.data[i].teacherName,
+                   url: res.data[i].url,
+                   courseTime: res.data[i].courseTime,
+                   exist: exist
+               })
+           }
+       })
+    return new Promise(function (resolve, reject) {
+        resolve({
+            code: 100,
+            data: result
+        })
+    })
+
+}
 export const searchCourse1 = async (courseId) => {
     let result = []
     await requests({
