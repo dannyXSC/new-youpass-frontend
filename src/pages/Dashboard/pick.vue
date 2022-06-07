@@ -27,7 +27,9 @@
                               @input="getAssociativeSearch"
                               debounce="200"
                           />
-                          <div class="mt-2" v-for="result in associativeSearchResults" @click="giveContent(result.name)" role="button">{{result.name}}</div>
+                          <b-list-group class="listlist">
+                            <b-list-group-item v-for="result in associativeSearchResults" @click="giveContent(result.name)" role="button">{{result.name}}</b-list-group-item>
+                          </b-list-group>
                       </b-col>
 
                       <b-col cols="">
@@ -329,7 +331,9 @@ export default {
 </script>
 
 <style scoped>
-.dropdown1{
-  margin-top: 1.5em;
+.listlist{
+  position:absolute;
+  z-index:10000;
+  width: 63em;
 }
 </style>
