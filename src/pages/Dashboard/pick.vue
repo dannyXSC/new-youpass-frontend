@@ -335,5 +335,8 @@ export default {
   position:absolute;
   z-index:10000;
   width: 63em;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ececee;
 }
 </style>
